@@ -19,7 +19,6 @@ export default function App() {
   const [password, setPassword] = useState("");
   const [userList, setUserList] = useState([]);
 
-  // youtube.com/information
   const addUser = () => {
     Axios.post("http://localhost:5000/create", {
       username: username,
