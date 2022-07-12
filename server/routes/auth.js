@@ -74,10 +74,6 @@ router.post('/login', async (req, res) => {
     })
 });
 
-router.post('/createUser', async (req, res) => {
-    
-});
-
 // get all users
 router.get('/', (req, res) => {
     const query = `SELECT * FROM User`;
