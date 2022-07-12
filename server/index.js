@@ -2,7 +2,7 @@
 const express = require('express');
 const housingsRoutes = require('./routes/housings');
 const authRoutes = require('./routes/auth');
-const matchRoutes = require('./routes/maching');
+const matchRoutes = require('./routes/matching');
 require('dotenv').config();
 
 
