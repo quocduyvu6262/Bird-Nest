@@ -6,18 +6,15 @@ const db = require('../utils/database');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    const query1 = 'SQL commands';
+    const query1 = '';
 	const query2 = '';
 	const query3 = '';
-    db(query1, query2, query3, (err, result) => {
-        if(err){
-            console.log(err);
-            res.status.send(`Bad request`);
-            return;
-        }
-		res.send('Filter successfully.')
-    })
+	db(client => {
+		
+	});
 })
+
+module.exports = router;
 
 /**
 var must_have_variables[] = list of must have variables
@@ -44,4 +41,11 @@ for each variable in must_have_variables //(RUN TIME: O(k)) {
 													  //is incremented by 1.
 	index = index + 1;						      
 }
+ */
+
+/**
+ * key     value
+ * 
+ * gynm    true/false
+ * pool    true/false
  */

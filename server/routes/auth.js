@@ -37,8 +37,8 @@ router.post('/register', validate, async (req, res) => {
     try{
         const query = `INSERT INTO User (fullname, email, username, password)
         VALUES("${user.fullname}", "${user.email}", "${user.username}", "${hashedPassword}")`;
-        db(query, 
-            (err) => {
+        db(client => {
+            client.query(query, err => {
                 if(err){
                     console.log(err);
                     res.status(400).send(`Bad request.`);
@@ -46,6 +46,7 @@ router.post('/register', validate, async (req, res) => {
                 }
                 res.send(`Register new user successfully`);
             });
+        });
     } catch(err) {
         res.status(400).send(err);
     }
@@ -54,35 +55,38 @@ router.post('/register', validate, async (req, res) => {
 // login
 router.post('/login', async (req, res) => {
     const query = `SELECT email, password FROM User WHERE email = "${req.body.email}"`;
-    db(query, async (err, result) => {
-        if(err) {
-            console.log(err);
-            res.status(400).send(`Bad Request.`)
-            return;
-        } else if (result.length == 0) {
-            return res.status(404).send('User is not registered.');
-        } else {
-            const user = result[0];
-            const validPassword = await bcrypt.compare(req.body.password, user.password);
-            if(!validPassword) return res.status(400).send('Invalid Email or Password');
-            // create and assign a token
-            const token = jwt.sign({id: user.id, email: user.email}, 
-                process.env.SECRET_KEY);
-            res.header('auth-token', token).send({message: 'Logged in successfully', token});
-        }
-
-    })
+    db(client => {
+        client.query(query, async (err, result) => {
+            if(err) {
+                console.log(err);
+                res.status(400).send(`Bad Request.`)
+                return;
+            } else if (result.length == 0) {
+                return res.status(404).send('User is not registered.');
+            } else {
+                const user = result[0];
+                const validPassword = await bcrypt.compare(req.body.password, user.password);
+                if(!validPassword) return res.status(400).send('Invalid Email or Password');
+                // create and assign a token
+                const token = jwt.sign({id: user.id, email: user.email}, 
+                    process.env.SECRET_KEY);
+                res.header('auth-token', token).send({message: 'Logged in successfully', token});
+            }
+        });
+    });
 });
 
 // get all users
 router.get('/', (req, res) => {
     const query = `SELECT * FROM User`;
-    db(query, (err, result) => {
-        if(!err){
-            res.send(result);
-        } else {
-            res.status(400).send();
-        }
+    db((client) => {
+        client.query(query,(err, result) => {
+            if(!err){
+                res.send(result);
+            } else {
+                res.status(400).send();
+            }
+        });
     })
 });
 

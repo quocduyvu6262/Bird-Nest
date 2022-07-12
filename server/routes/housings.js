@@ -7,25 +7,30 @@ const router = express.Router();
 
 router.get('/', (req, res) => {
 
-    db("SELECT * FROM Housing", (err, results) => {
-        if(!err){
-            res.send(results);
-        } else {
-            res.status(401).send();
-        }
-    })
+    const query = `SELECT * FROM Housing`;
+    db(client => {
+        client.query(query, (err, results) => {
+            if(!err){
+                res.send(results);
+            } else {
+                res.status(401).send();
+            }
+        })
+    });
 })
 
 // Get housing by ID
 router.get('/:id', (req, res) => {
-    db(`SELECT * FROM Housing WHERE UserID=${req.params.id}`, 
-        (err, result) => {
+    const query = `SELECT * FROM Housing WHERE UserID=${req.params.id}`;
+    db(client => {
+        client.query(query, (err, result) => {
             if(!err && result.length) {
                 res.send(result);
             } else {
                 res.status(404).send('Housing not found.');
             }
-        });
+        })
+    });
 })
 
 // Post housings
@@ -36,8 +41,8 @@ router.post('/create', (req, res) => {
         VALUES ("${housing.neighborhood}", "${housing.city}", 
         "${housing.address}", "${housing.squarefeet}", "${housing.lease$}", "${housing.rent}", "${housing.gargage}", "${housing.parking}"
         , "${housing.gym}", "${housing.pool}", "${housing.appliances}", "${housing.furniture}")`;
-    db(query,
-        (err,result) => {
+    db(client => {
+        client.query(query,(err,result) => {
             if(err){
                 console.log(err);
                 res.status(400).send(`Bad Request.`)
@@ -45,6 +50,7 @@ router.post('/create', (req, res) => {
             }
             res.send(`Insert successfully.`);
         });
+    })   
 })
 
 // Delete housings
