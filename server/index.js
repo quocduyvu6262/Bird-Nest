@@ -1,12 +1,15 @@
 const express = require('express');
 const housingsRoutes = require('./routes/housings');
 const authRoutes = require('./routes/auth');
+
 require('dotenv').config();
 
 
 const app = express();
 
 app.use(express.json());
+const verifyToken = require('./routes/verifyToken');
+
 app.use('/api/housings', housingsRoutes);
 app.use('/api/users', authRoutes);
 

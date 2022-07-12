@@ -1,19 +1,9 @@
+// require express
 const express = require('express');
 
+// require db connection
 const db = require('../utils/database');
 const router = express.Router();
-
-
-// Get housings
-// router.get('/', (req, res) => {
-//     db.query("SELECT * FROM Housing", (err, results) => {
-//         if(!err){
-//             res.send(results);
-//         } else {
-//             res.status(401).send();
-//         }
-//     })
-// })
 
 router.get('/', (req, res) => {
 
@@ -39,11 +29,13 @@ router.get('/:id', (req, res) => {
 })
 
 // Post housings
-router.post('/', (req, res) => {
+router.post('/create', (req, res) => {
     let housing = req.body;
     const query = `
-        INSERT INTO Housing (Name, Username, Password, Role, Gender, Age)
-        VALUES ("${housing.Name}", "${housing.Username}", "${housing.Password}", "${housing.Role}", "${housing.Gender$}", "${housing.Age}")`;
+        INSERT INTO Housing (neighborhood, city, address, squarefeet, lease, rent, gargage, parking, gym, pool, appliances, furniture)
+        VALUES ("${housing.neighborhood}", "${housing.city}", 
+        "${housing.address}", "${housing.squarefeet}", "${housing.lease$}", "${housing.rent}", "${housing.gargage}", "${housing.parking}"
+        , "${housing.gym}", "${housing.pool}", "${housing.appliances}", "${housing.furniture}")`;
     db(query,
         (err,result) => {
             if(err){
