@@ -9,10 +9,19 @@ import React from "react";
 import Footer from "../components/Footer.js";
 import {stepforward} from "react-native-vector-icons"
 import { Icon } from "@rneui/themed";
+import AppLoading from 'expo-app-loading';
+import { useFonts, Pacifico_400Regular } from '@expo-google-fonts/pacifico';
 
 const BirdFeed = ({ navigation }) => {
+  let [fontsLoaded] = useFonts({
+    Pacifico_400Regular,
+  });
+
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  } else {
   return (
-    // Header - Beginning
+    // Header - Beginning 
     <SafeAreaView style={Bird_Feed_styles.container}>
       <View style={Bird_Feed_styles.header}>
         <Text style={Bird_Feed_styles.headerText}>Bird Feed</Text>
@@ -32,8 +41,8 @@ const BirdFeed = ({ navigation }) => {
 
         </View>
       </View>
-
-
+    {/* Header - Ending */}
+    
       <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
         <Text>Go to Profile</Text>
       </TouchableOpacity>
@@ -41,6 +50,7 @@ const BirdFeed = ({ navigation }) => {
       <Footer />
     </SafeAreaView>
   );
+  }
 };
 
 const Bird_Feed_styles = StyleSheet.create({
@@ -54,11 +64,13 @@ const Bird_Feed_styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   headerText: {
+    flex: 1,
     fontSize: 30,
-    left: 15,
-    color: "black",
+    left: 7,
+    color: "#219EBC",
     alignSelf: "center",
-    fontFamily: "Arial",
+    fontFamily: 'Pacifico_400Regular',
+    zIndex: 10,
   },
 
   headerButtonView: {
@@ -69,7 +81,7 @@ const Bird_Feed_styles = StyleSheet.create({
   headerButtons: {
     marginRight: 15,
     alignSelf: "center",
-    padding: 7,
+    padding: 10,
     borderWidth: 3,
     borderRadius: "50%",
     borderColor: "#219EBC",
