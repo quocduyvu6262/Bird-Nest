@@ -13,7 +13,6 @@ import {
   TextInput,
   Button,
 } from "react-native";
-import image from "./assets/D85_6160.jpg";
 
 export default function App() {
   const [username, setUsername] = useState("");
