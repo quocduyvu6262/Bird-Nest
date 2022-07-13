@@ -1,7 +1,7 @@
 import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
 import React from "react";
 
-import ProfileCards from "../components/ProfileCards.js";
+import ProfileCard from "../components/ProfileCard.js";
 
 const Profile = ({ navigation }) => {
   return (
