@@ -1,6 +1,11 @@
 import Axios from "axios";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-// test
+import BirdFeed from "./screens/BirdFeed.js";
+import Profile from "./screens/Profile.js";
+
+const Stack = createNativeStackNavigator();
 
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
@@ -15,59 +20,16 @@ import {
 } from "react-native";
 
 export default function App() {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [userList, setUserList] = useState([]);
-
-  const addUser = () => {
-    Axios.post("http://localhost:5000/create", {
-      username: username,
-      email: email,
-      password: password,
-    })
-      .then(() => {
-        console.log("success");
-      })
-      .catch((error) => console.log(error));
-  };
-
-  const getUsers = () => {
-    Axios.get("http://localhost:5000/users")
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => console.log(error));
-  };
-
   return (
-    <View style={styles.container}>
-      <TextInput
-        style={styles.textInput}
-        onChangeText={setUsername}
-        placeholder="Username"
-      ></TextInput>
-      <TextInput
-        style={styles.textInput}
-        onChangeText={setEmail}
-        placeholder="Email"
-      ></TextInput>
-      <TextInput
-        style={styles.textInput}
-        onChangeText={setPassword}
-        placeholder="Password"
-      ></TextInput>
-
-      <TouchableOpacity onPress={addUser}>
-        <Text>Create User</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity onPress={getUsers}>
-        <Text>Show Users</Text>
-      </TouchableOpacity>
-
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator
+        initialRouteName="BirdFeed"
+        screenOptions={{ headerShown: false }}
+      >
+        <Stack.Screen name="BirdFeed" component={BirdFeed} />
+        <Stack.Screen name="Profile" component={Profile} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
