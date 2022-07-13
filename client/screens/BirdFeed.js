@@ -4,6 +4,7 @@ import {
   View, 
   Text, 
   TouchableOpacity, 
+  TextInput,
   SafeAreaView } from "react-native";
 import React from "react";
 import Footer from "../components/Footer.js";
@@ -42,7 +43,8 @@ const BirdFeed = ({ navigation }) => {
         </View>
       </View>
     {/* Header - Ending */}
-    
+    <TextInput style={Bird_Feed_styles.textInput} placeholder="Enter Filters" />
+
       <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
         <Text>Go to Profile</Text>
       </TouchableOpacity>
