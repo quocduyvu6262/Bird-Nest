@@ -5,6 +5,7 @@ const express = require('express');
 const db = require('../utils/database');
 const router = express.Router();
 
+// get all housing
 router.get('/', (req, res) => {
 
     const query = `SELECT * FROM Housing`;
@@ -37,9 +38,9 @@ router.get('/:id', (req, res) => {
 router.post('/create', (req, res) => {
     let housing = req.body;
     const query = `
-        INSERT INTO Housing (neighborhood, city, address, squarefeet, lease, rent, gargage, parking, gym, pool, appliances, furniture)
+        INSERT INTO Housing (neighborhood, city, address, squarefeet, rent, gargage, parking, gym, pool, appliances, furniture)
         VALUES ("${housing.neighborhood}", "${housing.city}", 
-        "${housing.address}", "${housing.squarefeet}", "${housing.lease$}", "${housing.rent}", "${housing.gargage}", "${housing.parking}"
+        "${housing.address}", "${housing.squarefeet}", "${housing.rent}", "${housing.gargage}", "${housing.parking}"
         , "${housing.gym}", "${housing.pool}", "${housing.appliances}", "${housing.furniture}")`;
     db(client => {
         client.query(query,(err,result) => {
