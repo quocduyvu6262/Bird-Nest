@@ -32,7 +32,7 @@ export default function App() {
   };
 
   const getUsers = () => {
-    Axios.get("http://localhost:5000/users")
+    Axios.get("http://localhost:5000/")
       .then((response) => {
         console.log(response);
       })
