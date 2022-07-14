@@ -6,7 +6,7 @@ import React from "react";
 
 const ViewUsers = () => {
   const viewUsers = () => {
-    Axios.post("/api/matching/", {
+    Axios.post("http://localhost:3000/api/matching/", {
       user_id: 10,
     })
       .then((response) => {
