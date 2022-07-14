@@ -1,20 +1,21 @@
 import {
   Image,
-  View, 
-  Text, 
-  TouchableOpacity, 
+  View,
+  Text,
+  TouchableOpacity,
   TextInput,
   SafeAreaView,
   FlatList,
-  StyleSheet, } from "react-native";
+  StyleSheet,
+} from "react-native";
 import React from "react";
 import Footer from "../components/Footer.js";
 import ProfileCard from "../components/ProfileCard.js";
 import { imagesIndex } from "../assets/images/imagesIndex.js";
-import {stepforward} from "react-native-vector-icons"
+import { stepforward } from "react-native-vector-icons";
 import { Icon } from "@rneui/themed";
-import AppLoading from 'expo-app-loading';
-import { useFonts, Pacifico_400Regular } from '@expo-google-fonts/pacifico';
+import AppLoading from "expo-app-loading";
+import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
 
 // update array with objects from backend
 const UserData = [
@@ -36,40 +37,45 @@ const BirdFeed = ({ navigation }) => {
   if (!fontsLoaded) {
     return <AppLoading />;
   } else {
-  return (
-    // Header - Beginning 
-    <SafeAreaView style={Bird_Feed_styles.container}>
-      <View style={Bird_Feed_styles.header}>
-        <Text style={Bird_Feed_styles.headerText}>Bird Feed</Text>
+    return (
+      // Header - Beginning
+      <SafeAreaView style={Bird_Feed_styles.container}>
+        <View style={Bird_Feed_styles.header}>
+          <Text style={Bird_Feed_styles.headerText}>Bird Feed</Text>
 
-      <View style={Bird_Feed_styles.headerButtonView}>
-          <TouchableOpacity style={Bird_Feed_styles.headerButtons}>
-            <Icon name='list' />
-          </TouchableOpacity>
+          <View style={Bird_Feed_styles.headerButtonView}>
+            <TouchableOpacity style={Bird_Feed_styles.headerButtons}>
+              <Icon name="list" />
+            </TouchableOpacity>
 
-          <TouchableOpacity style={Bird_Feed_styles.headerButtons}>
-            <Icon name='history' />
-          </TouchableOpacity>
+            <TouchableOpacity style={Bird_Feed_styles.headerButtons}>
+              <Icon name="history" />
+            </TouchableOpacity>
 
-          <TouchableOpacity style={Bird_Feed_styles.headerButtons}>
-            <Image source={require(`../assets/bird.png`)} />
-          </TouchableOpacity>
-
+            <TouchableOpacity style={Bird_Feed_styles.headerButtons}>
+              <Image source={require(`../assets/bird.png`)} />
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
-    {/* Header - Ending */}
-    <TextInput style={Bird_Feed_styles.textInput} placeholder="Enter Filters" />
+        {/* Header - Ending */}
+        <TextInput
+          style={Bird_Feed_styles.textInput}
+          placeholder="Enter Filters"
+        />
 
-      <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-        <Text>Go to Profile</Text>
-      </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+          <Text>Go to Profile</Text>
+        </TouchableOpacity>
 
-      <View styles={Bird_Feed_styles.flatlist}>
-        <FlatList data={UserData} renderItem={ProfileCard} />
-      </View>
-      <Footer navigation={navigation}/>
-    </SafeAreaView>
-  );
+        <View styles={Bird_Feed_styles.flatlist}>
+          <FlatList data={UserData} renderItem={ProfileCard} />
+        </View>
+
+        <View style={Bird_Feed_styles.footer}>
+          <Footer navigation={navigation} />
+        </View>
+      </SafeAreaView>
+    );
   }
 };
 
@@ -89,7 +95,7 @@ const Bird_Feed_styles = StyleSheet.create({
     left: 7,
     color: "#219EBC",
     alignSelf: "center",
-    fontFamily: 'Pacifico_400Regular',
+    fontFamily: "Pacifico_400Regular",
     zIndex: 10,
   },
 
@@ -106,8 +112,10 @@ const Bird_Feed_styles = StyleSheet.create({
     borderRadius: "50%",
     borderColor: "#219EBC",
   },
-    flatlist: {
-    height: "80%",
+  footer: {
+    position: "absolute",
+    bottom: 0,
+    width: "100%",
   },
 });
 export default BirdFeed;
