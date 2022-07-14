@@ -1,14 +1,4 @@
 import Axios from "axios";
-<<<<<<< HEAD
-=======
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
-import BirdFeed from "./screens/BirdFeed.js";
-import Profile from "./screens/Profile.js";
-
-const Stack = createNativeStackNavigator();
->>>>>>> dev
 
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
@@ -21,7 +11,6 @@ import {
   TextInput,
   Button,
 } from "react-native";
-<<<<<<< HEAD
 import image from "./assets/D85_6160.jpg";
 
 export default function App() {
@@ -78,20 +67,6 @@ export default function App() {
 
       <StatusBar style="auto" />
     </View>
-=======
-
-export default function App() {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="BirdFeed"
-        screenOptions={{ headerShown: false }}
-      >
-        <Stack.Screen name="BirdFeed" component={BirdFeed} />
-        <Stack.Screen name="Profile" component={Profile} />
-      </Stack.Navigator>
-    </NavigationContainer>
->>>>>>> dev
   );
 }
 
