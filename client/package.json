@@ -11,9 +11,13 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
+<<<<<<< HEAD
     "@expo-google-fonts/pacifico": "^0.2.2",
     "@mdi/js": "^6.9.96",
     "@mdi/react": "^1.6.0",
+=======
+    "@react-navigation/bottom-tabs": "^6.3.2",
+>>>>>>> frontend-footer
     "@react-navigation/native": "^6.0.11",
     "@react-navigation/native-stack": "^6.7.0",
     "@rneui/base": "^0.0.0-edge.2",

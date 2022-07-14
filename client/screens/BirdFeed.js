@@ -67,8 +67,7 @@ const BirdFeed = ({ navigation }) => {
       <View styles={Bird_Feed_styles.flatlist}>
         <FlatList data={UserData} renderItem={ProfileCard} />
       </View>
-
-      {/* <Footer /> */}
+      <Footer navigation={navigation}/>
     </SafeAreaView>
   );
   }
