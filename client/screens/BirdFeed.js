@@ -16,6 +16,7 @@ import { stepforward } from "react-native-vector-icons";
 import { Icon } from "@rneui/themed";
 import AppLoading from "expo-app-loading";
 import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
+import ViewUsers from "../components/buttons/ViewUsers.js";
 
 // update array with objects from backend
 const UserData = [
@@ -70,6 +71,8 @@ const BirdFeed = ({ navigation }) => {
         <View styles={Bird_Feed_styles.flatlist}>
           <FlatList data={UserData} renderItem={ProfileCard} />
         </View>
+
+        <ViewUsers />
 
         <View style={Bird_Feed_styles.footer}>
           <Footer navigation={navigation} />
