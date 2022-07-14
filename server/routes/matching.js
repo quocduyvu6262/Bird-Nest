@@ -7,18 +7,15 @@ const router = express.Router();
 
 router.post('/', (req, res) => { // input
 	var provided_id = 10; //temporary until ID is provided by front-end
-    const query1 = `SELECT * FROM User WHERE id =?`; //gets the values_of_must_have_variables array of provided user
-	const query2 = "SELECT * FROM MustHave WHERE id =?"; //finds which variables are the must have variables
-	// const query3 = "UPDATE Matching SET number = number + 1 WHERE "; //increments matches if a match is found
-	const query4 = "SELECT * FROM Matching ORDER BY number"; //orders Matches table by most to least matches
+	const resultQuery = "SELECT User.fullname, User.email, User.role, User.gender, User.age, User.graduationyear, User.major, User.pet, User.bio, User.status, User.profilepic, Housing.* FROM BirdNest.User JOIN BirdNest.Housing ON User.id = Housing.User_id JOIN BirdNest.Matching ON User.id = Matching.User_id ORDER BY number desc"; //orders Matches table by most to least matches
 	db(client => {
 		var must_have_map = new Map();
 		var must_have_bools;
-		client.query(`SELECT NoHousing.* from BirdNest.User JOIN BirdNest.NoHousing ON User.id = NoHousing.User_id WHERE User.id = ${provided_id};`,
+		client.query(`SELECT NoHousing.* from BirdNest.User JOIN BirdNest.NoHousing ON User.id = NoHousing.User_id WHERE User.id = ${provided_id}`,
 			(err, result) => {
 				const provided_values = result;
 				client.query(
-					`SELECT MustHave.*, User.* from BirdNest.User JOIN BirdNest.MustHave ON User.id = MustHave.User_id JOIN BirdNest.NoHousing ON User.id = NoHousing.User_id WHERE User.id = ${provided_id};`, 
+					`SELECT MustHave.*, User.* from BirdNest.User JOIN BirdNest.MustHave ON User.id = MustHave.User_id JOIN BirdNest.NoHousing ON User.id = NoHousing.User_id WHERE User.id = ${provided_id}`, 
 					(err, result) => { //at this point, we have the boolean values of must have values
 					
 					if (err) throw err;
@@ -52,22 +49,25 @@ router.post('/', (req, res) => { // input
 						must_have_map.set("furniture", provided_values[0].furniture);
 					}
 					//must have values have been added to must_have_map
-					for(var entry in must_have_map.entries()) { //updates matches count for each user
-						var key = entry[0];
-						var value = String(entry[1]);
-						const query3 = `UPDATE BirdNest.Matching JOIN BirdNest.Housing ON Matching.User_id = Housing.User_id SET number = number + 1 WHERE ${key} = ${value};`;
+					for(const [key,value] of must_have_map) { //updates matches count for each user
+						var query3 = `UPDATE BirdNest.Matching JOIN BirdNest.Housing ON Matching.User_id = Housing.User_id SET number = number + 1 WHERE ${key} = ${value}`;
 						client.query(query3, function (err, result) {
 							if (err) throw err;
 						});
 					}
-					console.log(must_have_map);
-					client.query(query4, function (err, ordered_matches) { //orders Matches table from most to least matches
+					client.query(resultQuery, function (err, result) { //orders Matches table from most to least matches
 						if (err) throw err;
-						res.send(ordered_matches);
+						// Output result
+						res.send(result);
+
+						// Reset matching table
+						const reset = 'UPDATE BirdNest.Matching JOIN BirdNest.Housing ON Matching.User_id = Housing.User_id SET number = 0';
+						client.query(reset, (err, result) => {
+							if(err) throw err;
+						});
 					});
 				});
 		});
-
 	});
 })
 
