@@ -1,41 +1,6 @@
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import React from "react";
 
-import { Icon } from "@rneui/themed";
-
-const Footer = ({ navigation }) => {
-  return (
-    <View style={[Footer_styles.container, { backgroundColor: "red" }]}>
-      <TouchableOpacity
-        style={Footer_styles.buttons}
-        onPress={() => navigation.navigate("Profile")}
-      >
-        <Image source={require(`../assets/account_circle.png`)} />
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={Footer_styles.buttons}
-        onPress={() => navigation.navigate("BirdFeed")}
-      >
-        <Image source={require("../assets/home.png")} />
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={Footer_styles.buttons}
-        onPress={() => navigation.navigate("MessengerPigeon")}
-      >
-        <Image source={require("../assets/messenger.png")} />
-      </TouchableOpacity>
-    </View>
-  );
-};
-
-import {
-  createBottomTabNavigator,
-  createAppContainer,
-} from "@react-navigation/bottom-tabs";
-import { Icon } from "@rneui/themed";
-
 // class HomeScreen extends React.Component {
 //   render() {
 //     return (
@@ -45,6 +10,7 @@ import { Icon } from "@rneui/themed";
 //     )
 //   }
 // }
+
 const Footer = ({ navigation }) => {
   return (
     <View style={[Footer_styles.container, { backgroundColor: "#fffff" }]}>

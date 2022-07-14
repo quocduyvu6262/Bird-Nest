@@ -8,7 +8,8 @@ import {
   FlatList,
   StyleSheet,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
+import Axios from "axios";
 import Footer from "../components/Footer.js";
 import ProfileCard from "../components/ProfileCard.js";
 import { imagesIndex } from "../assets/images/imagesIndex.js";
@@ -20,22 +21,57 @@ import Icon2 from "react-native-vector-icons/MaterialCommunityIcons";
 import Icon3 from "react-native-vector-icons/Ionicons";
 import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
 
-// update array with objects from backend
-const UserData = [
-  {
-    name: "Adam",
-    src: imagesIndex[0],
-  },
-  {
-    name: "Brian",
-    src: imagesIndex[0],
-  },
-];
-
 const BirdFeed = ({ navigation }) => {
+  const [listState, setListState] = useState(0);
+
   let [fontsLoaded] = useFonts({
     Pacifico_400Regular,
   });
+
+  // ---------------------------------------
+  // LOGIC FOR BUTTON AND UPDATING USER LIST
+
+  // update array with objects from backend
+
+  // --- commented out for testing ---
+  const UserData = [
+    {
+      name: "Adam",
+      src: imagesIndex[0],
+    },
+    {
+      name: "Brian",
+      src: imagesIndex[0],
+    },
+  ];
+  // console.log(UserData);
+
+  // const UserData = [];
+
+  const viewUsers = () => {
+    Axios.post("http://localhost:3000/api/matching/", {
+      user_id: 10,
+    })
+      .then((response) => {
+        console.log(response.data[0].fullname);
+        let name = response.data[0].fullname;
+        const UserObject = {
+          name: name,
+        };
+        UserData.push(UserObject);
+        console.log(name);
+        console.log(UserData);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const updateListState = () => {
+    setListState(listState + 1);
+    console.log(listState);
+  };
+  // ---------------------------------------
 
   if (!fontsLoaded) {
     return <AppLoading />;
@@ -78,16 +114,21 @@ const BirdFeed = ({ navigation }) => {
           />
         </TouchableOpacity>
 
-        <View styles={Bird_Feed_styles.flatlist}>
-          <FlatList data={UserData} renderItem={ProfileCard} />
-        </View>
-        {/* Header - Ending */}
-        <TextInput
-          style={Bird_Feed_styles.textInput}
-          placeholder="Enter Filters"
-        />
+        <TouchableOpacity onPress={viewUsers}>
+          <Text>View Users</Text>
+        </TouchableOpacity>
 
-        <ViewUsers />
+        <View styles={Bird_Feed_styles.flatlist}>
+          <FlatList
+            data={UserData}
+            renderItem={ProfileCard}
+            extraData={listState}
+          />
+        </View>
+        <TouchableOpacity onPress={updateListState}>
+          <Text>Update State</Text>
+        </TouchableOpacity>
+
         <View style={Bird_Feed_styles.footer}>
           <Footer navigation={navigation} />
         </View>
