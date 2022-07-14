@@ -22,7 +22,7 @@ router.get('/', (req, res) => {
 
 // Get housing by ID
 router.get('/:id', (req, res) => {
-    const query = `SELECT * FROM Housing WHERE UserID=${req.params.id}`;
+    const query = `SELECT * FROM Housing WHERE id=${req.params.id}`;
     db(client => {
         client.query(query, (err, result) => {
             if(!err && result.length) {
