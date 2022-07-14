@@ -14,9 +14,11 @@ import ProfileCard from "../components/ProfileCard.js";
 import { imagesIndex } from "../assets/images/imagesIndex.js";
 import { stepforward } from "react-native-vector-icons";
 import { Icon } from "@rneui/themed";
-import AppLoading from "expo-app-loading";
-import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
 import ViewUsers from "../components/buttons/ViewUsers.js";
+import AppLoading from "expo-app-loading";
+import Icon2 from "react-native-vector-icons/MaterialCommunityIcons";
+import Icon3 from "react-native-vector-icons/Ionicons";
+import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
 
 // update array with objects from backend
 const UserData = [
@@ -52,11 +54,32 @@ const BirdFeed = ({ navigation }) => {
             <TouchableOpacity style={Bird_Feed_styles.headerButtons}>
               <Icon name="history" />
             </TouchableOpacity>
-
+            <TouchableOpacity style={Bird_Feed_styles.headerButtons}>
+              <Image source={require(`../assets/bird.png`)} />
+            </TouchableOpacity>
             <TouchableOpacity style={Bird_Feed_styles.headerButtons}>
               <Image source={require(`../assets/bird.png`)} />
             </TouchableOpacity>
           </View>
+        </View>
+        {/* Header - Ending */}
+        <TouchableOpacity
+          style={[Bird_Feed_styles.input, { marginVertical: 7 }]}
+        >
+          <Icon3
+            style={Bird_Feed_styles.input}
+            name="options-sharp"
+            size={30}
+            color="black"
+          />
+          <TextInput
+            style={Bird_Feed_styles.input}
+            placeholder="Enter Filters"
+          />
+        </TouchableOpacity>
+
+        <View styles={Bird_Feed_styles.flatlist}>
+          <FlatList data={UserData} renderItem={ProfileCard} />
         </View>
         {/* Header - Ending */}
         <TextInput
@@ -64,16 +87,7 @@ const BirdFeed = ({ navigation }) => {
           placeholder="Enter Filters"
         />
 
-        <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-          <Text>Go to Profile</Text>
-        </TouchableOpacity>
-
-        <View styles={Bird_Feed_styles.flatlist}>
-          <FlatList data={UserData} renderItem={ProfileCard} />
-        </View>
-
         <ViewUsers />
-
         <View style={Bird_Feed_styles.footer}>
           <Footer navigation={navigation} />
         </View>
@@ -85,6 +99,12 @@ const BirdFeed = ({ navigation }) => {
 const Bird_Feed_styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  input: {
+    backgroundColor: "#C0C0C0",
+    flexDirection: "row",
+    color: "black",
+    paddingLeft: 5,
   },
   header: {
     // backgroundColor: "gray",
