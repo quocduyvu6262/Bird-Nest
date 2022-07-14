@@ -12,7 +12,7 @@ const BirdFeed = ({ navigation }) => {
         <Text>Go to Profile</Text>
       </TouchableOpacity>
 
-      <Footer />
+      <Footer navigation={navigation}/>
     </SafeAreaView>
   );
 };
