@@ -12,7 +12,7 @@ app.use(express.json());
 // Adding routes
 app.use('/api/housings', housingsRoutes);
 app.use('/api/users', authRoutes);
-app.use('/api/filter', matchRoutes);
+app.use('/api/matching', matchRoutes);
 
 
 
