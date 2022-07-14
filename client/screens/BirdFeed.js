@@ -93,9 +93,6 @@ const BirdFeed = ({ navigation }) => {
             <TouchableOpacity style={Bird_Feed_styles.headerButtons}>
               <Image source={require(`../assets/bird.png`)} />
             </TouchableOpacity>
-            <TouchableOpacity style={Bird_Feed_styles.headerButtons}>
-              <Image source={require(`../assets/bird.png`)} />
-            </TouchableOpacity>
           </View>
         </View>
         {/* Header - Ending */}
