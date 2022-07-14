@@ -89,7 +89,11 @@ router.get('/', (req, res) => {
         });
     })
 });
+<<<<<<< HEAD
 // update user
+=======
+
+>>>>>>> dev
 
 
 module.exports = router;

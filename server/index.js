@@ -9,6 +9,11 @@ require('dotenv').config();
 // Initiate express
 const app = express();
 app.use(express.json());
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> dev
 // Adding routes
 app.use('/api/housings', housingsRoutes);
 app.use('/api/users', authRoutes);
