@@ -6,21 +6,35 @@ const db = require('../utils/database');
 const router = express.Router();
 
 router.post('/', (req, res) => { // input
-	var provided_id = 10; //temporary until ID is provided by front-end
-	const resultQuery = "SELECT User.fullname, User.email, User.role, User.gender, User.age, User.graduationyear, User.major, User.pet, User.bio, User.status, User.profilepic, Housing.* FROM BirdNest.User JOIN BirdNest.Housing ON User.id = Housing.User_id JOIN BirdNest.Matching ON User.id = Matching.User_id ORDER BY number desc"; //orders Matches table by most to least matches
+	var provided_id = 11; //temporary until ID is provided by front-end
+	//var provided_id = req.body.id:
+
+
+	const resultQuery = "SELECT User.fullname, User.email, User.role, User.gender, User.age, User.graduationyear, User.major, User.pet, User.bio, User.status, User.profilepic, Housing.*, Matching.number, Matching.prioritycount FROM BirdNest.User JOIN BirdNest.Housing ON User.id = Housing.User_id JOIN BirdNest.Matching ON User.id = Matching.User_id ORDER BY prioritycount desc, number desc"; //orders Matches table by most to least matches
 	db(client => {
 		var must_have_map = new Map();
 		client.query(`SELECT NoHousing.* from BirdNest.User JOIN BirdNest.NoHousing ON User.id = NoHousing.User_id WHERE User.id = ${provided_id}`,
 			(err, result) => {
-				const provided_values = result[0];
+				const provided_values = result;
 				// iterate through variables and update matching
-				for(let key in provided_values) { //updates matches count for each user
-					if(key == "address" || key == "rent" || key == "lease"){
-						var matchingQuery = "UPDATE BirdNest.Matching JOIN BirdNest.Housing ON Matching.User_id = Housing.User_id SET number = number + 1 WHERE ? <= ?";
+				must_have_map.set("squarefeet", provided_values[0].squarefeet);
+				must_have_map.set("lease", provided_values[0].lease);
+				must_have_map.set("rent", provided_values[0].rent);
+				must_have_map.set("gargage", provided_values[0].gargage);
+				must_have_map.set("parking", provided_values[0].parking);
+				must_have_map.set("gym", provided_values[0].gym);
+				must_have_map.set("pool", provided_values[0].pool);
+				must_have_map.set("appliances", provided_values[0].appliances);
+				must_have_map.set("furniture", provided_values[0].furniture);
+				for(const [key, value] of must_have_map) { //updates matches count for each user
+					if(key == "rent"){
+						var matchingQuery = `UPDATE BirdNest.Matching JOIN BirdNest.Housing ON Matching.User_id = Housing.User_id SET prioritycount = prioritycount + 1 WHERE ${key} <= ${value}`;
+					} else if (key == "squarefeet" || key == "lease" ) {
+						var matchingQuery = `UPDATE BirdNest.Matching JOIN BirdNest.Housing ON Matching.User_id = Housing.User_id SET number = number + 1 WHERE ${key} <= ${value}`;
 					} else {
-						var matchingQuery = "UPDATE BirdNest.Matching JOIN BirdNest.Housing ON Matching.User_id = Housing.User_id SET number = number + 1 WHERE ? = ?";
+						var matchingQuery = `UPDATE BirdNest.Matching JOIN BirdNest.Housing ON Matching.User_id = Housing.User_id SET number = number + 1 WHERE ${key} = ${value}`;	
 					}
-					client.query(matchingQuery, [key.toString(), provided_values[key].toString()],(err, result) => {
+					client.query(matchingQuery, [],(err, result) => {
 						if (err) throw err;
 					});
 				}
@@ -29,13 +43,22 @@ router.post('/', (req, res) => { // input
 					// Output result
 					res.send(result);
 					// Reset matching table
-					const reset = 'UPDATE BirdNest.Matching JOIN BirdNest.Housing ON Matching.User_id = Housing.User_id SET number = 0';
+					const reset = 'UPDATE BirdNest.Matching JOIN BirdNest.Housing ON Matching.User_id = Housing.User_id SET number = 0, prioritycount = 0';
 					client.query(reset, (err, result) => {
 						if(err) throw err;
 					});
 				});
 		});
 	});
-})
+});
+
+router.get('/reset', (req, res) => {
+	db(client => {
+		const reset = 'UPDATE BirdNest.Matching JOIN BirdNest.Housing ON Matching.User_id = Housing.User_id SET number = 0';
+		client.query(reset, (err, result) => {
+			if(err) throw err;
+		});
+	})
+});
 
 module.exports = router;
