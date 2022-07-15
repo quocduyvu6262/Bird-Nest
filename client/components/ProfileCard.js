@@ -6,7 +6,7 @@ const ProfileCard = ({ item }) => {
     <View style={Profile_Card_styles.container}>
       <Image style={Profile_Card_styles.image} source={item.src} />
       <View style={Profile_Card_styles.text_box}>
-        <Text>Rent: $800, Pets: Yes, Cook, Yes</Text>
+        <Text>{item.city}</Text>
         <View style={Profile_Card_styles.text_box_name}>
           <Text>{item.name}</Text>
         </View>
