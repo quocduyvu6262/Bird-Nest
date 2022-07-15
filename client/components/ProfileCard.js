@@ -6,7 +6,12 @@ const ProfileCard = ({ item }) => {
     <View style={Profile_Card_styles.container}>
       <Image style={Profile_Card_styles.image} source={item.src} />
       <View style={Profile_Card_styles.text_box}>
-        <Text>{item.city}</Text>
+        <Text>
+          Neighborhood: {item.neighborhood},{item.city}, Max Rent: {item.rent}
+        </Text>
+        <Text style={{ position: "absolute", bottom: 0, right: 5 }}>
+          {item.matching_number} matched preferences!
+        </Text>
         <View style={Profile_Card_styles.text_box_name}>
           <Text>{item.name}</Text>
         </View>

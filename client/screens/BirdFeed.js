@@ -47,13 +47,53 @@ const BirdFeed = ({ navigation }) => {
   // console.log(UserData);
 
   const viewUsers = () => {
-    setUserList([]);
+    console.log("-----separation----");
+    userList.splice(0, userList.length);
     Axios.post("http://localhost:3000/api/matching/", {
       user_id: 10,
+    })
+      .then((response) => {
+        let userData = response.data;
+        console.log(userData);
+        // manually push all but last, then setUserList on last user to trigger FlatList rerender
+        // reason is that FlatList will not re-render unless setUserList is properly called
+        // but setUserList (setState) will only set state once
+        for (let i = 0; i < userData.length - 1; i++) {
+          userList.push({
+            name: userData[i].fullname,
+            city: userData[i].city,
+            neighborhood: userData[i].neighborhood,
+            rent: userData[i].rent,
+            matching_number: userData[i].number,
+            src: imagesIndex[0],
+          });
+        }
+        setUserList((prevList) => [
+          ...userList,
+          {
+            name: userData[userData.length - 1].fullname,
+            city: userData[userData.length - 1].city,
+            neighborhood: userData[userData.length - 1].neighborhood,
+            rent: userData[userData.length - 1].rent,
+            matching_number: userData[userData.length - 1].number,
+            src: imagesIndex[0],
+          },
+        ]);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
-      // format for filter post request
-      // "gargage": 1,
-      // pool: 1,
+    setListState(true);
+  };
+
+  const filterUsers = () => {
+    // clear userList array for re-rendering sorted users
+    userList.splice(0, userList.length);
+    Axios.post("http://localhost:3000/api/matching/filtered", {
+      gargage: 1,
+      gym: 1,
+      parking: 1,
     })
       .then((response) => {
         let userData = response.data;
@@ -64,6 +104,9 @@ const BirdFeed = ({ navigation }) => {
           userList.push({
             name: userData[i].fullname,
             city: userData[i].city,
+            neighborhood: userData[i].neighborhood,
+            rent: userData[i].rent,
+            matching_number: userData[i].number,
           });
         }
         setUserList((prevList) => [
@@ -71,6 +114,9 @@ const BirdFeed = ({ navigation }) => {
           {
             name: userData[userData.length - 1].fullname,
             city: userData[userData.length - 1].city,
+            neighborhood: userData[userData.length - 1].neighborhood,
+            rent: userData[userData.length - 1].rent,
+            matching_number: userData[userData.length - 1].number,
           },
         ]);
       })
@@ -78,7 +124,7 @@ const BirdFeed = ({ navigation }) => {
         console.log(error);
       });
 
-    setListState(true);
+    console.log(userList);
   };
 
   // ---------------------------------------
@@ -124,15 +170,19 @@ const BirdFeed = ({ navigation }) => {
         <TouchableOpacity onPress={viewUsers}>
           <Text>View Users</Text>
         </TouchableOpacity>
+        <TouchableOpacity onPress={filterUsers}>
+          <Text>Filter Users</Text>
+        </TouchableOpacity>
 
         {listState && (
-          <View styles={Bird_Feed_styles.flatlist}>
+          <View style={Bird_Feed_styles.flatlist}>
             <FlatList
               data={userList}
-              // data={UserData}
               renderItem={ProfileCard}
               extraData={userList}
-              // extraData={UserData}
+              style={{
+                maxHeight: 600,
+              }}
             />
           </View>
         )}
@@ -188,6 +238,11 @@ const Bird_Feed_styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     width: "100%",
+    // backgroundColor: "white",
   },
+  // flatlist: {
+  //   flex: 1,
+  //   height: 200,
+  // },
 });
 export default BirdFeed;
