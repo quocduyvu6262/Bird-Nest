@@ -22,7 +22,9 @@ import Icon3 from "react-native-vector-icons/Ionicons";
 import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
 
 const BirdFeed = ({ navigation }) => {
-  const [listState, setListState] = useState(0);
+  const [transferList, setTransferList] = useState([]);
+  const [userList, setUserList] = useState([]);
+  const [listState, setListState] = useState(false);
 
   let [fontsLoaded] = useFonts({
     Pacifico_400Regular,
@@ -31,46 +33,54 @@ const BirdFeed = ({ navigation }) => {
   // ---------------------------------------
   // LOGIC FOR BUTTON AND UPDATING USER LIST
 
-  // update array with objects from backend
-
   // --- commented out for testing ---
-  const UserData = [
-    {
-      name: "Adam",
-      src: imagesIndex[0],
-    },
-    {
-      name: "Brian",
-      src: imagesIndex[0],
-    },
-  ];
+  // const UserData = [
+  //   {
+  //     name: "Adam",
+  //     src: imagesIndex[0],
+  //   },
+  //   {
+  //     name: "Brian",
+  //     src: imagesIndex[0],
+  //   },
+  // ];
   // console.log(UserData);
 
-  // const UserData = [];
-
   const viewUsers = () => {
+    setUserList([]);
     Axios.post("http://localhost:3000/api/matching/", {
       user_id: 10,
+
+      // format for filter post request
+      // "gargage": 1,
+      // pool: 1,
     })
       .then((response) => {
-        console.log(response.data[0].fullname);
-        let name = response.data[0].fullname;
-        const UserObject = {
-          name: name,
-        };
-        UserData.push(UserObject);
-        console.log(name);
-        console.log(UserData);
+        let userData = response.data;
+        // manually push all but last, then setUserList on last user to trigger FlatList rerender
+        // reason is that FlatList will not re-render unless setUserList is properly called
+        // but setUserList (setState) will only set state once
+        for (let i = 0; i < userData.length - 1; i++) {
+          userList.push({
+            name: userData[i].fullname,
+            city: userData[i].city,
+          });
+        }
+        setUserList((prevList) => [
+          ...userList,
+          {
+            name: userData[userData.length - 1].fullname,
+            city: userData[userData.length - 1].city,
+          },
+        ]);
       })
       .catch((error) => {
         console.log(error);
       });
+
+    setListState(true);
   };
 
-  const updateListState = () => {
-    setListState(listState + 1);
-    console.log(listState);
-  };
   // ---------------------------------------
 
   if (!fontsLoaded) {
@@ -115,16 +125,17 @@ const BirdFeed = ({ navigation }) => {
           <Text>View Users</Text>
         </TouchableOpacity>
 
-        <View styles={Bird_Feed_styles.flatlist}>
-          <FlatList
-            data={UserData}
-            renderItem={ProfileCard}
-            extraData={listState}
-          />
-        </View>
-        <TouchableOpacity onPress={updateListState}>
-          <Text>Update State</Text>
-        </TouchableOpacity>
+        {listState && (
+          <View styles={Bird_Feed_styles.flatlist}>
+            <FlatList
+              data={userList}
+              // data={UserData}
+              renderItem={ProfileCard}
+              extraData={userList}
+              // extraData={UserData}
+            />
+          </View>
+        )}
 
         <View style={Bird_Feed_styles.footer}>
           <Footer navigation={navigation} />
