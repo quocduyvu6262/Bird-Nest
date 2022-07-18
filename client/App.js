@@ -1,5 +1,4 @@
 import Axios from "axios";
-
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
 import {
@@ -11,6 +10,7 @@ import {
   TextInput,
   Button,
 } from "react-native";
+import Navigator from "./navigation/Navigator";
 import image from "./assets/D85_6160.jpg";
 
 export default function App() {
@@ -40,45 +40,11 @@ export default function App() {
   };
 
   return (
-    <View style={styles.container}>
-      <TextInput
-        style={styles.textInput}
-        onChangeText={setUsername}
-        placeholder="Username"
-      ></TextInput>
-      <TextInput
-        style={styles.textInput}
-        onChangeText={setEmail}
-        placeholder="Email"
-      ></TextInput>
-      <TextInput
-        style={styles.textInput}
-        onChangeText={setPassword}
-        placeholder="Password"
-      ></TextInput>
-
-      <TouchableOpacity onPress={addUser}>
-        <Text>Create User</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity onPress={getUsers}>
-        <Text>Show Users</Text>
-      </TouchableOpacity>
-
-      <StatusBar style="auto" />
-    </View>
+    <Navigator />
   );
 }
 
+// Styling
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  textInput: {
-    marginTop: 10,
-    marginBottom: 10,
-  },
+ 
 });
