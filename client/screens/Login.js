@@ -1,32 +1,61 @@
 import React from 'react';
-import {StyleSheet, View, Text, ScrollView, KeyboardAvoidingView, TouchableOpacity, TextInput, Platform, processColor, Button} from 'react-native';
+import {StyleSheet, View, Text, ScrollView, KeyboardAvoidingView, TouchableOpacity, TextInput, Platform, processColor, Button, Alert} from 'react-native';
 import {Formik} from 'formik'
 import * as Google from 'expo-auth-session/providers/google';
-import * as WebBrowser from 'expo-web-browser';
 
+// import google sign in
+import * as WebBrowser from 'expo-web-browser';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+// secure store
+import * as SecureStore from 'expo-secure-store';
 
 
 WebBrowser.maybeCompleteAuthSession();
 
+
 const LoginScreen = navData => {
 
+  // execute google login
+  const [accessToken, setAccessToken] = React.useState(null);
+  const [user, setUser] = React.useState(null);
   const [request, response, promptAsync] = Google.useAuthRequest({
     androidClientId: "",
-    iosClientId: "314578595226-b3s224tv48jeitll80p17kr2gt7sque0.apps.googleusercontent.com",
+    iosClientId: "",
     expoClientId: "314578595226-3pfqh454mrmhneevoetc6ensm0blsa4a.apps.googleusercontent.com"
   });
-  console.log(response)
+
+  // use side effect
   React.useEffect(() => {
-    if (response?.type === 'success') {
-      const { authentication } = response;
+    try{
+      if (response?.type === 'success') {
+        setAccessToken(response.authentication.accessToken);
+        fetchUserInfo();
+        //store token
       }
+    } catch(err){
+      console.log(err);
+    };
   }, [response]);
+  console.log(user);
+
+
+  // get user info
+  const fetchUserInfo = async () => {
+    let response = await fetch("https://www.googleapis.com/userinfo/v2/me", {
+        headers: {
+            Authorization: `Bearer ${accessToken}`
+        }
+    });
+    console.log(response);
+    const userInfo = await response.json();
+
+    setUser(userInfo);
+  }
 
 
   return (
     <KeyboardAvoidingView 
-      behavior={Platform.OS === "ios" ? "padding": "height"}  
-      style={{flex: 1}}
+åå      style={{flex: 1}}
     >
       <Formik initialValues={{
           email: "",
@@ -34,6 +63,7 @@ const LoginScreen = navData => {
       }} 
       onSubmit={values => {
           console.log(values);
+          navData.navigation.navigate('Home');
       }}>
         {(props) => (
         <View style={styles.image}>
@@ -44,7 +74,10 @@ const LoginScreen = navData => {
                 <TextInput style={styles.input} placeholder="Email" autoCapitalize="none" ></TextInput>
                 <TextInput secureTextEntry={true} style={styles.input} placeholder="Password"></TextInput>
                 <Text></Text>
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity 
+                  style={styles.button}
+                  onPress={props.handleSubmit}
+                >
                     <Text style={styles.buttonText}>Login</Text>
                 </TouchableOpacity>
                 <Button
@@ -53,7 +86,7 @@ const LoginScreen = navData => {
                   title="Sign In with Google"
                   onPress={() => {
                     promptAsync();
-                    }}
+                  }}
                 />
                 <TouchableOpacity style={styles.buttonAlt} 
                   onPress={() => navData.navigation.navigate('Register')}  

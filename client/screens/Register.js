@@ -5,7 +5,6 @@ import {Formik} from 'formik'
 const RegisterScreen = navData => {
     return (
         <KeyboardAvoidingView 
-            behavior={Platform.OS === "ios" ? "padding": "height"}  
             style={{flex: 1}}
         >
                 <Formik initialValues={{
