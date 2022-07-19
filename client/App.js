@@ -11,6 +11,8 @@ const Tab = createBottomTabNavigator(); //Tab
 import BirdFeed from "./screens/BirdFeed.js";
 import Profile from "./screens/Profile.js";
 import MessengerPigeon from "./screens/MessengerPigeon.js";
+import ChirpNotification from "./screens/ChirpNotification.js";
+import History from "./screens/History.js";
 
 const Stack = createNativeStackNavigator();
 
@@ -56,12 +58,14 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="BirdFeed"
+        initialRouteName="WelcomeScreen"
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="BirdFeed" component={BirdFeed} />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="MessengerPigeon" component={MessengerPigeon}/>
+        <Stack.Screen name="ChirpNotification" component={ChirpNotification}/>
+        <Stack.Screen name="History" component={History}/>
       </Stack.Navigator>
 
       

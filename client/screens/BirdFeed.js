@@ -7,16 +7,21 @@ import {
   SafeAreaView,
   FlatList,
   StyleSheet,
+  Dimensions,
+  Platform,
+  StatusBar,
 } from "react-native";
+
 import React, { useState } from "react";
 import Axios from "axios";
 import Footer from "../components/Footer.js";
 import ProfileCard from "../components/ProfileCard.js";
 import { imagesIndex } from "../assets/images/imagesIndex.js";
 import { stepforward } from "react-native-vector-icons";
-import { Icon } from "@rneui/themed";
 import ViewUsers from "../components/buttons/ViewUsers.js";
 import AppLoading from "expo-app-loading";
+
+import { Icon } from "@rneui/themed";
 import Icon2 from "react-native-vector-icons/MaterialCommunityIcons";
 import Icon3 from "react-native-vector-icons/Ionicons";
 import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
@@ -93,14 +98,24 @@ const BirdFeed = ({ navigation }) => {
           <Text style={Bird_Feed_styles.headerText}>Bird Feed</Text>
 
           <View style={Bird_Feed_styles.headerButtonView}>
-            <TouchableOpacity style={Bird_Feed_styles.headerButtons}>
+
+            <TouchableOpacity 
+              style={Bird_Feed_styles.headerButtons}
+            >
               <Icon name="list" />
             </TouchableOpacity>
 
-            <TouchableOpacity style={Bird_Feed_styles.headerButtons}>
+            <TouchableOpacity 
+              style={Bird_Feed_styles.headerButtons}
+              onPress={() => navigation.navigate("History")}
+            >
               <Icon name="history" />
             </TouchableOpacity>
-            <TouchableOpacity style={Bird_Feed_styles.headerButtons}>
+
+            <TouchableOpacity 
+              style={Bird_Feed_styles.headerButtons}
+              onPress={() => navigation.navigate("ChirpNotification")}
+            >
               <Image source={require(`../assets/bird.png`)} />
             </TouchableOpacity>
           </View>
@@ -148,6 +163,7 @@ const BirdFeed = ({ navigation }) => {
 const Bird_Feed_styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
   input: {
     backgroundColor: "#C0C0C0",
@@ -157,9 +173,8 @@ const Bird_Feed_styles = StyleSheet.create({
   },
   header: {
     // backgroundColor: "gray",
-    height: "7%",
+    // height: Platform.OS === "ios" ? "7%" : "17%",
     flexDirection: "row",
-    justifyContent: "space-between",
   },
   headerText: {
     flex: 1,
@@ -168,20 +183,16 @@ const Bird_Feed_styles = StyleSheet.create({
     color: "#219EBC",
     alignSelf: "center",
     fontFamily: "Pacifico_400Regular",
-    zIndex: 10,
   },
-
   headerButtonView: {
-    // backgroundColor: "red",
     flexDirection: "row",
-    marginRight: 0,
   },
   headerButtons: {
     marginRight: 15,
     alignSelf: "center",
     padding: 10,
     borderWidth: 3,
-    borderRadius: "50%",
+    borderRadius: 50,
     borderColor: "#219EBC",
   },
   footer: {
