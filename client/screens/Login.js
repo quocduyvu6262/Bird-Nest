@@ -36,7 +36,6 @@ const LoginScreen = navData => {
       console.log(err);
     };
   }, [response]);
-  console.log(user);
 
 
   // get user info
@@ -46,7 +45,6 @@ const LoginScreen = navData => {
             Authorization: `Bearer ${accessToken}`
         }
     });
-    console.log(response);
     const userInfo = await response.json();
 
     setUser(userInfo);
