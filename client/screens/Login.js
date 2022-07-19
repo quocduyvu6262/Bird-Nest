@@ -1,107 +1,151 @@
 import React from 'react';
-import {StyleSheet, View, Text, ScrollView, KeyboardAvoidingView, TouchableOpacity, TextInput} from 'react-native';
+import {StyleSheet, View, Text, ScrollView, KeyboardAvoidingView, TouchableOpacity, TextInput, Platform, processColor, Button} from 'react-native';
 import {Formik} from 'formik'
+import * as Google from 'expo-auth-session/providers/google';
+import * as WebBrowser from 'expo-web-browser';
 
-const LoginScreen = () => {
-    return (
-        <KeyboardAvoidingView 
-            behavior={Platform.OS === "ios" ? "padding": "height"}  
-            style={{flex: 1}}
-        >
-                <Formik initialValues={{
-                    email: "",
-                    password: ""
-                }} 
-                onSubmit={values => {
-                    console.log(values);
-                }}>
-                    {(props) => (
-                        <View style={styles.container}>
-                            <View style={styles.logo}>
-                            </View>
-                            <View>
-                                <TextInput 
-                                    style={styles.input}
-                                    placeholder="Email"
-                                    placeholderTextColor="#fff"
-                                    keyboardType="email-address"
-                                />
-                                <TextInput 
-                                    style={styles.input}
-                                    placeholder="Password"
-                                    placeholderTextColor="#fff"
-                                    secureTextEntry={true}
-                                />
-                                <TouchableOpacity style={styles.button}>
-                                    <Text style={styles.buttonText}>Login</Text>
-                                </TouchableOpacity>
-                                <View style={styles.registerContainer}>
-                                    <Text style={styles.registerText}>Don't have an account? </Text>
-                                    <TouchableOpacity>
-                                        <Text style={styles.registerButton}>Register</Text>
-                                    </TouchableOpacity>
-                                </View>
-                            </View>
-                        </View>
-                    )}
-                </Formik>
-        </KeyboardAvoidingView>
-    );
+
+
+WebBrowser.maybeCompleteAuthSession();
+
+const LoginScreen = navData => {
+
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    androidClientId: "",
+    iosClientId: "314578595226-b3s224tv48jeitll80p17kr2gt7sque0.apps.googleusercontent.com",
+    expoClientId: "314578595226-3pfqh454mrmhneevoetc6ensm0blsa4a.apps.googleusercontent.com"
+  });
+  console.log(response)
+  React.useEffect(() => {
+    if (response?.type === 'success') {
+      const { authentication } = response;
+      }
+  }, [response]);
+
+
+  return (
+    <KeyboardAvoidingView 
+      behavior={Platform.OS === "ios" ? "padding": "height"}  
+      style={{flex: 1}}
+    >
+      <Formik initialValues={{
+          email: "",
+          password: ""
+      }} 
+      onSubmit={values => {
+          console.log(values);
+      }}>
+        {(props) => (
+        <View style={styles.image}>
+          <View style={styles.card}>
+            <Text style={styles.heading}>Login</Text>
+            <View style={styles.form}>
+              <View style={styles.inputs}>
+                <TextInput style={styles.input} placeholder="Email" autoCapitalize="none" ></TextInput>
+                <TextInput secureTextEntry={true} style={styles.input} placeholder="Password"></TextInput>
+                <Text></Text>
+                <TouchableOpacity style={styles.button}>
+                    <Text style={styles.buttonText}>Login</Text>
+                </TouchableOpacity>
+                <Button
+                  style={styles.button}
+                  disabled={!request}
+                  title="Sign In with Google"
+                  onPress={() => {
+                    promptAsync();
+                    }}
+                />
+                <TouchableOpacity style={styles.buttonAlt} 
+                  onPress={() => navData.navigation.navigate('Register')}  
+                >
+                    <Text style={styles.buttonAltText}>Sign Up</Text>
+                </TouchableOpacity>
+              </View>    
+            </View>
+          </View>
+        </View>
+        )}
+      </Formik>
+    </KeyboardAvoidingView>
+  );
 };
 const styles = StyleSheet.create({
-    container: {
+  image: {
+    flex: 1,
+    width: '100%',
+    alignItems: 'center',
+  },  
+  card: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.4)',
+    width: '80%',
+    marginTop: '55%',
+    borderRadius: 20,
+    maxHeight: 380,
+    paddingBottom: '20%',
+  },
+  heading: {
+      fontSize: 30,
+      fontWeight: 'bold',
+      marginLeft: '10%',
+      marginTop: '5%',
+      marginBottom: '30%',
+      color: 'black',
+  },
+  form: {
       flex: 1,
-      justifyContent: "center",
-      alignItems: "center",
-      backgroundColor: "#ffffff",
-    },
-    // logo: {
-    //   alignItems: "center",
-    //   marginBottom: 40,
-    // },
-    // image: {
-    //   width: 100,
-    //   height: 100,
-    // },
-    input: {
-      width: 300,
-      backgroundColor: "#B6BFC4",
-      borderRadius: 25,
-      padding: 16,
-      fontSize: 16,
+      justifyContent: 'space-between',
+      paddingBottom: '5%',
+  },
+  inputs: {
+      width: '100%',
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingTop: '10%',
+  },  
+  input: {
+      width: '80%',
+      borderBottomWidth: 1,
+      borderBottomColor: 'black',
+      paddingTop: 10,
+      fontSize: 16, 
+      minHeight: 40,
+  },
+  button: {
+      width: '80%',
+      backgroundColor: 'black',
+      height: 40,
+      borderRadius: 50,
+      justifyContent: 'center',
+      alignItems: 'center',
       marginVertical: 10,
-    },
-    button: {
-      width: 300,
-      backgroundColor: "#738289",
-      borderRadius: 25,
-      marginVertical: 10,
-      paddingVertical: 13,
-    },
-    buttonText: {
+      marginTop: '10%'
+  },
+  buttonText: {
+      color: 'white',
       fontSize: 16,
-      fontWeight: "500",
-      color: "#ffffff",
-      textAlign: "center",
-    },
-    registerContainer: {
-      alignItems: "flex-end",
-      justifyContent: "center",
-      paddingVertical: 16,
-      flexDirection: "row",
-    },
-    registerText: {
-      color: "#738289",
+      fontWeight: '400'
+  },
+  buttonAlt: {
+      width: '80%',
+      borderWidth: 1,
+      height: 40,
+      borderRadius: 50,
+      borderColor: 'black',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginVertical: 5,
+  },
+  buttonAltText: {
+      color: 'black',
       fontSize: 16,
-    },
-    registerButton: {
-      color: "#738289",
-      fontSize: 16,
-      fontWeight: "bold",
-    },
+      fontWeight: '400',
+  },
     // error: {
     //     color: 'red'
     // }
-  });
+});
   
-  export default LoginScreen;
+export default LoginScreen;
