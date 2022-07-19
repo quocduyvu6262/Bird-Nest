@@ -13,6 +13,7 @@ import Profile from "./screens/Profile.js";
 import MessengerPigeon from "./screens/MessengerPigeon.js";
 import ChirpNotification from "./screens/ChirpNotification.js";
 import History from "./screens/History.js";
+import LoginScreen from "./screens/Login.js";
 
 const Stack = createNativeStackNavigator();
 
@@ -61,6 +62,7 @@ export default function App() {
         initialRouteName="WelcomeScreen"
         screenOptions={{ headerShown: false }}
       >
+        <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="BirdFeed" component={BirdFeed} />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="MessengerPigeon" component={MessengerPigeon}/>

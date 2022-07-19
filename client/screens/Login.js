@@ -31,6 +31,7 @@ const LoginScreen = navData => {
         setAccessToken(response.authentication.accessToken);
         fetchUserInfo();
         //store token
+        navData.navigation.navigate('BirdFeed');
       }
     } catch(err){
       console.log(err);
