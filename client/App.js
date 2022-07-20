@@ -14,7 +14,8 @@ import MessengerPigeon from "./screens/MessengerPigeon.js";
 import ChirpNotification from "./screens/ChirpNotification.js";
 import History from "./screens/History.js";
 import LoginScreen from "./screens/Login.js";
-import * as SecureStore from 'expo-secure-store';
+import AuthLoading from "./screens/AuthLoading.js";
+import WelcomeScreen from "./screens/WelcomeScreen.js";
 
 const Stack = createNativeStackNavigator();
 
@@ -30,6 +31,9 @@ import {
   Button,
 } from "react-native";
 import image from "./assets/D85_6160.jpg";
+
+// import check login key
+const MY_SECURE_AUTH_STATE_KEY = 'MySecureAuthStateKey';
 
 export default function App() {
   const [username, setUsername] = useState("");
@@ -57,39 +61,21 @@ export default function App() {
       })
       .catch((error) => console.log(error));
   };
-
-  // check login context
-  const MY_SECURE_AUTH_STATE_KEY = 'MySecureAuthStateKey';
-  async function getValueFor(key) {
-    let result = await SecureStore.getItemAsync(key);
-    if (result) {
-      setLogin(true);
-    } else {
-      setLogin(false);
-    }
-  }
-  React.useEffect(() => {
-    getValueFor(MY_SECURE_AUTH_STATE_KEY);
-    console.log(login);
-    console.log(MY_SECURE_AUTH_STATE_KEY);
-  });
-
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="WelcomeScreen"
+        initialRouteName="AuthLoading"
         screenOptions={{ headerShown: false }}
       >
-
-        {!login && <Stack.Screen name="Login" component={LoginScreen} />}
+        <Stack.Screen name="WelcomeScreen" component={WelcomeScreen}/>
+        <Stack.Screen name="AuthLoading" component={AuthLoading}/>
+        <Stack.Screen name="LoginScreen" component={LoginScreen} />
         <Stack.Screen name="BirdFeed" component={BirdFeed} />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="MessengerPigeon" component={MessengerPigeon}/>
         <Stack.Screen name="ChirpNotification" component={ChirpNotification}/>
         <Stack.Screen name="History" component={History}/>
       </Stack.Navigator>
-
-      
     </NavigationContainer>
   );
 }

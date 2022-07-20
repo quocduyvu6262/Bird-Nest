@@ -1,8 +1,6 @@
 import React, {useState, useSateIf} from 'react';
 import {StyleSheet, View, Text, Button} from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-const jwtDecode = require('jwt-decode');
-
+import * as SecureStore from 'expo-secure-store';
 
 const HomeScreen = navData => {
     const [name, setName] = useState(null);
@@ -21,7 +19,8 @@ const HomeScreen = navData => {
 
     // Logout
     const logout = props => {
-        AsyncStorage.removeItem('token')
+        const MY_SECURE_AUTH_STATE_KEY = 'MySecureAuthStateKey';
+        SecureStore.deleteItemAsync(MY_SECURE_AUTH_STATE_KEY)
             .then(() => {
                 props.navigation.replace('Login')
             })

@@ -30,7 +30,6 @@ const LoginScreen = navData => {
     try{
       if (response?.type === 'success') {
         setAccessToken(response.authentication.accessToken);
-        fetchUserInfo();
         // store token
         const auth = response.params;
         const storageValue = JSON.stringify(auth);
@@ -39,7 +38,7 @@ const LoginScreen = navData => {
           SecureStore.setItemAsync(MY_SECURE_AUTH_STATE_KEY, storageValue);
         }
         //store token
-        navData.navigation.navigate('BirdFeed');
+        navData.navigation.navigate("BirdFeed");
       }
     } catch(err){
       console.log(err);
@@ -62,17 +61,8 @@ const LoginScreen = navData => {
 
   return (
     <KeyboardAvoidingView 
-åå      style={{flex: 1}}
+        style={{flex: 1}}
     >
-      <Formik initialValues={{
-          email: "",
-          password: ""
-      }} 
-      onSubmit={values => {
-          console.log(values);
-          navData.navigation.navigate('Home');
-      }}>
-        {(props) => (
         <View style={styles.image}>
           <View style={styles.card}>
             <Text style={styles.heading}>Login</Text>
@@ -83,7 +73,6 @@ const LoginScreen = navData => {
                 <Text></Text>
                 <TouchableOpacity 
                   style={styles.button}
-                  onPress={props.handleSubmit}
                 >
                     <Text style={styles.buttonText}>Login</Text>
                 </TouchableOpacity>
@@ -96,7 +85,6 @@ const LoginScreen = navData => {
                   }}
                 />
                 <TouchableOpacity style={styles.buttonAlt} 
-                  onPress={() => navData.navigation.navigate('Register')}  
                 >
                     <Text style={styles.buttonAltText}>Sign Up</Text>
                 </TouchableOpacity>
@@ -104,8 +92,6 @@ const LoginScreen = navData => {
             </View>
           </View>
         </View>
-        )}
-      </Formik>
     </KeyboardAvoidingView>
   );
 };
