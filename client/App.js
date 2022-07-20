@@ -13,11 +13,14 @@ import Profile from "./screens/Profile.js";
 import MessengerPigeon from "./screens/MessengerPigeon.js";
 import ChirpNotification from "./screens/ChirpNotification.js";
 import History from "./screens/History.js";
+import LoginScreen from "./screens/Login.js";
+import AuthLoading from "./screens/AuthLoading.js";
+import WelcomeScreen from "./screens/WelcomeScreen.js";
 
 const Stack = createNativeStackNavigator();
 
 import { StatusBar } from "expo-status-bar";
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -29,14 +32,18 @@ import {
 } from "react-native";
 import image from "./assets/D85_6160.jpg";
 
+// import check login key
+const MY_SECURE_AUTH_STATE_KEY = 'MySecureAuthStateKey';
+
 export default function App() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userList, setUserList] = useState([]);
+  const [login, setLogin] = useState(false)
 
   const addUser = () => {
-    Axios.post("http://localhost:5000/create", {
+    Axios.post("http://localhost:3000/create", {
       username: username,
       email: email,
       password: password,
@@ -48,27 +55,27 @@ export default function App() {
   };
 
   const getUsers = () => {
-    Axios.get("http://localhost:5000/")
+    Axios.get("http://localhost:3000/api/users/")
       .then((response) => {
         console.log(response);
       })
       .catch((error) => console.log(error));
   };
-
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="WelcomeScreen"
+        initialRouteName="AuthLoading"
         screenOptions={{ headerShown: false }}
       >
+        <Stack.Screen name="WelcomeScreen" component={WelcomeScreen}/>
+        <Stack.Screen name="AuthLoading" component={AuthLoading}/>
+        <Stack.Screen name="LoginScreen" component={LoginScreen} />
         <Stack.Screen name="BirdFeed" component={BirdFeed} />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="MessengerPigeon" component={MessengerPigeon}/>
         <Stack.Screen name="ChirpNotification" component={ChirpNotification}/>
         <Stack.Screen name="History" component={History}/>
       </Stack.Navigator>
-
-      
     </NavigationContainer>
   );
 }
