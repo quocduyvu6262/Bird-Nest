@@ -89,7 +89,7 @@ const BirdFeed = ({ navigation }) => {
   // ---------------------------------------
 
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return (<View></View>);
   } else {
     return (
       // Header - Beginning
