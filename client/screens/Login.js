@@ -5,9 +5,10 @@ import * as Google from 'expo-auth-session/providers/google';
 
 // import google sign in
 import * as WebBrowser from 'expo-web-browser';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 // secure store
 import * as SecureStore from 'expo-secure-store';
+const MY_SECURE_AUTH_STATE_KEY = 'MySecureAuthStateKey';
 
 
 WebBrowser.maybeCompleteAuthSession();
@@ -30,6 +31,13 @@ const LoginScreen = navData => {
       if (response?.type === 'success') {
         setAccessToken(response.authentication.accessToken);
         fetchUserInfo();
+        // store token
+        const auth = response.params;
+        const storageValue = JSON.stringify(auth);
+        if (Platform.OS !== 'web') {
+          // Securely store the auth on your device
+          SecureStore.setItemAsync(MY_SECURE_AUTH_STATE_KEY, storageValue);
+        }
         //store token
         navData.navigation.navigate('BirdFeed');
       }

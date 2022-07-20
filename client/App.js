@@ -14,11 +14,12 @@ import MessengerPigeon from "./screens/MessengerPigeon.js";
 import ChirpNotification from "./screens/ChirpNotification.js";
 import History from "./screens/History.js";
 import LoginScreen from "./screens/Login.js";
+import * as SecureStore from 'expo-secure-store';
 
 const Stack = createNativeStackNavigator();
 
 import { StatusBar } from "expo-status-bar";
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -35,9 +36,10 @@ export default function App() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userList, setUserList] = useState([]);
+  const [login, setLogin] = useState(false)
 
   const addUser = () => {
-    Axios.post("http://localhost:5000/create", {
+    Axios.post("http://localhost:3000/create", {
       username: username,
       email: email,
       password: password,
@@ -49,12 +51,28 @@ export default function App() {
   };
 
   const getUsers = () => {
-    Axios.get("http://localhost:5000/")
+    Axios.get("http://localhost:3000/api/users/")
       .then((response) => {
         console.log(response);
       })
       .catch((error) => console.log(error));
   };
+
+  // check login context
+  const MY_SECURE_AUTH_STATE_KEY = 'MySecureAuthStateKey';
+  async function getValueFor(key) {
+    let result = await SecureStore.getItemAsync(key);
+    if (result) {
+      setLogin(true);
+    } else {
+      setLogin(false);
+    }
+  }
+  React.useEffect(() => {
+    getValueFor(MY_SECURE_AUTH_STATE_KEY);
+    console.log(login);
+    console.log(MY_SECURE_AUTH_STATE_KEY);
+  });
 
   return (
     <NavigationContainer>
@@ -62,7 +80,8 @@ export default function App() {
         initialRouteName="WelcomeScreen"
         screenOptions={{ headerShown: false }}
       >
-        <Stack.Screen name="Login" component={LoginScreen} />
+
+        {!login && <Stack.Screen name="Login" component={LoginScreen} />}
         <Stack.Screen name="BirdFeed" component={BirdFeed} />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="MessengerPigeon" component={MessengerPigeon}/>
