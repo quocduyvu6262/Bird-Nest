@@ -78,15 +78,26 @@ router.post('/login', async (req, res) => {
 
 // login with google 
 router.post('/loginwithgoogle', async (req, res) => {
+    // get user info from req.body into user
     const user = req.body;
     try{
-        const query = `INSERT INTO User (fullname, email)
-        VALUES("${user.fullname}", "${user.email}")`;
+        const checkExistQuery = `SELECT User.email FROM BirdNest.User WHERE User.email = "${user.email}"`;
+        const query = `INSERT INTO BirdNest.User (fullname, email)
+        VALUES("${user.fullname}", "${user.email}")`; // database link
         db(client => {
-            client.query(query, err => {
-                res.send(`Login successfully`);
+            client.query(checkExistQuery, (err, result) => {
+                if(result.length){
+                    // console.log( "User found successfully.");
+                    res.status(200).send();
+                } else {
+                    db(client => {
+                        client.query(query, err => {
+                            res.send(`Login successfully`);
+                        });
+                    });
+                }
             });
-        });
+        })
     } catch(err) {
         res.status(400).send(err);
     }
