@@ -8,7 +8,6 @@ import * as WebBrowser from 'expo-web-browser';
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 // secure store
 import * as SecureStore from 'expo-secure-store';
-const MY_SECURE_AUTH_STATE_KEY = 'MySecureAuthStateKey';
 
 
 WebBrowser.maybeCompleteAuthSession();
@@ -17,47 +16,24 @@ WebBrowser.maybeCompleteAuthSession();
 const LoginScreen = navData => {
 
   // execute google login
-  const [accessToken, setAccessToken] = React.useState(null);
-  const [user, setUser] = React.useState(null);
+  const MY_SECURE_AUTH_STATE_KEY = "MySecureAuthStateKey";
+  const [accessToken, setAccessToken] = React.useState();
   const [request, response, promptAsync] = Google.useAuthRequest({
+    expoClientId: "314578595226-3pfqh454mrmhneevoetc6ensm0blsa4a.apps.googleusercontent.com",
     androidClientId: "",
-    iosClientId: "",
-    expoClientId: "314578595226-3pfqh454mrmhneevoetc6ensm0blsa4a.apps.googleusercontent.com"
+    iosClientId: ""
   });
 
   // use side effect
   React.useEffect(() => {
-    try{
-      if (response?.type === 'success') {
-        setAccessToken(response.authentication.accessToken);
-        // store token
-        const auth = response.params;
-        const storageValue = JSON.stringify(auth);
-        if (Platform.OS !== 'web') {
-          // Securely store the auth on your device
-          SecureStore.setItemAsync(MY_SECURE_AUTH_STATE_KEY, storageValue);
-        }
-        //store token
-        navData.navigation.navigate("BirdFeed");
-      }
-    } catch(err){
-      console.log(err);
-    };
-  }, [response]);
-
-
-  // get user info
-  const fetchUserInfo = async () => {
-    let response = await fetch("https://www.googleapis.com/userinfo/v2/me", {
-        headers: {
-            Authorization: `Bearer ${accessToken}`
-        }
-    });
-    const userInfo = await response.json();
-
-    setUser(userInfo);
-  }
-
+    
+    if (response?.type === 'success') {
+      setAccessToken(response.authentication.accessToken);
+      //store token
+      navData.navigation.navigate("Profile");
+      accessToken && SecureStore.setItemAsync(MY_SECURE_AUTH_STATE_KEY, accessToken);
+    }
+  }, [response, accessToken]);
 
   return (
     <KeyboardAvoidingView 
@@ -81,7 +57,7 @@ const LoginScreen = navData => {
                   disabled={!request}
                   title="Sign In with Google"
                   onPress={() => {
-                    promptAsync();
+                    promptAsync({showInRecents: true});
                   }}
                 />
                 <TouchableOpacity style={styles.buttonAlt} 
@@ -173,5 +149,5 @@ const styles = StyleSheet.create({
     //     color: 'red'
     // }
 });
-  
+
 export default LoginScreen;

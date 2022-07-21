@@ -78,7 +78,23 @@ router.post('/login', async (req, res) => {
 
 // login with google 
 router.post('/loginwithgoogle', async (req, res) => {
-    
+    const user = req.body;
+    try{
+        const query = `INSERT INTO User (fullname, email)
+        VALUES("${user.fullname}", "${user.email}")`;
+        db(client => {
+            client.query(query, err => {
+                if(err){
+                    console.log(err);
+                    res.status(400).send(`Bad request.`);
+                    return;
+                }
+                res.send(`Register new user successfully`);
+            });
+        });
+    } catch(err) {
+        res.status(400).send(err);
+    }
 })
 
 // get all users
