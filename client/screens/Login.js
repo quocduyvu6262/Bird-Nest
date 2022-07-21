@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, Text, ScrollView, KeyboardAvoidingView, TouchableOpacity, TextInput, Platform, processColor, Button, Alert} from 'react-native';
 import {Formik} from 'formik'
 import * as Google from 'expo-auth-session/providers/google';
@@ -9,6 +9,10 @@ import * as WebBrowser from 'expo-web-browser';
 // secure store
 import * as SecureStore from 'expo-secure-store';
 
+// Axios
+import Axios from "axios";
+import axios from 'axios';
+
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -17,7 +21,8 @@ const LoginScreen = navData => {
 
   // execute google login
   const MY_SECURE_AUTH_STATE_KEY = "MySecureAuthStateKey";
-  const [accessToken, setAccessToken] = React.useState();
+  const [accessToken, setAccessToken] = useState();
+  const [user, setUser] = useState();
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId: "314578595226-3pfqh454mrmhneevoetc6ensm0blsa4a.apps.googleusercontent.com",
     androidClientId: "",
@@ -25,15 +30,36 @@ const LoginScreen = navData => {
   });
 
   // use side effect
-  React.useEffect(() => {
+  useEffect(() => {
     
     if (response?.type === 'success') {
       setAccessToken(response.authentication.accessToken);
       //store token
       navData.navigation.navigate("Profile");
-      accessToken && SecureStore.setItemAsync(MY_SECURE_AUTH_STATE_KEY, accessToken);
+    
+      if(accessToken){
+        SecureStore.setItemAsync(MY_SECURE_AUTH_STATE_KEY, accessToken);
+        fetchUserData();
+      }
     }
   }, [response, accessToken]);
+
+  //Fetch User Function
+  const fetchUserData = async () => {
+    let userInfoRes = await fetch("https://www.googleapis.com/userinfo/v2/me", {
+      headers: {
+          Authorization: `Bearer ${accessToken}`
+      }
+    });
+    userInfoRes.json().then(data => {
+      // setUser(data);
+      axios.post('http://localhost:3000/api/users/loginwithgoogle',{
+        email: data.email,
+        fullname: data.name
+      }).then(() => {
+      }).catch(err => console.log(err));
+    })
+  }
 
   return (
     <KeyboardAvoidingView 

@@ -84,12 +84,7 @@ router.post('/loginwithgoogle', async (req, res) => {
         VALUES("${user.fullname}", "${user.email}")`;
         db(client => {
             client.query(query, err => {
-                if(err){
-                    console.log(err);
-                    res.status(400).send(`Bad request.`);
-                    return;
-                }
-                res.send(`Register new user successfully`);
+                res.send(`Login successfully`);
             });
         });
     } catch(err) {
