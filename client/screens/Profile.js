@@ -22,7 +22,7 @@ const Profile = ({ navigation }) => {
     const MY_SECURE_AUTH_STATE_KEY = 'MySecureAuthStateKey';
     SecureStore.deleteItemAsync(MY_SECURE_AUTH_STATE_KEY)
         .then(() => {
-          navigation.navigate("LoginScreen");
+          navigation.replace("LoginScreen");
         })
         .catch(err => console.log(err));
     }
@@ -51,5 +51,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
+  user: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  profilePic: {
+    width: 50,
+    height: 50
+  }
 });
 export default Profile;
