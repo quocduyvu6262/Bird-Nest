@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, StatusBar } from "react-native";
 import React from "react";
 
 import Footer from "../components/Footer.js";
@@ -8,20 +8,13 @@ const ChirpNotification = ({ navigation }) => {
     <SafeAreaView style={Chirp_Notification_styles.container}>
       <Text>Chirp Notification</Text>
       <Text>W.I.P.</Text>
-      <View style={Chirp_Notification_styles.footer}>
-        <Footer navigation={navigation} />
-      </View>
     </SafeAreaView>
   );
 };
 const Chirp_Notification_styles = StyleSheet.create({
-  footer: {
-    position: "absolute",
-    bottom: 0,
-    width: "100%",
-  },
   container: {
     flex: 1,
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
 });
 export default ChirpNotification;
