@@ -1,11 +1,16 @@
-// import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
-  Platform,
-  StatusBar,
+  StyleSheet,
+  View,
+  Image,
 } from "react-native";
+import Logo from './assets/bird.png';
+
+import Axios from "axios";
+import * as SecureStore from 'expo-secure-store';
 
 //Import screens in nav bar
+import SplashScreen from "./screens/SplashScreen";
 import BirdFeed from "./screens/BirdFeed.js";
 import Profile from "./screens/Profile.js";
 import MessengerPigeon from "./screens/MessengerPigeon.js";
@@ -13,7 +18,6 @@ import ChirpNotification from "./screens/ChirpNotification.js";
 import History from "./screens/History.js";
 import LoginScreen from "./screens/Login.js";
 import AuthLoading from "./screens/AuthLoading.js";
-import WelcomeScreen from "./screens/WelcomeScreen.js";
 
 // Stack and Tab Navigation
 import { NavigationContainer } from "@react-navigation/native";
@@ -39,10 +43,10 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="AuthLoading"
+        initialRouteName="SplashScreen"
         screenOptions={{ headerShown: false }}
       >
-        <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
+        <Stack.Screen name="SplashScreen" component={SplashScreen}/>
         <Stack.Screen name="AuthLoading" component={AuthLoading} />
         <Stack.Screen name="LoginScreen" component={LoginScreen} />
         <Stack.Screen name="BirdFeed" component={TabNavigator} />
@@ -52,3 +56,21 @@ export default function App() {
     </NavigationContainer>
   );
 }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fffff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  textInput: {
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  SplashScreen: {
+    alignSelf: "center",
+    marginVertical: 350,
+    height:100,
+    width: 100,
+  }
+});
