@@ -4,7 +4,9 @@ import {
   SafeAreaView,
   TouchableOpacity,
   StyleSheet,
-  Button
+  Button,
+  Platform,
+  StatusBar,
 } from "react-native";
 import React from "react";
 
@@ -31,9 +33,6 @@ const Profile = ({ navigation }) => {
       <TouchableOpacity onPress={() => navigation.goBack()}>
         <Text>Go to Profile</Text>
       </TouchableOpacity>
-      <View style={styles.footer}>
-        <Footer navigation={navigation} />
-      </View>
       <View>
         <Button 
             title="Logout"
@@ -50,11 +49,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-  },
-  footer: {
-    position: "absolute",
-    bottom: 0,
-    width: "100%",
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
 });
 export default Profile;

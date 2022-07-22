@@ -35,30 +35,12 @@ const BirdFeed = ({ navigation }) => {
     Pacifico_400Regular,
   });
 
-  // ---------------------------------------
-  // LOGIC FOR BUTTON AND UPDATING USER LIST
-
-  // --- commented out for testing ---
-  // const UserData = [
-  //   {
-  //     name: "Adam",
-  //     src: imagesIndex[0],
-  //   },
-  //   {
-  //     name: "Brian",
-  //     src: imagesIndex[0],
-  //   },
-  // ];
-  // console.log(UserData);
+  // ----- LOGIC FOR VIEW USER BUTTONS -----
 
   const viewUsers = () => {
     setUserList([]);
     Axios.post("http://localhost:3000/api/matching/", {
       user_id: 10,
-
-      // format for filter post request
-      // "gargage": 1,
-      // pool: 1,
     })
       .then((response) => {
         let userData = response.data;
@@ -89,7 +71,7 @@ const BirdFeed = ({ navigation }) => {
   // ---------------------------------------
 
   if (!fontsLoaded) {
-    return (<View></View>);
+    return <View></View>;
   } else {
     return (
       // Header - Beginning
@@ -98,21 +80,18 @@ const BirdFeed = ({ navigation }) => {
           <Text style={Bird_Feed_styles.headerText}>Bird Feed</Text>
 
           <View style={Bird_Feed_styles.headerButtonView}>
-
-            <TouchableOpacity 
-              style={Bird_Feed_styles.headerButtons}
-            >
+            <TouchableOpacity style={Bird_Feed_styles.headerButtons}>
               <Icon name="list" />
             </TouchableOpacity>
 
-            <TouchableOpacity 
+            <TouchableOpacity
               style={Bird_Feed_styles.headerButtons}
               onPress={() => navigation.navigate("History")}
             >
               <Icon name="history" />
             </TouchableOpacity>
 
-            <TouchableOpacity 
+            <TouchableOpacity
               style={Bird_Feed_styles.headerButtons}
               onPress={() => navigation.navigate("ChirpNotification")}
             >
@@ -151,10 +130,6 @@ const BirdFeed = ({ navigation }) => {
             />
           </View>
         )}
-
-        <View style={Bird_Feed_styles.footer}>
-          <Footer navigation={navigation} />
-        </View>
       </SafeAreaView>
     );
   }
@@ -172,8 +147,6 @@ const Bird_Feed_styles = StyleSheet.create({
     paddingLeft: 5,
   },
   header: {
-    // backgroundColor: "gray",
-    // height: Platform.OS === "ios" ? "7%" : "17%",
     flexDirection: "row",
   },
   headerText: {
@@ -194,11 +167,6 @@ const Bird_Feed_styles = StyleSheet.create({
     borderWidth: 3,
     borderRadius: 50,
     borderColor: "#219EBC",
-  },
-  footer: {
-    position: "absolute",
-    bottom: 0,
-    width: "100%",
   },
 });
 export default BirdFeed;
