@@ -24,7 +24,6 @@ const LoginScreen = navData => {
   // execute google login
   const MY_SECURE_AUTH_STATE_KEY = "MySecureAuthStateKey";
   const [accessToken, setAccessToken] = useState();
-  const [user, setUser] = useState();
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId: "314578595226-3pfqh454mrmhneevoetc6ensm0blsa4a.apps.googleusercontent.com",
     androidClientId: "",
