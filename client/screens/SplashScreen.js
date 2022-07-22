@@ -33,7 +33,9 @@ export default function SplashScreen({navigation}) {
         // navigate to the app screen if a token is present
         // else navigate to the auth screen
         if (userToken) {
-            navigation.navigate('BirdFeed');
+            setTimeout(() => {
+                navigation.navigate('BirdFeed');
+            }, 293);
         }
     }
 
@@ -101,7 +103,7 @@ export default function SplashScreen({navigation}) {
             ])
             .start();
             checkLoginState();
-        }, 500);
+        }, 1000);
     }, [])
     
     // Moving up like Nav Bar...
@@ -115,7 +117,6 @@ export default function SplashScreen({navigation}) {
         }}>
             <Animated.View style = {{
                 flex:1,
-                backgroundColor: 'grey',
                 zIndex: 1,
                 transform: [
                     {translateY: startAnimation}
@@ -130,21 +131,21 @@ export default function SplashScreen({navigation}) {
                     width: 100,
                     height: 100,
                     marginBottom: 20,
-                    transform:[
-                        {translateX: moveLogo.x},
-                        {translateY: moveLogo.y},
-                        {scale: scaleLogo},
-                    ]
+                    // transform:[
+                    //     {translateX: moveLogo.x},
+                    //     {translateY: moveLogo.y},
+                    //     {scale: scaleLogo},
+                    // ]
                 }}></Animated.Image>
 
                 <Animated.Text style = {{
                     fontSize: 25,
                     fontWeight: 'bold',
                     color: 'black',
-                    transform:[
-                        {translateY: moveTitle.y},
-                        {scale: scaleTitle}
-                    ]
+                    // transform:[
+                    //      {translateY: moveTitle.y},
+                    //      {scale: scaleTitle}
+                    // ]
                 }}>Bird Nest</Animated.Text>
             </Animated.View>
             </Animated.View>

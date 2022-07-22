@@ -3,6 +3,8 @@ import {
   StyleSheet,
   View,
   Image,
+  InteractionManager,
+  ActivityIndicator,
 } from "react-native";
 import Logo from './assets/bird.png';
 
