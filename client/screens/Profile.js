@@ -22,7 +22,7 @@ const Profile = ({ navigation }) => {
     const MY_SECURE_AUTH_STATE_KEY = 'MySecureAuthStateKey';
     SecureStore.deleteItemAsync(MY_SECURE_AUTH_STATE_KEY)
         .then(() => {
-          navigation.navigate("LoginScreen");
+          navigation.replace("LoginScreen");
         })
         .catch(err => console.log(err));
     }
@@ -34,21 +34,6 @@ const Profile = ({ navigation }) => {
         <Text>Go to Profile</Text>
       </TouchableOpacity>
       <View>
-        <Button 
-            title="Logout"
-            onPress={() => {
-              logout();
-            }}
-        />
-      </View>
-      <View>
-        {showUserInfo()}
-        <Button 
-            title="Get User Data"
-            onPress={() => {
-              fetchUserInfo();
-            }}
-        />
         <Button 
             title="Logout"
             onPress={() => {
