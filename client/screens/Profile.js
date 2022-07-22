@@ -35,13 +35,11 @@ const Profile = ({ navigation }) => {
   const [buttonClicked, setButtonClicked] = useState(false);
 
   const roomInfoButton = () => {
-    setButtonClicked(true)
-    console.log(buttonClicked)
-  }
+    setButtonClicked(true);
+  };
   const bioButton = () => {
-    setButtonClicked(false)
-    console.log(buttonClicked)
-  }
+    setButtonClicked(false);
+  };
   // return screen
   return (
     <ScrollView>
@@ -67,8 +65,11 @@ const Profile = ({ navigation }) => {
         )}
 
         {buttonClicked && (
-          <Text style = {{ fontSize: 20,}} 
+          <View>
+            <Text style = {{ fontSize: 20,}} 
           >Room Info success</Text>
+          </View>
+          
         )}
         </InfoCard>
 

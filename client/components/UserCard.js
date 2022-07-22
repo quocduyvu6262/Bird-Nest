@@ -16,18 +16,16 @@ const styles = StyleSheet.create({
         marginTop:50,
         backgroundColor: theme.colors.surface,
         alignItems: 'center',
-        shadowColor: 'black',
-        shadowOpacity: .2,
-        shadowOffset: {
-            height:1,
-            width:-2
-        },
+        borderWidth: 0.5,
+        borderColor: "#D3D3D3",
+        borderRadius: 30,
         elevation:2,
-        paddingTop: 10
+        paddingTop: 10,
+        width: "100%"
     },
     userImage: {
         width:250,
-        height:250,
+        height:200,
         marginBottom:20,
     },
     name:{

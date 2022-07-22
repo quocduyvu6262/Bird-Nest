@@ -13,17 +13,16 @@ const InfoCard  = ({ mode, style, ...props }) => {
 
 const styles = StyleSheet.create({
     card: {
+        display: "flex",
+        flex: 1,
         marginTop: -65,
-        width: 340,
-        height: 250,
+        width: "100%",
+        height: 300,
         backgroundColor: theme.colors.surface,
         alignItems: 'center',
-        shadowColor: 'black',
-        shadowOpacity: .2,
-        shadowOffset: {
-            height:1,
-            width:-2
-        },
+        borderWidth: 0.5,
+        borderRadius: 30,
+        borderColor: "#D3D3D3",
         elevation:2,
         paddingTop: 10
     },
