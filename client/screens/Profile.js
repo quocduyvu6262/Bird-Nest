@@ -1,16 +1,20 @@
+import React from "react";
 import {
   View,
   Text,
   SafeAreaView,
   TouchableOpacity,
   StyleSheet,
-  Button,
   Platform,
   StatusBar,
+  ScrollView,
 } from "react-native";
-import React from "react";
-
-import ProfileCard from "../components/ProfileCard.js";
+import Background from '../components/Background'
+import Logo from '../components/Logo'
+import Header from '../components/Header'
+import Button from '../components/Button'
+import Paragraph from '../components/Paragraph'
+import UserCard from "../components/UserCard";
 import Footer from "../components/Footer.js";
 import * as SecureStore from 'expo-secure-store';
 
@@ -28,36 +32,32 @@ const Profile = ({ navigation }) => {
     }
   // return screen
   return (
-    <SafeAreaView style={styles.container}>
-      <Text>Profile</Text>
-      <TouchableOpacity onPress={() => navigation.goBack()}>
-        <Text>Go to Profile</Text>
-      </TouchableOpacity>
-      <View>
-        <Button 
-            title="Logout"
-            onPress={() => {
-              logout();
-            }}
-        />
-      </View>
-    </SafeAreaView>
+    <ScrollView >
+      <Background>
+        <UserCard name="Tony Vu"/>
+        <View style={styles.buttonContainer}>
+          <Button color="black">Bio</Button>
+          <Button color="black" >Room Info</Button>
+        </View>
+
+        <Button onPress={()=>{
+          logout();
+        }}
+        >
+          Logout
+        </Button>
+      </Background>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  buttonContainer:{
     flex: 1,
-    justifyContent: 'center',
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-  },
-  user: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  profilePic: {
-    width: 50,
-    height: 50
+    flexDirection: 'row',
+    paddingTop: 10,
+    padding: 55
   }
 });
+
 export default Profile;
