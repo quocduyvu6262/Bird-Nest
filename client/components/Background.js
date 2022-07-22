@@ -1,14 +1,14 @@
 import React from 'react'
-import { ImageBackground, StyleSheet, KeyboardAvoidingView, Platform, ScrollView } from 'react-native'
+import { ImageBackground, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native'
 import { theme } from '../core/theme'
 
 const Background = ({ children }) => {
     return (
-        // <ImageBackground style={styles.background} resizeMode="repeat">
-        <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === "ios" ? "padding": "height"}>
-            {children}
-        </KeyboardAvoidingView>
-        // </ImageBackground>
+        <ImageBackground style={styles.background} resizeMode="repeat">
+            <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === "ios" ? "padding": "height"}>
+                {children}
+            </KeyboardAvoidingView>
+        </ImageBackground>
     )
 }
 

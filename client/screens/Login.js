@@ -15,11 +15,9 @@ import * as SecureStore from 'expo-secure-store';
 // Axios
 import axios from 'axios';
 
-
 WebBrowser.maybeCompleteAuthSession();
 
-
-const LoginScreen = navData => {
+const LoginScreen = ({navigation}) => {
 
   // execute google login
   const MY_SECURE_AUTH_STATE_KEY = "MySecureAuthStateKey";
@@ -31,18 +29,23 @@ const LoginScreen = navData => {
   });
 
   // use side effect
-  useEffect(() => {
-    
-    if (response?.type === 'success') {
-      setAccessToken(response.authentication.accessToken);
-      //store token
-      navData.navigation.navigate("BirdFeed");
-    
-      if(accessToken){
-        SecureStore.setItemAsync(MY_SECURE_AUTH_STATE_KEY, accessToken);
-        fetchUserData();
+  React.useEffect(() => {
+    try{
+      if (response?.type === 'success') {
+        setAccessToken(response.authentication.accessToken);
+        // store token
+        const auth = response.params;
+        const storageValue = JSON.stringify(auth);
+        if (Platform.OS !== 'web') {
+          // Securely store the auth on your device
+          SecureStore.setItemAsync(MY_SECURE_AUTH_STATE_KEY, storageValue);
+        }
+        //store token
+        navigation.navigate("BirdFeed");
       }
-    }
+    } catch(err){
+      console.log(err);
+    };
   }, [response, accessToken]);
 
   //Fetch User Function
