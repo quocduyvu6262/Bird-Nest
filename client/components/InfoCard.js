@@ -5,27 +5,38 @@ import React from "react";
 const InfoCard  = ({ mode, style, ...props }) => {
     return(
         <View 
-        style={styles.card}
-        {...props}>
+            style={styles.card}
+            {...props}
+        >
+            <View style={styles.textContainer}>
+                <Text style={styles.text}>Rent: </Text>
+                <Text style={styles.text}>Lease Term: </Text>
+                <Text style={styles.text}>Distance: </Text>
+            </View>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     card: {
-        display: "flex",
         flex: 1,
         marginTop: -65,
-        width: "100%",
-        height: 300,
+        width: "120%",
+        height: "auto",
         backgroundColor: theme.colors.surface,
-        alignItems: 'center',
         borderWidth: 0.5,
         borderRadius: 30,
         borderColor: "#D3D3D3",
-        elevation:2,
+        backgroundColor: "D3D3D3",
         paddingTop: 10
     },
+    textContainer: {
+        padding: 10,
+    },
+    text: {
+        padding: 10,
+    }
 })
+
 
 export default InfoCard;

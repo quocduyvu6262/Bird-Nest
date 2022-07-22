@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
   buttonContainer:{
     flex: 1,
     flexDirection: 'row',
-    paddingTop: 10,
+    paddingTop: "-30%",
     padding: 55
   },
   logoutButton: {
