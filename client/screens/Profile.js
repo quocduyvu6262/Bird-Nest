@@ -1,16 +1,22 @@
+import React, {useState} from "react";
 import {
   View,
   Text,
   SafeAreaView,
   TouchableOpacity,
   StyleSheet,
-  Button,
   Platform,
   StatusBar,
+  ScrollView,
 } from "react-native";
-import React from "react";
 
-import ProfileCard from "../components/ProfileCard.js";
+import Background from '../components/Background'
+import Logo from '../components/Logo'
+import Header from '../components/Header'
+import Button from '../components/Button'
+import Paragraph from '../components/Paragraph'
+import UserCard from "../components/UserCard";
+import InfoCard from "../components/InfoCard";
 import Footer from "../components/Footer.js";
 import * as SecureStore from 'expo-secure-store';
 
@@ -26,38 +32,69 @@ const Profile = ({ navigation }) => {
         })
         .catch(err => console.log(err));
     }
+    
+  const [buttonClicked, setButtonClicked] = useState(false);
+
+  const roomInfoButton = () => {
+    setButtonClicked(true)
+    console.log(buttonClicked)
+  }
+  const bioButton = () => {
+    setButtonClicked(false)
+    console.log(buttonClicked)
+  }
   // return screen
   return (
-    <SafeAreaView style={styles.container}>
-      <Text>Profile</Text>
-      <TouchableOpacity onPress={() => navigation.goBack()}>
-        <Text>Go to Profile</Text>
-      </TouchableOpacity>
-      <View>
-        <Button 
-            title="Logout"
-            onPress={() => {
-              logout();
-            }}
-        />
-      </View>
-    </SafeAreaView>
+    <ScrollView>
+      <Background>
+        <UserCard name="Tony Vu"/>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity>
+            <Button 
+            color="black"
+            onPress = {bioButton}>Bio</Button>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Button 
+            color="black"
+            onPress = {roomInfoButton}>Room Info</Button>
+          </TouchableOpacity>
+        </View>
+
+        <InfoCard>
+        {!buttonClicked && (
+          <Text style = {{ fontSize: 20,}} 
+          >Bio success</Text>
+        )}
+
+        {buttonClicked && (
+          <Text style = {{ fontSize: 20,}} 
+          >Room Info success</Text>
+        )}
+        </InfoCard>
+
+        <Button style = {styles.logoutButton}
+        onPress={()=>{
+          logout();
+        }}
+        >
+          Logout
+        </Button>
+      </Background>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+    flexDirection: 'row',
+    paddingTop: 10,
+    padding: 55
   },
-  user: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  profilePic: {
-    width: 50,
-    height: 50
+  logoutButton: {
+    flex: 1,
+    bottom: 12,
   }
 });
 export default Profile;
