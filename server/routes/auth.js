@@ -76,6 +76,11 @@ router.post('/login', async (req, res) => {
     });
 });
 
+// login with google 
+router.post('/loginwithgoogle', async (req, res) => {
+    
+})
+
 // get all users
 router.get('/', (req, res) => {
     const query = `SELECT * FROM User`;

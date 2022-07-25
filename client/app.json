@@ -1,12 +1,8 @@
 {
   "expo": {
-    "name": "testing",
-    "slug": "testing",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
+    "owner": "quocduyvu6262",
+    "name": "BirdNest",
+    "slug": "BirdNest",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -22,7 +18,23 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
-    }
+      "supportsTablet": true,
+      "bundleIdentifier": "host.exp.exponent",
+      "config": {
+        "googleSignIn": {
+          "reservedClientId": "com.googleusercontent.apps.314578595226-b3s224tv48jeitll80p17kr2gt7sque0"
+        }
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "scheme": "host.exp.exponent"
   }
 }
