@@ -75,24 +75,24 @@ const BirdFeed = ({ navigation }) => {
   } else {
     return (
       // Header - Beginning
-      <SafeAreaView style={Bird_Feed_styles.container}>
-        <View style={Bird_Feed_styles.header}>
-          <Text style={Bird_Feed_styles.headerText}>Bird Feed</Text>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.header}>
+          <Text style={styles.headerText}>Bird Feed</Text>
 
-          <View style={Bird_Feed_styles.headerButtonView}>
-            <TouchableOpacity style={Bird_Feed_styles.headerButtons}>
+          <View style={styles.headerButtonView}>
+            <TouchableOpacity style={styles.headerButtons}>
               <Icon name="list" />
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={Bird_Feed_styles.headerButtons}
+              style={styles.headerButtons}
               onPress={() => navigation.navigate("History")}
             >
               <Icon name="history" />
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={Bird_Feed_styles.headerButtons}
+              style={styles.headerButtons}
               onPress={() => navigation.navigate("ChirpNotification")}
             >
               <Image source={require(`../assets/bird.png`)} />
@@ -101,16 +101,16 @@ const BirdFeed = ({ navigation }) => {
         </View>
         {/* Header - Ending */}
         <TouchableOpacity
-          style={[Bird_Feed_styles.input, { marginVertical: 7 }]}
+          style={[styles.input, { marginVertical: 7 }]}
         >
           <Icon3
-            style={Bird_Feed_styles.input}
+            style={styles.input}
             name="options-sharp"
             size={30}
             color="black"
           />
           <TextInput
-            style={Bird_Feed_styles.input}
+            style={styles.input}
             placeholder="Enter Filters"
           />
         </TouchableOpacity>
@@ -120,7 +120,7 @@ const BirdFeed = ({ navigation }) => {
         </TouchableOpacity>
 
         {listState && (
-          <View styles={Bird_Feed_styles.flatlist}>
+          <View styles={styles.flatlist}>
             <FlatList
               data={userList}
               // data={UserData}
@@ -135,7 +135,7 @@ const BirdFeed = ({ navigation }) => {
   }
 };
 
-const Bird_Feed_styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,

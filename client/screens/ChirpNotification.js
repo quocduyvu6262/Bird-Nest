@@ -5,13 +5,13 @@ import Footer from "../components/Footer.js";
 
 const ChirpNotification = ({ navigation }) => {
   return (
-    <SafeAreaView style={Chirp_Notification_styles.container}>
+    <SafeAreaView style={styles.container}>
       <Text>Chirp Notification</Text>
       <Text>W.I.P.</Text>
     </SafeAreaView>
   );
 };
-const Chirp_Notification_styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,

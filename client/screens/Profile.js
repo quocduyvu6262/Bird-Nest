@@ -81,7 +81,7 @@ const Profile = ({ navigation }) => {
   }
   // return screen
   return (
-    <ScrollView>
+    <ScrollView style={{backgroundColor:'white'}}>
       <Background>
         <UserCard name={name}/>
         <View style={styles.buttonContainer}>
