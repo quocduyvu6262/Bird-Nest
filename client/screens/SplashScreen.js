@@ -32,11 +32,13 @@ export default function SplashScreen({navigation}) {
         
         // navigate to the app screen if a token is present
         // else navigate to the auth screen
-        if (userToken) {
-            setTimeout(() => {
+        setTimeout(() => {
+            if(userToken){
                 navigation.navigate('BirdFeed');
-            }, 293);
-        }
+            } else {
+                navigation.navigate('LoginScreen');
+            }
+        })
     }
 
     useEffect(()=> {
@@ -161,10 +163,6 @@ export default function SplashScreen({navigation}) {
                     {translateY: contentTransition}
                 ]
             }}>  
-                <Login navigation = {navigation}>
-
-                </Login>
-
             </Animated.View>
         </View>
     )

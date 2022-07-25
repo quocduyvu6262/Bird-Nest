@@ -49,7 +49,6 @@ export default function App() {
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="SplashScreen" component={SplashScreen}/>
-        <Stack.Screen name="AuthLoading" component={AuthLoading} />
         <Stack.Screen name="LoginScreen" component={LoginScreen} />
         <Stack.Screen name="BirdFeed" component={TabNavigator} />
         <Stack.Screen name="ChirpNotification" component={ChirpNotification} />
