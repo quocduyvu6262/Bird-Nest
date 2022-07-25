@@ -48,23 +48,6 @@ const LoginScreen = ({navigation}) => {
     };
   }, [response, accessToken]);
 
-  //Fetch User Function
-  const fetchUserData = async () => {
-    let userInfoRes = await fetch("https://www.googleapis.com/userinfo/v2/me", {
-      headers: {
-          Authorization: `Bearer ${accessToken}`
-      }
-    });
-    userInfoRes.json().then(data => {
-      // setUser(data);
-      axios.post('http://localhost:3000/api/users/loginwithgoogle',{
-        email: data.email,
-        fullname: data.name
-      }).then(() => {
-      }).catch(err => console.log(err));
-    })
-  }
-
   return (
     <Background>
       <Logo />

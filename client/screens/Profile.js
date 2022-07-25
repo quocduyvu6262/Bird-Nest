@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {
   View,
   Text,
@@ -18,21 +18,57 @@ import UserCard from "../components/UserCard";
 import InfoCard from "../components/InfoCard";
 import Footer from "../components/Footer.js";
 import * as SecureStore from 'expo-secure-store';
-
+import Axios from "axios";
+import { ResponseType } from "expo-auth-session";
 
 const Profile = ({ navigation }) => {
 
+  const [name, setName] = useState();
+  const [rent, setRent] = useState();
+  const [lease, setLease] = useState();
+  const [city, setCity] = useState();
+  const [buttonClicked, setButtonClicked] = useState(false);
+  const MY_SECURE_AUTH_STATE_KEY = 'MySecureAuthStateKey';
+
   // Logout 
   const logout = () => {
-    const MY_SECURE_AUTH_STATE_KEY = 'MySecureAuthStateKey';
     SecureStore.deleteItemAsync(MY_SECURE_AUTH_STATE_KEY)
         .then(() => {
           navigation.replace("LoginScreen");
         })
         .catch(err => console.log(err));
-    }
-    
-  const [buttonClicked, setButtonClicked] = useState(false);
+  }
+
+  // Get User from Google Token
+
+  const fetchHousingInfo = async () => {
+    let secureStoreData = null;
+    let accessToken = null;
+    secureStoreData = await SecureStore.getItemAsync(MY_SECURE_AUTH_STATE_KEY);
+    secureStoreData = JSON.parse(secureStoreData);
+    accessToken = secureStoreData.access_token;
+    let userInfoRes = await fetch("https://www.googleapis.com/userinfo/v2/me", {
+      headers: {
+          Authorization: `Bearer ${accessToken}`
+      }
+    });
+
+    userInfoRes.json().then(data => {
+      // setUser(data);
+      Axios.get(`http://localhost:3000/api/housings/${data.email}`,).then((res) => {
+        let houseInfo = res.data[0];
+        setName(houseInfo.fullname);
+        setRent(houseInfo.rent);
+        setLease(houseInfo.lease);
+        setCity(houseInfo.city);
+      }).catch(err => console.log(err));
+    })
+  }
+  
+  // Use Effect
+  useEffect(() => {
+    fetchHousingInfo();
+  },[]);
 
   const roomInfoButton = () => {
     setButtonClicked(true);
@@ -44,7 +80,7 @@ const Profile = ({ navigation }) => {
   return (
     <ScrollView>
       <Background>
-        <UserCard name="Tony Vu"/>
+        <UserCard name={name}/>
         <View style={styles.buttonContainer}>
           <TouchableOpacity>
             <Button 
@@ -64,13 +100,7 @@ const Profile = ({ navigation }) => {
           >Bio success</Text>
         )}
 
-        {buttonClicked && (
-          <View>
-            <Text style = {{ fontSize: 20,}} 
-          >Room Info success</Text>
-          </View>
-          
-        )}
+        {buttonClicked && <RentInfo rentInfo={rent} leaseInfo={lease} cityInfo={city}/>}
         </InfoCard>
 
         <Button style = {styles.logoutButton}
@@ -85,6 +115,19 @@ const Profile = ({ navigation }) => {
   );
 };
 
+
+
+// Rent Info
+const RentInfo = props => {
+  return(
+    <View style={styles.textContainer}>
+      <Text style={styles.text}><Text style={{fontWeight: "bold"}}> Rent:</Text>  ${props.rentInfo}</Text>
+      <Text style={styles.text}><Text style={{fontWeight: "bold"}}> Lease Term:</Text>  {props.leaseInfo} months</Text>
+      <Text style={styles.text}><Text style={{fontWeight: "bold"}}> City:</Text>  {props.cityInfo}</Text>
+    </View> 
+  )
+}
+
 const styles = StyleSheet.create({
   buttonContainer:{
     flex: 1,
@@ -95,6 +138,13 @@ const styles = StyleSheet.create({
   logoutButton: {
     flex: 1,
     bottom: 12,
+  },
+  textContainer: {
+    padding: 10,
+  },
+  text: {
+    padding: 10,
+    fontSize: 20
   }
 });
 

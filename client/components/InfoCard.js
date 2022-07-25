@@ -8,11 +8,6 @@ const InfoCard  = ({ mode, style, ...props }) => {
             style={styles.card}
             {...props}
         >
-            <View style={styles.textContainer}>
-                <Text style={styles.text}>Rent: </Text>
-                <Text style={styles.text}>Lease Term: </Text>
-                <Text style={styles.text}>Distance: </Text>
-            </View>
         </View>
     )
 }
@@ -29,12 +24,6 @@ const styles = StyleSheet.create({
         borderColor: "#D3D3D3",
         backgroundColor: "D3D3D3",
         paddingTop: 10
-    },
-    textContainer: {
-        padding: 10,
-    },
-    text: {
-        padding: 10,
     }
 })
 

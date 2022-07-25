@@ -21,13 +21,28 @@ router.get('/', (req, res) => {
 })
 
 // Get housing by ID
-router.get('/:id', (req, res) => {
-    const query = `SELECT * FROM Housing WHERE id=${req.params.id}`;
+// router.get('/:id', (req, res) => {
+//     const query = `SELECT * FROM Housing WHERE id=${req.params.id}`;
+//     db(client => {
+//         client.query(query, (err, result) => {
+//             if(!err && result.length) {
+//                 res.send(result);
+//             } else {
+//                 res.status(404).send('Housing not found.');
+//             }
+//         })
+//     });
+// })
+
+// Get housing by Email
+router.get('/:email', (req, res) => {
+    const query = `SELECT * FROM BirdNest.Housing JOIN BirdNest.User ON User.id = Housing.User_id WHERE User.email= "${req.params.email}";`;
     db(client => {
         client.query(query, (err, result) => {
             if(!err && result.length) {
                 res.send(result);
             } else {
+                console.log("nope");
                 res.status(404).send('Housing not found.');
             }
         })
