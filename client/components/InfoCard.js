@@ -15,7 +15,6 @@ const InfoCard  = ({ mode, style, ...props }) => {
 const styles = StyleSheet.create({
     card: {
         flex: 1,
-        marginTop: -65,
         width: "120%",
         height: "auto",
         backgroundColor: theme.colors.surface,

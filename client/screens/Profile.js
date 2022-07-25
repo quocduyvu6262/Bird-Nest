@@ -19,7 +19,6 @@ import InfoCard from "../components/InfoCard";
 import Footer from "../components/Footer.js";
 import * as SecureStore from 'expo-secure-store';
 import Axios from "axios";
-import { ResponseType } from "expo-auth-session";
 
 const Profile = ({ navigation }) => {
 
@@ -28,6 +27,7 @@ const Profile = ({ navigation }) => {
   const [lease, setLease] = useState();
   const [city, setCity] = useState();
   const [buttonClicked, setButtonClicked] = useState(false);
+  const [interestButtonClicked, setInterestButtonClicked] = useState(false);
   const MY_SECURE_AUTH_STATE_KEY = 'MySecureAuthStateKey';
 
   // Logout 
@@ -76,6 +76,9 @@ const Profile = ({ navigation }) => {
   const bioButton = () => {
     setButtonClicked(false);
   };
+  const interestButton = () => {
+    interestButtonClicked ? setInterestButtonClicked(false) : setInterestButtonClicked(true);
+  }
   // return screen
   return (
     <ScrollView>
@@ -95,14 +98,22 @@ const Profile = ({ navigation }) => {
         </View>
 
         <InfoCard>
-        {!buttonClicked && (
-          <Text style = {{ fontSize: 20,}} 
-          >Bio success</Text>
-        )}
+        {!buttonClicked && <BioInfo></BioInfo>}
 
-        {buttonClicked && <RentInfo rentInfo={rent} leaseInfo={lease} cityInfo={city}/>}
+        {buttonClicked && <RentInfo rent={rent} lease={lease} city={city}/>}
         </InfoCard>
 
+        <Button 
+            color="black"
+            onPress = {interestButton}>See Interests/Personality</Button>
+
+        {interestButtonClicked && 
+          <InfoCard>
+            <InterestInfo></InterestInfo>
+          </InfoCard>
+        }
+
+        
         <Button style = {styles.logoutButton}
         onPress={()=>{
           logout();
@@ -115,31 +126,49 @@ const Profile = ({ navigation }) => {
   );
 };
 
-
+// Bio
+const BioInfo = props => {
+  return (
+    <View style={styles.subContainer}>
+      <Text style={styles.text}>Hi, I am Duy, an incoming senior at UCSD. I love playing piano and watching movies while working.</Text>
+    </View>
+  )
+}
 
 // Rent Info
 const RentInfo = props => {
   return(
-    <View style={styles.textContainer}>
-      <Text style={styles.text}><Text style={{fontWeight: "bold"}}> Rent:</Text>  ${props.rentInfo}</Text>
-      <Text style={styles.text}><Text style={{fontWeight: "bold"}}> Lease Term:</Text>  {props.leaseInfo} months</Text>
-      <Text style={styles.text}><Text style={{fontWeight: "bold"}}> City:</Text>  {props.cityInfo}</Text>
+    <View style={styles.subContainer}>
+      <Text style={styles.text}><Text style={{fontWeight: "bold"}}> Rent:</Text>  ${props.rent}</Text>
+      <Text style={styles.text}><Text style={{fontWeight: "bold"}}> Lease Term:</Text>  {props.lease} months</Text>
+      <Text style={styles.text}><Text style={{fontWeight: "bold"}}> City:</Text>  {props.city}</Text>
     </View> 
   )
 }
+// Interest Info
+const InterestInfo = props => {
+  return (
+    <View style={styles.subContainer}>
+      <Text style={styles.text}>Ice cream</Text>
+      <Text style={styles.text}>Drink</Text>
+      <Text style={styles.text}>Boba</Text>
+      <Text style={styles.text}>Movie</Text>
+    </View>
+  )
+}
+
+
 
 const styles = StyleSheet.create({
   buttonContainer:{
     flex: 1,
     flexDirection: 'row',
-    paddingTop: "-30%",
-    padding: 55
   },
   logoutButton: {
     flex: 1,
     bottom: 12,
   },
-  textContainer: {
+  subContainer: {
     padding: 10,
   },
   text: {
