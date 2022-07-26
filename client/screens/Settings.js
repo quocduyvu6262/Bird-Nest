@@ -19,7 +19,7 @@ const Settings = ({ navigation }) => {
   const logout = () => {
     SecureStore.deleteItemAsync(MY_SECURE_AUTH_STATE_KEY)
       .then(() => {
-        navigation.navigate("LoginScreen");
+        navigation.replace("LoginScreen");
       })
       .catch((err) => console.log(err));
   };

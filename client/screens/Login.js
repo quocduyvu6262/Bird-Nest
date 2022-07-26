@@ -42,6 +42,8 @@ const LoginScreen = ({navigation}) => {
     return Axios.get(`http://localhost:3000/api/housings/${data.email}`).then((res) => {
       let houseInfo = res.data[0];
       return houseInfo;
+    }).catch(err => {
+      console.log(err);
     });
   }
 
@@ -54,9 +56,11 @@ const LoginScreen = ({navigation}) => {
       navigation.navigate("BirdFeed");
       // if(accessToken){
       //   fetchUser().then((houseInfo) => {
-      //     console.log(houseInfo);
-      //     SecureStore.setItemAsync(MY_SECURE_AUTH_STATE_KEY,JSON.stringify(houseInfo));
-      //     navigation.navigate("BirdFeed");
+      //     // console.log(houseInfo);
+      //     if(houseInfo){
+      //       SecureStore.setItemAsync(MY_SECURE_AUTH_STATE_KEY,JSON.stringify(houseInfo));
+      //       navigation.navigate("BirdFeed");
+      //     }
       //   });
       // }
     }
