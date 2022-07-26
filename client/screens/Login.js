@@ -11,6 +11,7 @@ import Paragraph from '../components/Paragraph'
 import * as Google from 'expo-auth-session/providers/google';
 import * as WebBrowser from 'expo-web-browser';
 import * as SecureStore from 'expo-secure-store';
+const MY_SECURE_AUTH_STATE_KEY = "MySecureAuthStateKey";
 
 // Axios
 import Axios from 'axios';
@@ -20,12 +21,13 @@ WebBrowser.maybeCompleteAuthSession();
 const LoginScreen = ({navigation}) => {
 
   // execute google login
-  const MY_SECURE_AUTH_STATE_KEY = "MySecureAuthStateKey";
+  
   const [accessToken, setAccessToken] = useState(null);
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId: "314578595226-3pfqh454mrmhneevoetc6ensm0blsa4a.apps.googleusercontent.com",
     androidClientId: "",
-    iosClientId: ""
+    iosClientId: "",
+    selectAccount: true,
   });
 
   // fetch user info

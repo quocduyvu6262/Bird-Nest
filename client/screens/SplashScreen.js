@@ -7,6 +7,9 @@ import Login from '../screens/Login.js';
 
 import Logo from '../assets/bird.png';
 
+const MY_SECURE_AUTH_STATE_KEY = 'MySecureAuthStateKey';
+
+
 export default function SplashScreen({navigation}) {
 
     const edges = useSafeAreaInsets();
@@ -26,7 +29,6 @@ export default function SplashScreen({navigation}) {
     const contentTransition = useRef(new Animated.Value(Dimensions.get('window').height)).current;
 
     const checkLoginState = async () => {
-        const MY_SECURE_AUTH_STATE_KEY = 'MySecureAuthStateKey';
         // retrieve the value of the token
         const userToken = await SecureStore.getItemAsync(MY_SECURE_AUTH_STATE_KEY);
         

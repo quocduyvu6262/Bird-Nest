@@ -20,6 +20,13 @@ import Footer from "../components/Footer.js";
 import * as SecureStore from 'expo-secure-store';
 import Axios from "axios";
 
+// Google sign in
+import * as Google from 'expo-auth-session/providers/google';
+import AuthSession, { revokeAsync } from 'expo-auth-session';
+import * as WebBrowser from 'expo-web-browser';
+const MY_SECURE_AUTH_STATE_KEY = "MySecureAuthStateKey";
+
+
 const Profile = ({ navigation }) => {
   // const [houseInfo, setHouseInfo] = useState(null);
   const [name, setName] = useState();
@@ -28,15 +35,15 @@ const Profile = ({ navigation }) => {
   const [city, setCity] = useState();
   const [buttonClicked, setButtonClicked] = useState(false);
   const [interestButtonClicked, setInterestButtonClicked] = useState(false);
-  const MY_SECURE_AUTH_STATE_KEY = 'MySecureAuthStateKey';
 
   // Logout 
-  const logout = () => {
+  const logout = async () => {
+
     SecureStore.deleteItemAsync(MY_SECURE_AUTH_STATE_KEY)
-        .then(() => {
-          navigation.replace("LoginScreen");
-        })
-        .catch(err => console.log(err));
+      .then(() => {
+        navigation.replace("LoginScreen");
+      })
+      .catch(err => console.log(err));
   }
 
   // Get User from Google Token
