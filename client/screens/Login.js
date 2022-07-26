@@ -11,8 +11,10 @@ import Paragraph from '../components/Paragraph'
 import * as Google from 'expo-auth-session/providers/google';
 import * as WebBrowser from 'expo-web-browser';
 import * as SecureStore from 'expo-secure-store';
-import {IOS_GOOGLE_CLIENT_ID} from "@env";
-import {MY_SECURE_AUTH_STATE_KEY} from "@env";
+// import {IOS_GOOGLE_CLIENT_ID} from "@env";
+// import {MY_SECURE_AUTH_STATE_KEY} from "@env";
+const MY_SECURE_AUTH_STATE_KEY="MySecureAuthStateKey";
+const IOS_GOOGLE_CLIENT_ID = "314578595226-3pfqh454mrmhneevoetc6ensm0blsa4a.apps.googleusercontent.com"
 // Axios
 import Axios from 'axios';
 
@@ -40,6 +42,8 @@ const LoginScreen = ({navigation}) => {
     return Axios.get(`http://localhost:3000/api/housings/${data.email}`).then((res) => {
       let houseInfo = res.data[0];
       return houseInfo;
+    }).catch(err => {
+      console.log(err);
     });
   }
 
@@ -48,12 +52,17 @@ const LoginScreen = ({navigation}) => {
   React.useEffect(() => {
     if (response?.type === 'success') {
       setAccessToken(response.authentication.accessToken);
-      if(accessToken){
-        fetchUser().then((houseInfo) => {
-          SecureStore.setItemAsync(MY_SECURE_AUTH_STATE_KEY,JSON.stringify(houseInfo));
-          navigation.navigate("BirdFeed");
-        });
-      }
+      SecureStore.setItemAsync(MY_SECURE_AUTH_STATE_KEY,JSON.stringify(accessToken));
+      navigation.navigate("BirdFeed");
+      // if(accessToken){
+      //   fetchUser().then((houseInfo) => {
+      //     // console.log(houseInfo);
+      //     if(houseInfo){
+      //       SecureStore.setItemAsync(MY_SECURE_AUTH_STATE_KEY,JSON.stringify(houseInfo));
+      //       navigation.navigate("BirdFeed");
+      //     }
+      //   });
+      // }
     }
   }, [response, accessToken]);
 
