@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -50,7 +50,7 @@ const Profile = ({ navigation }) => {
   // Use Effect
   useEffect(() => {
     fetchHousingInfo();
-  },[]);
+  }, []);
 
   const roomInfoButton = () => {
     setButtonClicked(true);
@@ -59,51 +59,61 @@ const Profile = ({ navigation }) => {
     setButtonClicked(false);
   };
   const interestButton = () => {
-    interestButtonClicked ? setInterestButtonClicked(false) : setInterestButtonClicked(true);
-  }
+    interestButtonClicked
+      ? setInterestButtonClicked(false)
+      : setInterestButtonClicked(true);
+  };
   // return screen
   return (
-    <ScrollView>
-      <Background>
-        <UserCard name={name}
-        image = {Tony}/>
+    <SafeAreaView style={styles.container}>
+      <MainHeader screen="Profile" navigation={navigation} />
+      <ScrollView>
+        <Background>
+          <UserCard name={name} image={Tony} />
 
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity>
-            <Button 
-            color="black"
-            onPress = {bioButton}>Bio</Button>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Button 
-            color="black"
-            onPress = {roomInfoButton}>Room Info</Button>
-          </TouchableOpacity>
-        </View>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity>
+              <Button color="black" onPress={bioButton}>
+                Bio
+              </Button>
+            </TouchableOpacity>
 
-        <InfoCard>
-        {!buttonClicked && <BioInfo></BioInfo>}
+            <TouchableOpacity>
+              <Button color="black" onPress={roomInfoButton}>
+                Room Info
+              </Button>
+            </TouchableOpacity>
+          </View>
 
-        {buttonClicked && <RentInfo rent={rent} lease={lease} city={city}/>}
-        </InfoCard>
-
-        <Button 
-            color="black"
-            onPress = {interestButton}>See Interests/Personality</Button>
-
-        {interestButtonClicked && 
           <InfoCard>
-            <InterestInfo></InterestInfo>
-          </InfoCard>
-        }
-        
-        <Button style = {styles.logoutButton}
-        onPress={()=>{
-          navigation.navigate('Settings');
-        }}>Settings</Button>
+            {!buttonClicked && <BioInfo></BioInfo>}
 
-      </Background>
-    </ScrollView>
+            {buttonClicked && (
+              <RentInfo rent={rent} lease={lease} city={city} />
+            )}
+          </InfoCard>
+
+          <Button color="black" onPress={interestButton}>
+            See Interests/Personality
+          </Button>
+
+          {interestButtonClicked && (
+            <InfoCard>
+              <InterestInfo></InterestInfo>
+            </InfoCard>
+          )}
+
+          <Button
+            style={styles.logoutButton}
+            onPress={() => {
+              navigation.navigate("Settings");
+            }}
+          >
+            Settings
+          </Button>
+        </Background>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -165,8 +175,8 @@ const styles = StyleSheet.create({
   },
   text: {
     padding: 10,
-    fontSize: 20
-  }
+    fontSize: 20,
+  },
 });
 
 export default Profile;
