@@ -33,30 +33,19 @@ const Profile = ({ navigation }) => {
   const [interestButtonClicked, setInterestButtonClicked] = useState(false);
 
   // Get User from Google Token
-
   const fetchHousingInfo = async () => {
-    let secureStoreData = null;
-    let accessToken = null;
-    secureStoreData = await SecureStore.getItemAsync(MY_SECURE_AUTH_STATE_KEY);
-    secureStoreData = JSON.parse(secureStoreData);
-    accessToken = secureStoreData.access_token;
-    let userInfoRes = await fetch("https://www.googleapis.com/userinfo/v2/me", {
-      headers: {
-          Authorization: `Bearer ${accessToken}`
-      }
-    });
-
-    userInfoRes.json().then(data => {
-      // setUser(data);
-      Axios.get(`http://localhost:3000/api/housings/${data.email}`,).then((res) => {
-        let houseInfo = res.data[0];
+    let houseInfo = null;
+    houseInfo = SecureStore.getItemAsync(MY_SECURE_AUTH_STATE_KEY).then(data => {
+      let houseInfo = JSON.parse(data);
+      if(houseInfo){
         setName(houseInfo.fullname);
         setRent(houseInfo.rent);
         setLease(houseInfo.lease);
         setCity(houseInfo.city);
-      }).catch(err => console.log(err));
-    })
+      }
+    });
   }
+
   
   // Use Effect
   useEffect(() => {
