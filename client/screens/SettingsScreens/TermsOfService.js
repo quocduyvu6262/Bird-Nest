@@ -1,11 +1,13 @@
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image, SafeAreaView} from "react-native";
 import React from "react";
+import MainHeader from "../../components/MainHeader";
 
-const TermsOfService = () => {
+const TermsOfService = ({navigation}) => {
     return(
-        <View style={TermsOfService_Styles.container}>
+        <SafeAreaView style={TermsOfService_Styles.container}>
+            <MainHeader screen="Terms of Service" navigation={navigation} />
             <Text>Terms Of Services Page</Text>
-        </View>
+        </SafeAreaView>
     )
 }
 const TermsOfService_Styles = StyleSheet.create({

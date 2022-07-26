@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "react-native-dotenv": "^3.3.1"
+  }
+}

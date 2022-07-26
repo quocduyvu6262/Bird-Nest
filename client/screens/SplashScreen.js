@@ -28,7 +28,7 @@ export default function SplashScreen({navigation}) {
     const checkLoginState = async () => {
         // retrieve the value of the token
         const userToken = await SecureStore.getItemAsync(MY_SECURE_AUTH_STATE_KEY);
-        
+        // console.log(MY_SECURE_AUTH_STATE_KEY)
         // navigate to the app screen if a token is present
         // else navigate to the auth screen
         setTimeout(() => {

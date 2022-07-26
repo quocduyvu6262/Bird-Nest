@@ -19,7 +19,6 @@ import Axios from 'axios';
 WebBrowser.maybeCompleteAuthSession();
 
 const LoginScreen = ({navigation}) => {
-
   // execute google login
   const [accessToken, setAccessToken] = useState(null);
   const [request, response, promptAsync] = Google.useAuthRequest({
@@ -51,6 +50,7 @@ const LoginScreen = ({navigation}) => {
       if(accessToken){
         fetchUser().then((houseInfo) => {
           SecureStore.setItemAsync(MY_SECURE_AUTH_STATE_KEY,JSON.stringify(houseInfo));
+          console.log("Haha poopy")
           navigation.navigate("BirdFeed");
         });
       }
