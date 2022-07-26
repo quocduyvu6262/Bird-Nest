@@ -1,6 +1,7 @@
 import React, {useState, useSateIf} from 'react';
 import {StyleSheet, View, Text, Button} from 'react-native';
 import * as SecureStore from 'expo-secure-store';
+import {MY_SECURE_AUTH_STATE_KEY} from "env";
 
 const HomeScreen = navData => {
     const [name, setName] = useState(null);
@@ -19,7 +20,6 @@ const HomeScreen = navData => {
 
     // Logout
     const logout = props => {
-        const MY_SECURE_AUTH_STATE_KEY = 'MySecureAuthStateKey';
         SecureStore.deleteItemAsync(MY_SECURE_AUTH_STATE_KEY)
             .then(() => {
                 props.navigation.replace('Login')

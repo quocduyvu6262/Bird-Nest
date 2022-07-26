@@ -24,33 +24,33 @@ const Settings = ({ navigation }) => {
       .catch((err) => console.log(err));
   };
   return (
-    <View style={Settings_Styles.container}>
+    <View style={styles.container}>
       <MainHeader screen="Settings" navigation={navigation} />
       <TouchableOpacity
-        style={Settings_Styles.regularButton}
+        style={styles.regularButton}
         onPress={() => {
           navigation.navigate("ChirpNotificationEdit");
         }}
       >
-        <Text style={Settings_Styles.textButton}>Chirp Notifications</Text>
+        <Text style={styles.textButton}>Chirp Notifications</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
-        style={Settings_Styles.regularButton}
+        style={styles.regularButton}
         onPress={() => navigation.navigate("HelpSupport")}
       >
-        <Text style={Settings_Styles.textButton}>Help & Support</Text>
+        <Text style={styles.textButton}>Help & Support</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
-        style={Settings_Styles.regularButton}
+        style={styles.regularButton}
         onPress={() => navigation.navigate("TermsOfService")}
       >
-        <Text style={Settings_Styles.textButton}>Terms of service</Text>
+        <Text style={styles.textButton}>Terms of service</Text>
       </TouchableOpacity>
 
       <Buttons
-        style={Settings_Styles.logoutButton}
+        style={styles.logoutButton}
         onPress={() => {
           logout();
         }}
@@ -58,13 +58,13 @@ const Settings = ({ navigation }) => {
         Logout
       </Buttons>
 
-      <TouchableOpacity style={Settings_Styles.deleteButton}>
-        <Text style={Settings_Styles.textButton}>Delete Profile</Text>
+      <TouchableOpacity style={styles.deleteButton}>
+        <Text style={styles.textButton}>Delete Profile</Text>
       </TouchableOpacity>
     </View>
   );
 };
-const Settings_Styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",

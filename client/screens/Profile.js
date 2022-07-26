@@ -22,6 +22,7 @@ import * as SecureStore from "expo-secure-store";
 import Axios from "axios";
 import MainHeader from "../components/MainHeader";
 import Tony from "../assets/tony.png";
+import {MY_SECURE_AUTH_STATE_KEY} from "@env"
 
 const Profile = ({ navigation }) => {
   const [name, setName] = useState();
@@ -30,36 +31,22 @@ const Profile = ({ navigation }) => {
   const [city, setCity] = useState();
   const [buttonClicked, setButtonClicked] = useState(false);
   const [interestButtonClicked, setInterestButtonClicked] = useState(false);
-  const MY_SECURE_AUTH_STATE_KEY = "MySecureAuthStateKey";
 
   // Get User from Google Token
-
   const fetchHousingInfo = async () => {
-    let secureStoreData = null;
-    let accessToken = null;
-    secureStoreData = await SecureStore.getItemAsync(MY_SECURE_AUTH_STATE_KEY);
-    secureStoreData = JSON.parse(secureStoreData);
-    accessToken = secureStoreData.access_token;
-    let userInfoRes = await fetch("https://www.googleapis.com/userinfo/v2/me", {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
+    let houseInfo = null;
+    houseInfo = SecureStore.getItemAsync(MY_SECURE_AUTH_STATE_KEY).then(data => {
+      let houseInfo = JSON.parse(data);
+      if(houseInfo){
+        setName(houseInfo.fullname);
+        setRent(houseInfo.rent);
+        setLease(houseInfo.lease);
+        setCity(houseInfo.city);
+      }
     });
+  }
 
-    userInfoRes.json().then((data) => {
-      // setUser(data);
-      Axios.get(`http://localhost:3000/api/housings/${data.email}`)
-        .then((res) => {
-          let houseInfo = res.data[0];
-          setName(houseInfo.fullname);
-          setRent(houseInfo.rent);
-          setLease(houseInfo.lease);
-          setCity(houseInfo.city);
-        })
-        .catch((err) => console.log(err));
-    });
-  };
-
+  
   // Use Effect
   useEffect(() => {
     fetchHousingInfo();
@@ -78,13 +65,13 @@ const Profile = ({ navigation }) => {
   };
   // return screen
   return (
-    <SafeAreaView style={Profile_styles.container}>
+    <SafeAreaView style={styles.container}>
       <MainHeader screen="Profile" navigation={navigation} />
       <ScrollView>
         <Background>
           <UserCard name={name} image={Tony} />
 
-          <View style={Profile_styles.buttonContainer}>
+          <View style={styles.buttonContainer}>
             <TouchableOpacity>
               <Button color="black" onPress={bioButton}>
                 Bio
@@ -117,7 +104,7 @@ const Profile = ({ navigation }) => {
           )}
 
           <Button
-            style={Profile_styles.logoutButton}
+            style={styles.logoutButton}
             onPress={() => {
               navigation.navigate("Settings");
             }}
@@ -133,8 +120,8 @@ const Profile = ({ navigation }) => {
 // Bio
 const BioInfo = (props) => {
   return (
-    <View style={Profile_styles.subContainer}>
-      <Text style={Profile_styles.text}>
+    <View style={styles.subContainer}>
+      <Text style={styles.text}>
         Hi, I am Duy, an incoming senior at UCSD. I love playing piano and
         watching movies while working.
       </Text>
@@ -145,15 +132,15 @@ const BioInfo = (props) => {
 // Rent Info
 const RentInfo = (props) => {
   return (
-    <View style={Profile_styles.subContainer}>
-      <Text style={Profile_styles.text}>
+    <View style={styles.subContainer}>
+      <Text style={styles.text}>
         <Text style={{ fontWeight: "bold" }}> Rent:</Text> ${props.rent}
       </Text>
-      <Text style={Profile_styles.text}>
+      <Text style={styles.text}>
         <Text style={{ fontWeight: "bold" }}> Lease Term:</Text> {props.lease}{" "}
         months
       </Text>
-      <Text style={Profile_styles.text}>
+      <Text style={styles.text}>
         <Text style={{ fontWeight: "bold" }}> City:</Text> {props.city}
       </Text>
     </View>
@@ -162,16 +149,16 @@ const RentInfo = (props) => {
 // Interest Info
 const InterestInfo = (props) => {
   return (
-    <View style={Profile_styles.subContainer}>
-      <Text style={Profile_styles.text}>Ice cream</Text>
-      <Text style={Profile_styles.text}>Drink</Text>
-      <Text style={Profile_styles.text}>Boba</Text>
-      <Text style={Profile_styles.text}>Movie</Text>
+    <View style={styles.subContainer}>
+      <Text style={styles.text}>Ice cream</Text>
+      <Text style={styles.text}>Drink</Text>
+      <Text style={styles.text}>Boba</Text>
+      <Text style={styles.text}>Movie</Text>
     </View>
   );
 };
 
-const Profile_styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
