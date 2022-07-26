@@ -88,11 +88,11 @@ router.post('/loginwithgoogle', async (req, res) => {
             client.query(checkExistQuery, (err, result) => {
                 if(result.length){
                     // console.log( "User found successfully.");
-                    res.status(200).send();
+                    res.send('login');
                 } else {
                     db(client => {
                         client.query(query, err => {
-                            res.send(`Login successfully`);
+                            res.send('register');
                         });
                     });
                 }

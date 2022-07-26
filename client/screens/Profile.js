@@ -22,7 +22,8 @@ import * as SecureStore from "expo-secure-store";
 import Axios from "axios";
 import MainHeader from "../components/MainHeader";
 import Tony from "../assets/tony.png";
-import {MY_SECURE_AUTH_STATE_KEY} from "@env"
+// import {MY_SECURE_AUTH_STATE_KEY} from "@env"
+const MY_SECURE_AUTH_STATE_KEY = "MySecureAuthStateKey"
 
 
 
@@ -37,7 +38,7 @@ const Profile = ({ navigation }) => {
   // Get User from Google Token
   const fetchHousingInfo = async () => {
     let houseInfo = null;
-    houseInfo = SecureStore.getItemAsync(`${MY_SECURE_AUTH_STATE_KEY}`).then(data => {
+    houseInfo = SecureStore.getItemAsync(MY_SECURE_AUTH_STATE_KEY).then(data => {
       let houseInfo = JSON.parse(data);
       if(houseInfo){
         setName(houseInfo.fullname);
