@@ -50,12 +50,15 @@ const LoginScreen = ({navigation}) => {
   React.useEffect(() => {
     if (response?.type === 'success') {
       setAccessToken(response.authentication.accessToken);
-      if(accessToken){
-        fetchUser().then((houseInfo) => {
-          SecureStore.setItemAsync(MY_SECURE_AUTH_STATE_KEY,JSON.stringify(houseInfo));
-          navigation.navigate("BirdFeed");
-        });
-      }
+      SecureStore.setItemAsync(MY_SECURE_AUTH_STATE_KEY,JSON.stringify(accessToken));
+      navigation.navigate("BirdFeed");
+      // if(accessToken){
+      //   fetchUser().then((houseInfo) => {
+      //     console.log(houseInfo);
+      //     SecureStore.setItemAsync(MY_SECURE_AUTH_STATE_KEY,JSON.stringify(houseInfo));
+      //     navigation.navigate("BirdFeed");
+      //   });
+      // }
     }
   }, [response, accessToken]);
 
