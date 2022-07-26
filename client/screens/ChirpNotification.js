@@ -14,14 +14,14 @@ import MainHeader from "../components/MainHeader.js";
 
 const ChirpNotification = ({ navigation }) => {
   return (
-    <SafeAreaView style={Chirp_Notification_styles.container}>
+    <SafeAreaView style={styles.container}>
       <MainHeader screen="Chirp Notifications" navigation={navigation} />
       <Text>Chirp Notification</Text>
       <Text>W.I.P.</Text>
     </SafeAreaView>
   );
 };
-const Chirp_Notification_styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,

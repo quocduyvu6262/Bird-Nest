@@ -4,8 +4,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import AuthLoading from '../screens/AuthLoading.js';
 import * as SecureStore from 'expo-secure-store';
 import Login from '../screens/Login.js';
-
 import Logo from '../assets/bird.png';
+import {MY_SECURE_AUTH_STATE_KEY} from "@env";
 
 export default function SplashScreen({navigation}) {
 
@@ -26,7 +26,6 @@ export default function SplashScreen({navigation}) {
     const contentTransition = useRef(new Animated.Value(Dimensions.get('window').height)).current;
 
     const checkLoginState = async () => {
-        const MY_SECURE_AUTH_STATE_KEY = 'MySecureAuthStateKey';
         // retrieve the value of the token
         const userToken = await SecureStore.getItemAsync(MY_SECURE_AUTH_STATE_KEY);
         

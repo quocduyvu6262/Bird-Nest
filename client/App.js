@@ -33,8 +33,7 @@ import { CardStyleInterpolators } from "@react-navigation/stack";
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-// import check login key
-const MY_SECURE_AUTH_STATE_KEY = "MySecureAuthStateKey";
+
 
 const TabNavigator = () => {
   return (
