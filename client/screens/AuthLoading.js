@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
 import * as SecureStore from "expo-secure-store";
 import { View, Text } from "react-native";
+import {MY_SECURE_AUTH_STATE_KEY} from "@env";
 
 const AuthLoading = ({ navigation }) => {
   const checkLoginState = async () => {
-    const MY_SECURE_AUTH_STATE_KEY = "MySecureAuthStateKey";
+    
     // retrieve the value of the token
     const userToken = await SecureStore.getItemAsync(MY_SECURE_AUTH_STATE_KEY);
 

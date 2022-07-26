@@ -7,7 +7,7 @@ import Login from '../screens/Login.js';
 
 import Logo from '../assets/bird.png';
 
-const MY_SECURE_AUTH_STATE_KEY = 'MySecureAuthStateKey';
+import {MY_SECURE_AUTH_STATE_KEY} from "@env";
 
 
 export default function SplashScreen({navigation}) {

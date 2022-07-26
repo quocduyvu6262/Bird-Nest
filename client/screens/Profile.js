@@ -24,7 +24,7 @@ import Axios from "axios";
 import * as Google from 'expo-auth-session/providers/google';
 import AuthSession, { revokeAsync } from 'expo-auth-session';
 import * as WebBrowser from 'expo-web-browser';
-const MY_SECURE_AUTH_STATE_KEY = "MySecureAuthStateKey";
+import {MY_SECURE_AUTH_STATE_KEY} from "@env";
 
 
 const Profile = ({ navigation }) => {

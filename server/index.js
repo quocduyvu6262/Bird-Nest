@@ -20,7 +20,6 @@ app.use('/api/history', historyRoutes);
 
 
 
-
 // Run app
 const port = process.env.PORT || 3000;
 app.listen(port, () => {

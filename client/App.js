@@ -28,8 +28,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-// import check login key
-const MY_SECURE_AUTH_STATE_KEY = process.env.MY_SECURE_AUTH_STATE_KEY;
+
 
 const TabNavigator = () => {
   return (
@@ -42,7 +41,6 @@ const TabNavigator = () => {
 };
 
 export default function App() {
-  console.log(MY_SECURE_AUTH_STATE_KEY);
   return (
     <NavigationContainer>
       <Stack.Navigator
