@@ -14,6 +14,7 @@ import History from "./screens/History.js";
 import LoginScreen from "./screens/Login.js";
 import AuthLoading from "./screens/AuthLoading.js";
 import WelcomeScreen from "./screens/WelcomeScreen.js";
+import IDQs from "./screens/IDQs.js";
 
 // Stack and Tab Navigation
 import { NavigationContainer } from "@react-navigation/native";
@@ -39,7 +40,8 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="AuthLoading"
+      //change back default to "AuthLoading" after testing
+        initialRouteName="IDQs"
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
@@ -48,6 +50,7 @@ export default function App() {
         <Stack.Screen name="BirdFeed" component={TabNavigator} />
         <Stack.Screen name="ChirpNotification" component={ChirpNotification} />
         <Stack.Screen name="History" component={History} />
+        <Stack.Screen name="IDQs" component={IDQs} />
       </Stack.Navigator>
     </NavigationContainer>
   );
