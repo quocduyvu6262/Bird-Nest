@@ -11,8 +11,10 @@ import Paragraph from '../components/Paragraph'
 import * as Google from 'expo-auth-session/providers/google';
 import * as WebBrowser from 'expo-web-browser';
 import * as SecureStore from 'expo-secure-store';
-import {IOS_GOOGLE_CLIENT_ID} from "@env";
-import {MY_SECURE_AUTH_STATE_KEY} from "@env";
+// import {IOS_GOOGLE_CLIENT_ID} from "@env";
+// import {MY_SECURE_AUTH_STATE_KEY} from "@env";
+const MY_SECURE_AUTH_STATE_KEY="MySecureAuthStateKey";
+const IOS_GOOGLE_CLIENT_ID = "314578595226-3pfqh454mrmhneevoetc6ensm0blsa4a.apps.googleusercontent.com"
 // Axios
 import Axios from 'axios';
 

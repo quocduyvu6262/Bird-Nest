@@ -5,7 +5,9 @@ import AuthLoading from '../screens/AuthLoading.js';
 import * as SecureStore from 'expo-secure-store';
 import Login from '../screens/Login.js';
 import Logo from '../assets/bird.png';
-import {MY_SECURE_AUTH_STATE_KEY} from "@env";
+// import {MY_SECURE_AUTH_STATE_KEY} from "@env";
+const MY_SECURE_AUTH_STATE_KEY = "MySecureAuthStateKey"
+// const IOS_GOOGLE_CLIENT_ID = "314578595226-3pfqh454mrmhneevoetc6ensm0blsa4a.apps.googleusercontent.com";
 
 export default function SplashScreen({navigation}) {
 
