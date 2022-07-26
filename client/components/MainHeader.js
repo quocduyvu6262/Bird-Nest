@@ -1,3 +1,6 @@
+// USAGE if no extra header buttons: <MainHeader screen="Screen name with spaces in between" navigation={navigation} />
+// if there are extra buttons, talk to Deondre
+
 import {
   View,
   Text,
@@ -118,11 +121,13 @@ const Main_Header_styles = StyleSheet.create({
     fontSize: 30,
     left: 25,
     color: "#219EBC",
+    // color: "#560CCE",
     fontFamily: "Pacifico_400Regular",
   },
   headerTextNoIcons: {
     flex: 1,
     fontSize: 30,
+    // color: "#560CCE",
     color: "#219EBC",
     textAlign: "center",
     fontFamily: "Pacifico_400Regular",
