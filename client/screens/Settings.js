@@ -5,6 +5,7 @@ import {
   View,
   TouchableOpacity,
   StatusBar,
+  SafeAreaView,
 } from "react-native";
 import Buttons from "../components/Button";
 import * as SecureStore from "expo-secure-store";
@@ -24,7 +25,7 @@ const Settings = ({ navigation }) => {
       .catch((err) => console.log(err));
   };
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <MainHeader screen="Settings" navigation={navigation} />
       <TouchableOpacity
         style={styles.regularButton}
@@ -61,7 +62,7 @@ const Settings = ({ navigation }) => {
       <TouchableOpacity style={styles.deleteButton}>
         <Text style={styles.textButton}>Delete Profile</Text>
       </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   );
 };
 const styles = StyleSheet.create({

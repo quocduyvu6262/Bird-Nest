@@ -105,15 +105,6 @@ const Profile = ({ navigation }) => {
               <InterestInfo></InterestInfo>
             </InfoCard>
           )}
-
-          <Button
-            style={styles.logoutButton}
-            onPress={() => {
-              navigation.navigate("Settings");
-            }}
-          >
-            Settings
-          </Button>
         </Background>
       </ScrollView>
     </SafeAreaView>
