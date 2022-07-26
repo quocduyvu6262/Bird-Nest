@@ -20,6 +20,10 @@ import ChirpNotification from "./screens/ChirpNotification.js";
 import History from "./screens/History.js";
 import LoginScreen from "./screens/Login.js";
 import AuthLoading from "./screens/AuthLoading.js";
+import Settings from "./screens/Settings.js";
+import ChirpNotificationEdit from "./screens/SettingsScreens/ChirpNotificationEdit.js";
+import HelpSupport from "./screens/SettingsScreens/HelpSupport.js";
+import TermsOfService from "./screens/SettingsScreens/TermsOfService.js";
 
 // Stack and Tab Navigation
 import { NavigationContainer } from "@react-navigation/native";
@@ -52,6 +56,10 @@ export default function App() {
         <Stack.Screen name="SplashScreen" component={SplashScreen} />
         <Stack.Screen name="LoginScreen" component={LoginScreen} />
         <Stack.Screen name="BirdFeed" component={TabNavigator} />
+        <Stack.Screen name="Settings" component={Settings} />
+        <Stack.Screen name="ChirpNotificationEdit" component={ChirpNotificationEdit}/>
+        <Stack.Screen name="HelpSupport" component={HelpSupport}/>
+        <Stack.Screen name="TermsOfService" component={TermsOfService}/>
         <Stack.Screen name="ChirpNotification" component={ChirpNotification} />
         <Stack.Screen
           name="History"

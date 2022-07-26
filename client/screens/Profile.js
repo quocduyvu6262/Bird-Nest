@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import {
   View,
   Text,
+  Image,
   SafeAreaView,
   TouchableOpacity,
   StyleSheet,
@@ -20,6 +21,7 @@ import Footer from "../components/Footer.js";
 import * as SecureStore from "expo-secure-store";
 import Axios from "axios";
 import MainHeader from "../components/MainHeader";
+import Tony from "../assets/tony.png";
 
 const Profile = ({ navigation }) => {
   const [name, setName] = useState();
@@ -29,15 +31,6 @@ const Profile = ({ navigation }) => {
   const [buttonClicked, setButtonClicked] = useState(false);
   const [interestButtonClicked, setInterestButtonClicked] = useState(false);
   const MY_SECURE_AUTH_STATE_KEY = "MySecureAuthStateKey";
-
-  // Logout
-  const logout = () => {
-    SecureStore.deleteItemAsync(MY_SECURE_AUTH_STATE_KEY)
-      .then(() => {
-        navigation.replace("LoginScreen");
-      })
-      .catch((err) => console.log(err));
-  };
 
   // Get User from Google Token
 
@@ -49,28 +42,26 @@ const Profile = ({ navigation }) => {
     accessToken = secureStoreData.access_token;
     let userInfoRes = await fetch("https://www.googleapis.com/userinfo/v2/me", {
       headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
+          Authorization: `Bearer ${accessToken}`
+      }
     });
 
-    userInfoRes.json().then((data) => {
+    userInfoRes.json().then(data => {
       // setUser(data);
-      Axios.get(`http://localhost:3000/api/housings/${data.email}`)
-        .then((res) => {
-          let houseInfo = res.data[0];
-          setName(houseInfo.fullname);
-          setRent(houseInfo.rent);
-          setLease(houseInfo.lease);
-          setCity(houseInfo.city);
-        })
-        .catch((err) => console.log(err));
-    });
-  };
-
+      Axios.get(`http://localhost:3000/api/housings/${data.email}`,).then((res) => {
+        let houseInfo = res.data[0];
+        setName(houseInfo.fullname);
+        setRent(houseInfo.rent);
+        setLease(houseInfo.lease);
+        setCity(houseInfo.city);
+      }).catch(err => console.log(err));
+    })
+  }
+  
   // Use Effect
   useEffect(() => {
     fetchHousingInfo();
-  }, []);
+  },[]);
 
   const roomInfoButton = () => {
     setButtonClicked(true);
@@ -79,59 +70,52 @@ const Profile = ({ navigation }) => {
     setButtonClicked(false);
   };
   const interestButton = () => {
-    interestButtonClicked
-      ? setInterestButtonClicked(false)
-      : setInterestButtonClicked(true);
-  };
+    interestButtonClicked ? setInterestButtonClicked(false) : setInterestButtonClicked(true);
+  }
   // return screen
   return (
-    <SafeAreaView style={Profile_styles.container}>
-      <ScrollView>
-        <MainHeader screen="Profile" navigation={navigation} />
-        <Background>
-          <UserCard name={name} />
-          <View style={Profile_styles.buttonContainer}>
-            <TouchableOpacity>
-              <Button color="black" onPress={bioButton}>
-                Bio
-              </Button>
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Button color="black" onPress={roomInfoButton}>
-                Room Info
-              </Button>
-            </TouchableOpacity>
-          </View>
+    <ScrollView>
+      <Background>
+        <UserCard name={name}
+        image = {Tony}/>
 
+        <View style={Profile_styles.buttonContainer}>
+          <TouchableOpacity>
+            <Button 
+            color="black"
+            onPress = {bioButton}>Bio</Button>
+          </TouchableOpacity>
+
+          <TouchableOpacity>
+            <Button 
+            color="black"
+            onPress = {roomInfoButton}>Room Info</Button>
+          </TouchableOpacity>
+        </View>
+
+        <InfoCard>
+        {!buttonClicked && <BioInfo></BioInfo>}
+
+        {buttonClicked && <RentInfo rent={rent} lease={lease} city={city}/>}
+        </InfoCard>
+
+        <Button 
+            color="black"
+            onPress = {interestButton}>See Interests/Personality</Button>
+
+        {interestButtonClicked && 
           <InfoCard>
-            {!buttonClicked && <BioInfo></BioInfo>}
-
-            {buttonClicked && (
-              <RentInfo rent={rent} lease={lease} city={city} />
-            )}
+            <InterestInfo></InterestInfo>
           </InfoCard>
+        }
+        
+        <Button style = {Profile_styles.logoutButton}
+        onPress={()=>{
+          navigation.navigate('Settings');
+        }}>Settings</Button>
 
-          <Button color="black" onPress={interestButton}>
-            See Interests/Personality
-          </Button>
-
-          {interestButtonClicked && (
-            <InfoCard>
-              <InterestInfo></InterestInfo>
-            </InfoCard>
-          )}
-
-          <Button
-            style={Profile_styles.logoutButton}
-            onPress={() => {
-              logout();
-            }}
-          >
-            Logout
-          </Button>
-        </Background>
-      </ScrollView>
-    </SafeAreaView>
+      </Background>
+    </ScrollView>
   );
 };
 
@@ -193,8 +177,8 @@ const Profile_styles = StyleSheet.create({
   },
   text: {
     padding: 10,
-    fontSize: 20,
-  },
+    fontSize: 20
+  }
 });
 
 export default Profile;
