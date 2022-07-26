@@ -6,10 +6,10 @@ import {
   InteractionManager,
   ActivityIndicator,
 } from "react-native";
-import Logo from './assets/bird.png';
+import Logo from "./assets/bird.png";
 
 import Axios from "axios";
-import * as SecureStore from 'expo-secure-store';
+import * as SecureStore from "expo-secure-store";
 
 //Import screens in nav bar
 import SplashScreen from "./screens/SplashScreen";
@@ -20,11 +20,16 @@ import ChirpNotification from "./screens/ChirpNotification.js";
 import History from "./screens/History.js";
 import LoginScreen from "./screens/Login.js";
 import AuthLoading from "./screens/AuthLoading.js";
+import Settings from "./screens/Settings.js";
+import ChirpNotificationEdit from "./screens/SettingsScreens/ChirpNotificationEdit.js";
+import HelpSupport from "./screens/SettingsScreens/HelpSupport.js";
+import TermsOfService from "./screens/SettingsScreens/TermsOfService.js";
 
 // Stack and Tab Navigation
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { CardStyleInterpolators } from "@react-navigation/stack";
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -47,11 +52,22 @@ export default function App() {
         initialRouteName="SplashScreen"
         screenOptions={{ headerShown: false }}
       >
-        <Stack.Screen name="SplashScreen" component={SplashScreen}/>
+        <Stack.Screen name="SplashScreen" component={SplashScreen} />
         <Stack.Screen name="LoginScreen" component={LoginScreen} />
         <Stack.Screen name="BirdFeed" component={TabNavigator} />
+        <Stack.Screen name="Settings" component={Settings} />
+        <Stack.Screen name="ChirpNotificationEdit" component={ChirpNotificationEdit}/>
+        <Stack.Screen name="HelpSupport" component={HelpSupport}/>
+        <Stack.Screen name="TermsOfService" component={TermsOfService}/>
         <Stack.Screen name="ChirpNotification" component={ChirpNotification} />
-        <Stack.Screen name="History" component={History} />
+        <Stack.Screen
+          name="History"
+          component={History}
+          // work on this
+          // options={{
+          //   cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          // }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -70,7 +86,7 @@ const styles = StyleSheet.create({
   SplashScreen: {
     alignSelf: "center",
     marginVertical: 350,
-    height:100,
+    height: 100,
     width: 100,
-  }
+  },
 });

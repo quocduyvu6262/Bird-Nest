@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {
   View,
   Text,
+  Image,
   SafeAreaView,
   TouchableOpacity,
   StyleSheet,
@@ -9,26 +10,21 @@ import {
   StatusBar,
   ScrollView,
 } from "react-native";
-import Background from '../components/Background'
-import Logo from '../components/Logo'
-import Header from '../components/Header'
-import Button from '../components/Button'
-import Paragraph from '../components/Paragraph'
+import Background from "../components/Background";
+import Logo from "../components/Logo";
+import Header from "../components/Header";
+import Button from "../components/Button";
+import Paragraph from "../components/Paragraph";
 import UserCard from "../components/UserCard";
 import InfoCard from "../components/InfoCard";
 import Footer from "../components/Footer.js";
-import * as SecureStore from 'expo-secure-store';
+import * as SecureStore from "expo-secure-store";
 import Axios from "axios";
-
-// Google sign in
-import * as Google from 'expo-auth-session/providers/google';
-import AuthSession, { revokeAsync } from 'expo-auth-session';
-import * as WebBrowser from 'expo-web-browser';
-import {MY_SECURE_AUTH_STATE_KEY} from "@env";
-
+import MainHeader from "../components/MainHeader";
+import Tony from "../assets/tony.png";
+import {MY_SECURE_AUTH_STATE_KEY} from "@env"
 
 const Profile = ({ navigation }) => {
-  // const [houseInfo, setHouseInfo] = useState(null);
   const [name, setName] = useState();
   const [rent, setRent] = useState();
   const [lease, setLease] = useState();
@@ -36,28 +32,30 @@ const Profile = ({ navigation }) => {
   const [buttonClicked, setButtonClicked] = useState(false);
   const [interestButtonClicked, setInterestButtonClicked] = useState(false);
 
-  // Logout 
-  const logout = async () => {
-
-    SecureStore.deleteItemAsync(MY_SECURE_AUTH_STATE_KEY)
-      .then(() => {
-        navigation.replace("LoginScreen");
-      })
-      .catch(err => console.log(err));
-  }
-
   // Get User from Google Token
+
   const fetchHousingInfo = async () => {
-    let houseInfo = null;
-    houseInfo = SecureStore.getItemAsync(MY_SECURE_AUTH_STATE_KEY).then(data => {
-      let houseInfo = JSON.parse(data);
-      if(houseInfo){
+    let secureStoreData = null;
+    let accessToken = null;
+    secureStoreData = await SecureStore.getItemAsync(MY_SECURE_AUTH_STATE_KEY);
+    secureStoreData = JSON.parse(secureStoreData);
+    accessToken = secureStoreData.access_token;
+    let userInfoRes = await fetch("https://www.googleapis.com/userinfo/v2/me", {
+      headers: {
+          Authorization: `Bearer ${accessToken}`
+      }
+    });
+
+    userInfoRes.json().then(data => {
+      // setUser(data);
+      Axios.get(`http://localhost:3000/api/housings/${data.email}`,).then((res) => {
+        let houseInfo = res.data[0];
         setName(houseInfo.fullname);
         setRent(houseInfo.rent);
         setLease(houseInfo.lease);
         setCity(houseInfo.city);
-      }
-    });
+      }).catch(err => console.log(err));
+    })
   }
   
   // Use Effect
@@ -76,9 +74,11 @@ const Profile = ({ navigation }) => {
   }
   // return screen
   return (
-    <ScrollView style={{backgroundColor:'white'}}>
+    <ScrollView>
       <Background>
-        <UserCard name={name}/>
+        <UserCard name={name}
+        image = {Tony}/>
+
         <View style={styles.buttonContainer}>
           <TouchableOpacity>
             <Button 
@@ -107,41 +107,48 @@ const Profile = ({ navigation }) => {
             <InterestInfo></InterestInfo>
           </InfoCard>
         }
-
         
         <Button style = {styles.logoutButton}
         onPress={()=>{
-          logout();
-        }}
-        >
-          Logout
-        </Button>
+          navigation.navigate('Settings');
+        }}>Settings</Button>
+
       </Background>
     </ScrollView>
   );
 };
 
 // Bio
-const BioInfo = props => {
+const BioInfo = (props) => {
   return (
     <View style={styles.subContainer}>
-      <Text style={styles.text}>Hi, I am Duy, an incoming senior at UCSD. I love playing piano and watching movies while working.</Text>
+      <Text style={styles.text}>
+        Hi, I am Duy, an incoming senior at UCSD. I love playing piano and
+        watching movies while working.
+      </Text>
     </View>
-  )
-}
+  );
+};
 
 // Rent Info
-const RentInfo = props => {
-  return(
+const RentInfo = (props) => {
+  return (
     <View style={styles.subContainer}>
-      <Text style={styles.text}><Text style={{fontWeight: "bold"}}> Rent:</Text>  ${props.rent}</Text>
-      <Text style={styles.text}><Text style={{fontWeight: "bold"}}> Lease Term:</Text>  {props.lease} months</Text>
-      <Text style={styles.text}><Text style={{fontWeight: "bold"}}> City:</Text>  {props.city}</Text>
-    </View> 
-  )
-}
+      <Text style={styles.text}>
+        <Text style={{ fontWeight: "bold" }}> Rent:</Text> ${props.rent}
+      </Text>
+      <Text style={styles.text}>
+        <Text style={{ fontWeight: "bold" }}> Lease Term:</Text> {props.lease}{" "}
+        months
+      </Text>
+      <Text style={styles.text}>
+        <Text style={{ fontWeight: "bold" }}> City:</Text> {props.city}
+      </Text>
+    </View>
+  );
+};
 // Interest Info
-const InterestInfo = props => {
+const InterestInfo = (props) => {
   return (
     <View style={styles.subContainer}>
       <Text style={styles.text}>Ice cream</Text>
@@ -149,15 +156,16 @@ const InterestInfo = props => {
       <Text style={styles.text}>Boba</Text>
       <Text style={styles.text}>Movie</Text>
     </View>
-  )
-}
-
-
+  );
+};
 
 const styles = StyleSheet.create({
-  buttonContainer:{
+  container: {
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+  },
+  buttonContainer: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   logoutButton: {
     flex: 1,
