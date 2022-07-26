@@ -25,6 +25,7 @@ import { Icon } from "@rneui/themed";
 import Icon2 from "react-native-vector-icons/MaterialCommunityIcons";
 import Icon3 from "react-native-vector-icons/Ionicons";
 import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
+import MainHeader from "../components/MainHeader.js";
 
 const BirdFeed = ({ navigation }) => {
   const [transferList, setTransferList] = useState([]);
@@ -76,7 +77,7 @@ const BirdFeed = ({ navigation }) => {
     return (
       // Header - Beginning
       <SafeAreaView style={Bird_Feed_styles.container}>
-        <View style={Bird_Feed_styles.header}>
+        {/* <View style={Bird_Feed_styles.header}>
           <Text style={Bird_Feed_styles.headerText}>Bird Feed</Text>
 
           <View style={Bird_Feed_styles.headerButtonView}>
@@ -97,9 +98,10 @@ const BirdFeed = ({ navigation }) => {
             >
               <Image source={require(`../assets/bird.png`)} />
             </TouchableOpacity>
-          </View>
-        </View>
+          </View> */}
+        {/* </View> */}
         {/* Header - Ending */}
+        <MainHeader screen="Bird Feed" navigation={navigation} />
         <TouchableOpacity
           style={[Bird_Feed_styles.input, { marginVertical: 7 }]}
         >
