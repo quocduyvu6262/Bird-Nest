@@ -6,10 +6,10 @@ import {
   InteractionManager,
   ActivityIndicator,
 } from "react-native";
-import Logo from './assets/bird.png';
+import Logo from "./assets/bird.png";
 
 import Axios from "axios";
-import * as SecureStore from 'expo-secure-store';
+import * as SecureStore from "expo-secure-store";
 
 //Import screens in nav bar
 import SplashScreen from "./screens/SplashScreen";
@@ -25,6 +25,7 @@ import AuthLoading from "./screens/AuthLoading.js";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { CardStyleInterpolators } from "@react-navigation/stack";
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -48,11 +49,18 @@ export default function App() {
         initialRouteName="SplashScreen"
         screenOptions={{ headerShown: false }}
       >
-        <Stack.Screen name="SplashScreen" component={SplashScreen}/>
+        <Stack.Screen name="SplashScreen" component={SplashScreen} />
         <Stack.Screen name="LoginScreen" component={LoginScreen} />
         <Stack.Screen name="BirdFeed" component={TabNavigator} />
         <Stack.Screen name="ChirpNotification" component={ChirpNotification} />
-        <Stack.Screen name="History" component={History} />
+        <Stack.Screen
+          name="History"
+          component={History}
+          // work on this
+          // options={{
+          //   cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          // }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -71,7 +79,7 @@ const styles = StyleSheet.create({
   SplashScreen: {
     alignSelf: "center",
     marginVertical: 350,
-    height:100,
+    height: 100,
     width: 100,
-  }
+  },
 });
