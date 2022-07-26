@@ -1,11 +1,18 @@
-// import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
-  Platform,
-  StatusBar,
+  StyleSheet,
+  View,
+  Image,
+  InteractionManager,
+  ActivityIndicator,
 } from "react-native";
+import Logo from "./assets/bird.png";
+
+import Axios from "axios";
+import * as SecureStore from "expo-secure-store";
 
 //Import screens in nav bar
+import SplashScreen from "./screens/SplashScreen";
 import BirdFeed from "./screens/BirdFeed.js";
 import Profile from "./screens/Profile.js";
 import MessengerPigeon from "./screens/MessengerPigeon.js";
@@ -15,16 +22,20 @@ import LoginScreen from "./screens/Login.js";
 import AuthLoading from "./screens/AuthLoading.js";
 import WelcomeScreen from "./screens/WelcomeScreen.js";
 import IDQs from "./screens/IDQs.js";
+import Settings from "./screens/Settings.js";
+import ChirpNotificationEdit from "./screens/SettingsScreens/ChirpNotificationEdit.js";
+import HelpSupport from "./screens/SettingsScreens/HelpSupport.js";
+import TermsOfService from "./screens/SettingsScreens/TermsOfService.js";
 
 // Stack and Tab Navigation
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { CardStyleInterpolators } from "@react-navigation/stack";
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-// import check login key
-const MY_SECURE_AUTH_STATE_KEY = "MySecureAuthStateKey";
+
 
 const TabNavigator = () => {
   return (
@@ -40,18 +51,46 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-      //change back default to "AuthLoading" after testing
+      //change back default to "Splashcreen" after testing
         initialRouteName="IDQs"
         screenOptions={{ headerShown: false }}
       >
-        <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
-        <Stack.Screen name="AuthLoading" component={AuthLoading} />
+        <Stack.Screen name="SplashScreen" component={SplashScreen} />
         <Stack.Screen name="LoginScreen" component={LoginScreen} />
         <Stack.Screen name="BirdFeed" component={TabNavigator} />
+        <Stack.Screen name="Settings" component={Settings} />
+        <Stack.Screen name="ChirpNotificationEdit" component={ChirpNotificationEdit}/>
+        <Stack.Screen name="HelpSupport" component={HelpSupport}/>
+        <Stack.Screen name="TermsOfService" component={TermsOfService}/>
         <Stack.Screen name="ChirpNotification" component={ChirpNotification} />
-        <Stack.Screen name="History" component={History} />
         <Stack.Screen name="IDQs" component={IDQs} />
+        <Stack.Screen
+          name="History"
+          component={History}
+          // work on this
+          // options={{
+          //   cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          // }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fffff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  textInput: {
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  SplashScreen: {
+    alignSelf: "center",
+    marginVertical: 350,
+    height: 100,
+    width: 100,
+  },
+});

@@ -1,13 +1,13 @@
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, StatusBar } from "react-native";
 import React from "react";
 
 const ProfileCard = ({ item }) => {
   return (
-    <View style={Profile_Card_styles.container}>
-      <Image style={Profile_Card_styles.image} source={item.src} />
-      <View style={Profile_Card_styles.text_box}>
+    <View style={styles.container}>
+      <Image style={styles.image} source={item.src} />
+      <View style={styles.text_box}>
         <Text>{item.city}</Text>
-        <View style={Profile_Card_styles.text_box_name}>
+        <View style={styles.text_box_name}>
           <Text>{item.name}</Text>
         </View>
       </View>
@@ -15,7 +15,7 @@ const ProfileCard = ({ item }) => {
   );
 };
 
-const Profile_Card_styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     height: 90,
     width: "90%",
