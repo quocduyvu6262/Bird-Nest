@@ -8,6 +8,7 @@ import Button from "../components/Button";
 import ProfileCard from "../components/ProfileCard";
 import { IconButton } from 'react-native-paper';
 import Axios from "axios";
+import Constants from "../constants/constants";
 
 const History = ({ navigation }) => {
   const [userList, setUserList] = useState([]);
@@ -20,7 +21,7 @@ const History = ({ navigation }) => {
   // view history
   const viewUsers = () => {
     setUserList([]);
-    Axios.post("http:192.168.1.213:3000/api/history/", {
+    Axios.post(`${Constants.BASE_URL}/api/history/`, {
       user_id: 5,
     })
       .then((response) => {

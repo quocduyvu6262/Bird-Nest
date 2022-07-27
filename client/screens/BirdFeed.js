@@ -26,6 +26,7 @@ import Icon2 from "react-native-vector-icons/MaterialCommunityIcons";
 import Icon3 from "react-native-vector-icons/Ionicons";
 import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
 import MainHeader from "../components/MainHeader.js";
+import Constants from "../constants/constants.js";
 
 const BirdFeed = ({ navigation }) => {
   const [transferList, setTransferList] = useState([]);
@@ -40,7 +41,7 @@ const BirdFeed = ({ navigation }) => {
 
   const viewUsers = () => {
     setUserList([]);
-    Axios.post("http:192.168.1.213:3000/api/matching/", {
+    Axios.post(`${Constants.BASE_URL}/api/matching/`, {
       user_id: 10,
     })
       .then((response) => {

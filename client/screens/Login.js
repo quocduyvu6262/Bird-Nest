@@ -11,12 +11,12 @@ import Paragraph from '../components/Paragraph'
 import * as Google from 'expo-auth-session/providers/google';
 import * as WebBrowser from 'expo-web-browser';
 import * as SecureStore from 'expo-secure-store';
-// import {IOS_GOOGLE_CLIENT_ID} from "@env";
-// import {MY_SECURE_AUTH_STATE_KEY} from "@env";
-const MY_SECURE_AUTH_STATE_KEY="MySecureAuthStateKey";
-const IOS_GOOGLE_CLIENT_ID = "314578595226-3pfqh454mrmhneevoetc6ensm0blsa4a.apps.googleusercontent.com"
+
+// Import constants
+import Constants from '../constants/constants';
 // Axios
 import Axios from 'axios';
+import * as Network from 'expo-network';
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -25,7 +25,7 @@ const LoginScreen = ({navigation}) => {
   // execute google login
   const [accessToken, setAccessToken] = useState(null);
   const [request, response, promptAsync] = Google.useAuthRequest({
-    expoClientId: IOS_GOOGLE_CLIENT_ID,
+    expoClientId: Constants.IOS_GOOGLE_CLIENT_ID,
     androidClientId: "",
     iosClientId: "",
     selectAccount: true,
@@ -39,7 +39,7 @@ const LoginScreen = ({navigation}) => {
       }
     });
     const data = await userInfoRes.json();
-    return Axios.get(`http:192.168.1.213:3000/api/housings/${data.email}`).then((res) => {
+    return Axios.get(`${Constants.BASE_URL}/api/housings/${data.email}`).then((res) => {
       let houseInfo = res.data[0];
       return houseInfo;
     }).catch(err => {
@@ -50,6 +50,7 @@ const LoginScreen = ({navigation}) => {
 
   // use side effect
   React.useEffect(() => {
+
     if (response?.type === 'success') {
       setAccessToken(response.authentication.accessToken);
       // SecureStore.setItemAsync(MY_SECURE_AUTH_STATE_KEY,JSON.stringify(accessToken));
@@ -58,7 +59,7 @@ const LoginScreen = ({navigation}) => {
         fetchUser().then((houseInfo) => {
           // console.log(houseInfo);
           if(houseInfo){
-            SecureStore.setItemAsync(MY_SECURE_AUTH_STATE_KEY,JSON.stringify(houseInfo));
+            SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY,JSON.stringify(houseInfo));
             navigation.navigate("BirdFeed");
           }
         });

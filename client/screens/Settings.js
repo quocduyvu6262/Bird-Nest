@@ -12,12 +12,12 @@ import { Icon } from "react-native-vector-icons/MaterialCommunityIcons";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import MainHeader from "../components/MainHeader";
-const MY_SECURE_AUTH_STATE_KEY = "MySecureAuthStateKey"
-
+// Import constants
+import Constants from '../constants/constants';
 
 const Settings = ({ navigation }) => {
   const logout = () => {
-    SecureStore.deleteItemAsync(MY_SECURE_AUTH_STATE_KEY)
+    SecureStore.deleteItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY)
       .then(() => {
         navigation.replace("LoginScreen");
       })

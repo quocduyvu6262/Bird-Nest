@@ -50,7 +50,8 @@
     "react-query": "^4.0.0",
     "slide-button": "^1.0.4",
     "yarn": "^1.22.19",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "expo-network": "~4.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

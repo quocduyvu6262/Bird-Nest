@@ -22,9 +22,8 @@ import * as SecureStore from "expo-secure-store";
 import Axios from "axios";
 import MainHeader from "../components/MainHeader";
 import Tony from "../assets/tony.png";
-// import {MY_SECURE_AUTH_STATE_KEY} from "@env"
-const MY_SECURE_AUTH_STATE_KEY = "MySecureAuthStateKey"
-
+// Import constants
+import Constants from '../constants/constants';
 
 
 const Profile = ({ navigation }) => {
@@ -38,7 +37,7 @@ const Profile = ({ navigation }) => {
   // Get User from Google Token
   const fetchHousingInfo = async () => {
     let houseInfo = null;
-    houseInfo = SecureStore.getItemAsync(MY_SECURE_AUTH_STATE_KEY).then(data => {
+    houseInfo = SecureStore.getItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY).then(data => {
       let houseInfo = JSON.parse(data);
       if(houseInfo){
         setName(houseInfo.fullname);
@@ -53,7 +52,7 @@ const Profile = ({ navigation }) => {
   // Use Effect
   useEffect(() => {
     fetchHousingInfo();
-  }, []);
+  });
 
   const roomInfoButton = () => {
     setButtonClicked(true);
@@ -70,7 +69,7 @@ const Profile = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <MainHeader screen="Profile" navigation={navigation} />
-      <ScrollView>
+      <ScrollView >
         <Background>
           <UserCard name={name} image={Tony} />
 
@@ -164,6 +163,7 @@ const InterestInfo = (props) => {
 const styles = StyleSheet.create({
   container: {
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    backgroundColor: 'white'
   },
   buttonContainer: {
     flex: 1,
