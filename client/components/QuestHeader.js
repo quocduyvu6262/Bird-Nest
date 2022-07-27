@@ -1,19 +1,28 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, StatusBar } from 'react-native'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-const QuestHeader = () => {
+const QuestHeader = ({title}) => {
   return (
-    <SafeAreaView styles={QuestHeader_styles.container}>
-      <Text style={{paddingTop: "5%", backgroundColor: "red"}}>QuestionHeader</Text>
-    </SafeAreaView>
+    <View style={QuestHeader_styles.container}>
+      <Text style={QuestHeader_styles.headTitle}>{title}</Text>
+    </View>
   )
 }
 
 const QuestHeader_styles = StyleSheet.create({
     container: {
-      flex: 1,
       paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+      backgroundColor: "#6736B6",
+      height: 90,
+      bottom: 47,
+    },
+    headTitle: {
+      color: "#FFF",
+      top: 55,
+      alignSelf: "center",
+      fontSize: 20,
+      fontWeight: "bold"
     },
 });
 export default QuestHeader
