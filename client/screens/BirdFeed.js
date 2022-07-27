@@ -31,6 +31,7 @@ const BirdFeed = ({ navigation }) => {
   const [transferList, setTransferList] = useState([]);
   const [userList, setUserList] = useState([]);
   const [listState, setListState] = useState(false);
+  const [overlayClicked, setOverlayClicked] = useState(false);
 
   let [fontsLoaded] = useFonts({
     Pacifico_400Regular,
@@ -69,6 +70,10 @@ const BirdFeed = ({ navigation }) => {
     setListState(true);
   };
 
+  const overlayButton = () => {
+    overlayClicked ? setOverlayClicked(false) : setOverlayClicked(true);
+  };
+
   // ---------------------------------------
 
   if (!fontsLoaded) {
@@ -104,19 +109,19 @@ const BirdFeed = ({ navigation }) => {
         <MainHeader screen="Bird Feed" navigation={navigation} />
         <TouchableOpacity
           style={[styles.input, { marginVertical: 7 }]}
-        >
+          onPress = {overlayButton}>
           <Icon3
             style={styles.input}
             name="options-sharp"
             size={30}
             color="black"
           />
-          <TextInput
-            style={styles.input}
-            placeholder="Enter Filters"
-          />
         </TouchableOpacity>
-
+        {overlayClicked && 
+          <View style = {styles.filterCard}>
+            <Text style = {styles.filterText}>Test</Text>
+          </View>
+        }
         <TouchableOpacity onPress={viewUsers}>
           <Text>View Users</Text>
         </TouchableOpacity>
@@ -170,5 +175,26 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     borderColor: "#219EBC",
   },
+  overlay: {
+    position: "absolute",
+    zIndex: 2,
+  },
+  filterText: {
+    alignSelf: 'center',
+    justifyContent: 'center',
+    fontSize: 30,
+  }, 
+  filterCard: {
+    backgroundColor: 'blue',
+    marginTop: 140,
+    position: 'absolute',
+    zIndex: 2,
+    alignSelf: 'center',
+    borderWidth: 0.5,
+    borderColor: "black",
+    borderRadius: 30,
+    width:350,
+    height:450,
+  }
 });
 export default BirdFeed;
