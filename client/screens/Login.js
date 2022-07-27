@@ -23,7 +23,7 @@ WebBrowser.maybeCompleteAuthSession();
 const LoginScreen = ({navigation}) => {
 
   // execute google login
-  const [accessToken, setAccessToken] = useState(null);
+  // const [accessToken, setAccessToken] = useState(null);
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId: Constants.IOS_GOOGLE_CLIENT_ID,
     androidClientId: "",
@@ -33,7 +33,7 @@ const LoginScreen = ({navigation}) => {
 
 
   // fetchGoogleUser
-  const fetchGoogleUser = async () => {
+  const fetchGoogleUser = async (accessToken) => {
     let userInfoRes = await fetch("https://www.googleapis.com/userinfo/v2/me", {
       headers: {
           Authorization: `Bearer ${accessToken}`
@@ -78,11 +78,12 @@ const LoginScreen = ({navigation}) => {
   React.useEffect(() => {
 
     if (response?.type === 'success') {
-      setAccessToken(response.authentication.accessToken);
+      // setAccessToken(response.authentication.accessToken);
+      const accessToken = response.authentication.accessToken;
       // SecureStore.setItemAsync(MY_SECURE_AUTH_STATE_KEY,JSON.stringify(accessToken));
       // navigation.navigate("BirdFeed");
       if(accessToken){
-        fetchGoogleUser().then((userInfo) => {
+        fetchGoogleUser(accessToken).then((userInfo) => {
           login(userInfo).then(async res => {
             // Store User
             fetchUser(userInfo).then(async (user) => {
@@ -93,8 +94,10 @@ const LoginScreen = ({navigation}) => {
             // Store Token
             await SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_TOKEN,JSON.stringify(accessToken));
             //if user already existed
+            // console.log(userInfo);
+            // console.log(res);
             if(res === 'login'){
-              fetchHousing(userInfo).then( async houseInfo => {
+              fetchHousing(userInfo).then( async (houseInfo) => {
                 if(houseInfo){
                   // Store Housing
                   await SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING,JSON.stringify(houseInfo));
@@ -102,14 +105,14 @@ const LoginScreen = ({navigation}) => {
                 }
               })
             } else if (res === 'register') { // new user or user who has not filled in questionaires
-              navigation.navigate('BirdFeed');
+              navigation.navigate('IDQs');
             }
           }).catch(err => console.log(err));
 
         });
       }
     }
-  }, [response, accessToken]);
+  }, [response]);
 
   return (
     <Background>
