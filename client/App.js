@@ -20,6 +20,8 @@ import ChirpNotification from "./screens/ChirpNotification.js";
 import History from "./screens/History.js";
 import LoginScreen from "./screens/Login.js";
 import AuthLoading from "./screens/AuthLoading.js";
+import WelcomeScreen from "./screens/WelcomeScreen.js";
+import IDQs from "./screens/IDQs.js";
 import Settings from "./screens/Settings.js";
 import ChirpNotificationEdit from "./screens/SettingsScreens/ChirpNotificationEdit.js";
 import HelpSupport from "./screens/SettingsScreens/HelpSupport.js";
@@ -52,6 +54,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
+      //change back default to "Splashcreen" after testing
         initialRouteName="SplashScreen"
         screenOptions={{ headerShown: false }}
       >
@@ -63,6 +66,7 @@ export default function App() {
         <Stack.Screen name="HelpSupport" component={HelpSupport}/>
         <Stack.Screen name="TermsOfService" component={TermsOfService}/>
         <Stack.Screen name="ChirpNotification" component={ChirpNotification} />
+        <Stack.Screen name="IDQs" component={IDQs} />
         <Stack.Screen
           name="History"
           component={History}
