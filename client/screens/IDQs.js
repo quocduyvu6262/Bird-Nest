@@ -6,7 +6,7 @@ import QuestHeader from "../components/QuestHeader.js"
 import {useDispatch, useSelector} from 'react-redux';
 import {updateFirstname, updateLastname, updateGender, updateAge, updatePronouns, updateMajor, updateGraduationyear, updateProfilepic} from '../redux/slices/data'
 
-const IDQs = () => {
+const IDQs = ({navigation}) => {
 
   // Redux
   const userInfo = useSelector((state) => state.data.userInfo);
@@ -38,7 +38,9 @@ const IDQs = () => {
         <Text style={{fontSize: 15, color: "#FFF"}}>Upload your face!</Text>
       </TouchableOpacity>
       {/* next page button */}
-      <TouchableOpacity style={styles.nextButton}>
+      <TouchableOpacity 
+      onPress={()=> {navigation.navigate('BirdFeed')}}
+      style={styles.nextButton}>
         <Text style={styles.nextText}>Next Page</Text>
         <Image source={require("../assets/nextArrow.png")} style={styles.nextIcon} />
       </TouchableOpacity>
