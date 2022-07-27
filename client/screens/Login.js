@@ -77,17 +77,18 @@ const LoginScreen = ({navigation}) => {
   React.useEffect(() => {
 
     if (response?.type === 'success') {
-      // setAccessToken(response.authentication.accessToken);
-      const accessToken = response.authentication.accessToken;
-      // SecureStore.setItemAsync(MY_SECURE_AUTH_STATE_KEY,JSON.stringify(accessToken));
-      // navigation.navigate("BirdFeed");
-      if(accessToken){
-        fetchUser().then((houseInfo) => {
-          SecureStore.setItemAsync(MY_SECURE_AUTH_STATE_KEY,JSON.stringify(houseInfo));
-          console.log("Haha poopy")
-          navigation.navigate("BirdFeed");
-        });
-      }
+      setAccessToken(response.authentication.accessToken);
+      SecureStore.setItemAsync(MY_SECURE_AUTH_STATE_KEY,JSON.stringify(accessToken));
+      navigation.navigate("BirdFeed");
+      // if(accessToken){
+      //   fetchUser().then((houseInfo) => {
+      //     // console.log(houseInfo);
+      //     if(houseInfo){
+      //       SecureStore.setItemAsync(MY_SECURE_AUTH_STATE_KEY,JSON.stringify(houseInfo));
+      //       navigation.navigate("BirdFeed");
+      //     }
+      //   });
+      // }
     }
   }, [response]);
 
