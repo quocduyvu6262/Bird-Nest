@@ -23,8 +23,8 @@ import Axios from "axios";
 import MainHeader from "../components/MainHeader";
 import Tony from "../assets/tony.png";
 // import {MY_SECURE_AUTH_STATE_KEY} from "@env"
+const MY_SECURE_AUTH_STATE_KEY = "MySecureAuthStateKey"
 
-const MY_SECURE_AUTH_STATE_KEY="MySecureAuthStateKey"
 
 
 const Profile = ({ navigation }) => {
