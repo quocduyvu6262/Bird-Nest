@@ -35,6 +35,11 @@ import { CardStyleInterpolators } from "@react-navigation/stack";
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
+// Redux 
+import { Provider } from 'react-redux';
+import store from './redux/store';
+
+
 
 
 const TabNavigator = () => {
@@ -49,31 +54,33 @@ const TabNavigator = () => {
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-      //change back default to "Splashcreen" after testing
-        initialRouteName="SplashScreen"
-        screenOptions={{ headerShown: false }}
-      >
-        <Stack.Screen name="SplashScreen" component={SplashScreen} />
-        <Stack.Screen name="LoginScreen" component={LoginScreen} />
-        <Stack.Screen name="BirdFeed" component={TabNavigator} />
-        <Stack.Screen name="Settings" component={Settings} />
-        <Stack.Screen name="ChirpNotificationEdit" component={ChirpNotificationEdit}/>
-        <Stack.Screen name="HelpSupport" component={HelpSupport}/>
-        <Stack.Screen name="TermsOfService" component={TermsOfService}/>
-        <Stack.Screen name="ChirpNotification" component={ChirpNotification} />
-        <Stack.Screen name="IDQs" component={IDQs} />
-        <Stack.Screen
-          name="History"
-          component={History}
-          // work on this
-          // options={{
-          //   cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-          // }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store = {store}>
+      <NavigationContainer>
+        <Stack.Navigator
+        //change back default to "Splashcreen" after testing
+          initialRouteName="SplashScreen"
+          screenOptions={{ headerShown: false }}
+        >
+          <Stack.Screen name="SplashScreen" component={SplashScreen} />
+          <Stack.Screen name="LoginScreen" component={LoginScreen} />
+          <Stack.Screen name="BirdFeed" component={TabNavigator} />
+          <Stack.Screen name="Settings" component={Settings} />
+          <Stack.Screen name="ChirpNotificationEdit" component={ChirpNotificationEdit}/>
+          <Stack.Screen name="HelpSupport" component={HelpSupport}/>
+          <Stack.Screen name="TermsOfService" component={TermsOfService}/>
+          <Stack.Screen name="ChirpNotification" component={ChirpNotification} />
+          <Stack.Screen name="IDQs" component={IDQs} />
+          <Stack.Screen
+            name="History"
+            component={History}
+            // work on this
+            // options={{
+            //   cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+            // }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
 const styles = StyleSheet.create({
