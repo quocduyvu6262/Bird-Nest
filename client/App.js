@@ -35,9 +35,6 @@ import { CardStyleInterpolators } from "@react-navigation/stack";
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-// Ignore EventEmitter warning
-import { LogBox } from "react-native";
-LogBox.ignoreLogs(["EventEmitter.removeListener"]);
 
 
 const TabNavigator = () => {
