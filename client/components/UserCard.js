@@ -16,11 +16,9 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: theme.colors.surface,
     alignItems: "center",
-    elevation: 2,
     paddingTop: 10,
   },
   userImage: {
-    borderWidth: 0.5,
     borderColor: "#D3D3D3",
     borderRadius: 30,
     width: 350,
