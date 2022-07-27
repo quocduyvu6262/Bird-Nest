@@ -13,6 +13,7 @@ import Axios from "axios";
 const PersonalityQuestionnaire = () => {
   return (
     <SafeAreaView style={Personality_Questionnaire_styles.mainContainer}>
+      {/* random comment */}
       <Text>PersonalityQuestionnaire</Text>
       <ScrollView></ScrollView>
     </SafeAreaView>
