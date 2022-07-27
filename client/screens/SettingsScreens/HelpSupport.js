@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, SafeAreaView } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, SafeAreaView, StatusBar,} from "react-native";
 import React, {useState} from "react";
 import InfoCard from "../../components/InfoCard";
 import MainHeader from "../../components/MainHeader";
@@ -11,7 +11,7 @@ const HelpSupport = ({navigation}) => {
     }
     return(
         <SafeAreaView style={HelpSupport_Styles.container}>
-            <MainHeader screen="Help and Support" navigation={navigation} />
+            <MainHeader screen="Help & Support" navigation={navigation} />
             <View style = {HelpSupport_Styles.card}>
             <Text style = {HelpSupport_Styles.textStyle}>Help & Support Page</Text>
             </View>
@@ -42,6 +42,7 @@ const HelpSupport_Styles = StyleSheet.create({
     },
     container: {
         flex: 1,
+        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     },
     regularButton: {
         width: 200,

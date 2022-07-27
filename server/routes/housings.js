@@ -1,13 +1,10 @@
 // require express
 const express = require('express');
-
 // require db connection
 const db = require('../utils/database');
 const router = express.Router();
-
 // get all housing
 router.get('/', (req, res) => {
-
     const query = `SELECT * FROM Housing`;
     db(client => {
         client.query(query, (err, results) => {
@@ -19,7 +16,6 @@ router.get('/', (req, res) => {
         })
     });
 })
-
 // Get housing by ID
 // router.get('/:id', (req, res) => {
 //     const query = `SELECT * FROM Housing WHERE id=${req.params.id}`;
@@ -33,7 +29,6 @@ router.get('/', (req, res) => {
 //         })
 //     });
 // })
-
 // Get housing by Email
 router.get('/:email', (req, res) => {
     const query = `SELECT * FROM BirdNest.Housing JOIN BirdNest.User ON User.id = Housing.User_id WHERE User.email= "${req.params.email}";`;
@@ -48,13 +43,12 @@ router.get('/:email', (req, res) => {
         })
     });
 })
-
 // Post housings
 router.post('/create', (req, res) => {
     let housing = req.body;
     const query = `
         INSERT INTO Housing (neighborhood, city, address, squarefeet, rent, gargage, parking, gym, pool, appliances, furniture)
-        VALUES ("${housing.neighborhood}", "${housing.city}", 
+        VALUES ("${housing.neighborhood}", "${housing.city}",
         "${housing.address}", "${housing.squarefeet}", "${housing.rent}", "${housing.gargage}", "${housing.parking}"
         , "${housing.gym}", "${housing.pool}", "${housing.appliances}", "${housing.furniture}")`;
     db(client => {
@@ -66,9 +60,16 @@ router.post('/create', (req, res) => {
             }
             res.send(`Insert successfully.`);
         });
-    })   
+    })
 })
-
 // Delete housings
-
 module.exports = router;
+
+
+
+
+
+
+
+
+

@@ -5,9 +5,8 @@ import AuthLoading from '../screens/AuthLoading.js';
 import * as SecureStore from 'expo-secure-store';
 import Login from '../screens/Login.js';
 import Logo from '../assets/bird.png';
-// import {MY_SECURE_AUTH_STATE_KEY} from "@env";
-const MY_SECURE_AUTH_STATE_KEY = "MySecureAuthStateKey"
-// const IOS_GOOGLE_CLIENT_ID = "314578595226-3pfqh454mrmhneevoetc6ensm0blsa4a.apps.googleusercontent.com";
+// Import constants
+import Constants from '../constants/constants';
 
 export default function SplashScreen({navigation}) {
 
@@ -29,8 +28,8 @@ export default function SplashScreen({navigation}) {
 
     const checkLoginState = async () => {
         // retrieve the value of the token
-        const userToken = await SecureStore.getItemAsync(MY_SECURE_AUTH_STATE_KEY);
-        // console.log(MY_SECURE_AUTH_STATE_KEY)
+        const userToken = await SecureStore.getItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_TOKEN);
+        
         // navigate to the app screen if a token is present
         // else navigate to the auth screen
         setTimeout(() => {

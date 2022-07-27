@@ -1,8 +1,7 @@
-import { View, Text, StyleSheet, TouchableOpacity, Image, SafeAreaView, Switch } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image, SafeAreaView, Switch, StatusBar } from "react-native";
 import React, { useState } from "react";
 import * as Notifications from 'expo-notifications';
 import MainHeader from "../../components/MainHeader";
-
 // Source to use push notification: https://blog.logrocket.com/create-send-push-notifications-react-native/
 
 const ChirpNotificationEdit = ({navigation}) => {
@@ -31,6 +30,7 @@ const ChirpNotificationEdit_Styles = StyleSheet.create({
         flex: 1,
         alignSelf: 'center',
         alignItems: 'center',
+        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     },
     pushNotification: {
         marginTop: 40,
