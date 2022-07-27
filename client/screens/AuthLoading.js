@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import * as SecureStore from "expo-secure-store";
 import { View, Text } from "react-native";
 // import {MY_SECURE_AUTH_STATE_KEY} from "@env";
+const MY_SECURE_AUTH_STATE_KEY = "MySecureAuthStateKey"
 
 const AuthLoading = ({ navigation }) => {
   const checkLoginState = async () => {
