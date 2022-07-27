@@ -31,20 +31,46 @@ const LoginScreen = ({navigation}) => {
     selectAccount: true,
   });
 
-  // fetch user info
-  const fetchUser = async () => {
+
+  // fetchGoogleUser
+  const fetchGoogleUser = async () => {
     let userInfoRes = await fetch("https://www.googleapis.com/userinfo/v2/me", {
       headers: {
           Authorization: `Bearer ${accessToken}`
       }
     });
     const data = await userInfoRes.json();
+    return data;
+  }
+
+  // Fetch user 
+  const fetchUser = async (data) => {
+    return Axios.get(`${Constants.BASE_URL}/api/users/${data.email}`).then(res => {
+      let userInfo = res.data;
+      return userInfo;
+    }).catch(err => {
+      console.log(err);
+    })
+  }
+
+  // fetch user info
+  const fetchHousing = async (data) => {
     return Axios.get(`${Constants.BASE_URL}/api/housings/${data.email}`).then((res) => {
       let houseInfo = res.data[0];
       return houseInfo;
     }).catch(err => {
       console.log(err);
     });
+  }
+
+  // login with google
+  const login = async (data) => {
+    return Axios.post(`${Constants.BASE_URL}/api/users/loginwithgoogle`,{
+      email: data.email,
+      fullname: data.name
+    }).then((res) => {
+      return res.data
+    }).catch(err => console.log(err));
   }
 
 
@@ -56,12 +82,30 @@ const LoginScreen = ({navigation}) => {
       // SecureStore.setItemAsync(MY_SECURE_AUTH_STATE_KEY,JSON.stringify(accessToken));
       // navigation.navigate("BirdFeed");
       if(accessToken){
-        fetchUser().then((houseInfo) => {
-          // console.log(houseInfo);
-          if(houseInfo){
-            SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY,JSON.stringify(houseInfo));
-            navigation.navigate("BirdFeed");
-          }
+        fetchGoogleUser().then((userInfo) => {
+          login(userInfo).then(async res => {
+            // Store User
+            fetchUser(userInfo).then(async (user) => {
+              if(user){
+                await SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER,JSON.stringify(user));
+              }
+            }).catch(err => console.log(err));
+            // Store Token
+            await SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_TOKEN,JSON.stringify(accessToken));
+            //if user already existed
+            if(res === 'login'){
+              fetchHousing(userInfo).then( async houseInfo => {
+                if(houseInfo){
+                  // Store Housing
+                  await SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING,JSON.stringify(houseInfo));
+                  navigation.navigate('BirdFeed');
+                }
+              })
+            } else if (res === 'register') { // new user or user who has not filled in questionaires
+              navigation.navigate('BirdFeed');
+            }
+          }).catch(err => console.log(err));
+
         });
       }
     }

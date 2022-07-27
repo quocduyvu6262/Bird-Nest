@@ -6,7 +6,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "prepare": "patch-package"
   },
   "dependencies": {
     "@expo-google-fonts/pacifico": "^0.2.2",
@@ -24,15 +25,18 @@
     "expo-application": "^4.1.0",
     "expo-auth-session": "^3.6.1",
     "expo-google-sign-in": "~10.2.0",
+    "expo-network": "~4.2.0",
     "expo-notifications": "^0.15.4",
     "expo-random": "^12.2.0",
     "expo-secure-store": "^11.2.0",
     "expo-splash-screen": "~0.15.1",
     "expo-status-bar": "~1.3.0",
     "expo-updates": "~0.13.3",
+    "expo-web-browser": "~10.2.1",
     "formik": "^2.2.9",
     "fs": "^0.0.1-security",
     "jwt-decode": "^3.1.2",
+    "patch-package": "^6.4.7",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-google-login": "^5.2.2",
@@ -50,8 +54,7 @@
     "react-query": "^4.0.0",
     "slide-button": "^1.0.4",
     "yarn": "^1.22.19",
-    "yup": "^0.32.11",
-    "expo-network": "~4.2.0"
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

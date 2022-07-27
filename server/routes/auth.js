@@ -81,12 +81,12 @@ router.post('/loginwithgoogle', async (req, res) => {
     // get user info from req.body into user
     const user = req.body;
     try{
-        const checkExistQuery = `SELECT User.email FROM BirdNest.User WHERE User.email = "${user.email}"`;
+        const checkExistQuery = `SELECT * FROM BirdNest.User WHERE User.email = "${user.email}"`;
         const query = `INSERT INTO BirdNest.User (fullname, email)
         VALUES("${user.fullname}", "${user.email}")`; // database link
         db(client => {
             client.query(checkExistQuery, (err, result) => {
-                if(result.length){
+                if(result.length && result[0].isHousing){
                     // console.log( "User found successfully.");
                     res.send('login');
                 } else {
@@ -95,6 +95,24 @@ router.post('/loginwithgoogle', async (req, res) => {
                             res.send('register');
                         });
                     });
+                }
+            });
+        })
+    } catch(err) {
+        res.status(400).send(err);
+    }
+})
+
+// get user
+router.get('/:email', async (req, res) => {
+    try{
+        const query = `SELECT * FROM BirdNest.User WHERE User.email = "${req.params.email}"`;
+        db(client => {
+            client.query(query, (err, result) => {
+                if(err){
+                    console.log(err)
+                }else{
+                    res.send(result);
                 }
             });
         })

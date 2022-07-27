@@ -36,15 +36,19 @@ const Profile = ({ navigation }) => {
 
   // Get User from Google Token
   const fetchHousingInfo = async () => {
-    let houseInfo = null;
-    houseInfo = SecureStore.getItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY).then(data => {
+    await SecureStore.getItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING).then(data => {
       let houseInfo = JSON.parse(data);
       if(houseInfo){
         setName(houseInfo.fullname);
         setRent(houseInfo.rent);
         setLease(houseInfo.lease);
         setCity(houseInfo.city);
-      }
+      } else {
+        setName(null);
+        setRent(null);
+        setLease(null);
+        setCity(null);
+      } 
     });
   }
 

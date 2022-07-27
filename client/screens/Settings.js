@@ -16,12 +16,19 @@ import MainHeader from "../components/MainHeader";
 import Constants from '../constants/constants';
 
 const Settings = ({ navigation }) => {
-  const logout = () => {
-    SecureStore.deleteItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY)
-      .then(() => {
-        navigation.replace("LoginScreen");
-      })
-      .catch((err) => console.log(err));
+  const logout = async () => {
+    await SecureStore.deleteItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_TOKEN)
+      .then(async () => {
+        await SecureStore.deleteItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER).then(async () => {
+          await SecureStore.deleteItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING).then(()=>{
+            navigation.navigate('LoginScreen');
+          }).catch(err => {
+            console.log(err);
+          })
+        }).catch(err => {
+          console.log(err);
+        })
+      }).catch((err) => console.log(err));
   };
   return (
     <View style={styles.container}>
