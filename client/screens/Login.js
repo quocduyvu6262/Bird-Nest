@@ -21,7 +21,6 @@ import * as Network from 'expo-network';
 WebBrowser.maybeCompleteAuthSession();
 
 const LoginScreen = ({navigation}) => {
-
   // execute google login
   // const [accessToken, setAccessToken] = useState(null);
   const [request, response, promptAsync] = Google.useAuthRequest({
@@ -83,32 +82,10 @@ const LoginScreen = ({navigation}) => {
       // SecureStore.setItemAsync(MY_SECURE_AUTH_STATE_KEY,JSON.stringify(accessToken));
       // navigation.navigate("BirdFeed");
       if(accessToken){
-        fetchGoogleUser(accessToken).then((userInfo) => {
-          login(userInfo).then(async res => {
-            // Store User
-            fetchUser(userInfo).then(async (user) => {
-              if(user){
-                await SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER,JSON.stringify(user));
-              }
-            }).catch(err => console.log(err));
-            // Store Token
-            await SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_TOKEN,JSON.stringify(accessToken));
-            //if user already existed
-            // console.log(userInfo);
-            // console.log(res);
-            if(res === 'login'){
-              fetchHousing(userInfo).then( async (houseInfo) => {
-                if(houseInfo){
-                  // Store Housing
-                  await SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING,JSON.stringify(houseInfo));
-                  navigation.navigate('BirdFeed');
-                }
-              })
-            } else if (res === 'register') { // new user or user who has not filled in questionaires
-              navigation.navigate('IDQs');
-            }
-          }).catch(err => console.log(err));
-
+        fetchUser().then((houseInfo) => {
+          SecureStore.setItemAsync(MY_SECURE_AUTH_STATE_KEY,JSON.stringify(houseInfo));
+          console.log("Haha poopy")
+          navigation.navigate("BirdFeed");
         });
       }
     }

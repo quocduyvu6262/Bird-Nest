@@ -9,7 +9,7 @@ const ChirpNotificationEdit = ({navigation}) => {
     const toggleSwitch = () => setIsEnabled(previousState => !previousState);
     return(
         <SafeAreaView style={ChirpNotificationEdit_Styles.container}>
-            <MainHeader screen="Chirp Notification Edit" navigation={navigation} />
+            <MainHeader screen="Chirp Notification" navigation={navigation} />
             <Text>Chirp Notification Page</Text>
                 <Text style = {ChirpNotificationEdit_Styles.pushNotification}>
                         Push Notification
