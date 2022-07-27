@@ -39,7 +39,7 @@ const LoginScreen = ({navigation}) => {
       }
     });
     const data = await userInfoRes.json();
-    return Axios.get(`http://localhost:3000/api/housings/${data.email}`).then((res) => {
+    return Axios.get(`http:192.168.1.213:3000/api/housings/${data.email}`).then((res) => {
       let houseInfo = res.data[0];
       return houseInfo;
     }).catch(err => {
@@ -52,17 +52,17 @@ const LoginScreen = ({navigation}) => {
   React.useEffect(() => {
     if (response?.type === 'success') {
       setAccessToken(response.authentication.accessToken);
-      SecureStore.setItemAsync(MY_SECURE_AUTH_STATE_KEY,JSON.stringify(accessToken));
-      navigation.navigate("BirdFeed");
-      // if(accessToken){
-      //   fetchUser().then((houseInfo) => {
-      //     // console.log(houseInfo);
-      //     if(houseInfo){
-      //       SecureStore.setItemAsync(MY_SECURE_AUTH_STATE_KEY,JSON.stringify(houseInfo));
-      //       navigation.navigate("BirdFeed");
-      //     }
-      //   });
-      // }
+      // SecureStore.setItemAsync(MY_SECURE_AUTH_STATE_KEY,JSON.stringify(accessToken));
+      // navigation.navigate("BirdFeed");
+      if(accessToken){
+        fetchUser().then((houseInfo) => {
+          // console.log(houseInfo);
+          if(houseInfo){
+            SecureStore.setItemAsync(MY_SECURE_AUTH_STATE_KEY,JSON.stringify(houseInfo));
+            navigation.navigate("BirdFeed");
+          }
+        });
+      }
     }
   }, [response, accessToken]);
 

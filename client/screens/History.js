@@ -20,7 +20,7 @@ const History = ({ navigation }) => {
   // view history
   const viewUsers = () => {
     setUserList([]);
-    Axios.post("http://localhost:3000/api/history/", {
+    Axios.post("http:192.168.1.213:3000/api/history/", {
       user_id: 5,
     })
       .then((response) => {

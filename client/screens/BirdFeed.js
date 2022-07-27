@@ -40,7 +40,7 @@ const BirdFeed = ({ navigation }) => {
 
   const viewUsers = () => {
     setUserList([]);
-    Axios.post("http://localhost:3000/api/matching/", {
+    Axios.post("http:192.168.1.213:3000/api/matching/", {
       user_id: 10,
     })
       .then((response) => {
