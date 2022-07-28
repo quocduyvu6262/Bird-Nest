@@ -1,35 +1,57 @@
 import { StyleSheet, Image, View, Text, SafeAreaView, TextInput, TouchableOpacity, StatusBar } from 'react-native'
-import React from 'react'
+import React, {useEffect, useState} from 'react'
+import QuestHeader from "../components/QuestHeader.js"
+// local storage
+import * as SecureStore from 'expo-secure-store';
+import Constants from '../constants/constants.js';
 
-const IDQs = () => {
+// Redux
+import {useDispatch, useSelector} from 'react-redux';
+import {updateFirstname, updateLastname, updateGender, updateAge, updatePronouns, updateMajor, updateGraduationyear, updateProfilepic} from '../redux/slices/data'
+
+const IDQs = ({navigation}) => {
+
+  // Redux
+  const userInfo = useSelector((state) => state.data.userInfo);
+  const dispatch = useDispatch();
+
+  // Store to secure store
+  const store = () => {
+    SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_REDUX, JSON.stringify(userInfo));
+  }
   return (
 
-    <SafeAreaView style={IDQs_styles.container}>
+    <SafeAreaView style={styles.container}>
       {/* header */}
       <View style={IDQs_styles.header}>
         <Text style={IDQs_styles.headTitle}>Profile (1/5)</Text>
       </View>
       {/* Text input fields */}
-      <Text style={IDQs_styles.headerText}>Let's get started!</Text>
-      <TextInput style={IDQs_styles.textInput} placeholder='First Name' />
-      <TextInput style={ IDQs_styles.textInput } placeholder='Last Name' />
+      <Text style={styles.headerText}>Basic Demographic Information</Text>
+      <TextInput style={styles.textInput} placeholder='First Name' onChangeText={value => dispatch(updateFirstname(value))}/>
+      <TextInput style={ styles.textInput } placeholder='Last Name' onChangeText={value => dispatch(updateLastname(value))}/>
       <View style={{flexDirection: "row"}}>
-        <TextInput style={ IDQs_styles.textInput } placeholder='Gender' />
-        <TextInput style={ IDQs_styles.textInput } placeholder='Age' />
+        <TextInput style={ styles.textInput } placeholder='Gender' onChangeText={value => dispatch(updateGender(value))}/>
+        <TextInput style={ styles.textInput } placeholder='Age' onChangeText={value => dispatch(updateAge(value))}/>
       </View>
-      <TextInput style={ IDQs_styles.textInput } placeholder='Pronouns' />
-      <TextInput style={ IDQs_styles.textInput } placeholder='Major' />
-      <TextInput style={ IDQs_styles.textInput } placeholder='Graduation Year' />
-      <Text style={IDQs_styles.photoWords}>Show potential roommates what you look like!</Text>
-      {/* photo upload button (not functional yet) */}
-      <TouchableOpacity style={IDQs_styles.photoButton}>
+      <TextInput style={ styles.textInput } placeholder='Pronouns' onChangeText={value => dispatch(updatePronouns(value))}/>
+      <TextInput style={ styles.textInput } placeholder='Major' onChangeText={value => dispatch(updateMajor(value))}/>
+      <TextInput style={ styles.textInput } placeholder='Graduation Year' onChangeText={value => dispatch(updateGraduationyear(value))}/>
+      <Text style={styles.photoWords}>Show potential roommates what you look like!</Text>
+      {/* photo upload button */}
+      <TouchableOpacity style={styles.photoButton}>
         <Image style={{alignSelf: "center", tintColor: "#FFF" }} source={require("../assets/Upload.png")} />
         <Text style={{fontSize: 15, color: "#FFF"}}>Upload your face!</Text>
       </TouchableOpacity>
       {/* next page button */}
-      <TouchableOpacity style={IDQs_styles.nextButton}>
-        <Text style={IDQs_styles.nextText}>Next Page</Text>
-        <Image source={require("../assets/nextArrow.png")} style={IDQs_styles.nextIcon} />
+      <TouchableOpacity style={styles.nextButton}
+        onPress={() => {
+          store();
+          navigation.navigate('BirdFeed');
+        }}
+      >
+        <Text style={styles.nextText}>Next Page</Text>
+        <Image source={require("../assets/nextArrow.png")} style={styles.nextIcon} />
       </TouchableOpacity>
     </SafeAreaView>
 
@@ -49,7 +71,6 @@ const IDQs_styles = StyleSheet.create({
       margin: 8,
       paddingHorizontal: 20,
       paddingVertical: 5, 
-      // borderWidth: 2,
       borderRadius: 15,
     },
     headerText: {
@@ -67,7 +88,6 @@ const IDQs_styles = StyleSheet.create({
       paddingVertical: 10,
       paddingHorizontal: 5,
       margin: 10,
-      // borderWidth: 2,
       borderRadius: 8,
       top: 20,
     },
@@ -103,7 +123,7 @@ const IDQs_styles = StyleSheet.create({
     },
     headTitle: {
       color: "#FFF",
-      top: 55, //changed from 55 (38 with button ios)
+      top: 55,
       alignSelf: "center",
       fontSize: 20,
       fontWeight: "bold",

@@ -22,12 +22,17 @@ import * as SecureStore from "expo-secure-store";
 import Axios from "axios";
 import MainHeader from "../components/MainHeader";
 import Tony from "../assets/tony.png";
-// import {MY_SECURE_AUTH_STATE_KEY} from "@env"
-const MY_SECURE_AUTH_STATE_KEY = "MySecureAuthStateKey"
-
+// Import constants
+import Constants from '../constants/constants';
+// Redux
+import {useDispatch, useSelector} from 'react-redux';
+import {updateFirstname, updateLastname, updateGender, updateAge, updatePronouns, updateMajor, updateGraduationyear, updateProfilepic} from '../redux/slices/data'
 
 
 const Profile = ({ navigation }) => {
+  
+  const userInfo = useSelector(state => state.data.userInfo);
+
   const [name, setName] = useState();
   const [rent, setRent] = useState();
   const [lease, setLease] = useState();
@@ -35,25 +40,6 @@ const Profile = ({ navigation }) => {
   const [buttonClicked, setButtonClicked] = useState(false);
   const [interestButtonClicked, setInterestButtonClicked] = useState(false);
 
-  // Get User from Google Token
-  const fetchHousingInfo = async () => {
-    let houseInfo = null;
-    houseInfo = SecureStore.getItemAsync(MY_SECURE_AUTH_STATE_KEY).then(data => {
-      let houseInfo = JSON.parse(data);
-      if(houseInfo){
-        setName(houseInfo.fullname);
-        setRent(houseInfo.rent);
-        setLease(houseInfo.lease);
-        setCity(houseInfo.city);
-      }
-    });
-  }
-
-  
-  // Use Effect
-  useEffect(() => {
-    fetchHousingInfo();
-  }, []);
 
   const roomInfoButton = () => {
     setButtonClicked(true);
@@ -70,9 +56,9 @@ const Profile = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <MainHeader screen="Profile" navigation={navigation} />
-      <ScrollView>
+      <ScrollView >
         <Background>
-          <UserCard name={name} image={Tony} />
+          <UserCard name={userInfo.firstname + ' ' + userInfo.lastname} image={Tony} />
 
           <View style={styles.buttonContainer}>
             <TouchableOpacity>
@@ -105,15 +91,6 @@ const Profile = ({ navigation }) => {
               <InterestInfo></InterestInfo>
             </InfoCard>
           )}
-
-          <Button
-            style={styles.logoutButton}
-            onPress={() => {
-              navigation.navigate("Settings");
-            }}
-          >
-            Settings
-          </Button>
         </Background>
       </ScrollView>
     </SafeAreaView>
@@ -164,6 +141,7 @@ const InterestInfo = (props) => {
 const styles = StyleSheet.create({
   container: {
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    backgroundColor: 'white'
   },
   buttonContainer: {
     flex: 1,
