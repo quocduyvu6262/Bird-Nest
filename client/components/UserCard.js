@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, StatusBar } from "react-native";
 import Header from "./Header";
 import { theme } from "../core/theme";
 import React from "react";
@@ -17,7 +17,6 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.surface,
     alignItems: "center",
     paddingTop: 10,
-    width: "100%",
   },
   userImage: {
     borderColor: "#D3D3D3",

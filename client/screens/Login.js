@@ -20,6 +20,7 @@ import {updateUser} from '../redux/slices/data'
 
 // Axios
 import Axios from 'axios';
+import * as Network from 'expo-network';
 
 WebBrowser.maybeCompleteAuthSession();
 
