@@ -7,11 +7,13 @@ import Login from '../screens/Login.js';
 import Logo from '../assets/bird.png';
 // Import constants
 import Constants from '../constants/constants';
-
+// Redux
+import {useDispatch, useSelector} from 'react-redux';
+import {updateUser} from '../redux/slices/data'
 export default function SplashScreen({navigation}) {
 
     const edges = useSafeAreaInsets();
-
+    const dispatch = useDispatch();
     // Animation Values...
     const startAnimation = useRef(new Animated.Value(0)).current;
 
@@ -34,6 +36,10 @@ export default function SplashScreen({navigation}) {
         // else navigate to the auth screen
         setTimeout(() => {
             if(userToken){
+                SecureStore.getItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_REDUX).then(data => {
+                    let jsonData = JSON.parse(data);
+                    dispatch(updateUser(jsonData));
+                })
                 navigation.navigate('BirdFeed');
             } else {
                 navigation.navigate('LoginScreen');

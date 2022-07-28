@@ -1,20 +1,24 @@
 import { StyleSheet, Image, View, Text, SafeAreaView, TextInput, TouchableOpacity, StatusBar } from 'react-native'
 import React, {useEffect, useState} from 'react'
 import QuestHeader from "../components/QuestHeader.js"
+// local storage
+import * as SecureStore from 'expo-secure-store';
+import Constants from '../constants/constants.js';
 
 // Redux
 import {useDispatch, useSelector} from 'react-redux';
 import {updateFirstname, updateLastname, updateGender, updateAge, updatePronouns, updateMajor, updateGraduationyear, updateProfilepic} from '../redux/slices/data'
 
-const IDQs = () => {
+const IDQs = ({navigation}) => {
 
   // Redux
   const userInfo = useSelector((state) => state.data.userInfo);
   const dispatch = useDispatch();
-  useEffect(() => {
-    console.log(userInfo);
-  });
 
+  // Store to secure store
+  const store = () => {
+    SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_REDUX, JSON.stringify(userInfo));
+  }
   return (
 
     <SafeAreaView style={styles.container}>
@@ -38,7 +42,12 @@ const IDQs = () => {
         <Text style={{fontSize: 15, color: "#FFF"}}>Upload your face!</Text>
       </TouchableOpacity>
       {/* next page button */}
-      <TouchableOpacity style={styles.nextButton}>
+      <TouchableOpacity style={styles.nextButton}
+        onPress={() => {
+          store();
+          navigation.navigate('BirdFeed');
+        }}
+      >
         <Text style={styles.nextText}>Next Page</Text>
         <Image source={require("../assets/nextArrow.png")} style={styles.nextIcon} />
       </TouchableOpacity>

@@ -85,5 +85,5 @@ export const dataSlice = createSlice({
     }
 });
 
-export const {updateFirstname, updateLastname, updateGender, updateAge, updatePronouns, updateMajor, updateGraduationyear, updateProfilepic} = dataSlice.actions;
+export const {updateUser, updateHousing, updateFirstname, updateLastname, updateGender, updateAge, updatePronouns, updateMajor, updateGraduationyear, updateProfilepic} = dataSlice.actions;
 export default dataSlice.reducer;
