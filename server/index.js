@@ -3,6 +3,7 @@ const express = require('express');
 const housingsRoutes = require('./routes/housings');
 const authRoutes = require('./routes/auth');
 const matchRoutes = require('./routes/matching');
+const nohousingRoutes = require('./routes/nohousing');
 require('dotenv').config();
 
 
@@ -13,6 +14,7 @@ app.use(express.json());
 app.use('/api/housings', housingsRoutes);
 app.use('/api/users', authRoutes);
 app.use('/api/matching', matchRoutes);
+app.use('/api/nohousing', nohousingRoutes);
 
 
 

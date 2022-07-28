@@ -1,13 +1,19 @@
+import React, { useEffect, useState } from "react";
+import {
+  StyleSheet,
+  View,
+  Image,
+  InteractionManager,
+  ActivityIndicator,
+  CameraRoll,
+} from "react-native";
+import Logo from './assets/bird.png';
+
 import Axios from "axios";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
-//Bottom Tab Navigation
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-
-const Tab = createBottomTabNavigator(); //Tab
+import * as SecureStore from 'expo-secure-store';
 
 //Import screens in nav bar
+import SplashScreen from "./screens/SplashScreen";
 import BirdFeed from "./screens/BirdFeed.js";
 import Profile from "./screens/Profile.js";
 import MessengerPigeon from "./screens/MessengerPigeon.js";
@@ -15,70 +21,46 @@ import ChirpNotification from "./screens/ChirpNotification.js";
 import History from "./screens/History.js";
 import LoginScreen from "./screens/Login.js";
 import AuthLoading from "./screens/AuthLoading.js";
-import WelcomeScreen from "./screens/WelcomeScreen.js";
+import Roles from "./screens/Roles.js";
 
+// Stack and Tab Navigation
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 const Stack = createNativeStackNavigator();
-
-import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  TextInput,
-  Button,
-} from "react-native";
+const Tab = createBottomTabNavigator();
 
 // import check login key
-const MY_SECURE_AUTH_STATE_KEY = 'MySecureAuthStateKey';
+const MY_SECURE_AUTH_STATE_KEY = "MySecureAuthStateKey";
+
+const TabNavigator = () => {
+  return (
+    <Tab.Navigator screenOptions={{ headerShown: false }}>
+      <Tab.Screen name="Profile" component={Profile} />
+      <Tab.Screen name="Bird Feed" component={BirdFeed} />
+      <Tab.Screen name="Messenger Pigeon" component={MessengerPigeon} />
+    </Tab.Navigator>
+  );
+};
 
 export default function App() {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [userList, setUserList] = useState([]);
-  const [login, setLogin] = useState(false)
-
-  const addUser = () => {
-    Axios.post("http://localhost:3000/create", {
-      username: username,
-      email: email,
-      password: password,
-    })
-      .then(() => {
-        console.log("success");
-      })
-      .catch((error) => console.log(error));
-  };
-
-  const getUsers = () => {
-    Axios.get("http://localhost:3000/api/users/")
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => console.log(error));
-  };
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="AuthLoading"
+      //initialRouteName="SplashScreen"
+      initialRouteName="Roles"
         screenOptions={{ headerShown: false }}
       >
-        <Stack.Screen name="WelcomeScreen" component={WelcomeScreen}/>
-        <Stack.Screen name="AuthLoading" component={AuthLoading}/>
+        <Stack.Screen name="SplashScreen" component={SplashScreen}/>
         <Stack.Screen name="LoginScreen" component={LoginScreen} />
-        <Stack.Screen name="BirdFeed" component={BirdFeed} />
-        <Stack.Screen name="Profile" component={Profile} />
-        <Stack.Screen name="MessengerPigeon" component={MessengerPigeon} />
+        <Stack.Screen name="BirdFeed" component={TabNavigator} />
         <Stack.Screen name="ChirpNotification" component={ChirpNotification} />
         <Stack.Screen name="History" component={History} />
+        <Stack.Screen name="Roles" component={Roles} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -90,4 +72,10 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
   },
+  SplashScreen: {
+    alignSelf: "center",
+    marginVertical: 350,
+    height:100,
+    width: 100,
+  }
 });
