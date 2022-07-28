@@ -55,7 +55,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator
       //change back default to "Splashcreen" after testing
-        initialRouteName="SplashScreen"
+        initialRouteName="IDQs"
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="SplashScreen" component={SplashScreen} />
