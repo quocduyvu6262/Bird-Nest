@@ -57,36 +57,10 @@ const MainHeader = ({ screen, navigation }) => {
           {/* if screen === Bird Feed */}
           {screen === "Bird Feed" && (
             <View style={Main_Header_styles.headerButtonView}>
-              <TouchableOpacity
+              <TouchableOpacity 
                 style={Main_Header_styles.headerButtons}
-                onPress={() => navigation.navigate("PeckView")}
-              >
+                onPress = {() => navigation.navigate("PeckView")}>
                 <Icon name="contacts" size={27} />
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={Main_Header_styles.headerButtons}
-                onPress={() => navigation.navigate("History")}
-              >
-                <Icon name="history" size={30} />
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={Main_Header_styles.headerButtons}
-                onPress={() => navigation.navigate("ChirpNotification")}
-              >
-                <Image source={require(`../assets/bird.png`)} />
-              </TouchableOpacity>
-            </View>
-          )}
-
-          {screen === "Peck View" && (
-            <View style={Main_Header_styles.headerButtonView}>
-              <TouchableOpacity
-                style={Main_Header_styles.headerButtons}
-                onPress={() => navigation.navigate("BirdFeed")}
-              >
-                <Icon name="list" size={30}></Icon>
               </TouchableOpacity>
 
               <TouchableOpacity
