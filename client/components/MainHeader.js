@@ -12,7 +12,6 @@ import {
 } from "react-native";
 import React from "react";
 import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
-
 import { Icon } from "@rneui/themed";
 
 // import buttons
@@ -31,7 +30,8 @@ const MainHeader = ({ screen, navigation }) => {
         {!(
           screen === "Profile" ||
           screen === "Bird Feed" ||
-          screen === "Messenger Pigeon"
+          screen === "Messenger Pigeon" ||
+          screen === "Peck View"
         ) && (
           <TouchableOpacity
             onPress={() => navigation.goBack()}
@@ -44,7 +44,7 @@ const MainHeader = ({ screen, navigation }) => {
           {/*  Main Title - conditional render applied */}
           <Text
             style={
-              screen === "Bird Feed" || screen === "Profile"
+              screen === "Bird Feed" || screen === "Profile" || screen == "Peck View"
                 ? Main_Header_styles.headerText
                 : Main_Header_styles.headerTextNoIcons
             }
@@ -55,14 +55,38 @@ const MainHeader = ({ screen, navigation }) => {
           {/* if screen === Bird Feed */}
           {screen === "Bird Feed" && (
             <View style={Main_Header_styles.headerButtonView}>
-              <TouchableOpacity style={Main_Header_styles.headerButtons}>
-                <Icon name="list" size={35} />
+              <TouchableOpacity 
+                style={Main_Header_styles.headerButtons}
+                onPress = {() => navigation.navigate("PeckView")}>
+                <Icon name="visibility" size={30} />
               </TouchableOpacity>
 
               <TouchableOpacity
                 style={Main_Header_styles.headerButtons}
-                onPress={() => navigation.navigate("History")}
+                onPress={() => navigation.navigate("History")}>
+                <Icon name="history" size={30} />
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={Main_Header_styles.headerButtons}
+                onPress={() => navigation.navigate("ChirpNotification")}
               >
+                <Image source={require(`../assets/bird.png`)} />
+              </TouchableOpacity>
+            </View>
+          )}
+
+          {screen === "Peck View" && (
+            <View style={Main_Header_styles.headerButtonView}>
+              <TouchableOpacity 
+                style={Main_Header_styles.headerButtons}
+                onPress = {() => navigation.navigate("BirdFeed")}>
+               <Icon name="list" size = {30}></Icon>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={Main_Header_styles.headerButtons}
+                onPress={() => navigation.navigate("History")}>
                 <Icon name="history" size={30} />
               </TouchableOpacity>
 
@@ -121,7 +145,7 @@ const Main_Header_styles = StyleSheet.create({
     flex: 1,
     fontSize: 30,
     left: 25,
-    color: "#219EBC",
+    color: "#560CCE",
     // color: "#560CCE",
     fontFamily: "Pacifico_400Regular",
   },
@@ -129,7 +153,7 @@ const Main_Header_styles = StyleSheet.create({
     flex: 1,
     fontSize: 30,
     // color: "#560CCE",
-    color: "#219EBC",
+    color: "#560CCE",
     textAlign: "center",
     fontFamily: "Pacifico_400Regular",
   },
