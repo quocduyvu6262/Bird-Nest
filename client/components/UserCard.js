@@ -16,14 +16,14 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: theme.colors.surface,
     alignItems: "center",
-    paddingTop: 10,
   },
   userImage: {
     borderColor: "#D3D3D3",
-    borderRadius: 30,
+    borderRadius: 15,
     width: 350,
     height: 300,
-    marginBottom: 20,
+    position: "relative",
+    bottom: 0,
   },
 });
 
