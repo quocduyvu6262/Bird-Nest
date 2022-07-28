@@ -25,7 +25,7 @@ const userInfo = {
 }
 
 const housing = {
-    neighborhoos: null,
+    neighborhood: null,
     city: null,
     squarefeet: null,
     lease: null,
@@ -82,8 +82,11 @@ export const dataSlice = createSlice({
         updateProfilepic: (state, action) => {
             state.userInfo.profilepic = action.payload;
         },
+        updateNeighborhood: (state, action) => {
+            state.housing.neighborhood = action.payload;
+        }
     }
 });
 
-export const {updateUser, updateHousing, updateFirstname, updateLastname, updateGender, updateAge, updatePronouns, updateMajor, updateGraduationyear, updateProfilepic} = dataSlice.actions;
+export const {updateUser, updateHousing, updateFirstname, updateLastname, updateGender, updateAge, updatePronouns, updateMajor, updateGraduationyear, updateProfilepic, updateNeighborhood} = dataSlice.actions;
 export default dataSlice.reducer;

@@ -32,6 +32,7 @@ import {updateFirstname, updateLastname, updateGender, updateAge, updatePronouns
 const Profile = ({ navigation }) => {
   
   const userInfo = useSelector(state => state.data.userInfo);
+  const houseInfo = useSelector(state => state.data.housing);
 
   const [name, setName] = useState();
   const [rent, setRent] = useState();
@@ -78,7 +79,7 @@ const Profile = ({ navigation }) => {
             {!buttonClicked && <BioInfo></BioInfo>}
 
             {buttonClicked && (
-              <RentInfo rent={rent} lease={lease} city={city} />
+              <RentInfo rent={rent} lease={lease} neighborhood={houseInfo.neighborhood} />
             )}
           </InfoCard>
 
@@ -121,7 +122,7 @@ const RentInfo = (props) => {
         months
       </Text>
       <Text style={styles.text}>
-        <Text style={{ fontWeight: "bold" }}> City:</Text> {props.city}
+        <Text style={{ fontWeight: "bold" }}> Neighborhood:</Text> {props.neighborhood}
       </Text>
     </View>
   );

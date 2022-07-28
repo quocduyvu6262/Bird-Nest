@@ -45,7 +45,7 @@ const IDQs = ({navigation}) => {
       <TouchableOpacity style={styles.nextButton}
         onPress={() => {
           store();
-          navigation.navigate('BirdFeed');
+          navigation.navigate('HasHousingQ');
         }}
       >
         <Text style={styles.nextText}>Next Page</Text>

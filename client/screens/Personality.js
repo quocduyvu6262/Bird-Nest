@@ -360,7 +360,11 @@ import {
       <SafeAreaView style={HousingQ_styles.container}>
           <View style={HousingHeader_styles.header}>
             <Text style={HousingHeader_styles.headerText}>Personality (5/5)</Text>
-            <TouchableOpacity style={{alignSelf: 'flex-start'}}>
+            <TouchableOpacity style={{alignSelf: 'flex-start'}}
+              onPress={() => {
+                this.props.navigation.goBack();
+              }}
+            >
               <Text style={HousingHeader_styles.returnToProfileArrow}>{"< "}</Text>
               <Text style={HousingHeader_styles.returnToProfile}>Housing</Text>
             </TouchableOpacity>
@@ -601,7 +605,10 @@ import {
 
 
             <TouchableOpacity style={HousingQ_styles.nextButton}
-            onPress={()=>this.createHousingInfo()}>
+            onPress={()=>{
+              //this.createHousingInfo();
+              this.props.navigation.navigate('BirdFeed');
+            }}>
               <Text style = {[HousingQ_styles.buttonText, {color:'#FFF'}]}>Next</Text>
             </TouchableOpacity>
           </ScrollView>
