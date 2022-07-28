@@ -4,13 +4,16 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import AuthLoading from '../screens/AuthLoading.js';
 import * as SecureStore from 'expo-secure-store';
 import Login from '../screens/Login.js';
-
 import Logo from '../assets/bird.png';
-
+// Import constants
+import Constants from '../constants/constants';
+// Redux
+import {useDispatch, useSelector} from 'react-redux';
+import {updateUser} from '../redux/slices/data'
 export default function SplashScreen({navigation}) {
 
     const edges = useSafeAreaInsets();
-
+    const dispatch = useDispatch();
     // Animation Values...
     const startAnimation = useRef(new Animated.Value(0)).current;
 
@@ -26,14 +29,17 @@ export default function SplashScreen({navigation}) {
     const contentTransition = useRef(new Animated.Value(Dimensions.get('window').height)).current;
 
     const checkLoginState = async () => {
-        const MY_SECURE_AUTH_STATE_KEY = 'MySecureAuthStateKey';
         // retrieve the value of the token
-        const userToken = await SecureStore.getItemAsync(MY_SECURE_AUTH_STATE_KEY);
+        const userToken = await SecureStore.getItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_TOKEN);
         
         // navigate to the app screen if a token is present
         // else navigate to the auth screen
         setTimeout(() => {
             if(userToken){
+                SecureStore.getItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_REDUX).then(data => {
+                    let jsonData = JSON.parse(data);
+                    dispatch(updateUser(jsonData));
+                })
                 navigation.navigate('BirdFeed');
             } else {
                 navigation.navigate('LoginScreen');

@@ -1,10 +1,8 @@
 // require express
 const express = require('express');
-
 // require db connection
 const db = require('../utils/database');
 const router = express.Router();
-
 // get all housing
 router.get('/', (req, res) => {
     const query = `SELECT * FROM Housing`;
@@ -47,7 +45,6 @@ router.get('/:email', (req, res) => {
         })
     });
 })
-
 // Post housings
 router.post('/create', (req, res) => {
     let housing = req.body;
@@ -67,9 +64,8 @@ router.post('/create', (req, res) => {
             }
             res.send(`Insert successfully.`);
         });
-    })   
+    })
 })
-
 // Delete housings
 router.post('/delete', (req, res) => {
     let housing = req.body;

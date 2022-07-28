@@ -347,8 +347,12 @@
 				CODE_SIGN_ENTITLEMENTS = BirdNest/BirdNest.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
+<<<<<<< HEAD
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 >>>>>>> 9683aaa3131cf153da7fdde29f168979b8bf64b4
+=======
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64";
+>>>>>>> 298309e965c98d89961a5fc15c0d5e4c20be46fe
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"FB_SONARKIT_ENABLED=1",
@@ -372,7 +376,7 @@
 				CODE_SIGN_ENTITLEMENTS = "BirdNest/BirdNest.entitlements";
 =======
 				PRODUCT_BUNDLE_IDENTIFIER = host.exp.exponent;
-				PRODUCT_NAME = BirdNest;
+				PRODUCT_NAME = "BirdNest";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -395,8 +399,12 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = BirdNest/BirdNest.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
+<<<<<<< HEAD
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 >>>>>>> 9683aaa3131cf153da7fdde29f168979b8bf64b4
+=======
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64";
+>>>>>>> 298309e965c98d89961a5fc15c0d5e4c20be46fe
 				INFOPLIST_FILE = BirdNest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -415,7 +423,7 @@
 				CODE_SIGN_ENTITLEMENTS = "BirdNest/BirdNest.entitlements";
 =======
 				PRODUCT_BUNDLE_IDENTIFIER = host.exp.exponent;
-				PRODUCT_NAME = BirdNest;
+				PRODUCT_NAME = "BirdNest";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";

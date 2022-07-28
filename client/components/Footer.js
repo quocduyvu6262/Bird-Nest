@@ -13,23 +13,23 @@ import React from "react";
 
 const Footer = ({ navigation }) => {
   return (
-    <View style={[Footer_styles.container, { backgroundColor: "#fffff" }]}>
+    <View style={[styles.container, { backgroundColor: "#fffff" }]}>
       <TouchableOpacity
-        style={Footer_styles.buttons}
+        style={styles.buttons}
         onPress={() => navigation.navigate("Profile")}
       >
         <Image source={require(`../assets/account_circle.png`)} />
       </TouchableOpacity>
 
       <TouchableOpacity
-        style={Footer_styles.buttons}
+        style={styles.buttons}
         onPress={() => navigation.navigate("BirdFeed")}
       >
         <Image source={require("../assets/home.png")} />
       </TouchableOpacity>
 
       <TouchableOpacity
-        style={Footer_styles.buttons}
+        style={styles.buttons}
         onPress={() => navigation.navigate("MessengerPigeon")}
       >
         <Image source={require("../assets/messenger.png")} />
@@ -37,7 +37,7 @@ const Footer = ({ navigation }) => {
     </View>
   );
 };
-const Footer_styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     justifyContent: "space-around",
