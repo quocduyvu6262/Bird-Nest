@@ -72,7 +72,7 @@ const IDQs_styles = StyleSheet.create({
       margin: 8,
       paddingHorizontal: 20,
       paddingVertical: 5, 
-      borderRadius: 15,
+      borderRadius: 7,
     },
     headerText: {
       flexDirection: "row",
