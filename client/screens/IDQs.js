@@ -27,7 +27,7 @@ const IDQs = ({navigation}) => {
         <Text style={IDQs_styles.headTitle}>Profile (1/5)</Text>
       </View>
       {/* Text input fields */}
-      <Text style={IDQs_styles.headerText}>Basic Demographic Information</Text>
+      <Text style={IDQs_styles.headerText}>Let's get started!</Text>
       <TextInput style={IDQs_styles.textInput} placeholder='First Name' onChangeText={value => dispatch(updateFirstname(value))}/>
       <TextInput style={IDQs_styles.textInput } placeholder='Last Name' onChangeText={value => dispatch(updateLastname(value))}/>
       <View style={{flexDirection: "row"}}>
@@ -37,6 +37,8 @@ const IDQs = ({navigation}) => {
       <TextInput style={IDQs_styles.textInput } placeholder='Pronouns' onChangeText={value => dispatch(updatePronouns(value))}/>
       <TextInput style={IDQs_styles.textInput } placeholder='Major' onChangeText={value => dispatch(updateMajor(value))}/>
       <TextInput style={IDQs_styles.textInput } placeholder='Graduation Year' onChangeText={value => dispatch(updateGraduationyear(value))}/>
+      {/* Bio only for demo */}
+      <TextInput style={IDQs_styles.textInput } placeholder='Bio' onChangeText={value => dispatch(updateGraduationyear(value))}/>
       <Text style={IDQs_styles.photoWords}>Show potential roommates what you look like!</Text>
       {/* photo upload button */}
       <TouchableOpacity style={IDQs_styles.photoButton}>
