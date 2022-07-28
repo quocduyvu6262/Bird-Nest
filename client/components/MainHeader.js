@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Platform,
   Image,
+  StatusBar,
 } from "react-native";
 import React from "react";
 import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
@@ -83,7 +84,7 @@ const MainHeader = ({ screen, navigation }) => {
 
               <TouchableOpacity
                 style={Main_Header_styles.headerButtons}
-                onPress={() => navigation.navigate("History")}
+                onPress={() => navigation.navigate("Settings")}
               >
                 <Icon name="settings" size={30} />
               </TouchableOpacity>
