@@ -21,37 +21,36 @@ const IDQs = ({navigation}) => {
   }
   return (
 
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={IDQs_styles.container}>
       {/* header */}
       <View style={IDQs_styles.header}>
         <Text style={IDQs_styles.headTitle}>Profile (1/5)</Text>
       </View>
       {/* Text input fields */}
-      <Text style={styles.headerText}>Basic Demographic Information</Text>
-      <TextInput style={styles.textInput} placeholder='First Name' onChangeText={value => dispatch(updateFirstname(value))}/>
-      <TextInput style={ styles.textInput } placeholder='Last Name' onChangeText={value => dispatch(updateLastname(value))}/>
+      <Text style={IDQs_styles.headerText}>Basic Demographic Information</Text>
+      <TextInput style={IDQs_styles.textInput} placeholder='First Name' onChangeText={value => dispatch(updateFirstname(value))}/>
+      <TextInput style={IDQs_styles.textInput } placeholder='Last Name' onChangeText={value => dispatch(updateLastname(value))}/>
       <View style={{flexDirection: "row"}}>
-        <TextInput style={ styles.textInput } placeholder='Gender' onChangeText={value => dispatch(updateGender(value))}/>
-        <TextInput style={ styles.textInput } placeholder='Age' onChangeText={value => dispatch(updateAge(value))}/>
+        <TextInput style={IDQs_styles.textInput } placeholder='Gender' onChangeText={value => dispatch(updateGender(value))}/>
+        <TextInput style={IDQs_styles.textInput } placeholder='Age' onChangeText={value => dispatch(updateAge(value))}/>
       </View>
-      <TextInput style={ styles.textInput } placeholder='Pronouns' onChangeText={value => dispatch(updatePronouns(value))}/>
-      <TextInput style={ styles.textInput } placeholder='Major' onChangeText={value => dispatch(updateMajor(value))}/>
-      <TextInput style={ styles.textInput } placeholder='Graduation Year' onChangeText={value => dispatch(updateGraduationyear(value))}/>
-      <Text style={styles.photoWords}>Show potential roommates what you look like!</Text>
+      <TextInput style={IDQs_styles.textInput } placeholder='Pronouns' onChangeText={value => dispatch(updatePronouns(value))}/>
+      <TextInput style={IDQs_styles.textInput } placeholder='Major' onChangeText={value => dispatch(updateMajor(value))}/>
+      <TextInput style={IDQs_styles.textInput } placeholder='Graduation Year' onChangeText={value => dispatch(updateGraduationyear(value))}/>
+      <Text style={IDQs_styles.photoWords}>Show potential roommates what you look like!</Text>
       {/* photo upload button */}
-      <TouchableOpacity style={styles.photoButton}>
+      <TouchableOpacity style={IDQs_styles.photoButton}>
         <Image style={{alignSelf: "center", tintColor: "#FFF" }} source={require("../assets/Upload.png")} />
         <Text style={{fontSize: 15, color: "#FFF"}}>Upload your face!</Text>
       </TouchableOpacity>
       {/* next page button */}
-      <TouchableOpacity style={styles.nextButton}
+      <TouchableOpacity style={IDQs_styles.nextButton}
         onPress={() => {
           store();
           navigation.navigate('BirdFeed');
         }}
       >
-        <Text style={styles.nextText}>Next Page</Text>
-        <Image source={require("../assets/nextArrow.png")} style={styles.nextIcon} />
+        <Text style={IDQs_styles.nextText}>Next</Text>
       </TouchableOpacity>
     </SafeAreaView>
 
@@ -99,21 +98,20 @@ const IDQs_styles = StyleSheet.create({
     },
     nextButton: {
       flexDirection:"row",
-      alignSelf: "flex-end",
+      alignSelf: "center",
       alignItems: "center",
       position: "absolute",
       bottom: "10%",
+      backgroundColor: "#6736B6",
+      paddingVertical: 8,
+      paddingHorizontal: 35,
+      borderRadius: 23,
     },
     nextText: {
-      fontSize: 15,
-      color: "#6736B6",
+      fontSize: 14,
+      color: "#FFF",
       margin: 3,
-    },
-    nextIcon: {
-      height: 30, 
-      width: 30, 
-      tintColor: "#6736B6",
-      marginLeft: -8,
+      fontWeight: "bold",
     },
     header: {
       paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
