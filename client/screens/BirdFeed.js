@@ -150,7 +150,6 @@ const BirdFeed = ({ navigation }) => {
             style = {styles.filterHeader}
             onPress={overlayButton}>
               <Icon 
-              style = {styles.goBack}
               name = "west" size = {30}/>
               <Text style = {styles.filterText}>Filter</Text>
             </TouchableOpacity>
@@ -207,7 +206,8 @@ const BirdFeed = ({ navigation }) => {
         </View>
         }
 
-        <TouchableOpacity onPress={viewUsers}>
+        <TouchableOpacity 
+        onPress={viewUsers}>
           <Text>View Users</Text>
         </TouchableOpacity>
 
@@ -264,6 +264,7 @@ const styles = StyleSheet.create({
     zIndex: 2,
   },
   filterHeader: {
+    marginLeft: 5,
     flexDirection: 'row',
     alignItems: 'center',
     marginRight: "42%",
