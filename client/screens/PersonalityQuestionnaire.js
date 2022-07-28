@@ -18,15 +18,12 @@ const PersonalityQuestionnaire = () => {
   // component for radio buttons: parameter is an array of strings of possible answers
   const RadioButtons = ({ paramArray, questionNumber }) => {
     const [whichRadioTapped, setWhichRadioTapped] = useState("");
+    console.log("whichRadioTapped: " + whichRadioTapped);
 
-    (() => {
-      {
-        `setQ${questionNumber}(${whichRadioTapped})`;
-      }
-      console.log("test2");
-    })();
+    {
+      questionNumber === "1" && setQ1(whichRadioTapped);
+    }
     console.log(Q1);
-
     // console.log(`setQ${questionNumber}(${whichRadioTapped})`);
     // console.log(`${questionNumber}`);
 
@@ -34,6 +31,7 @@ const PersonalityQuestionnaire = () => {
     return (
       <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
         {paramArray.map((item, i) => {
+          console.log("item: " + item);
           return (
             // this view contains both button and the text
             <TouchableOpacity
@@ -42,6 +40,7 @@ const PersonalityQuestionnaire = () => {
               onPress={function () {
                 setWhichRadioTapped(item);
               }}
+              key={i}
             >
               {/* outer circle */}
               <View
@@ -54,7 +53,7 @@ const PersonalityQuestionnaire = () => {
                 }}
               >
                 {/* inner circle */}
-                {whichRadioTapped === item && (
+                {whichRadioTapped == item && (
                   <View
                     style={{
                       height: 20,
