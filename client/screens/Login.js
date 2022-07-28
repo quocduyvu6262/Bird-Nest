@@ -14,6 +14,10 @@ import * as SecureStore from 'expo-secure-store';
 
 // Import constants
 import Constants from '../constants/constants';
+// Redux
+import {useDispatch, useSelector} from 'react-redux';
+import {updateUser} from '../redux/slices/data'
+
 // Axios
 import Axios from 'axios';
 import * as Network from 'expo-network';
@@ -21,6 +25,9 @@ import * as Network from 'expo-network';
 WebBrowser.maybeCompleteAuthSession();
 
 const LoginScreen = ({navigation}) => {
+
+  const dispatch = useDispatch();
+
 
   // execute google login
   // const [accessToken, setAccessToken] = useState(null);
@@ -85,24 +92,15 @@ const LoginScreen = ({navigation}) => {
       if(accessToken){
         fetchGoogleUser(accessToken).then((userInfo) => {
           login(userInfo).then(async res => {
-            // Store User
-            fetchUser(userInfo).then(async (user) => {
-              if(user){
-                await SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER,JSON.stringify(user));
-              }
-            }).catch(err => console.log(err));
             // Store Token
             await SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_TOKEN,JSON.stringify(accessToken));
-            //if user already existed
-            // console.log(userInfo);
-            // console.log(res);
+            // TWO CASES: LOGIN or REGISTER
             if(res === 'login'){
-              fetchHousing(userInfo).then( async (houseInfo) => {
-                if(houseInfo){
-                  // Store Housing
-                  await SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING,JSON.stringify(houseInfo));
-                  navigation.navigate('BirdFeed');
-                }
+              navigation.navigate('BirdFeed');
+              // get item redux
+              SecureStore.getItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_REDUX).then(data => {
+                let jsonData = JSON.parse(data);
+                dispatch(updateUser(jsonData));
               })
             } else if (res === 'register') { // new user or user who has not filled in questionaires
               navigation.navigate('IDQs');
@@ -121,12 +119,14 @@ const LoginScreen = ({navigation}) => {
       <Paragraph>
         Homes that Match
       </Paragraph>
-      <Button
-        mode="contained"
-        onPress={() => promptAsync({showInRecents: true})}
-      >
-        Sign in with Google
-      </Button>
+      <TouchableOpacity>
+        <Button
+          mode="contained"
+          onPress={() => promptAsync({showInRecents: true})}
+        >
+          Sign in with Google
+        </Button>
+      </TouchableOpacity>
     </Background>
   )
 };
