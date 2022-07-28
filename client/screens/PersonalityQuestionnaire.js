@@ -18,8 +18,16 @@ const PersonalityQuestionnaire = () => {
   // component for radio buttons: parameter is an array of strings of possible answers
   const RadioButtons = ({ paramArray, questionNumber }) => {
     const [whichRadioTapped, setWhichRadioTapped] = useState("");
-    setQ`${questionNumber}`("test");
+
+    (() => {
+      {
+        `setQ${questionNumber}(${whichRadioTapped})`;
+      }
+      console.log("test2");
+    })();
     console.log(Q1);
+
+    // console.log(`setQ${questionNumber}(${whichRadioTapped})`);
     // console.log(`${questionNumber}`);
 
     // use conditional with numbering of questions
