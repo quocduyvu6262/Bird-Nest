@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "expo-secure-store": "^11.2.0",
+    "react-native-dotenv": "^3.3.1"
+  }
+}
