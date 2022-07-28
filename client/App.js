@@ -26,6 +26,10 @@ import Settings from "./screens/Settings.js";
 import ChirpNotificationEdit from "./screens/SettingsScreens/ChirpNotificationEdit.js";
 import HelpSupport from "./screens/SettingsScreens/HelpSupport.js";
 import TermsOfService from "./screens/SettingsScreens/TermsOfService.js";
+import NoHousingQ from "./screens/NoHousingQ.js";
+import HasHousingQ from "./screens/HasHousingQ.js";
+import Personality from "./screens/Personality.js";
+import BasicInfo from "./screens/BasicInfo.js";
 
 // Stack and Tab Navigation
 import { NavigationContainer } from "@react-navigation/native";
@@ -71,6 +75,10 @@ export default function App() {
           <Stack.Screen name="TermsOfService" component={TermsOfService}/>
           <Stack.Screen name="ChirpNotification" component={ChirpNotification} />
           <Stack.Screen name="IDQs" component={IDQs} />
+          <Stack.Screen name="BasicInfo" component={BasicInfo} />
+          <Stack.Screen name="NoHousingQ" component={NoHousingQ} />
+          <Stack.Screen name="HasHousingQ" component={HasHousingQ} />
+          <Stack.Screen name="Personality" component={Personality} />
           <Stack.Screen
             name="History"
             component={History}
