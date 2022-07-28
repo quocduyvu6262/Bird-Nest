@@ -14,22 +14,31 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import MainHeader from "../components/MainHeader";
 // Import constants
-import Constants from '../constants/constants';
+import Constants from "../constants/constants";
 
 const Settings = ({ navigation }) => {
   const logout = async () => {
     await SecureStore.deleteItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_TOKEN)
       .then(async () => {
-        await SecureStore.deleteItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER).then(async () => {
-          await SecureStore.deleteItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING).then(()=>{
-            navigation.navigate('LoginScreen');
-          }).catch(err => {
-            console.log(err);
+        await SecureStore.deleteItemAsync(
+          Constants.MY_SECURE_AUTH_STATE_KEY_USER
+        )
+          .then(async () => {
+            await SecureStore.deleteItemAsync(
+              Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING
+            )
+              .then(() => {
+                navigation.navigate("LoginScreen");
+              })
+              .catch((err) => {
+                console.log(err);
+              });
           })
-        }).catch(err => {
-          console.log(err);
-        })
-      }).catch((err) => console.log(err));
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => console.log(err));
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -79,6 +88,7 @@ const styles = StyleSheet.create({
     alignContent: "flex-end",
     justifyContent: "center",
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    backgroundColor: "white",
   },
   regularButton: {
     width: 200,

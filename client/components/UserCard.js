@@ -22,6 +22,8 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     width: 350,
     height: 300,
+    position: "relative",
+    bottom: 0,
   },
 });
 
