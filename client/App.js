@@ -14,6 +14,7 @@ import * as SecureStore from "expo-secure-store";
 //Import screens in nav bar
 import SplashScreen from "./screens/SplashScreen";
 import BirdFeed from "./screens/BirdFeed.js";
+import PeckView from "./screens/PeckView.js"
 import Profile from "./screens/Profile.js";
 import MessengerPigeon from "./screens/MessengerPigeon.js";
 import ChirpNotification from "./screens/ChirpNotification.js";
@@ -52,7 +53,7 @@ const TabNavigator = () => {
     </Tab.Navigator>
   );
 };
-
+<ion-icon name="eye-outline"></ion-icon>
 export default function App() {
   return (
     <Provider store = {store}>
@@ -65,6 +66,7 @@ export default function App() {
           <Stack.Screen name="SplashScreen" component={SplashScreen} />
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="BirdFeed" component={TabNavigator} />
+          <Stack.Screen name="PeckView" component={PeckView}/>
           <Stack.Screen name="Settings" component={Settings} />
           <Stack.Screen name="ChirpNotificationEdit" component={ChirpNotificationEdit}/>
           <Stack.Screen name="HelpSupport" component={HelpSupport}/>

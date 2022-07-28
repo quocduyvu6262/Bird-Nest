@@ -19,10 +19,11 @@ const styles = StyleSheet.create({
         height: "auto",
         backgroundColor: theme.colors.surface,
         borderWidth: 0.5,
-        borderRadius: 30,
+        borderRadius: 15,
         borderColor: "#D3D3D3",
         backgroundColor: "D3D3D3",
-        paddingTop: 10
+        justifyContent: 'center',
+        marginBottom: 5,
     }
 })
 
