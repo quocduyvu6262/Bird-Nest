@@ -15,14 +15,14 @@ const PeckCard = (props) => {
                 <Icon 
                 name = "cancel" 
                 color = "red"
-                size = {45}></Icon>
+                size = {60}></Icon>
             </TouchableOpacity>
 
             <TouchableOpacity style = {PeckCard_styles.buttons}>
                 <Icon 
                 name = "check-circle" 
                 color = "green"
-                size = {45}></Icon>
+                size = {60}></Icon>
             </TouchableOpacity>
         </View>
     </View>
@@ -48,9 +48,9 @@ const PeckCard_styles = StyleSheet.create({
     zIndex: 2,
   },
   buttons: {
-    marginTop: 265,
-    marginLeft: 120,
-    marginRight: 120,
+    marginTop: 245,
+    marginLeft: 110,
+    marginRight: 110,
   }
 });
 

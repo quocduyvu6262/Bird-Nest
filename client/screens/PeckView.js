@@ -29,7 +29,7 @@ const PeckView = ({navigation}) => {
                     <View style={PeckView_Styles.buttonContainer}>
                         <TouchableOpacity>
                             <Button 
-                            color= {!buttonClicked ? "black" : "#560CCE"}
+                            color= {!buttonClicked ? "#560CCE" : "black"}
                             onPress={bioButton}
                             style = {!buttonClicked && {borderBottomColor: 'black', borderBottomWidth: 1,}}>
                             Bio
@@ -38,9 +38,9 @@ const PeckView = ({navigation}) => {
 
                         <TouchableOpacity>
                             <Button
-                            color = {buttonClicked ? "black" : "#560CCE"}
+                            color = {buttonClicked ? "#560CCE" : "black"}
                             onPress={roomInfoButton}
-                            style = {buttonClicked && {borderBottomColor: 'black', borderBottomWidth: 1,}}>
+                            style = {buttonClicked && {borderBottomColor: '#560CCE', borderBottomWidth: 1,}}>
                             Room Info
                             </Button>
                         </TouchableOpacity>

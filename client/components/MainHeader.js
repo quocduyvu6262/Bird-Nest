@@ -58,7 +58,7 @@ const MainHeader = ({ screen, navigation }) => {
               <TouchableOpacity 
                 style={Main_Header_styles.headerButtons}
                 onPress = {() => navigation.navigate("PeckView")}>
-                <Icon name="visibility" size={30} />
+                <Icon name="contacts" size={27} />
               </TouchableOpacity>
 
               <TouchableOpacity
@@ -71,7 +71,8 @@ const MainHeader = ({ screen, navigation }) => {
                 style={Main_Header_styles.headerButtons}
                 onPress={() => navigation.navigate("ChirpNotification")}
               >
-                <Image source={require(`../assets/bird.png`)} />
+                <Image 
+                source={require(`../assets/bird.png`)} />
               </TouchableOpacity>
             </View>
           )}
