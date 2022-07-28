@@ -44,7 +44,9 @@ const MainHeader = ({ screen, navigation }) => {
           {/*  Main Title - conditional render applied */}
           <Text
             style={
-              screen === "Bird Feed" || screen === "Profile" || screen == "Peck View"
+              screen === "Bird Feed" ||
+              screen === "Profile" ||
+              screen == "Peck View"
                 ? Main_Header_styles.headerText
                 : Main_Header_styles.headerTextNoIcons
             }
@@ -55,15 +57,17 @@ const MainHeader = ({ screen, navigation }) => {
           {/* if screen === Bird Feed */}
           {screen === "Bird Feed" && (
             <View style={Main_Header_styles.headerButtonView}>
-              <TouchableOpacity 
+              <TouchableOpacity
                 style={Main_Header_styles.headerButtons}
-                onPress = {() => navigation.navigate("PeckView")}>
+                onPress={() => navigation.navigate("PeckView")}
+              >
                 <Icon name="contacts" size={27} />
               </TouchableOpacity>
 
               <TouchableOpacity
                 style={Main_Header_styles.headerButtons}
-                onPress={() => navigation.navigate("History")}>
+                onPress={() => navigation.navigate("History")}
+              >
                 <Icon name="history" size={30} />
               </TouchableOpacity>
 
@@ -71,23 +75,24 @@ const MainHeader = ({ screen, navigation }) => {
                 style={Main_Header_styles.headerButtons}
                 onPress={() => navigation.navigate("ChirpNotification")}
               >
-                <Image 
-                source={require(`../assets/bird.png`)} />
+                <Image source={require(`../assets/bird.png`)} />
               </TouchableOpacity>
             </View>
           )}
 
           {screen === "Peck View" && (
             <View style={Main_Header_styles.headerButtonView}>
-              <TouchableOpacity 
+              <TouchableOpacity
                 style={Main_Header_styles.headerButtons}
-                onPress = {() => navigation.navigate("BirdFeed")}>
-               <Icon name="list" size = {30}></Icon>
+                onPress={() => navigation.navigate("BirdFeed")}
+              >
+                <Icon name="list" size={30}></Icon>
               </TouchableOpacity>
 
               <TouchableOpacity
                 style={Main_Header_styles.headerButtons}
-                onPress={() => navigation.navigate("History")}>
+                onPress={() => navigation.navigate("History")}
+              >
                 <Icon name="history" size={30} />
               </TouchableOpacity>
 
@@ -141,6 +146,11 @@ const Main_Header_styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     backgroundColor: "white",
+    borderBottomWidth: 0.8,
+    borderBottomColor: "lightgray",
+    // // shadowOffset: { height: 10 },
+    // shadowRadius: 5,
+    // elevation: 10,
   },
   headerText: {
     flex: 1,

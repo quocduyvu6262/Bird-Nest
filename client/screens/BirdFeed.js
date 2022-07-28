@@ -38,50 +38,61 @@ const BirdFeed = ({ navigation }) => {
   const [backgroundGrey, setBackgroundGrey] = useState(false);
 
   const [switchEnabledNeigh, setSwitchEnabledNeigh] = useState(false);
-  const toggleSwitchNeigh = () => setSwitchEnabledNeigh(previousState => !previousState);
-  
+  const toggleSwitchNeigh = () =>
+    setSwitchEnabledNeigh((previousState) => !previousState);
+
   const [switchEnabledSqua, setSwitchEnabledSqua] = useState(false);
-  const toggleSwitchSqua = () => setSwitchEnabledSqua(previousState => !previousState);
+  const toggleSwitchSqua = () =>
+    setSwitchEnabledSqua((previousState) => !previousState);
 
   const [switchEnabledPri, setSwitchEnabledPri] = useState(false);
-  const toggleSwitchPri = () => setSwitchEnabledPri(previousState => !previousState);
+  const toggleSwitchPri = () =>
+    setSwitchEnabledPri((previousState) => !previousState);
 
   const [switchEnabledIn, setSwitchEnabledIn] = useState(false);
-  const toggleSwitchIn = () => setSwitchEnabledIn(previousState => !previousState);
+  const toggleSwitchIn = () =>
+    setSwitchEnabledIn((previousState) => !previousState);
 
   const [switchEnabledPer, setSwitchEnabledPer] = useState(false);
-  const toggleSwitchPer = () => setSwitchEnabledPer(previousState => !previousState);
+  const toggleSwitchPer = () =>
+    setSwitchEnabledPer((previousState) => !previousState);
 
   const [switchEnabledRoo, setSwitchEnabledRoo] = useState(false);
-  const toggleSwitchRoo = () => setSwitchEnabledRoo(previousState => !previousState);
+  const toggleSwitchRoo = () =>
+    setSwitchEnabledRoo((previousState) => !previousState);
 
   const [switchEnabledYes, setSwitchEnabledYes] = useState(false);
-  const toggleSwitchYes = () => setSwitchEnabledYes(previousState => !previousState);
+  const toggleSwitchYes = () =>
+    setSwitchEnabledYes((previousState) => !previousState);
 
   const [switchEnabledNo, setSwitchEnabledNo] = useState(false);
-  const toggleSwitchNo = () => setSwitchEnabledNo(previousState => !previousState);
+  const toggleSwitchNo = () =>
+    setSwitchEnabledNo((previousState) => !previousState);
 
   const [switchEnabledRec, setSwitchEnabledRec] = useState(false);
-  const toggleSwitchRec = () => setSwitchEnabledRec(previousState => !previousState);
+  const toggleSwitchRec = () =>
+    setSwitchEnabledRec((previousState) => !previousState);
 
   const [switchEnabledApt, setSwitchEnabledApt] = useState(false);
-  const toggleSwitchApt = () => setSwitchEnabledApt(previousState => !previousState);
-  
+  const toggleSwitchApt = () =>
+    setSwitchEnabledApt((previousState) => !previousState);
+
   let [fontsLoaded] = useFonts({
     Pacifico_400Regular,
   });
 
   const SingleSwitch = (props) => {
     return (
-      <View style = {styles.switchView}>
+      <View style={styles.switchView}>
         <Switch
-        trackColor ={{ false: "%767577", true: "green"}}
-        thumbColor = {props.enabled ? "#white" : "white"}
-        onValueChange ={props.toggle}
-        value={props.enabled}>
-        </Switch>
-        <Text style = {styles.switchText}>
-          <Text></Text>{props.variable}
+          trackColor={{ false: "%767577", true: "green" }}
+          thumbColor={props.enabled ? "#white" : "white"}
+          onValueChange={props.toggle}
+          value={props.enabled}
+        ></Switch>
+        <Text style={styles.switchText}>
+          <Text></Text>
+          {props.variable}
         </Text>
       </View>
     );
@@ -134,7 +145,8 @@ const BirdFeed = ({ navigation }) => {
         <MainHeader screen="Bird Feed" navigation={navigation} />
         <TouchableOpacity
           style={[styles.input, { marginVertical: 7 }]}
-          onPress = {overlayButton}>
+          onPress={overlayButton}
+        >
           <Icon3
             style={styles.input}
             name="options-sharp"
@@ -143,71 +155,80 @@ const BirdFeed = ({ navigation }) => {
           />
         </TouchableOpacity>
 
-        {overlayClicked && 
-        <View style = {styles.subContainer}>
-          <ScrollView style = {styles.filterCard}>
-            <TouchableOpacity 
-            style = {styles.filterHeader}
-            onPress={overlayButton}>
-              <Icon 
-              name = "west" size = {30}/>
-              <Text style = {styles.filterText}>Filter</Text>
-            </TouchableOpacity>
-            
-            <SingleSwitch 
-            variable = "Neighborhood"
-            enabled = {switchEnabledNeigh}
-            toggle = {toggleSwitchNeigh}/>
+        {overlayClicked && (
+          <View style={styles.subContainer}>
+            <ScrollView style={styles.filterCard}>
+              <TouchableOpacity
+                style={styles.filterHeader}
+                onPress={overlayButton}
+              >
+                <Icon name="west" size={30} />
+                <Text style={styles.filterText}>Filter</Text>
+              </TouchableOpacity>
 
-            <SingleSwitch 
-            variable = "Square Footage"
-            enabled = {switchEnabledSqua}
-            toggle = {toggleSwitchSqua}/>
+              <SingleSwitch
+                variable="Neighborhood"
+                enabled={switchEnabledNeigh}
+                toggle={toggleSwitchNeigh}
+              />
 
-            <SingleSwitch 
-            variable = "Price Range"
-            enabled = {switchEnabledPri}
-            toggle = {toggleSwitchPri}/>
+              <SingleSwitch
+                variable="Square Footage"
+                enabled={switchEnabledSqua}
+                toggle={toggleSwitchSqua}
+              />
 
-            <SingleSwitch 
-            variable = "Indoor Parking"
-            enabled = {switchEnabledIn}
-            toggle = {toggleSwitchIn}/>
+              <SingleSwitch
+                variable="Price Range"
+                enabled={switchEnabledPri}
+                toggle={toggleSwitchPri}
+              />
 
-            <SingleSwitch 
-            variable = "Percent Matched"
-            enabled = {switchEnabledPer}
-            toggle = {toggleSwitchPer}/>
+              <SingleSwitch
+                variable="Indoor Parking"
+                enabled={switchEnabledIn}
+                toggle={toggleSwitchIn}
+              />
 
-            <SingleSwitch 
-            variable = "# of Roommates"
-            enabled = {switchEnabledRoo}
-            toggle = {toggleSwitchRoo}/>
+              <SingleSwitch
+                variable="Percent Matched"
+                enabled={switchEnabledPer}
+                toggle={toggleSwitchPer}
+              />
 
-            <SingleSwitch 
-            variable = "Pecked Yes"
-            enabled = {switchEnabledYes}
-            toggle = {toggleSwitchYes}/>
+              <SingleSwitch
+                variable="# of Roommates"
+                enabled={switchEnabledRoo}
+                toggle={toggleSwitchRoo}
+              />
 
-            <SingleSwitch 
-            variable = "Pecked No"
-            enabled = {switchEnabledNo}
-            toggle = {toggleSwitchNo}/>
+              <SingleSwitch
+                variable="Pecked Yes"
+                enabled={switchEnabledYes}
+                toggle={toggleSwitchYes}
+              />
 
-            <SingleSwitch 
-            variable = "Most Recent"
-            enabled = {switchEnabledRec}
-            toggle = {toggleSwitchRec}/>
-            <SingleSwitch 
-            variable = "Apartment"
-            enabled = {switchEnabledApt}
-            toggle = {toggleSwitchApt}/>
-          </ScrollView>
-        </View>
-        }
+              <SingleSwitch
+                variable="Pecked No"
+                enabled={switchEnabledNo}
+                toggle={toggleSwitchNo}
+              />
 
-        <TouchableOpacity 
-        onPress={viewUsers}>
+              <SingleSwitch
+                variable="Most Recent"
+                enabled={switchEnabledRec}
+                toggle={toggleSwitchRec}
+              />
+              <SingleSwitch
+                variable="Apartment"
+                enabled={switchEnabledApt}
+                toggle={toggleSwitchApt}
+              />
+            </ScrollView>
+          </View>
+        )}
+
+        <TouchableOpacity onPress={viewUsers}>
           <Text>View Users</Text>
         </TouchableOpacity>
 
@@ -231,9 +252,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    backgroundColor: "white",
   },
   input: {
-    alignSelf: 'flex-start',
+    alignSelf: "flex-start",
     flexDirection: "row",
     color: "black",
   },
@@ -265,23 +287,25 @@ const styles = StyleSheet.create({
   },
   filterHeader: {
     marginLeft: 5,
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginRight: "42%",
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
   },
   filterText: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    alignSelf: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    alignSelf: "center",
     fontSize: 30,
-  }, 
+    fontFamily: "Pacifico_400Regular",
+    color: "#560CCE",
+  },
   filterCard: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     marginTop: 100,
-    position: 'absolute',
+    position: "absolute",
     zIndex: 2,
-    alignSelf: 'auto',
+    alignSelf: "auto",
     borderWidth: 0.5,
     borderColor: "black",
     borderRadius: 15,
@@ -290,23 +314,23 @@ const styles = StyleSheet.create({
   },
   switchView: {
     marginLeft: 10,
-    flexDirection: 'row',
-    alignSelf: 'flex-start',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignSelf: "flex-start",
+    alignItems: "center",
     marginTop: 10,
   },
   switchText: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginLeft: 5,
     fontSize: 20,
-  }, 
+  },
   subContainer: {
     backgroundColor: "rgba(0,0,0,0.5)",
-    height: "100%",
+    height: "120%",
     width: "100%",
-    position: 'absolute',
+    position: "absolute",
     zIndex: 1,
-  }
+  },
 });
 export default BirdFeed;
