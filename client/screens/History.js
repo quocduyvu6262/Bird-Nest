@@ -1,14 +1,25 @@
-import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, StatusBar, ScrollView, FlatList } from "react-native";
-import React, {useEffect, useState} from "react";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  StyleSheet,
+  TouchableOpacity,
+  StatusBar,
+  ScrollView,
+  FlatList,
+} from "react-native";
+import React, { useEffect, useState } from "react";
 
 import Background from "../components/Background";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Button from "../components/Button";
 import ProfileCard from "../components/ProfileCard";
-import { IconButton } from 'react-native-paper';
+import { IconButton } from "react-native-paper";
 import Axios from "axios";
 import Constants from "../constants/constants";
+
+import MainHeader from "../components/MainHeader";
 
 const History = ({ navigation }) => {
   const [userList, setUserList] = useState([]);
@@ -17,7 +28,7 @@ const History = ({ navigation }) => {
   //methods
   const goBack = () => {
     navigation.goBack();
-  }
+  };
   // view history
   const viewUsers = () => {
     setUserList([]);
@@ -52,11 +63,11 @@ const History = ({ navigation }) => {
   // useeffect
   useEffect(() => {
     viewUsers();
-  },[]);
+  }, []);
   return (
     <SafeAreaView style={styles.container}>
       <View>
-        <View style={styles.headerContainer}>
+        {/* <View style={styles.headerContainer}>
           <IconButton
             icon="arrow-left"
             iconColor="black"
@@ -65,7 +76,8 @@ const History = ({ navigation }) => {
             style={styles.goBackButton}
           />
           <Header>History</Header>
-        </View>
+        </View> */}
+        <MainHeader screen="History" navigation={navigation} />
         {listState && (
           <View styles={styles.flatlist}>
             <FlatList
@@ -82,21 +94,20 @@ const History = ({ navigation }) => {
   );
 };
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-    backgroundColor: 'white'
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    backgroundColor: "white",
   },
   headerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center'
+    flexDirection: "row",
+    alignItems: "center",
   },
   flatlist: {
     height: 1000,
     borderWidth: 1,
-    borderColor: 'black'
-  }
+    borderColor: "black",
+  },
 });
 export default History;
