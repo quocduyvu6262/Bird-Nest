@@ -23,7 +23,7 @@ import QuestHeader from "../components/QuestHeader.js";
 //    Inter_400Regular,
 //  });
 
-const Roles = () => {
+const Roles = ({ navigation }) => {
   const selectRoles = (selectedRole) => {
     console.log(selectedRole);
     /*
@@ -166,9 +166,15 @@ const Roles = () => {
     <SafeAreaView style={Roles_styles.container}>
       <View style={Roles_styles.header}>
         <Text style={Roles_styles.headTitle}>Roles (2/5)</Text>
-        <TouchableOpacity style={Roles_styles.backButton}>
-                <Image source={require("../assets/backArrow.png")} style={Roles_styles.backIcon}/>
-                <Text style={Roles_styles.backText}>Profile</Text>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={Roles_styles.backButton}
+        >
+          <Image
+            source={require("../assets/backArrow.png")}
+            style={Roles_styles.backIcon}
+          />
+          <Text style={Roles_styles.backText}>Profile</Text>
         </TouchableOpacity>
       </View>
       <ScrollView style={{ flex: 1 }}>
@@ -256,7 +262,10 @@ const Roles = () => {
               </Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={Roles_styles.nextButton}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("BasicInfo")}
+            style={Roles_styles.nextButton}
+          >
             <Text style={Roles_styles.nextText}>Next</Text>
           </TouchableOpacity>
         </View>
@@ -423,17 +432,17 @@ const Roles_styles = StyleSheet.create({
     bottom: 23,
     marginLeft: 12,
     alignItems: "center",
-   },
-   backText: {
+  },
+  backText: {
     color: "#FFF",
     fontSize: 15,
-   },
-   backIcon: {
+  },
+  backIcon: {
     height: 20,
     width: 20,
     tintColor: "#FFF",
     marginRight: -5,
-   },
+  },
 });
 
 export default Roles;

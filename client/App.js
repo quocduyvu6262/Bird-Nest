@@ -34,7 +34,6 @@ import HasHousingQ from "./screens/HasHousingQ.js";
 import Personality from "./screens/Personality.js";
 import BasicInfo from "./screens/BasicInfo.js";
 
-
 // Stack and Tab Navigation
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -62,8 +61,8 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator
-        //change back default to "Splashcreen" after testing
-          initialRouteName="IDQs"
+          //change back default to "Splashcreen" after testing
+          initialRouteName="SplashScreen"
           screenOptions={{ headerShown: false }}
         >
           <Stack.Screen name="SplashScreen" component={SplashScreen} />
