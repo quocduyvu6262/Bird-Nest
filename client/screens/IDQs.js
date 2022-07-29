@@ -1,24 +1,8 @@
 import { StyleSheet, Image, View, Text, SafeAreaView, TextInput, TouchableOpacity, StatusBar } from 'react-native'
-import React, {useEffect, useState} from 'react'
+import React from 'react'
 import QuestHeader from "../components/QuestHeader.js"
-// local storage
-import * as SecureStore from 'expo-secure-store';
-import Constants from '../constants/constants.js';
 
-// Redux
-import {useDispatch, useSelector} from 'react-redux';
-import {updateFirstname, updateLastname, updateGender, updateAge, updatePronouns, updateMajor, updateGraduationyear, updateProfilepic} from '../redux/slices/data'
-
-const IDQs = ({navigation}) => {
-
-  // Redux
-  const userInfo = useSelector((state) => state.data.userInfo);
-  const dispatch = useDispatch();
-
-  // Store to secure store
-  const store = () => {
-    SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_REDUX, JSON.stringify(userInfo));
-  }
+const IDQs = () => {
   return (
 
     <SafeAreaView style={IDQs_styles.container}>
