@@ -35,7 +35,9 @@ import Personality from "./screens/Personality.js";
 import BasicInfo from "./screens/BasicInfo.js";
 
 // logo icons
-import BirdFeedLogo from "./assets/logos/BirdFeedLogo.svg";
+import BirdFeedLogo from "./assets/BirdFeedLogo.png";
+import MessengerLogo from "./assets/MessengerLogo.png";
+import ProfileLogo from "./assets/ProfileLogo.png";
 
 // Stack and Tab Navigation
 import { NavigationContainer } from "@react-navigation/native";
@@ -57,10 +59,30 @@ const TabNavigator = () => {
       <Tab.Screen
         name="Profile"
         component={Profile}
-        options={{ tabBarIcon: () => <Image source={Logo} /> }}
+        options={{
+          tabBarIcon: () => (
+            <Image style={{ height: 40, width: 40 }} source={ProfileLogo} />
+          ),
+        }}
       />
-      <Tab.Screen name="Bird Feed" component={BirdFeed} />
-      <Tab.Screen name="Messenger Pigeon" component={MessengerPigeon} />
+      <Tab.Screen
+        name="Bird Feed"
+        component={BirdFeed}
+        options={{
+          tabBarIcon: () => (
+            <Image style={{ height: 50, width: 50 }} source={BirdFeedLogo} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Messenger Pigeon"
+        component={MessengerPigeon}
+        options={{
+          tabBarIcon: () => (
+            <Image style={{ height: 50, width: 50 }} source={MessengerLogo} />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 };
