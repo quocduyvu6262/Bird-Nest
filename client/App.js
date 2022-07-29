@@ -5,6 +5,7 @@ import {
   Image,
   InteractionManager,
   ActivityIndicator,
+  CameraRoll,
 } from "react-native";
 import Logo from "./assets/bird.png";
 
@@ -14,13 +15,14 @@ import * as SecureStore from "expo-secure-store";
 //Import screens in nav bar
 import SplashScreen from "./screens/SplashScreen";
 import BirdFeed from "./screens/BirdFeed.js";
-import PeckView from "./screens/PeckView.js"
+import PeckView from "./screens/PeckView.js";
 import Profile from "./screens/Profile.js";
 import MessengerPigeon from "./screens/MessengerPigeon.js";
 import ChirpNotification from "./screens/ChirpNotification.js";
 import History from "./screens/History.js";
 import LoginScreen from "./screens/Login.js";
 import AuthLoading from "./screens/AuthLoading.js";
+import Roles from "./screens/Roles.js";
 import WelcomeScreen from "./screens/WelcomeScreen.js";
 import IDQs from "./screens/IDQs.js";
 import Settings from "./screens/Settings.js";
@@ -32,7 +34,6 @@ import HasHousingQ from "./screens/HasHousingQ.js";
 import Personality from "./screens/Personality.js";
 import BasicInfo from "./screens/BasicInfo.js";
 
-
 // Stack and Tab Navigation
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -41,13 +42,9 @@ import { CardStyleInterpolators } from "@react-navigation/stack";
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-// Redux 
-import { Provider } from 'react-redux';
-import {store} from './redux/store';
-
-
-
-
+// Redux
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
 
 const TabNavigator = () => {
   return (
@@ -58,30 +55,37 @@ const TabNavigator = () => {
     </Tab.Navigator>
   );
 };
-<ion-icon name="eye-outline"></ion-icon>
+<ion-icon name="eye-outline"></ion-icon>;
 export default function App() {
   return (
-    <Provider store = {store}>
+    <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator
-        //change back default to "Splashcreen" after testing
-          initialRouteName="IDQs"
+          //change back default to "Splashcreen" after testing
+          initialRouteName="SplashScreen"
           screenOptions={{ headerShown: false }}
         >
           <Stack.Screen name="SplashScreen" component={SplashScreen} />
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="BirdFeed" component={TabNavigator} />
-          <Stack.Screen name="PeckView" component={PeckView}/>
+          <Stack.Screen name="PeckView" component={PeckView} />
           <Stack.Screen name="Settings" component={Settings} />
-          <Stack.Screen name="ChirpNotificationEdit" component={ChirpNotificationEdit}/>
-          <Stack.Screen name="HelpSupport" component={HelpSupport}/>
-          <Stack.Screen name="TermsOfService" component={TermsOfService}/>
-          <Stack.Screen name="ChirpNotification" component={ChirpNotification} />
+          <Stack.Screen
+            name="ChirpNotificationEdit"
+            component={ChirpNotificationEdit}
+          />
+          <Stack.Screen name="HelpSupport" component={HelpSupport} />
+          <Stack.Screen name="TermsOfService" component={TermsOfService} />
+          <Stack.Screen
+            name="ChirpNotification"
+            component={ChirpNotification}
+          />
           <Stack.Screen name="IDQs" component={IDQs} />
           <Stack.Screen name="BasicInfo" component={BasicInfo} />
           <Stack.Screen name="NoHousingQ" component={NoHousingQ} />
           <Stack.Screen name="HasHousingQ" component={HasHousingQ} />
           <Stack.Screen name="Personality" component={Personality} />
+          <Stack.Screen name="Roles" component={Roles} />
           <Stack.Screen
             name="History"
             component={History}
