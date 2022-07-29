@@ -889,7 +889,7 @@ export default class HasHousingQ extends Component {
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("BirdFeed")}
+            onPress={() => this.props.navigation.navigate("Profile")}
             style={HousingQ_styles.nextButton}
           >
             <Text style={[HousingQ_styles.buttonText, { color: "#FFF" }]}>

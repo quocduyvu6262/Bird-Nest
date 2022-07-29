@@ -15,11 +15,11 @@ const QuestHeader_styles = StyleSheet.create({
       paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
       backgroundColor: "#6736B6",
       height: 90,
-      bottom: 47,
+      bottom: 50,
     },
     headTitle: {
       color: "#FFF",
-      top: 55,
+      top: 0,
       alignSelf: "center",
       fontSize: 20,
       fontWeight: "bold"

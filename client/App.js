@@ -5,6 +5,7 @@ import {
   Image,
   InteractionManager,
   ActivityIndicator,
+  CameraRoll,
 } from "react-native";
 import Logo from "./assets/bird.png";
 
@@ -21,6 +22,7 @@ import ChirpNotification from "./screens/ChirpNotification.js";
 import History from "./screens/History.js";
 import LoginScreen from "./screens/Login.js";
 import AuthLoading from "./screens/AuthLoading.js";
+import Roles from "./screens/Roles.js";
 import WelcomeScreen from "./screens/WelcomeScreen.js";
 import IDQs from "./screens/IDQs.js";
 import Settings from "./screens/Settings.js";
@@ -83,6 +85,7 @@ export default function App() {
           <Stack.Screen name="NoHousingQ" component={NoHousingQ} />
           <Stack.Screen name="HasHousingQ" component={HasHousingQ} />
           <Stack.Screen name="Personality" component={Personality} />
+          <Stack.Screen name="Roles" component={Roles} />
           <Stack.Screen
             name="History"
             component={History}
