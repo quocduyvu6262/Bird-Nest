@@ -104,10 +104,10 @@ const Profile = ({ navigation }) => {
           </View>
 
           <InfoCard>
-            {!buttonClicked && <BioInfo></BioInfo>}
+            {!buttonClicked && <BioInfo bio={userInfo.bio}></BioInfo>}
 
             {buttonClicked && (
-              <RentInfo rent={houseInfo.rent} lease={lease} neighborhood={houseInfo.neighborhood} />
+              <RentInfo rent={houseInfo.rent} lease={houseInfo.lease} neighborhood={houseInfo.neighborhood} />
             )}
           </InfoCard>
 
@@ -140,8 +140,7 @@ const BioInfo = (props) => {
   return (
     <View style={styles.subContainer}>
       <Text style={styles.text}>
-        Hi, I am Duy, an incoming senior at UCSD. I love playing piano and
-        watching movies while working.
+        {props.bio}
       </Text>
     </View>
   );

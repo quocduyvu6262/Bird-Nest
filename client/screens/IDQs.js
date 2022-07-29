@@ -7,7 +7,7 @@ import Constants from '../constants/constants.js';
 
 // Redux
 import {useDispatch, useSelector} from 'react-redux';
-import {updateFirstname, updateLastname, updateGender, updateAge, updatePronouns, updateMajor, updateGraduationyear, updateProfilepic} from '../redux/slices/data'
+import {updateFirstname, updateLastname, updateGender, updateAge, updatePronouns, updateMajor, updateGraduationyear, updateBio, updateProfilepic} from '../redux/slices/data'
 
 const IDQs = ({navigation}) => {
 
@@ -38,7 +38,7 @@ const IDQs = ({navigation}) => {
       <TextInput style={IDQs_styles.textInput } placeholder='Major' onChangeText={value => dispatch(updateMajor(value))}/>
       <TextInput style={IDQs_styles.textInput } placeholder='Graduation Year' onChangeText={value => dispatch(updateGraduationyear(value))}/>
       {/* Bio only for demo */}
-      <TextInput style={IDQs_styles.textInput } placeholder='Bio' onChangeText={value => dispatch(updateGraduationyear(value))}/>
+      <TextInput style={IDQs_styles.textInput } placeholder='Bio' onChangeText={value => dispatch(updateBio(value))}/>
       <Text style={IDQs_styles.photoWords}>Show potential roommates what you look like!</Text>
       {/* photo upload button */}
       <TouchableOpacity style={IDQs_styles.photoButton}>
@@ -129,4 +129,4 @@ const IDQs_styles = StyleSheet.create({
       fontWeight: "bold",
     },
 });
-export default IDQs
+export default IDQs;

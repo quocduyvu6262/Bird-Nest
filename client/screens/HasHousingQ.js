@@ -22,7 +22,7 @@ import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
 import { Slider} from '@rneui/themed';
 // Redux
 import {useDispatch, useSelector, connect} from 'react-redux';
-import {updateFirstname, updateLastname, updateGender, updateAge, updatePronouns, updateMajor, updateGraduationyear, updateProfilepic, updateNeighborhood, updateRent} from '../redux/slices/data'
+import {updateFirstname, updateLastname, updateGender, updateAge, updatePronouns, updateMajor, updateGraduationyear, updateProfilepic, updateNeighborhood, updateRent, updateLease} from '../redux/slices/data'
 
 
 class HasHousingQ extends Component {
@@ -456,19 +456,31 @@ class HasHousingQ extends Component {
           <Text style={HousingQ_styles.question1}>In terms of months, how long is</Text>
           <Text style={HousingQ_styles.question1}>the lease?</Text>
           <TouchableOpacity style={[this.state29, HousingQ_styles.buttonContainerYes7]}
-          onPress={()=>this.changeMultipleColor(this.state29, this.state30, this.state31, this.state32)}>
+          onPress={()=>{
+            this.changeMultipleColor(this.state29, this.state30, this.state31, this.state32);
+            this.props.dispatch(updateLease("1 - 3"));
+          }}>
             <Text style = {HousingQ_styles.buttonText}>1 to 3</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[this.state30, HousingQ_styles.buttonContainerNo7]}
-          onPress={()=>this.changeMultipleColor(this.state30, this.state29, this.state31, this.state32)}>
+          onPress={()=>{
+            this.changeMultipleColor(this.state30, this.state29, this.state31, this.state32)
+            this.props.dispatch(updateLease("4 - 7"))
+          }}>
             <Text style = {HousingQ_styles.buttonText}>4 to 7</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[this.state31, HousingQ_styles.buttonContainerYes8]}
-          onPress={()=>this.changeMultipleColor(this.state31, this.state30, this.state29, this.state32)}>
+          onPress={()=>{
+            this.changeMultipleColor(this.state31, this.state30, this.state29, this.state32)
+            this.props.dispatch(updateLease("8 - 11"));
+          }}>
             <Text style = {HousingQ_styles.buttonText}>8 to 11</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[this.state32, HousingQ_styles.buttonContainerNo8]}
-          onPress={()=>this.changeMultipleColor(this.state32, this.state30, this.state29, this.state31)}>
+          onPress={()=>{
+            this.changeMultipleColor(this.state32, this.state30, this.state29, this.state31)
+            this.props.dispatch(updateLease("12+"));
+          }}>
             <Text style = {HousingQ_styles.buttonText}>12 +</Text>
           </TouchableOpacity>
 
