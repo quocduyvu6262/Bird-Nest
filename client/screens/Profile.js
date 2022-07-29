@@ -79,7 +79,7 @@ const Profile = ({ navigation }) => {
             {!buttonClicked && <BioInfo></BioInfo>}
 
             {buttonClicked && (
-              <RentInfo rent={rent} lease={lease} neighborhood={houseInfo.neighborhood} />
+              <RentInfo rent={houseInfo.rent} lease={lease} neighborhood={houseInfo.neighborhood} />
             )}
           </InfoCard>
 

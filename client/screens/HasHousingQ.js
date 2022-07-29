@@ -22,7 +22,7 @@ import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
 import { Slider} from '@rneui/themed';
 // Redux
 import {useDispatch, useSelector, connect} from 'react-redux';
-import {updateFirstname, updateLastname, updateGender, updateAge, updatePronouns, updateMajor, updateGraduationyear, updateProfilepic, updateNeighborhood} from '../redux/slices/data'
+import {updateFirstname, updateLastname, updateGender, updateAge, updatePronouns, updateMajor, updateGraduationyear, updateProfilepic, updateNeighborhood, updateRent} from '../redux/slices/data'
 
 
 class HasHousingQ extends Component {
@@ -319,6 +319,7 @@ class HasHousingQ extends Component {
   handleSliderChange = (value1) => {
     this.slider_state.value = value1;
     this.setState({value: this.slider_state.value});
+    this.props.dispatch(updateRent(value1))
   }
   render() {
   

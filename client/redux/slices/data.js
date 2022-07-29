@@ -84,9 +84,12 @@ export const dataSlice = createSlice({
         },
         updateNeighborhood: (state, action) => {
             state.housing.neighborhood = action.payload;
+        },
+        updateRent: (state, action) => {
+            state.housing.rent = action.payload
         }
     }
 });
 
-export const {updateUser, updateHousing, updateFirstname, updateLastname, updateGender, updateAge, updatePronouns, updateMajor, updateGraduationyear, updateProfilepic, updateNeighborhood} = dataSlice.actions;
+export const {updateUser, updateHousing, updateFirstname, updateLastname, updateGender, updateAge, updatePronouns, updateMajor, updateGraduationyear, updateProfilepic, updateNeighborhood, updateRent} = dataSlice.actions;
 export default dataSlice.reducer;
