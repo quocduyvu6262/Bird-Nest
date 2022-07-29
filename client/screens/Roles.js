@@ -165,7 +165,7 @@ const Roles = ({ navigation }) => {
   return (
     <SafeAreaView style={Roles_styles.container}>
       <View style={Roles_styles.header}>
-        <Text style={Roles_styles.headTitle}>Roles (2/5)</Text>
+        <Text style={Roles_styles.headTitle}>Roles (2/4)</Text>
         <TouchableOpacity
           onPress={() => navigation.goBack()}
           style={Roles_styles.backButton}
@@ -304,7 +304,7 @@ const Roles_styles = StyleSheet.create({
   },
   headTitle: {
     color: "#FFF",
-    //top: 55,
+    top: 55,
     alignSelf: "center",
     fontSize: 20,
     fontWeight: "bold",
@@ -428,7 +428,7 @@ const Roles_styles = StyleSheet.create({
   },
   backButton: {
     flexDirection: "row",
-    //top: 60,
+    top: 30,
     bottom: 23,
     marginLeft: 12,
     alignItems: "center",

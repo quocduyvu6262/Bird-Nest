@@ -34,6 +34,9 @@ import HasHousingQ from "./screens/HasHousingQ.js";
 import Personality from "./screens/Personality.js";
 import BasicInfo from "./screens/BasicInfo.js";
 
+// logo icons
+import BirdFeedLogo from "./assets/logos/BirdFeedLogo.svg";
+
 // Stack and Tab Navigation
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -48,8 +51,14 @@ import { store } from "./redux/store";
 
 const TabNavigator = () => {
   return (
-    <Tab.Navigator screenOptions={{ headerShown: false }}>
-      <Tab.Screen name="Profile" component={Profile} />
+    <Tab.Navigator
+      screenOptions={{ headerShown: false, tabBarActiveTintColor: "#560CCE" }}
+    >
+      <Tab.Screen
+        name="Profile"
+        component={Profile}
+        options={{ tabBarIcon: () => <Image source={Logo} /> }}
+      />
       <Tab.Screen name="Bird Feed" component={BirdFeed} />
       <Tab.Screen name="Messenger Pigeon" component={MessengerPigeon} />
     </Tab.Navigator>
