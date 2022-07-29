@@ -105,7 +105,10 @@ const MainHeader = ({ screen, navigation }) => {
           {/* if screen === Profile */}
           {screen === "Profile" && (
             <View style={Main_Header_styles.headerButtonView}>
-              <TouchableOpacity style={Main_Header_styles.headerButtons}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("IDQs")}
+                style={Main_Header_styles.headerButtons}
+              >
                 <Icon name="edit" size={30} />
               </TouchableOpacity>
 
