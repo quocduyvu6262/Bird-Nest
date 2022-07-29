@@ -29,6 +29,11 @@ import Settings from "./screens/Settings.js";
 import ChirpNotificationEdit from "./screens/SettingsScreens/ChirpNotificationEdit.js";
 import HelpSupport from "./screens/SettingsScreens/HelpSupport.js";
 import TermsOfService from "./screens/SettingsScreens/TermsOfService.js";
+import NoHousingQ from "./screens/NoHousingQ.js";
+import HasHousingQ from "./screens/HasHousingQ.js";
+import Personality from "./screens/Personality.js";
+import BasicInfo from "./screens/BasicInfo.js";
+
 
 // Stack and Tab Navigation
 import { NavigationContainer } from "@react-navigation/native";
@@ -58,8 +63,7 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator
         //change back default to "Splashcreen" after testing
-          //initialRouteName="SplashScreen"
-          initialRouteName="Roles"
+          initialRouteName="IDQs"
           screenOptions={{ headerShown: false }}
         >
           <Stack.Screen name="SplashScreen" component={SplashScreen} />
@@ -78,6 +82,10 @@ export default function App() {
             component={ChirpNotification}
           />
           <Stack.Screen name="IDQs" component={IDQs} />
+          <Stack.Screen name="BasicInfo" component={BasicInfo} />
+          <Stack.Screen name="NoHousingQ" component={NoHousingQ} />
+          <Stack.Screen name="HasHousingQ" component={HasHousingQ} />
+          <Stack.Screen name="Personality" component={Personality} />
           <Stack.Screen name="Roles" component={Roles} />
           <Stack.Screen
             name="History"
