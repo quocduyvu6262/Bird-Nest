@@ -114,22 +114,32 @@ const LoginScreen = ({navigation}) => {
 
   return (
     <Background>
-      <Logo />
-      <Header>Bird Nest</Header>
-      <Paragraph>
-        Homes that Match
-      </Paragraph>
-      <TouchableOpacity>
-        <Button
-          mode="contained"
-          onPress={() => promptAsync({showInRecents: true})}
-        >
-          Sign in with Google
-        </Button>
-      </TouchableOpacity>
+      <View style={styles.background}>
+        <Logo />
+        <Header>Bird Nest</Header>
+        <Paragraph>
+          Homes that Match
+        </Paragraph>
+        <TouchableOpacity>
+          <Button
+            mode="contained"
+            onPress={() => promptAsync({showInRecents: true})}
+          >
+            Sign in with Google
+          </Button>
+        </TouchableOpacity>
+      </View>
     </Background>
   )
 };
+
+const styles = StyleSheet.create({
+  background:{
+    alignItems: 'center',
+    alignSelf: 'center',
+    marginTop: '80%'
+  }
+});
 
 
 export default LoginScreen;

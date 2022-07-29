@@ -2,9 +2,9 @@ import React from 'react'
 import { ImageBackground, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native'
 import { theme } from '../core/theme'
 
-const Background = ({ children }) => {
+const Background = ({ children, ...props }) => {
     return (
-        <ImageBackground style={styles.background} resizeMode="repeat">
+        <ImageBackground style={styles.background} resizeMode="repeat" {...props}>
             <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === "ios" ? "padding": "height"}>
                 {children}
             </KeyboardAvoidingView>
