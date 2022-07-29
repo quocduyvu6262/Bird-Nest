@@ -1,4 +1,4 @@
-  import {
+import {
     Image,
     View,
     Text,
@@ -18,7 +18,7 @@
   import React, { Component, useState } from "react";
   import { Icon } from "@rneui/themed";
   import AppLoading from 'expo';
-  import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
+  //import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
   import { Slider} from '@rneui/themed';
   import Axios from "axios";
   export default class NoHousingQ extends Component {

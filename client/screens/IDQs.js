@@ -21,45 +21,48 @@ const IDQs = ({navigation}) => {
   }
   return (
 
-    <SafeAreaView style={styles.container}>
-
-        <QuestHeader title="Profile (1/5)"/>
-
-      <Text style={styles.headerText}>Basic Demographic Information</Text>
-      <TextInput style={styles.textInput} placeholder='First Name' onChangeText={value => dispatch(updateFirstname(value))}/>
-      <TextInput style={ styles.textInput } placeholder='Last Name' onChangeText={value => dispatch(updateLastname(value))}/>
-      <View style={{flexDirection: "row"}}>
-        <TextInput style={ styles.textInput } placeholder='Gender' onChangeText={value => dispatch(updateGender(value))}/>
-        <TextInput style={ styles.textInput } placeholder='Age' onChangeText={value => dispatch(updateAge(value))}/>
+    <SafeAreaView style={IDQs_styles.container}>
+      {/* header */}
+      <View style={IDQs_styles.header}>
+        <Text style={IDQs_styles.headTitle}>Profile (1/5)</Text>
       </View>
-      <TextInput style={ styles.textInput } placeholder='Pronouns' onChangeText={value => dispatch(updatePronouns(value))}/>
-      <TextInput style={ styles.textInput } placeholder='Major' onChangeText={value => dispatch(updateMajor(value))}/>
-      <TextInput style={ styles.textInput } placeholder='Graduation Year' onChangeText={value => dispatch(updateGraduationyear(value))}/>
-      <Text style={styles.photoWords}>Show potential roommates what you look like!</Text>
+      {/* Text input fields */}
+      <Text style={IDQs_styles.headerText}>Let's get started!</Text>
+      <TextInput style={IDQs_styles.textInput} placeholder='First Name' onChangeText={value => dispatch(updateFirstname(value))}/>
+      <TextInput style={IDQs_styles.textInput } placeholder='Last Name' onChangeText={value => dispatch(updateLastname(value))}/>
+      <View style={{flexDirection: "row"}}>
+        <TextInput style={IDQs_styles.textInput } placeholder='Gender' onChangeText={value => dispatch(updateGender(value))}/>
+        <TextInput style={IDQs_styles.textInput } placeholder='Age' onChangeText={value => dispatch(updateAge(value))}/>
+      </View>
+      <TextInput style={IDQs_styles.textInput } placeholder='Pronouns' onChangeText={value => dispatch(updatePronouns(value))}/>
+      <TextInput style={IDQs_styles.textInput } placeholder='Major' onChangeText={value => dispatch(updateMajor(value))}/>
+      <TextInput style={IDQs_styles.textInput } placeholder='Graduation Year' onChangeText={value => dispatch(updateGraduationyear(value))}/>
+      {/* Bio only for demo */}
+      <TextInput style={IDQs_styles.textInput } placeholder='Bio' onChangeText={value => dispatch(updateGraduationyear(value))}/>
+      <Text style={IDQs_styles.photoWords}>Show potential roommates what you look like!</Text>
       {/* photo upload button */}
-      <TouchableOpacity style={styles.photoButton}>
+      <TouchableOpacity style={IDQs_styles.photoButton}>
         <Image style={{alignSelf: "center", tintColor: "#FFF" }} source={require("../assets/Upload.png")} />
         <Text style={{fontSize: 15, color: "#FFF"}}>Upload your face!</Text>
       </TouchableOpacity>
       {/* next page button */}
-      <TouchableOpacity style={styles.nextButton}
+      <TouchableOpacity style={IDQs_styles.nextButton}
         onPress={() => {
           store();
           navigation.navigate('HasHousingQ');
         }}
       >
-        <Text style={styles.nextText}>Next Page</Text>
-        <Image source={require("../assets/nextArrow.png")} style={styles.nextIcon} />
+        <Text style={IDQs_styles.nextText}>Next</Text>
       </TouchableOpacity>
     </SafeAreaView>
 
   )
 }
 
-const styles = StyleSheet.create({
+const IDQs_styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#CFEEF5',
+      backgroundColor: '#FFF',
       paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     },
     textInput: {
@@ -69,16 +72,15 @@ const styles = StyleSheet.create({
       margin: 8,
       paddingHorizontal: 20,
       paddingVertical: 5, 
-      borderWidth: 2,
-      borderRadius: 15,
+      borderRadius: 7,
     },
     headerText: {
       flexDirection: "row",
-      // backgroundColor: "#6736B6",
       fontSize: 25,
       left: 7,
       color: "#6736B6",
       alignSelf: "center",
+      bottom: 15,
 
     },
     photoButton: {
@@ -87,7 +89,6 @@ const styles = StyleSheet.create({
       paddingVertical: 10,
       paddingHorizontal: 5,
       margin: 10,
-      borderWidth: 2,
       borderRadius: 8,
       top: 20,
     },
@@ -99,19 +100,33 @@ const styles = StyleSheet.create({
     },
     nextButton: {
       flexDirection:"row",
-      alignSelf: "flex-end",
+      alignSelf: "center",
+      alignItems: "center",
+      position: "absolute",
+      bottom: "10%",
+      backgroundColor: "#6736B6",
+      paddingVertical: 8,
+      paddingHorizontal: 35,
+      borderRadius: 23,
     },
     nextText: {
-      fontSize: 15,
-      color: "#6736B6",
+      fontSize: 14,
+      color: "#FFF",
       margin: 3,
-      // fontWeight: "bold",
+      fontWeight: "bold",
     },
-    nextIcon: {
-      height: 30, 
-      width: 30, 
-      tintColor: "#6736B6",
+    header: {
+      paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+      backgroundColor: "#6736B6",
+      height: 90,
+      bottom: 47,
     },
-    
+    headTitle: {
+      color: "#FFF",
+      top: 55,
+      alignSelf: "center",
+      fontSize: 20,
+      fontWeight: "bold",
+    },
 });
 export default IDQs

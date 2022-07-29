@@ -18,7 +18,7 @@ import {
   import React, { Component, useState } from "react";
   import { Icon } from "@rneui/themed";
   import AppLoading from 'expo';
-  import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
+  //import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
   import { Slider} from '@rneui/themed';
   import Axios from "axios";
   export default class Personality extends Component {
@@ -360,11 +360,7 @@ import {
       <SafeAreaView style={HousingQ_styles.container}>
           <View style={HousingHeader_styles.header}>
             <Text style={HousingHeader_styles.headerText}>Personality (5/5)</Text>
-            <TouchableOpacity style={{alignSelf: 'flex-start'}}
-              onPress={() => {
-                this.props.navigation.goBack();
-              }}
-            >
+            <TouchableOpacity style={{alignSelf: 'flex-start'}}>
               <Text style={HousingHeader_styles.returnToProfileArrow}>{"< "}</Text>
               <Text style={HousingHeader_styles.returnToProfile}>Housing</Text>
             </TouchableOpacity>
@@ -605,10 +601,7 @@ import {
 
 
             <TouchableOpacity style={HousingQ_styles.nextButton}
-            onPress={()=>{
-              //this.createHousingInfo();
-              this.props.navigation.navigate('BirdFeed');
-            }}>
+            onPress={()=>this.createHousingInfo()}>
               <Text style = {[HousingQ_styles.buttonText, {color:'#FFF'}]}>Next</Text>
             </TouchableOpacity>
           </ScrollView>

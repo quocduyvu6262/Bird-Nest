@@ -21,16 +21,14 @@ const Button = ({ mode, style, ...props }) => {
 const styles = StyleSheet.create({
   button: {
       width: '100%',
+      height: 40,
       justifyContent: "space-evenly",
-      marginVertical: 10,
-      paddingVertical: 2,
-
-     
+      marginBottom: 10,
   },
   text: {
-      fontWeight: 'bold',
-      fontSize: 15,
-      lineHeight: 26
+    fontWeight: 'bold',
+    fontSize: 15,
+    lineHeight: 26,
   },
 })
 

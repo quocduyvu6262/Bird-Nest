@@ -21,13 +21,21 @@ import Footer from "../components/Footer.js";
 import * as SecureStore from "expo-secure-store";
 import Axios from "axios";
 import MainHeader from "../components/MainHeader";
-import Tony from "../assets/tony.png";
+import Deondre from "../assets/deondre.jpg";
 // Import constants
-import Constants from '../constants/constants';
+import Constants from "../constants/constants";
 // Redux
-import {useDispatch, useSelector} from 'react-redux';
-import {updateFirstname, updateLastname, updateGender, updateAge, updatePronouns, updateMajor, updateGraduationyear, updateProfilepic} from '../redux/slices/data'
-
+import { useDispatch, useSelector } from "react-redux";
+import {
+  updateFirstname,
+  updateLastname,
+  updateGender,
+  updateAge,
+  updatePronouns,
+  updateMajor,
+  updateGraduationyear,
+  updateProfilepic,
+} from "../redux/slices/data";
 
 const Profile = ({ navigation }) => {
   
@@ -40,7 +48,6 @@ const Profile = ({ navigation }) => {
   const [city, setCity] = useState();
   const [buttonClicked, setButtonClicked] = useState(false);
   const [interestButtonClicked, setInterestButtonClicked] = useState(false);
-
 
   const roomInfoButton = () => {
     setButtonClicked(true);
@@ -57,19 +64,40 @@ const Profile = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <MainHeader screen="Profile" navigation={navigation} />
-      <ScrollView >
+      <ScrollView>
         <Background>
-          <UserCard name={userInfo.firstname + ' ' + userInfo.lastname} image={Tony} />
+          <UserCard
+            name={userInfo.firstname + " " + userInfo.lastname}
+            image={Deondre}
+          />
 
           <View style={styles.buttonContainer}>
             <TouchableOpacity>
-              <Button color="black" onPress={bioButton}>
+              <Button
+                color={!buttonClicked ? "#560CCE" : "black"}
+                onPress={bioButton}
+                style={
+                  !buttonClicked && {
+                    borderBottomColor: "#560CCE",
+                    borderBottomWidth: 1,
+                  }
+                }
+              >
                 Bio
               </Button>
             </TouchableOpacity>
 
             <TouchableOpacity>
-              <Button color="black" onPress={roomInfoButton}>
+              <Button
+                color={buttonClicked ? "#560CCE" : "black"}
+                onPress={roomInfoButton}
+                style={
+                  buttonClicked && {
+                    borderBottomColor: "#560CCE",
+                    borderBottomWidth: 1,
+                  }
+                }
+              >
                 Room Info
               </Button>
             </TouchableOpacity>
@@ -83,7 +111,16 @@ const Profile = ({ navigation }) => {
             )}
           </InfoCard>
 
-          <Button color="black" onPress={interestButton}>
+          <Button
+            color={interestButtonClicked ? "#560CCE" : "black"}
+            onPress={interestButton}
+            style={
+              interestButtonClicked && {
+                borderBottomColor: "#560CCE",
+                borderBottomWidth: 1,
+              }
+            }
+          >
             See Interests/Personality
           </Button>
 
@@ -142,7 +179,7 @@ const InterestInfo = (props) => {
 const styles = StyleSheet.create({
   container: {
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-    backgroundColor: 'white'
+    backgroundColor: "white",
   },
   buttonContainer: {
     flex: 1,
