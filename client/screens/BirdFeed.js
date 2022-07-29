@@ -14,7 +14,7 @@ import {
   Switch,
 } from "react-native";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import Footer from "../components/Footer.js";
 import ProfileCard from "../components/ProfileCard.js";
@@ -29,6 +29,7 @@ import Icon3 from "react-native-vector-icons/Ionicons";
 import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
 import MainHeader from "../components/MainHeader.js";
 import Constants from "../constants/constants.js";
+import barackObama from "../assets/barackObama.jpeg";
 
 const BirdFeed = ({ navigation }) => {
   const [transferList, setTransferList] = useState([]);
@@ -113,6 +114,7 @@ const BirdFeed = ({ navigation }) => {
           userList.push({
             name: userData[i].fullname,
             city: userData[i].city,
+            src: barackObama,
           });
         }
         setUserList((prevList) => [
@@ -120,6 +122,7 @@ const BirdFeed = ({ navigation }) => {
           {
             name: userData[userData.length - 1].fullname,
             city: userData[userData.length - 1].city,
+            src: barackObama,
           },
         ]);
       })
@@ -133,6 +136,10 @@ const BirdFeed = ({ navigation }) => {
   const overlayButton = () => {
     overlayClicked ? setOverlayClicked(false) : setOverlayClicked(true);
   };
+
+  useEffect(() => {
+    viewUsers();
+  }, []);
 
   // ---------------------------------------
 
@@ -227,11 +234,6 @@ const BirdFeed = ({ navigation }) => {
             </ScrollView>
           </View>
         )}
-
-        <TouchableOpacity 
-        onPress={viewUsers}>
-          <Text>View Users</Text>
-        </TouchableOpacity>
 
         {listState && (
           <View styles={styles.flatlist}>
