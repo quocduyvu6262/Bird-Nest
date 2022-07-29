@@ -38,9 +38,8 @@ import {
 } from "../redux/slices/data";
 
 const Profile = ({ navigation }) => {
-  
-  const userInfo = useSelector(state => state.data.userInfo);
-  const houseInfo = useSelector(state => state.data.housing);
+  const userInfo = useSelector((state) => state.data.userInfo);
+  const houseInfo = useSelector((state) => state.data.housing);
 
   const [name, setName] = useState();
   const [rent, setRent] = useState();
@@ -107,7 +106,11 @@ const Profile = ({ navigation }) => {
             {!buttonClicked && <BioInfo bio={userInfo.bio}></BioInfo>}
 
             {buttonClicked && (
-              <RentInfo rent={houseInfo.rent} lease={houseInfo.lease} neighborhood={houseInfo.neighborhood} />
+              <RentInfo
+                rent={houseInfo.rent}
+                lease={houseInfo.lease}
+                neighborhood={houseInfo.neighborhood}
+              />
             )}
           </InfoCard>
 
@@ -139,9 +142,7 @@ const Profile = ({ navigation }) => {
 const BioInfo = (props) => {
   return (
     <View style={styles.subContainer}>
-      <Text style={styles.text}>
-        {props.bio}
-      </Text>
+      <Text style={styles.text}>{props.bio}</Text>
     </View>
   );
 };
@@ -158,7 +159,8 @@ const RentInfo = (props) => {
         months
       </Text>
       <Text style={styles.text}>
-        <Text style={{ fontWeight: "bold" }}> Neighborhood:</Text> {props.neighborhood}
+        <Text style={{ fontWeight: "bold" }}> Neighborhood:</Text>{" "}
+        {props.neighborhood}
       </Text>
     </View>
   );
@@ -177,6 +179,7 @@ const InterestInfo = (props) => {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     backgroundColor: "white",
   },
