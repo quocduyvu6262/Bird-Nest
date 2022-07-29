@@ -3,6 +3,7 @@ const express = require('express');
 const housingsRoutes = require('./routes/housings');
 const authRoutes = require('./routes/auth');
 const matchRoutes = require('./routes/matching');
+const nohousingRoutes = require('./routes/nohousing');
 const historyRoutes = require('./routes/history');
 const questionaireRoutes = require('./routes/questionaire');
 require('dotenv').config();
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use('/api/housings', housingsRoutes);
 app.use('/api/users', authRoutes);
 app.use('/api/matching', matchRoutes);
+app.use('/api/nohousing', nohousingRoutes);
 app.use('/api/history', historyRoutes);
 app.use('/api/questionaire', questionaireRoutes);
 

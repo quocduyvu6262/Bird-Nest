@@ -106,7 +106,7 @@ const IDQs = ({ navigation }) => {
         style={IDQs_styles.nextButton}
         onPress={() => {
           store();
-          navigation.navigate("BasicInfo");
+          navigation.navigate("Roles");
         }}
       >
         <Text style={IDQs_styles.nextText}>Next</Text>
