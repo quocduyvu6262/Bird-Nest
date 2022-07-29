@@ -755,4 +755,3 @@ import {
       backgroundColor: "#6736B6",
     },
   });
-

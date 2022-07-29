@@ -15,17 +15,9 @@ import * as SecureStore from "expo-secure-store";
 import Constants from "../constants/constants.js";
 
 // Redux
-import { useDispatch, useSelector } from "react-redux";
-import {
-  updateFirstname,
-  updateLastname,
-  updateGender,
-  updateAge,
-  updatePronouns,
-  updateMajor,
-  updateGraduationyear,
-  updateProfilepic,
-} from "../redux/slices/data";
+import {useDispatch, useSelector} from 'react-redux';
+import {updateFirstname, updateLastname, updateGender, updateAge, updatePronouns, updateMajor, updateGraduationyear, updateBio, updateProfilepic} from '../redux/slices/data'
+
 
 const IDQs = ({ navigation }) => {
   // Redux
@@ -85,14 +77,8 @@ const IDQs = ({ navigation }) => {
         onChangeText={(value) => dispatch(updateGraduationyear(value))}
       />
       {/* Bio only for demo */}
-      <TextInput
-        style={IDQs_styles.textInput}
-        placeholder="Bio"
-        onChangeText={(value) => dispatch(updateGraduationyear(value))}
-      />
-      <Text style={IDQs_styles.photoWords}>
-        Show potential roommates what you look like!
-      </Text>
+      <TextInput style={IDQs_styles.textInput } placeholder='Bio' onChangeText={value => dispatch(updateBio(value))}/>
+      <Text style={IDQs_styles.photoWords}>Show potential roommates what you look like!</Text>
       {/* photo upload button */}
       <TouchableOpacity style={IDQs_styles.photoButton}>
         <Image
