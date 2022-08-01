@@ -36,8 +36,6 @@ export default class BasicInfo extends Component {
       furniture: 0,
       ac: 1,
     }).catch((error) => console.log(error));
-
-    this.props.navigation.navigate("HasHousingQ");
   };
 
   slider_state = {
@@ -722,7 +720,10 @@ export default class BasicInfo extends Component {
 
           <TouchableOpacity
             style={HousingQ_styles.nextButton}
-            onPress={() => this.createHousingInfo()}
+            onPress={() =>{
+              this.createHousingInfo()
+              this.props.navigation.navigate("HasHousingQ");
+            }}
           >
             <Text style={[HousingQ_styles.buttonText, { color: "#FFF" }]}>
               Next
