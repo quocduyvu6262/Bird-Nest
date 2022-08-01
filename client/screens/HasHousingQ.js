@@ -18,7 +18,6 @@ import {
 import React, { Component, useState } from "react";
 import { Icon } from "@rneui/themed";
 import AppLoading from "expo";
-import { useFonts, Inter_900Black } from "@expo-google-fonts/inter";
 import { Slider } from "@rneui/themed";
 // Redux
 import { useDispatch, useSelector, connect } from "react-redux";
