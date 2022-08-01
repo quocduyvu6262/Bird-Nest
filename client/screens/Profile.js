@@ -38,14 +38,9 @@ import {
 } from "../redux/slices/data";
 
 const Profile = ({ navigation }) => {
-<<<<<<< HEAD
   
   const userInfo = useSelector(state => state.data.userInfo);
   const houseInfo = useSelector(state => state.data.housing);
-=======
-  const userInfo = useSelector((state) => state.data.userInfo);
-  const houseInfo = useSelector((state) => state.data.housing);
->>>>>>> origin/dev
 
   const [name, setName] = useState();
   const [rent, setRent] = useState();
