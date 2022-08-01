@@ -103,7 +103,7 @@ const IDQs_styles = StyleSheet.create({
       alignSelf: "center",
       alignItems: "center",
       position: "absolute",
-      bottom: "10%",
+      bottom: "5%",
       backgroundColor: "#6736B6",
       paddingVertical: 8,
       paddingHorizontal: 35,
