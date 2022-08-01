@@ -572,7 +572,6 @@ class HasHousingQ extends Component {
   }
 }
 
-
 // DISPATCH
 // MAP DISPATCH
 const mapDispatchToProps = (dispatch) => {
@@ -883,6 +882,5 @@ const HousingQ_styles = StyleSheet.create({
     backgroundColor: "#6736B6",
   },
 });
-
 
 export default connect(null, mapDispatchToProps)(HasHousingQ);

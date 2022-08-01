@@ -35,45 +35,52 @@ const IDQs = ({ navigation }) => {
     <SafeAreaView style={IDQs_styles.container}>
       {/* header */}
       <View style={IDQs_styles.header}>
-        <Text style={IDQs_styles.headTitle}>Profile (1/5)</Text>
+        <Text style={IDQs_styles.headTitle}>Profile (1/4)</Text>
       </View>
       {/* Text input fields */}
       <Text style={IDQs_styles.headerText}>Let's get started!</Text>
       <TextInput
         style={IDQs_styles.textInput}
         placeholder="First Name"
+        placeholderTextColor="#949494"
         onChangeText={(value) => dispatch(updateFirstname(value))}
       />
       <TextInput
         style={IDQs_styles.textInput}
         placeholder="Last Name"
+        placeholderTextColor="#949494"
         onChangeText={(value) => dispatch(updateLastname(value))}
       />
       <View style={{ flexDirection: "row" }}>
         <TextInput
           style={IDQs_styles.textInput}
           placeholder="Gender"
+          placeholderTextColor="#949494"
           onChangeText={(value) => dispatch(updateGender(value))}
         />
         <TextInput
           style={IDQs_styles.textInput}
           placeholder="Age"
+          placeholderTextColor="#949494"
           onChangeText={(value) => dispatch(updateAge(value))}
         />
       </View>
       <TextInput
         style={IDQs_styles.textInput}
         placeholder="Pronouns"
+        placeholderTextColor="#949494"
         onChangeText={(value) => dispatch(updatePronouns(value))}
       />
       <TextInput
         style={IDQs_styles.textInput}
         placeholder="Major"
+        placeholderTextColor="#949494"
         onChangeText={(value) => dispatch(updateMajor(value))}
       />
       <TextInput
         style={IDQs_styles.textInput}
         placeholder="Graduation Year"
+        placeholderTextColor="#949494"
         onChangeText={(value) => dispatch(updateGraduationyear(value))}
       />
       {/* Bio only for demo */}
@@ -160,7 +167,7 @@ const IDQs_styles = StyleSheet.create({
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     backgroundColor: "#6736B6",
     height: 90,
-    bottom: 47,
+    bottom: 50,
   },
   headTitle: {
     color: "#FFF",

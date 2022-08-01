@@ -38,9 +38,14 @@ import {
 } from "../redux/slices/data";
 
 const Profile = ({ navigation }) => {
+<<<<<<< HEAD
   
   const userInfo = useSelector(state => state.data.userInfo);
   const houseInfo = useSelector(state => state.data.housing);
+=======
+  const userInfo = useSelector((state) => state.data.userInfo);
+  const houseInfo = useSelector((state) => state.data.housing);
+>>>>>>> origin/dev
 
   const [name, setName] = useState();
   const [rent, setRent] = useState();
@@ -177,6 +182,7 @@ const InterestInfo = (props) => {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     backgroundColor: "white",
   },
