@@ -2,8 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 
 const userInfo = {
-    firstname: null,
-    lastname: null,
+    firstname: "",
+    lastname: "",
     fullname: null,
     email: null,
     role: null,
@@ -11,7 +11,7 @@ const userInfo = {
     age: null,
     pronouns: null,
     graduationyear: null,
-    bio: null,
+    bio: "",
     status: null,
     major: null,
     profilepic: null,
@@ -25,7 +25,7 @@ const userInfo = {
 }
 
 const housing = {
-    neighborhoos: null,
+    neighborhood: null,
     city: null,
     squarefeet: null,
     lease: null,
@@ -79,11 +79,23 @@ export const dataSlice = createSlice({
         updateGraduationyear: (state, action) => {
             state.userInfo.graduationyear = action.payload;
         },
+        updateBio: (state, action) => {
+            state.userInfo.bio = action.payload;
+        },
         updateProfilepic: (state, action) => {
             state.userInfo.profilepic = action.payload;
         },
+        updateNeighborhood: (state, action) => {
+            state.housing.neighborhood = action.payload;
+        },
+        updateRent: (state, action) => {
+            state.housing.rent = action.payload
+        },
+        updateLease: (state, action) => {
+            state.housing.lease = action.payload
+        }
     }
 });
 
-export const {updateUser, updateHousing, updateFirstname, updateLastname, updateGender, updateAge, updatePronouns, updateMajor, updateGraduationyear, updateProfilepic} = dataSlice.actions;
+export const {updateUser, updateHousing, updateFirstname, updateLastname, updateGender, updateAge, updatePronouns, updateMajor, updateGraduationyear, updateBio, updateProfilepic, updateNeighborhood, updateRent, updateLease} = dataSlice.actions;
 export default dataSlice.reducer;
