@@ -14,26 +14,25 @@ import * as SecureStore from "expo-secure-store";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 //Import screens in nav bar
-import SplashScreen from "./screens/SplashScreen";
+import SplashScreen from "./screens/Auth/SplashScreen";
 import BirdFeed from "./screens/BirdFeed.js";
 import PeckView from "./screens/PeckView.js";
 import Profile from "./screens/Profile.js";
-import MessengerPigeon from "./screens/MessengerPigeon.js";
+import MessengerPigeon from "./screens/Messenger/MessengerPigeon.js";
+import ChatRoom from "./screens/Messenger/ChatRoom";
 import ChirpNotification from "./screens/ChirpNotification.js";
 import History from "./screens/History.js";
-import LoginScreen from "./screens/Login.js";
-import AuthLoading from "./screens/AuthLoading.js";
-import Roles from "./screens/Roles.js";
-import WelcomeScreen from "./screens/WelcomeScreen.js";
-import IDQs from "./screens/IDQs.js";
-import Settings from "./screens/Settings.js";
+import LoginScreen from "./screens/Auth/Login.js";
+import Roles from "./screens/Questionnaires/Roles";
+import IDQs from "./screens/Questionnaires/IDQs";
+import Settings from "./screens/SettingsScreens/Settings";
 import ChirpNotificationEdit from "./screens/SettingsScreens/ChirpNotificationEdit.js";
 import HelpSupport from "./screens/SettingsScreens/HelpSupport.js";
 import TermsOfService from "./screens/SettingsScreens/TermsOfService.js";
-import NoHousingQ from "./screens/NoHousingQ.js";
-import HasHousingQ from "./screens/HasHousingQ.js";
-import Personality from "./screens/Personality.js";
-import BasicInfo from "./screens/BasicInfo.js";
+import NoHousingQ from "./screens/Questionnaires/NoHousingQ.js";
+import HasHousingQ from "./screens/Questionnaires/HasHousingQ.js";
+import Personality from "./screens/Questionnaires/Personality.js";
+import BasicInfo from "./screens/Questionnaires/BasicInfo.js";
 
 // logo icons
 import BirdFeedLogo from "./assets/BirdFeedLogo.png";
@@ -77,7 +76,7 @@ const TabNavigator = () => {
       />
       <Tab.Screen
         name="Messenger Pigeon"
-        component={MessengerPigeon}
+        component={ChatRoom}
         options={{
           tabBarIcon: () => (
             <Image style={{ height: 50, width: 50 }} source={MessengerLogo} />
