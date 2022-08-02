@@ -1,15 +1,13 @@
 import React, { useEffect, useReducer, useRef} from 'react';
 import { View, Animated, Image, Dimensions } from "react-native";
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import AuthLoading from '../screens/AuthLoading.js';
 import * as SecureStore from 'expo-secure-store';
-import Login from '../screens/Login.js';
-import Logo from '../assets/bird.png';
+import Logo from '../../assets/bird.png';
 // Import constants
-import Constants from '../constants/constants';
+import Constants from '../../constants/constants';
 // Redux
 import {useDispatch, useSelector} from 'react-redux';
-import {updateHousing, updateUser} from '../redux/slices/data'
+import {updateHousing, updateUser} from '../../redux/slices/data'
 export default function SplashScreen({navigation}) {
 
     const edges = useSafeAreaInsets();

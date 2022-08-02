@@ -7,14 +7,14 @@ import {
   StatusBar,
   SafeAreaView,
 } from "react-native";
-import Buttons from "../components/Button";
+import Buttons from "../../components/Button";
 import * as SecureStore from "expo-secure-store";
 import { Icon } from "react-native-vector-icons/MaterialCommunityIcons";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import MainHeader from "../components/MainHeader";
+import MainHeader from "../../components/MainHeader";
 // Import constants
-import Constants from "../constants/constants";
+import Constants from "../../constants/constants";
 
 const Settings = ({ navigation }) => {
   const logout = async () => {

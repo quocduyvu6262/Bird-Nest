@@ -16,11 +16,11 @@ import {
 import React, { useState } from "react";
 import Axios from "axios";
 import { Icon } from "@rneui/themed";
-import QuestHeader from "../components/QuestHeader.js";
+import QuestHeader from "../../components/QuestHeader.js";
 
 // IMPORT REDUX
 import { useDispatch, useSelector } from "react-redux";
-import * as dataActions from "../redux/slices/data";
+import * as dataActions from "../../redux/slices/data";
 
 const Roles = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -172,7 +172,7 @@ const Roles = ({ navigation }) => {
           style={Roles_styles.backButton}
         >
           <Image
-            source={require("../assets/backArrow.png")}
+            source={require("../../assets/backArrow.png")}
             style={Roles_styles.backIcon}
           />
           <Text style={Roles_styles.backText}>Profile</Text>
@@ -192,7 +192,7 @@ const Roles = ({ navigation }) => {
           >
             <Image
               style={Roles_styles.icons}
-              source={require("../assets/Flamingo-512.png")}
+              source={require("../../assets/Flamingo-512.png")}
             />
             <View style={Roles_styles.viewFlex}>
               <Text style={Roles_styles.roleTitle}>Flamingo</Text>
@@ -211,7 +211,7 @@ const Roles = ({ navigation }) => {
           >
             <Image
               style={Roles_styles.icons}
-              source={require("../assets/owl-icon.png")}
+              source={require("../../assets/owl-icon.png")}
             />
             <View style={Roles_styles.viewFlex}>
               <Text style={Roles_styles.roleTitle}>Owl</Text>
@@ -230,7 +230,7 @@ const Roles = ({ navigation }) => {
           >
             <Image
               style={Roles_styles.icons}
-              source={require("../assets/icons8-parrot-96.png")}
+              source={require("../../assets/icons8-parrot-96.png")}
             />
             <View style={Roles_styles.viewFlexMore}>
               <Text style={Roles_styles.roleTitle}>Parrot</Text>
@@ -249,7 +249,7 @@ const Roles = ({ navigation }) => {
           >
             <Image
               style={Roles_styles.icons}
-              source={require("../assets/icons8-linux-96.png")}
+              source={require("../../assets/icons8-linux-96.png")}
             />
             <View style={Roles_styles.viewFlex}>
               <Text style={Roles_styles.roleTitle}>Penguin</Text>
@@ -268,7 +268,7 @@ const Roles = ({ navigation }) => {
           >
             <Image
               style={Roles_styles.icons}
-              source={require("../assets/icons8-duck-96.png")}
+              source={require("../../assets/icons8-duck-96.png")}
             />
             <View style={Roles_styles.viewFlexMore}>
               <Text style={Roles_styles.roleTitle}>Duck</Text>

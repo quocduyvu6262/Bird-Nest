@@ -22,7 +22,7 @@ import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
 import { Slider} from '@rneui/themed';
 // Redux
 import {useDispatch, useSelector, connect} from 'react-redux';
-import * as dataActions from '../redux/slices/data';
+import * as dataActions from '../../redux/slices/data';
 
 class HasHousingQ extends Component {
   

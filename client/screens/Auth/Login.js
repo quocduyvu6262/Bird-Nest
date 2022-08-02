@@ -12,11 +12,11 @@ import {
   processColor,
   Alert,
 } from "react-native";
-import Background from "../components/Background";
-import Logo from "../components/Logo";
-import Header from "../components/Header";
-import Button from "../components/Button";
-import Paragraph from "../components/Paragraph";
+import Background from "../../components/Background";
+import Logo from "../../components/Logo";
+import Header from "../../components/Header";
+import Button from "../../components/Button";
+import Paragraph from "../../components/Paragraph";
 
 // Google sign in
 import * as Google from "expo-auth-session/providers/google";
@@ -24,10 +24,10 @@ import * as WebBrowser from "expo-web-browser";
 import * as SecureStore from "expo-secure-store";
 
 // Import constants
-import Constants from "../constants/constants";
+import Constants from "../../constants/constants";
 // Redux
 import { useDispatch, useSelector } from "react-redux";
-import { updateHousing, updateUser } from "../redux/slices/data";
+import { updateHousing, updateUser } from "../../redux/slices/data";
 
 // Axios
 import Axios from "axios";

@@ -21,11 +21,11 @@ import AppLoading from 'expo';
 import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
 import { Slider} from '@rneui/themed';
 import Axios from "axios";
-import Constants from "../constants/constants";
+import Constants from "../../constants/constants";
 import * as SecureStore from "expo-secure-store";
 // REDUX
 import {useDispatch, useSelector, connect} from 'react-redux';
-import * as dataActions from '../redux/slices/data';
+import * as dataActions from '../../redux/slices/data';
 
 
 class Personality extends Component {

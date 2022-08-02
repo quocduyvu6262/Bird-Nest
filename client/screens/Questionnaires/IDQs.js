@@ -9,14 +9,14 @@ import {
   StatusBar,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import QuestHeader from "../components/QuestHeader.js";
+import QuestHeader from "../../components/QuestHeader.js";
 // local storage
 import * as SecureStore from "expo-secure-store";
-import Constants from "../constants/constants.js";
+import Constants from "../../constants/constants.js";
 
 // Redux
 import {useDispatch, useSelector} from 'react-redux';
-import * as dataActions from '../redux/slices/data'; 
+import * as dataActions from '../../redux/slices/data'; 
 
 const IDQs = ({ navigation }) => {
   // Redux
@@ -83,7 +83,7 @@ const IDQs = ({ navigation }) => {
       <TouchableOpacity style={IDQs_styles.photoButton}>
         <Image
           style={{ alignSelf: "center", tintColor: "#FFF" }}
-          source={require("../assets/Upload.png")}
+          source={require("../../assets/Upload.png")}
         />
         <Text style={{ fontSize: 15, color: "#FFF" }}>Upload your face!</Text>
       </TouchableOpacity>

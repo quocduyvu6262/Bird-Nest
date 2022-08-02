@@ -24,7 +24,7 @@ import Axios from "axios";
 
 // IMPORT REDUX
 import { useDispatch, useSelector, connect } from "react-redux";
-import * as dataActions from "../redux/slices/data";
+import * as dataActions from "../../redux/slices/data";
 
 class BasicInfo extends Component {
   createHousingInfo = async () => {
