@@ -27,7 +27,7 @@ import * as SecureStore from "expo-secure-store";
 import Constants from "../constants/constants";
 // Redux
 import { useDispatch, useSelector } from "react-redux";
-import { updateUser } from "../redux/slices/data";
+import { updateHousing, updateUser } from "../redux/slices/data";
 
 // Axios
 import Axios from "axios";
@@ -118,7 +118,9 @@ const LoginScreen = ({ navigation }) => {
                   Constants.MY_SECURE_AUTH_STATE_KEY_REDUX
                 ).then((data) => {
                   let jsonData = JSON.parse(data);
-                  dispatch(updateUser(jsonData));
+                  console.log(jsonData);
+                  //dispatch(updateUser(jsonData.userInfo));
+                  //dispatch(updateHousing(jsonData.housing))
                 });
               } else if (res === "register") {
                 // new user or user who has not filled in questionaires

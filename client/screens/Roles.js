@@ -17,13 +17,14 @@ import React, { useState } from "react";
 import Axios from "axios";
 import { Icon } from "@rneui/themed";
 import QuestHeader from "../components/QuestHeader.js";
-//import { useFonts, Inter_400Regular} from '@expo-google-fonts/inter';
 
-//let [fontsLoaded] = useFonts({
-//    Inter_400Regular,
-//  });
+// IMPORT REDUX
+import { useDispatch, useSelector } from "react-redux";
+import * as dataActions from "../redux/slices/data";
 
 const Roles = ({ navigation }) => {
+  const dispatch = useDispatch();
+
   const selectRoles = (selectedRole) => {
     console.log(selectedRole);
     /*
@@ -184,7 +185,10 @@ const Roles = ({ navigation }) => {
           </View>
           <TouchableOpacity
             style={Roles_styles.flamingoButton}
-            onPress={() => selectRoles("Flamingo")}
+            onPress={() => {
+              //selectRoles("Flamingo")
+              dispatch(dataActions.updateRole("Flamingo"))
+            }}
           >
             <Image
               style={Roles_styles.icons}
@@ -200,7 +204,10 @@ const Roles = ({ navigation }) => {
           </TouchableOpacity>
           <TouchableOpacity
             style={Roles_styles.owlButton}
-            onPress={() => selectRoles("Owl")}
+            onPress={() => {
+              //selectRoles("Owl")
+              dispatch(dataActions.updateRole("Owl"))
+            }}
           >
             <Image
               style={Roles_styles.icons}
@@ -216,7 +223,10 @@ const Roles = ({ navigation }) => {
           </TouchableOpacity>
           <TouchableOpacity
             style={Roles_styles.parrotButton}
-            onPress={() => selectRoles("Parrot")}
+            onPress={() => {
+              //selectRoles("Parrot")
+              dispatch(dataActions.updateRole("Parrot"))
+            }}
           >
             <Image
               style={Roles_styles.icons}
@@ -232,7 +242,10 @@ const Roles = ({ navigation }) => {
           </TouchableOpacity>
           <TouchableOpacity
             style={Roles_styles.penguinButton}
-            onPress={() => selectRoles("Penguin")}
+            onPress={() => {
+              //selectRoles("Penguin")
+              dispatch(dataActions.updateRole("Penguin"))
+            }}
           >
             <Image
               style={Roles_styles.icons}
@@ -248,7 +261,10 @@ const Roles = ({ navigation }) => {
           </TouchableOpacity>
           <TouchableOpacity
             style={Roles_styles.duckButton}
-            onPress={() => selectRoles("Duck")}
+            onPress={() => {
+              //selectRoles("Duck")
+              dispatch(dataActions.updateRole("Duck"))
+            }}
           >
             <Image
               style={Roles_styles.icons}

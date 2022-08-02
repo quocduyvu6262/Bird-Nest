@@ -9,7 +9,7 @@ import Logo from '../assets/bird.png';
 import Constants from '../constants/constants';
 // Redux
 import {useDispatch, useSelector} from 'react-redux';
-import {updateUser} from '../redux/slices/data'
+import {updateHousing, updateUser} from '../redux/slices/data'
 export default function SplashScreen({navigation}) {
 
     const edges = useSafeAreaInsets();
@@ -38,7 +38,8 @@ export default function SplashScreen({navigation}) {
             if(userToken){
                 SecureStore.getItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_REDUX).then(data => {
                     let jsonData = JSON.parse(data);
-                    dispatch(updateUser(jsonData));
+                    //dispatch(updateUser(jsonData.userInfo));
+                    //dispatch(updateHousing(jsonData.housing));
                 })
                 navigation.navigate('BirdFeed');
             } else {

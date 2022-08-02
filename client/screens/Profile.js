@@ -26,21 +26,10 @@ import Deondre from "../assets/deondre.jpg";
 import Constants from "../constants/constants";
 // Redux
 import { useDispatch, useSelector } from "react-redux";
-import {
-  updateFirstname,
-  updateLastname,
-  updateGender,
-  updateAge,
-  updatePronouns,
-  updateMajor,
-  updateGraduationyear,
-  updateProfilepic,
-} from "../redux/slices/data";
 
 const Profile = ({ navigation }) => {
   
-  const userInfo = useSelector(state => state.data.userInfo);
-  const houseInfo = useSelector(state => state.data.housing);
+  const data = useSelector(state => state.data);
 
   const [name, setName] = useState();
   const [rent, setRent] = useState();
@@ -67,7 +56,7 @@ const Profile = ({ navigation }) => {
       <ScrollView>
         <Background>
           <UserCard
-            name={userInfo.firstname + " " + userInfo.lastname}
+            name={data.userInfo.firstname + " " + data.userInfo.lastname}
             image={Deondre}
           />
 
@@ -104,10 +93,10 @@ const Profile = ({ navigation }) => {
           </View>
 
           <InfoCard>
-            {!buttonClicked && <BioInfo bio={userInfo.bio}></BioInfo>}
+            {!buttonClicked && <BioInfo bio={data.userInfo.bio}></BioInfo>}
 
             {buttonClicked && (
-              <RentInfo rent={houseInfo.rent} lease={houseInfo.lease} neighborhood={houseInfo.neighborhood} />
+              <RentInfo rent={data.housing.rent} lease={data.housing.lease} neighborhood={data.housing.neighborhood} />
             )}
           </InfoCard>
 

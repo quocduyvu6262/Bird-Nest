@@ -22,8 +22,7 @@ import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
 import { Slider} from '@rneui/themed';
 // Redux
 import {useDispatch, useSelector, connect} from 'react-redux';
-import {updateFirstname, updateLastname, updateGender, updateAge, updatePronouns, updateMajor, updateGraduationyear, updateProfilepic, updateNeighborhood, updateRent, updateLease} from '../redux/slices/data'
-
+import * as dataActions from '../redux/slices/data';
 
 class HasHousingQ extends Component {
   
@@ -35,58 +34,72 @@ class HasHousingQ extends Component {
       value: 500
     };
     state1 = {
+      name: true,
       pressed: false,
       backgroundColor: '#D9D9D9'
     };
     state2 = {
+      name: false,
       pressed: false,
       backgroundColor: '#D9D9D9'
     };
     state3 = {
+      name: true,
       pressed: false,
       backgroundColor: '#D9D9D9'
     };
     state4 = {
+      name: false,
       pressed: false,
       backgroundColor: '#D9D9D9'
     };
     state5 = {
+      name: true,
       pressed: false,
       backgroundColor: '#D9D9D9'
     };
     state6 = {
+      name: false,
       pressed: false,
       backgroundColor: '#D9D9D9'
     };
     state7 = {
+      name: true,
       pressed: false,
       backgroundColor: '#D9D9D9'
     };
     state8 = {
+      name: false,
       pressed: false,
       backgroundColor: '#D9D9D9'
     };
     state9 = {
+      name: true,
       pressed: false,
       backgroundColor: '#D9D9D9'
     };
     state10 = {
+      name: false,
       pressed: false,
       backgroundColor: '#D9D9D9'
     };
     state11 = {
+      name: true,
       pressed: false,
       backgroundColor: '#D9D9D9'
     };
     state12 = {
+      name: false,
       pressed: false,
       backgroundColor: '#D9D9D9'
     };
     state13 = {
+      name: true,
       pressed: false,
       backgroundColor: '#D9D9D9'
     };
     state14 = {
+      name: false,
       pressed: false,
       backgroundColor: '#D9D9D9'
     };
@@ -319,14 +332,14 @@ class HasHousingQ extends Component {
   handleSliderChange = (value1) => {
     this.slider_state.value = value1;
     this.setState({value: this.slider_state.value});
-    this.props.dispatch(updateRent(value1))
+    this.props.dispatch(dataActions.updateRent(value1))
   }
   render() {
   
   return (
     <SafeAreaView style={HousingQ_styles.container}>
         <View style={HousingHeader_styles.header}>
-          <Text style={HousingHeader_styles.headerText}>Housing (3/4)</Text>
+          <Text style={HousingHeader_styles.headerText}>Housing (4/5)</Text>
           <TouchableOpacity style={{alignSelf: 'flex-start'}}>
           <Text style={HousingHeader_styles.returnToProfileArrow}
             onPress={() => {
@@ -342,91 +355,91 @@ class HasHousingQ extends Component {
           <TouchableOpacity style={[this.state15, HousingQ_styles.buttonContainerYes4]}
           onPress={()=>{
             this.changeMany(this.state15, this.state16, this.state17, this.state18, this.state19, this.state20, this.state21, this.state22, this.state23, this.state24, this.state25, this.state26, this.state27, this.state28)
-            this.props.dispatch(updateNeighborhood(this.state15.name));
+            this.props.dispatch(dataActions.updateNeighborhood(this.state15.name));
           }}>
             <Text style = {HousingQ_styles.buttonText}>Downtown SD</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[this.state16, HousingQ_styles.buttonContainerNo4]}
           onPress={()=>{
             this.changeMany(this.state16, this.state15, this.state17, this.state18, this.state19, this.state20, this.state21, this.state22, this.state23, this.state24, this.state25, this.state26, this.state27, this.state28)
-            this.props.dispatch(updateNeighborhood(this.state16.name));
+            this.props.dispatch(dataActions.updateNeighborhood(this.state16.name));
           }}>
             <Text style = {HousingQ_styles.buttonText}>La Jolla</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[this.state17, HousingQ_styles.buttonContainerYes5]}
           onPress={()=>{
             this.changeMany(this.state17, this.state16, this.state15, this.state18, this.state19, this.state20, this.state21, this.state22, this.state23, this.state24, this.state25, this.state26, this.state27, this.state28)
-            this.props.dispatch(updateNeighborhood(this.state17.name));
+            this.props.dispatch(dataActions.updateNeighborhood(this.state17.name));
           }}>
             <Text style = {HousingQ_styles.buttonText}>Del Mar</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[this.state18, HousingQ_styles.buttonContainerNo5]}
           onPress={()=>{
             this.changeMany(this.state18, this.state16, this.state17, this.state15, this.state19, this.state20, this.state21, this.state22, this.state23, this.state24, this.state25, this.state26, this.state27, this.state28)
-            this.props.dispatch(updateNeighborhood(this.state18.name));
+            this.props.dispatch(dataActions.updateNeighborhood(this.state18.name));
           }}>
             <Text style = {HousingQ_styles.buttonText}>Mira Mesa</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[this.state19, HousingQ_styles.buttonContainerYes5]}
           onPress={()=>{
             this.changeMany(this.state19, this.state16, this.state17, this.state18, this.state15, this.state20, this.state21, this.state22, this.state23, this.state24, this.state25, this.state26, this.state27, this.state28)
-            this.props.dispatch(updateNeighborhood(this.state19.name));
+            this.props.dispatch(dataActions.updateNeighborhood(this.state19.name));
           }}>
             <Text style = {HousingQ_styles.buttonText}>Pacific Beach</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[this.state20, HousingQ_styles.buttonContainerNo5]}
           onPress={()=>{
             this.changeMany(this.state20, this.state16, this.state17, this.state18, this.state15, this.state19, this.state21, this.state22, this.state23, this.state24, this.state25, this.state26, this.state27, this.state28)
-            this.props.dispatch(updateNeighborhood(this.state20.name));
+            this.props.dispatch(dataActions.updateNeighborhood(this.state20.name));
           }}>
             <Text style = {HousingQ_styles.buttonText}>Clairemont</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[this.state21, HousingQ_styles.buttonContainerYes5]}
           onPress={()=>{
             this.changeMany(this.state21, this.state21, this.state17, this.state18, this.state15, this.state20, this.state19, this.state22, this.state23, this.state24, this.state25, this.state26, this.state27, this.state28)
-            this.props.dispatch(updateNeighborhood(this.state15.name));
+            this.props.dispatch(dataActions.updateNeighborhood(this.state15.name));
           }}>
             <Text style = {HousingQ_styles.buttonText}>University City</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[this.state22, HousingQ_styles.buttonContainerNo5]}
           onPress={()=>{
             this.changeMany(this.state22, this.state16, this.state17, this.state18, this.state15, this.state20, this.state21, this.state19, this.state23, this.state24, this.state25, this.state26, this.state27, this.state28)
-            this.props.dispatch(updateNeighborhood(this.state22.name));
+            this.props.dispatch(dataActions.updateNeighborhood(this.state22.name));
           }}>
             <Text style = {HousingQ_styles.buttonText}>UTC</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[this.state23, HousingQ_styles.buttonContainerYes5]}
           onPress={()=>{
             this.changeMany(this.state23, this.state16, this.state17, this.state18, this.state15, this.state20, this.state21, this.state22, this.state19, this.state24, this.state25, this.state26, this.state27, this.state28)
-            this.props.dispatch(updateNeighborhood(this.state23.name));
+            this.props.dispatch(dataActions.updateNeighborhood(this.state23.name));
           }}>
             <Text style = {HousingQ_styles.buttonText}>Kearny Mesa</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[this.state24, HousingQ_styles.buttonContainerNo5]}
           onPress={()=>{
             this.changeMany(this.state24, this.state16, this.state17, this.state18, this.state15, this.state20, this.state21, this.state22, this.state23, this.state19, this.state25, this.state26, this.state27, this.state28)
-            this.props.dispatch(updateNeighborhood(this.state24.name));
+            this.props.dispatch(dataActions.updateNeighborhood(this.state24.name));
           }}>
             <Text style = {HousingQ_styles.buttonText}>Solana Beach</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[this.state25, HousingQ_styles.buttonContainerYes5]}
           onPress={()=>{
             this.changeMany(this.state25, this.state16, this.state17, this.state18, this.state15, this.state20, this.state21, this.state22, this.state23, this.state24, this.state19, this.state26, this.state27, this.state28)
-            this.props.dispatch(updateNeighborhood(this.state25.name));
+            this.props.dispatch(dataActions.updateNeighborhood(this.state25.name));
           }}>
             <Text style = {HousingQ_styles.buttonText}>Mission Valley</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[this.state26, HousingQ_styles.buttonContainerNo5]}
           onPress={()=>{
             this.changeMany(this.state26, this.state16, this.state17, this.state18, this.state15, this.state20, this.state21, this.state22, this.state23, this.state24, this.state25, this.state19, this.state27, this.state28)
-            this.props.dispatch(updateNeighborhood(this.state26.name));
+            this.props.dispatch(dataActions.updateNeighborhood(this.state26.name));
           }}>
             <Text style = {HousingQ_styles.buttonText}>Carmel Valley</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[this.state27, HousingQ_styles.buttonContainerYes6]}
           onPress={()=>{
             this.changeMany(this.state27, this.state16, this.state17, this.state18, this.state15, this.state20, this.state21, this.state22, this.state23, this.state24, this.state25, this.state26, this.state19, this.state28)
-            this.props.dispatch(updateNeighborhood(this.state27.name));
+            this.props.dispatch(dataActions.updateNeighborhood(this.state27.name));
           }}>
             <Text style = {HousingQ_styles.buttonText}>Sorrento Valley</Text>
           </TouchableOpacity>
@@ -458,28 +471,28 @@ class HasHousingQ extends Component {
           <TouchableOpacity style={[this.state29, HousingQ_styles.buttonContainerYes7]}
           onPress={()=>{
             this.changeMultipleColor(this.state29, this.state30, this.state31, this.state32);
-            this.props.dispatch(updateLease("1 - 3"));
+            this.props.dispatch(dataActions.updateLease("1 - 3"));
           }}>
             <Text style = {HousingQ_styles.buttonText}>1 to 3</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[this.state30, HousingQ_styles.buttonContainerNo7]}
           onPress={()=>{
             this.changeMultipleColor(this.state30, this.state29, this.state31, this.state32)
-            this.props.dispatch(updateLease("4 - 7"))
+            this.props.dispatch(dataActions.updateLease("4 - 7"))
           }}>
             <Text style = {HousingQ_styles.buttonText}>4 to 7</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[this.state31, HousingQ_styles.buttonContainerYes8]}
           onPress={()=>{
             this.changeMultipleColor(this.state31, this.state30, this.state29, this.state32)
-            this.props.dispatch(updateLease("8 - 11"));
+            this.props.dispatch(dataActions.updateLease("8 - 11"));
           }}>
             <Text style = {HousingQ_styles.buttonText}>8 to 11</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[this.state32, HousingQ_styles.buttonContainerNo8]}
           onPress={()=>{
             this.changeMultipleColor(this.state32, this.state30, this.state29, this.state31)
-            this.props.dispatch(updateLease("12+"));
+            this.props.dispatch(dataActions.updateLease("12+"));
           }}>
             <Text style = {HousingQ_styles.buttonText}>12 +</Text>
           </TouchableOpacity>
@@ -487,80 +500,122 @@ class HasHousingQ extends Component {
           <Text style={HousingQ_styles.question1}>Does the property have a</Text>
           <Text style={HousingQ_styles.question1}>garage?</Text>
           <TouchableOpacity style={[this.state1, HousingQ_styles.buttonContainerYes1]} 
-          onPress={()=>this.changeColor(this.state1, this.state2)}>
+          onPress={()=>{
+            this.changeColor(this.state1, this.state2)
+            this.props.dispatch(dataActions.updateGarage(this.state1.name))
+          }}>
           <Text style = {HousingQ_styles.buttonText}>Yes</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[this.state2, HousingQ_styles.buttonContainerNo1]}
-          onPress={()=>this.changeColor(this.state2, this.state1)}>
+          onPress={()=>{
+            this.changeColor(this.state2, this.state1)
+            this.props.dispatch(dataActions.updateGarage(this.state1.name))
+          }}>
             <Text style = {HousingQ_styles.buttonText}>No</Text>
           </TouchableOpacity>
 
           <Text style={HousingQ_styles.question2}>Does the property have parking?</Text>  
           <TouchableOpacity style={[this.state3, HousingQ_styles.buttonContainerYes2]}
-          onPress={()=>this.changeColor(this.state3, this.state4)}>
+          onPress={()=>{
+            this.changeColor(this.state3, this.state4)
+            this.props.dispatch(dataActions.updateParking(this.state3.name))
+          }}>
             <Text style = {HousingQ_styles.buttonText}>Yes</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[this.state4, HousingQ_styles.buttonContainerNo2]}
-          onPress={()=>this.changeColor(this.state4, this.state3)}>
+          onPress={()=>{
+            this.changeColor(this.state4, this.state3)
+            this.props.dispatch(dataActions.updateParking(this.state4.name))
+          }}>
             <Text style = {HousingQ_styles.buttonText}>No</Text>
           </TouchableOpacity>
 
           <Text style={HousingQ_styles.question3}>Does the property have a gym?</Text>
           <TouchableOpacity style={[this.state5, HousingQ_styles.buttonContainerYes3]}
-          onPress={()=>this.changeColor(this.state5, this.state6)}>
+          onPress={()=>{
+            this.changeColor(this.state5, this.state6)
+            this.props.dispatch(dataActions.updateGym(this.state5.name))
+          }}>
             <Text style = {HousingQ_styles.buttonText}>Yes</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[this.state6, HousingQ_styles.buttonContainerNo3]}
-          onPress={()=>this.changeColor(this.state6, this.state5)}>
+          onPress={()=>{
+            this.changeColor(this.state6, this.state5)
+            this.props.dispatch(dataActions.updateGym(this.state6.name))
+          }}>
             <Text style = {HousingQ_styles.buttonText}>No</Text>
           </TouchableOpacity>
 
           <Text style={HousingQ_styles.question3}>Does the property have a pool?</Text>
           <TouchableOpacity style={[this.state7, HousingQ_styles.buttonContainerYes3]}
-          onPress={()=>this.changeColor(this.state7, this.state8)}>
+          onPress={()=>{
+            this.changeColor(this.state7, this.state8)
+            this.props.dispatch(dataActions.updatePool(this.state7.name))
+          }}>
             <Text style = {HousingQ_styles.buttonText}>Yes</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[this.state8, HousingQ_styles.buttonContainerNo3]}
-          onPress={()=>this.changeColor(this.state8, this.state7)}>
+          onPress={()=>{
+            this.changeColor(this.state8, this.state7)
+            this.props.dispatch(dataActions.updatePool(this.state8.name))
+          }}>
             <Text style = {HousingQ_styles.buttonText}>No</Text>
           </TouchableOpacity>
 
           <Text style={HousingQ_styles.question3}>Does the property provide</Text>
           <Text style={HousingQ_styles.question3}>appliances for residents?</Text>  
           <TouchableOpacity style={[this.state9, HousingQ_styles.buttonContainerYes3]}
-          onPress={()=>this.changeColor(this.state9, this.state10)}>
+          onPress={()=>{
+            this.changeColor(this.state9, this.state10)
+            this.props.dispatch(dataActions.updateAppliances(this.state9.name))
+          }}>
             <Text style = {HousingQ_styles.buttonText}>Yes</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[this.state10, HousingQ_styles.buttonContainerNo3]}
-          onPress={()=>this.changeColor(this.state10, this.state9)}>
+          onPress={()=>{
+            this.changeColor(this.state10, this.state9)
+            this.props.dispatch(dataActions.updateAppliances(this.state10.name))
+          }}>
             <Text style = {HousingQ_styles.buttonText}>No</Text>
           </TouchableOpacity>
 
           <Text style={HousingQ_styles.question3}>Is the property already</Text>
           <Text style={HousingQ_styles.question3}>furnished?</Text>
           <TouchableOpacity style={[this.state11, HousingQ_styles.buttonContainerYes3]}
-          onPress={()=>this.changeColor(this.state11, this.state12)}>
+          onPress={()=>{
+            this.changeColor(this.state11, this.state12)
+            this.props.dispatch(dataActions.updateFurniture(this.state11.name))
+          }}>
             <Text style = {HousingQ_styles.buttonText}>Yes</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[this.state12, HousingQ_styles.buttonContainerNo3]}
-          onPress={()=>this.changeColor(this.state12, this.state11)}>
+          onPress={()=>{
+            this.changeColor(this.state12, this.state11)
+            this.props.dispatch(dataActions.updateFurniture(this.state12.name))
+          }}>
             <Text style = {HousingQ_styles.buttonText}>No</Text>
           </TouchableOpacity>
 
           <Text style={HousingQ_styles.question3}>Does the property have air</Text>
           <Text style={HousingQ_styles.question3}>conditioning?</Text> 
           <TouchableOpacity style={[this.state13, HousingQ_styles.buttonContainerYes3]}
-          onPress={()=>this.changeColor(this.state13, this.state14)}>
+          onPress={()=>{
+            this.changeColor(this.state13, this.state14)
+            this.props.dispatch(dataActions.updateAC(this.state13.name))
+          }}>
             <Text style = {HousingQ_styles.buttonText}>Yes</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[this.state14, HousingQ_styles.buttonContainerNo3, {marginBottom: 110}]}
-          onPress={()=>this.changeColor(this.state14, this.state13)}>
+          onPress={()=>{
+            this.changeColor(this.state14, this.state13)
+            this.props.dispatch(dataActions.updateAC(this.state14.name))
+          }}>
             <Text style = {HousingQ_styles.buttonText}>No</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={HousingQ_styles.nextButton}
             onPress={() => {
-              this.props.navigation.navigate('BirdFeed')
+              this.props.navigation.navigate('Personality')
             }}
           >
             <Text style = {[HousingQ_styles.buttonText, {color:'#FFF'}]}>Next</Text>
@@ -571,17 +626,6 @@ class HasHousingQ extends Component {
   );
   }
 }
-
-// DISPATCH
-// MAP DISPATCH
-const mapDispatchToProps = (dispatch) => {
-  return {
-      dispatch: (func) => dispatch(func)
-  }
-};
-
-
-
 
 // STYLE
 const HousingHeader_styles = StyleSheet.create({
@@ -882,5 +926,14 @@ const HousingQ_styles = StyleSheet.create({
     backgroundColor: "#6736B6",
   },
 });
+
+// DISPATCH
+// MAP DISPATCH
+const mapDispatchToProps = (dispatch) => {
+  return {
+      dispatch: (func) => dispatch(func)
+  }
+};
+
 
 export default connect(null, mapDispatchToProps)(HasHousingQ);

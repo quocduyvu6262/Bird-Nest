@@ -28,6 +28,7 @@ const Settings = ({ navigation }) => {
               Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING
             )
               .then(() => {
+                SecureStore.deleteItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_REDUX);
                 navigation.navigate("LoginScreen");
               })
               .catch((err) => {
