@@ -18,7 +18,7 @@ import BirdFeed from "./screens/BirdFeed.js";
 import PeckView from "./screens/PeckView.js";
 import Profile from "./screens/Profile.js";
 import MessengerPigeon from "./screens/Messenger/MessengerPigeon.js";
-import ChatRoom from "./screens/Messenger/ChatRoom";
+import ChatRoom from "./screens/Messenger/MessengerRoom";
 import ChirpNotification from "./screens/ChirpNotification.js";
 import History from "./screens/History.js";
 import LoginScreen from "./screens/Auth/Login.js";
@@ -32,7 +32,7 @@ import NoHousingQ from "./screens/Questionnaires/NoHousingQ.js";
 import HasHousingQ from "./screens/Questionnaires/HasHousingQ.js";
 import Personality from "./screens/Questionnaires/Personality.js";
 import BasicInfo from "./screens/Questionnaires/BasicInfo.js";
-
+import ChatScreen from "./screens/Messenger/ChatScreen.js";
 // logo icons
 import BirdFeedLogo from "./assets/BirdFeedLogo.png";
 import MessengerLogo from "./assets/MessengerLogo.png";
@@ -77,7 +77,7 @@ const TabNavigator = () => {
       />
       <Tab.Screen
         name="Messenger Pigeon"
-        component={ChatRoom}
+        component={ChatScreen}
         options={{
           tabBarIcon: () => (
             <Image style={{ height: 50, width: 50 }} source={MessengerLogo} />
@@ -102,6 +102,7 @@ export default function App() {
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="BirdFeed" component={TabNavigator} />
           <Stack.Screen name="PeckView" component={PeckView} />
+
           <Stack.Screen name="Settings" component={Settings} />
           <Stack.Screen name="ChirpNotificationEdit" component={ChirpNotificationEdit}/>
           <Stack.Screen name="HelpSupport" component={HelpSupport} />

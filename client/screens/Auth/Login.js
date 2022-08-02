@@ -22,7 +22,9 @@ import Paragraph from "../../components/Paragraph";
 import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
 import * as SecureStore from "expo-secure-store";
-
+import * as firebase from 'firebase';
+import 'firebase/firestore'
+import "firebase/auth";
 // Import constants
 import Constants from "../../constants/constants";
 // Redux
@@ -32,6 +34,28 @@ import { updateHousing, updateUser } from "../../redux/slices/data";
 // Axios
 import Axios from "axios";
 import * as Network from "expo-network";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBBM6uF183divLctmv-7oivanZY76GrVxU",
+  authDomain: "bird-nest-ed655.firebaseapp.com",
+  projectId: "bird-nest-ed655",
+  storageBucket: "bird-nest-ed655.appspot.com",
+  messagingSenderId: "958405478516",
+  appId: "1:958405478516:web:9d1660a73cdc062020e921",
+  measurementId: "G-X34RQRY5BS"
+};
+
+let app; 
+
+if (firebase.apps.length === 0) {
+    app = firebaseApp = firebase.initializeApp(firebaseConfig)
+} else {
+    app = firebase.app();
+}
+
+const db = app.firestore();
+
+const auth = firebase.auth();
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -103,6 +127,8 @@ const LoginScreen = ({ navigation }) => {
       // navigation.navigate("BirdFeed");
       if (accessToken) {
         fetchGoogleUser(accessToken).then((userInfo) => {
+          auth
+            .createUserWithEmailAndPassword(userInfo.email, JSON.stringify(accessToken));
           login(userInfo)
             .then(async (res) => {
               // Store Token
