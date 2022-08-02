@@ -1,21 +1,21 @@
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, StatusBar } from "react-native";
 import React from "react";
 
 const ProfileCard = ({ item }) => {
   return (
-    <View style={Profile_Card_styles.container}>
-      <Image style={Profile_Card_styles.image} source={item.src} />
-      <View style={Profile_Card_styles.text_box}>
+    <View style={styles.container}>
+      <Image style={styles.image} source={item.src} />
+      <View style={styles.text_box}>
         <Text>{item.city}</Text>
-        <View style={Profile_Card_styles.text_box_name}>
-          <Text>{item.name}</Text>
+        <View style={styles.text_box_name}>
+          <Text style={{ color: "white" }}>{item.name}</Text>
         </View>
       </View>
     </View>
   );
 };
 
-const Profile_Card_styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     height: 90,
     width: "90%",
@@ -26,6 +26,11 @@ const Profile_Card_styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 20,
     marginTop: 10,
+    shadowOffset: { height: 20 },
+    shadowOpacity: 0.5,
+    shadowColor: "black",
+    shadowRadius: 5,
+    elevation: 5,
   },
   image: {
     height: 80,
@@ -48,7 +53,7 @@ const Profile_Card_styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     left: 15,
-    backgroundColor: "#219EBC",
+    backgroundColor: "#560CCE",
     paddingHorizontal: 20,
     paddingVertical: 3,
     borderTopRightRadius: 10,
