@@ -36,7 +36,6 @@ const BirdFeed = ({ navigation }) => {
   const [userList, setUserList] = useState([]);
   const [listState, setListState] = useState(false);
   const [overlayClicked, setOverlayClicked] = useState(false);
-  const [backgroundGrey, setBackgroundGrey] = useState(false);
 
   const [switchEnabledNeigh, setSwitchEnabledNeigh] = useState(false);
   const toggleSwitchNeigh = () =>

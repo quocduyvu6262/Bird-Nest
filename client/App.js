@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { StatusBar } from 'expo-status-bar';
 import {
   StyleSheet,
   View,
   Image,
   InteractionManager,
   ActivityIndicator,
-  CameraRoll,
 } from "react-native";
 import Logo from "./assets/bird.png";
 
@@ -44,12 +44,14 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { CardStyleInterpolators } from "@react-navigation/stack";
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
+
+
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 // Redux
-import { Provider } from "react-redux";
-import { store } from "./redux/store";
 
 const TabNavigator = () => {
   return (
@@ -87,6 +89,7 @@ const TabNavigator = () => {
   );
 };
 <ion-icon name="eye-outline"></ion-icon>;
+
 export default function App() {
   return (
     <Provider store={store}>
@@ -101,25 +104,17 @@ export default function App() {
           <Stack.Screen name="BirdFeed" component={TabNavigator} />
           <Stack.Screen name="PeckView" component={PeckView} />
           <Stack.Screen name="Settings" component={Settings} />
-          <Stack.Screen
-            name="ChirpNotificationEdit"
-            component={ChirpNotificationEdit}
-          />
+          <Stack.Screen name="ChirpNotificationEdit" component={ChirpNotificationEdit}/>
           <Stack.Screen name="HelpSupport" component={HelpSupport} />
           <Stack.Screen name="TermsOfService" component={TermsOfService} />
-          <Stack.Screen
-            name="ChirpNotification"
-            component={ChirpNotification}
-          />
+          <Stack.Screen name="ChirpNotification" component={ChirpNotification}/>
           <Stack.Screen name="IDQs" component={IDQs} />
           <Stack.Screen name="BasicInfo" component={BasicInfo} />
           <Stack.Screen name="NoHousingQ" component={NoHousingQ} />
           <Stack.Screen name="HasHousingQ" component={HasHousingQ} />
           <Stack.Screen name="Personality" component={Personality} />
           <Stack.Screen name="Roles" component={Roles} />
-          <Stack.Screen
-            name="History"
-            component={History}
+          <Stack.Screen name="History" component={History}
             // work on this
             // options={{
             //   cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
