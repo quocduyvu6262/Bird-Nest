@@ -12,11 +12,11 @@ import {
   processColor,
   Alert,
 } from "react-native";
-import Background from "../components/Background";
-import Logo from "../components/Logo";
-import Header from "../components/Header";
-import Button from "../components/Button";
-import Paragraph from "../components/Paragraph";
+import Background from "../../components/Background";
+import Logo from "../../components/Logo";
+import Header from "../../components/Header";
+import Button from "../../components/Button";
+import Paragraph from "../../components/Paragraph";
 
 // Google sign in
 import * as Google from "expo-auth-session/providers/google";
@@ -24,10 +24,10 @@ import * as WebBrowser from "expo-web-browser";
 import * as SecureStore from "expo-secure-store";
 
 // Import constants
-import Constants from "../constants/constants";
+import Constants from "../../constants/constants";
 // Redux
 import { useDispatch, useSelector } from "react-redux";
-import { updateUser } from "../redux/slices/data";
+import { updateHousing, updateUser } from "../../redux/slices/data";
 
 // Axios
 import Axios from "axios";
@@ -118,7 +118,9 @@ const LoginScreen = ({ navigation }) => {
                   Constants.MY_SECURE_AUTH_STATE_KEY_REDUX
                 ).then((data) => {
                   let jsonData = JSON.parse(data);
-                  dispatch(updateUser(jsonData));
+                  console.log(jsonData);
+                  //dispatch(updateUser(jsonData.userInfo));
+                  //dispatch(updateHousing(jsonData.housing))
                 });
               } else if (res === "register") {
                 // new user or user who has not filled in questionaires
@@ -136,11 +138,13 @@ const LoginScreen = ({ navigation }) => {
       <View style={styles.background}>
         <Logo />
         <Header>Bird Nest</Header>
-        <Paragraph>Homes that Match</Paragraph>
+        <Paragraph>
+          Homes that Match
+        </Paragraph>
         <TouchableOpacity>
           <Button
             mode="contained"
-            onPress={() => promptAsync({ showInRecents: true })}
+            onPress={() => promptAsync({showInRecents: true})}
           >
             Sign in with Google
           </Button>
@@ -151,11 +155,12 @@ const LoginScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  background: {
-    alignItems: "center",
-    alignSelf: "center",
-    marginTop: "80%",
-  },
+  background:{
+    alignItems: 'center',
+    alignSelf: 'center',
+    marginTop: '80%'
+  }
 });
+
 
 export default LoginScreen;

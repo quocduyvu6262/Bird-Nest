@@ -1,6 +1,6 @@
 import { View, Text, SafeAreaView, StyleSheet, StatusBar } from "react-native";
 import React from "react";
-import MainHeader from "../components/MainHeader";
+import MainHeader from "../../components/MainHeader";
 
 const MessengerPigeon = ({ navigation }) => {
   return (
