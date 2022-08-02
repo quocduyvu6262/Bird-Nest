@@ -18,6 +18,7 @@ import BirdFeed from "./screens/BirdFeed.js";
 import PeckView from "./screens/PeckView.js";
 import Profile from "./screens/Profile.js";
 import MessengerPigeon from "./screens/Messenger/MessengerPigeon.js";
+import ChatRoom from "./screens/Messenger/ChatRoom";
 import ChirpNotification from "./screens/ChirpNotification.js";
 import History from "./screens/History.js";
 import LoginScreen from "./screens/Auth/Login.js";
@@ -74,7 +75,7 @@ const TabNavigator = () => {
       />
       <Tab.Screen
         name="Messenger Pigeon"
-        component={MessengerPigeon}
+        component={ChatRoom}
         options={{
           tabBarIcon: () => (
             <Image style={{ height: 50, width: 50 }} source={MessengerLogo} />
