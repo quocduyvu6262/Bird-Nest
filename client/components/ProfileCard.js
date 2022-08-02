@@ -1,17 +1,59 @@
 import { View, Text, StyleSheet, Image, StatusBar } from "react-native";
 import React from "react";
+import { GestureDetector, Gesture } from "react-native-gesture-handler";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+} from "react-native-reanimated";
 
 const ProfileCard = ({ item }) => {
+  // react-native-gesture-handler docs
+
+  const isPressed = useSharedValue(false);
+  const offset = useSharedValue({ x: 0, y: 0 });
+  const start = useSharedValue({ x: 0, y: 0 });
+  const animatedStyles = useAnimatedStyle(() => {
+    return {
+      transform: [
+        { translateX: offset.value.x },
+        { translateY: offset.value.y },
+      ],
+      // backgroundColor: isPressed.value ? "yellow" : "blue",
+    };
+  });
+
+  const gesture = Gesture.Pan()
+    .onBegin(() => {
+      isPressed.value = true;
+    })
+    .onUpdate((e) => {
+      offset.value = {
+        x: e.translationX + start.value.x,
+        y: e.translationY + start.value.y,
+      };
+    })
+    .onEnd(() => {
+      start.value = {
+        x: offset.value.x,
+        y: offset.value.y,
+      };
+    })
+    .onFinalize(() => {
+      isPressed.value = false;
+    });
+
   return (
-    <View style={styles.container}>
-      <Image style={styles.image} source={item.src} />
-      <View style={styles.text_box}>
-        <Text>{item.city}</Text>
-        <View style={styles.text_box_name}>
-          <Text style={{ color: "white" }}>{item.name}</Text>
+    <GestureDetector gesture={gesture}>
+      <Animated.View style={[styles.container, animatedStyles]}>
+        <Image style={styles.image} source={item.item.src} />
+        <View style={styles.text_box}>
+          <Text>{item.item.city}</Text>
+          <View style={styles.text_box_name}>
+            <Text style={{ color: "white" }}>{item.item.name}</Text>
+          </View>
         </View>
-      </View>
-    </View>
+      </Animated.View>
+    </GestureDetector>
   );
 };
 

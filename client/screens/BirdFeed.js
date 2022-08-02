@@ -22,6 +22,10 @@ import { imagesIndex } from "../assets/images/imagesIndex.js";
 import { stepforward } from "react-native-vector-icons";
 import ViewUsers from "../components/buttons/ViewUsers.js";
 import AppLoading from "expo-app-loading";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+} from "react-native-reanimated";
 
 import { Icon } from "@rneui/themed";
 import Icon2 from "react-native-vector-icons/MaterialCommunityIcons";
@@ -240,7 +244,7 @@ const BirdFeed = ({ navigation }) => {
             <FlatList
               data={userList}
               // data={UserData}
-              renderItem={ProfileCard}
+              renderItem={(item) => <ProfileCard item={item} />}
               extraData={userList}
               // extraData={UserData}
             />
