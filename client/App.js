@@ -34,6 +34,10 @@ import HasHousingQ from "./screens/HasHousingQ.js";
 import Personality from "./screens/Personality.js";
 import BasicInfo from "./screens/BasicInfo.js";
 
+// logo icons
+import BirdFeedLogo from "./assets/BirdFeedLogo.png";
+import MessengerLogo from "./assets/MessengerLogo.png";
+import ProfileLogo from "./assets/ProfileLogo.png";
 
 // Stack and Tab Navigation
 import { NavigationContainer } from "@react-navigation/native";
@@ -49,10 +53,36 @@ import { store } from "./redux/store";
 
 const TabNavigator = () => {
   return (
-    <Tab.Navigator screenOptions={{ headerShown: false }}>
-      <Tab.Screen name="Profile" component={Profile} />
-      <Tab.Screen name="Bird Feed" component={BirdFeed} />
-      <Tab.Screen name="Messenger Pigeon" component={MessengerPigeon} />
+    <Tab.Navigator
+      screenOptions={{ headerShown: false, tabBarActiveTintColor: "#560CCE" }}
+    >
+      <Tab.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          tabBarIcon: () => (
+            <Image style={{ height: 40, width: 40 }} source={ProfileLogo} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Bird Feed"
+        component={BirdFeed}
+        options={{
+          tabBarIcon: () => (
+            <Image style={{ height: 50, width: 50 }} source={BirdFeedLogo} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Messenger Pigeon"
+        component={MessengerPigeon}
+        options={{
+          tabBarIcon: () => (
+            <Image style={{ height: 50, width: 50 }} source={MessengerLogo} />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 };
@@ -62,8 +92,8 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator
-        //change back default to "Splashcreen" after testing
-          initialRouteName="IDQs"
+          //change back default to "Splashcreen" after testing
+          initialRouteName="SplashScreen"
           screenOptions={{ headerShown: false }}
         >
           <Stack.Screen name="SplashScreen" component={SplashScreen} />

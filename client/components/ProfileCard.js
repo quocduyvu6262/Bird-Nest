@@ -8,7 +8,7 @@ const ProfileCard = ({ item }) => {
       <View style={styles.text_box}>
         <Text>{item.city}</Text>
         <View style={styles.text_box_name}>
-          <Text>{item.name}</Text>
+          <Text style={{ color: "white" }}>{item.name}</Text>
         </View>
       </View>
     </View>
@@ -26,6 +26,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 20,
     marginTop: 10,
+    shadowOffset: { height: 20 },
+    shadowOpacity: 0.5,
+    shadowColor: "black",
+    shadowRadius: 5,
+    elevation: 5,
   },
   image: {
     height: 80,
@@ -48,7 +53,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     left: 15,
-    backgroundColor: "#219EBC",
+    backgroundColor: "#560CCE",
     paddingHorizontal: 20,
     paddingVertical: 3,
     borderTopRightRadius: 10,

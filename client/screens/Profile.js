@@ -39,6 +39,7 @@ import {
 
 const Profile = ({ navigation }) => {
   const userInfo = useSelector((state) => state.data.userInfo);
+  const houseInfo = useSelector((state) => state.data.housing);
 
   const [name, setName] = useState();
   const [rent, setRent] = useState();
@@ -102,10 +103,14 @@ const Profile = ({ navigation }) => {
           </View>
 
           <InfoCard>
-            {!buttonClicked && <BioInfo></BioInfo>}
+            {!buttonClicked && <BioInfo bio={userInfo.bio}></BioInfo>}
 
             {buttonClicked && (
-              <RentInfo rent={rent} lease={lease} city={city} />
+              <RentInfo
+                rent={houseInfo.rent}
+                lease={houseInfo.lease}
+                neighborhood={houseInfo.neighborhood}
+              />
             )}
           </InfoCard>
 
@@ -137,10 +142,7 @@ const Profile = ({ navigation }) => {
 const BioInfo = (props) => {
   return (
     <View style={styles.subContainer}>
-      <Text style={styles.text}>
-        Hi, I am Duy, an incoming senior at UCSD. I love playing piano and
-        watching movies while working.
-      </Text>
+      <Text style={styles.text}>{props.bio}</Text>
     </View>
   );
 };
@@ -157,7 +159,8 @@ const RentInfo = (props) => {
         months
       </Text>
       <Text style={styles.text}>
-        <Text style={{ fontWeight: "bold" }}> City:</Text> {props.city}
+        <Text style={{ fontWeight: "bold" }}> Neighborhood:</Text>{" "}
+        {props.neighborhood}
       </Text>
     </View>
   );
@@ -176,6 +179,7 @@ const InterestInfo = (props) => {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     backgroundColor: "white",
   },
