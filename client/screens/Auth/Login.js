@@ -64,19 +64,6 @@ WebBrowser.maybeCompleteAuthSession();
 
 const LoginScreen = ({ navigation }) => {
   const dispatch = useDispatch();
-
-  async function signInWithGoogleAuthentication() {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    const { user } = await auth.signInWithPopup(provider);
-    return user;
-    }
-  
-  async function saveUserToFirestore(user){
-    userRef.doc(user.uid).set({
-      email: email.data,
-      uid: accessToken
-    })
-  }
   // execute google login
   // const [accessToken, setAccessToken] = useState(null);
   const [request, response, promptAsync] = Google.useAuthRequest({
@@ -142,10 +129,6 @@ const LoginScreen = ({ navigation }) => {
       // navigation.navigate("BirdFeed");
       if (accessToken) {
         fetchGoogleUser(accessToken).then((userInfo) => {
-          userRef.doc(accessToken).set({
-            email: userInfo.email,
-            fullname: userInfo.name,
-          })
           login(userInfo)
             .then(async (res) => {
               // Store Token
