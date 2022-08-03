@@ -77,7 +77,7 @@ const TabNavigator = () => {
       />
       <Tab.Screen
         name="Messenger Pigeon"
-        component={ChatScreen}
+        component={MessengerPigeon}
         options={{
           tabBarIcon: () => (
             <Image style={{ height: 50, width: 50 }} source={MessengerLogo} />
