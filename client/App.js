@@ -5,7 +5,6 @@ import {
   Image,
   InteractionManager,
   ActivityIndicator,
-  CameraRoll,
 } from "react-native";
 import Logo from "./assets/bird.png";
 
@@ -18,7 +17,7 @@ import BirdFeed from "./screens/BirdFeed.js";
 import PeckView from "./screens/PeckView.js";
 import Profile from "./screens/Profile.js";
 import MessengerPigeon from "./screens/Messenger/MessengerPigeon.js";
-import ChatRoom from "./screens/Messenger/ChatRoom";
+import MyChatScreen from "./screens/Messenger/MyChatScreen";
 import ChirpNotification from "./screens/ChirpNotification.js";
 import History from "./screens/History.js";
 import LoginScreen from "./screens/Auth/Login.js";
@@ -75,7 +74,7 @@ const TabNavigator = () => {
       />
       <Tab.Screen
         name="Messenger Pigeon"
-        component={ChatRoom}
+        component={MyChatScreen}
         options={{
           tabBarIcon: () => (
             <Image style={{ height: 50, width: 50 }} source={MessengerLogo} />

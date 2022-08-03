@@ -31,15 +31,18 @@ import { updateHousing, updateUser } from "../../redux/slices/data";
 
 // Axios
 import Axios from "axios";
-import * as Network from "expo-network";
+
+// Firebase
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  auth,
+} from '../../firebase'
 
 WebBrowser.maybeCompleteAuthSession();
 
 const LoginScreen = ({ navigation }) => {
   const dispatch = useDispatch();
-
-  // execute google login
-  // const [accessToken, setAccessToken] = useState(null);
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId: Constants.IOS_GOOGLE_CLIENT_ID,
     androidClientId: "",
@@ -47,7 +50,7 @@ const LoginScreen = ({ navigation }) => {
     selectAccount: true,
   });
 
-  // fetchGoogleUser
+  // FETCH GOOGLE USER
   const fetchGoogleUser = async (accessToken) => {
     let userInfoRes = await fetch("https://www.googleapis.com/userinfo/v2/me", {
       headers: {
@@ -58,7 +61,7 @@ const LoginScreen = ({ navigation }) => {
     return data;
   };
 
-  // Fetch user
+  // FETCH USER
   const fetchUser = async (data) => {
     return Axios.get(`${Constants.BASE_URL}/api/users/${data.email}`)
       .then((res) => {
@@ -70,7 +73,7 @@ const LoginScreen = ({ navigation }) => {
       });
   };
 
-  // fetch user info
+  // FETCH HOUSING
   const fetchHousing = async (data) => {
     return Axios.get(`${Constants.BASE_URL}/api/housings/${data.email}`)
       .then((res) => {
@@ -82,7 +85,7 @@ const LoginScreen = ({ navigation }) => {
       });
   };
 
-  // login with google
+  // GOOGLE LOGIN
   const login = async (data) => {
     return Axios.post(`${Constants.BASE_URL}/api/users/loginwithgoogle`, {
       email: data.email,
@@ -93,6 +96,8 @@ const LoginScreen = ({ navigation }) => {
       })
       .catch((err) => console.log(err));
   };
+
+  // FIREBASE AUTH
 
   // use side effect
   React.useEffect(() => {
@@ -118,13 +123,28 @@ const LoginScreen = ({ navigation }) => {
                   Constants.MY_SECURE_AUTH_STATE_KEY_REDUX
                 ).then((data) => {
                   let jsonData = JSON.parse(data);
-                  console.log(jsonData);
                   //dispatch(updateUser(jsonData.userInfo));
                   //dispatch(updateHousing(jsonData.housing))
                 });
+                //FIREBASE LOGIN
+                await signInWithEmailAndPassword(auth , userInfo.email, Constants.FIREBASE_PASSWORD)
+                  .then(() => {
+                    console.log('Login successfully')
+                  })
+                  .catch(() => {
+                    console.log('Login fail')
+                  })
               } else if (res === "register") {
                 // new user or user who has not filled in questionaires
                 navigation.navigate("IDQs");
+                // FIREBASE REGISTER
+                await createUserWithEmailAndPassword(auth, userInfo.email, Constants.FIREBASE_PASSWORD)
+                  .then(() => {
+                    console.log('Register successfully')
+                  })
+                  .catch(() => {
+                    console.log('Register fail')
+                  })
               }
             })
             .catch((err) => console.log(err));

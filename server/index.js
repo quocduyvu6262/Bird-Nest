@@ -11,9 +11,6 @@ require('dotenv').config();
 
 // Initiate express
 const app = express();
-const http = require('http');
-const server = http.createServer(app);
-const io = require("socket.io")(server);
 app.use(express.json());
 
 // Adding routes
@@ -24,18 +21,9 @@ app.use('/api/nohousing', nohousingRoutes);
 app.use('/api/history', historyRoutes);
 app.use('/api/questionaire', questionaireRoutes);
 
-// socket io
-io.on('connection', socket => {
-    console.log('User connected')
-    socket.on("chat message", msg => {
-        io.emit("chat message", msg);
-    })
-});
-
-
 
 // Run app
 const port = process.env.PORT || 3000;
-server.listen(port, () => {
+app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });

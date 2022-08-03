@@ -57,7 +57,6 @@ const Profile = ({ navigation }) => {
         <Background>
           <UserCard
             name={data.userInfo.firstname + " " + data.userInfo.lastname}
-            image={Deondre}
           />
 
           <View style={styles.buttonContainer}>

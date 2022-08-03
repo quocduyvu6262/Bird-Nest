@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 
-const userInfo = {
+const userInfo = { //data.userInfo
     firstname: "",
     lastname: "",
     fullname: null,
@@ -33,7 +33,7 @@ const userInfo = {
     //PERSONALITY
     personality: "",
     hogwartHouse: "",
-    anime: "",
+    anime: null,
     athletic: "",
     marvelDC: "",
     talkative: "",
@@ -49,7 +49,7 @@ const userInfo = {
     isHousing: null,
 }
 
-const housing = {
+const housing = { //data.housing
     neighborhood: null,
     city: null,
     squarefeet: null,
