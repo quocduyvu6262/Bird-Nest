@@ -34,6 +34,7 @@ import { updateHousing, updateUser } from "../../redux/slices/data";
 // Axios
 import Axios from "axios";
 import * as Network from "expo-network";
+import { acc } from "react-native-reanimated";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBBM6uF183divLctmv-7oivanZY76GrVxU",
@@ -143,6 +144,7 @@ const LoginScreen = ({ navigation }) => {
         fetchGoogleUser(accessToken).then((userInfo) => {
           userRef.doc(accessToken).set({
             email: userInfo.email,
+            fullname: userInfo.name,
           })
           login(userInfo)
             .then(async (res) => {
