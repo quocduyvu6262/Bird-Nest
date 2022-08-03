@@ -1,50 +1,45 @@
-import { View, Text, StyleSheet, Image, StatusBar } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  StatusBar,
+  Animated,
+} from "react-native";
 import React from "react";
 import { GestureDetector, Gesture } from "react-native-gesture-handler";
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-} from "react-native-reanimated";
+import Swipeable from "react-native-gesture-handler/Swipeable";
+import { RectButton } from "react-native-gesture-handler";
 
 const ProfileCard = ({ item }) => {
   // react-native-gesture-handler docs
 
-  const isPressed = useSharedValue(false);
-  const offset = useSharedValue({ x: 0, y: 0 });
-  const start = useSharedValue({ x: 0, y: 0 });
-  const animatedStyles = useAnimatedStyle(() => {
-    return {
-      transform: [
-        { translateX: offset.value.x },
-        { translateY: offset.value.y },
-      ],
-      // backgroundColor: isPressed.value ? "yellow" : "blue",
-    };
-  });
-
-  const gesture = Gesture.Pan()
-    .onBegin(() => {
-      isPressed.value = true;
-    })
-    .onUpdate((e) => {
-      offset.value = {
-        x: e.translationX + start.value.x,
-        y: e.translationY + start.value.y,
-      };
-    })
-    .onEnd(() => {
-      start.value = {
-        x: offset.value.x,
-        y: offset.value.y,
-      };
-    })
-    .onFinalize(() => {
-      isPressed.value = false;
+  const renderLeftActions = (progress, dragX) => {
+    const trans = dragX.interpolate({
+      // inputRange: [0, 50, 100, 101],
+      // outputRange: [-20, 0, 0, 1],
+      inputRange: [0, 1],
+      outputRange: [0, 100],
     });
+    return (
+      <RectButton style={styles.leftAction}>
+        <Animated.Text
+          style={[
+            styles.actionText,
+            {
+              transform: [{ translateX: trans }],
+            },
+          ]}
+        >
+          Archive
+        </Animated.Text>
+      </RectButton>
+    );
+  };
 
   return (
-    <GestureDetector gesture={gesture}>
-      <Animated.View style={[styles.container, animatedStyles]}>
+    <Swipeable renderLeftActions={renderLeftActions}>
+      <View style={styles.container}>
         <Image style={styles.image} source={item.item.src} />
         <View style={styles.text_box}>
           <Text>{item.item.city}</Text>
@@ -52,8 +47,8 @@ const ProfileCard = ({ item }) => {
             <Text style={{ color: "white" }}>{item.item.name}</Text>
           </View>
         </View>
-      </Animated.View>
-    </GestureDetector>
+      </View>
+    </Swipeable>
   );
 };
 
