@@ -6,6 +6,7 @@ import React, {
 } from 'react';
 import { Platform, StyleSheet, Text, TextInput, View } from "react-native";
 import { GiftedChat } from 'react-native-gifted-chat';
+import * as AsyncStorage from '@react-native-async-storage/async-storage';
 import {
     getAuth,
     onAuthStateChanged,

@@ -126,6 +126,7 @@ const LoginScreen = ({ navigation }) => {
                   //dispatch(updateUser(jsonData.userInfo));
                   //dispatch(updateHousing(jsonData.housing))
                 });
+
                 //FIREBASE LOGIN
                 await signInWithEmailAndPassword(auth , userInfo.email, Constants.FIREBASE_PASSWORD)
                   .then(() => {
@@ -134,9 +135,11 @@ const LoginScreen = ({ navigation }) => {
                   .catch(() => {
                     console.log('Login fail')
                   })
+                
               } else if (res === "register") {
                 // new user or user who has not filled in questionaires
                 navigation.navigate("IDQs");
+
                 // FIREBASE REGISTER
                 await createUserWithEmailAndPassword(auth, userInfo.email, Constants.FIREBASE_PASSWORD)
                   .then(() => {
@@ -145,6 +148,7 @@ const LoginScreen = ({ navigation }) => {
                   .catch(() => {
                     console.log('Register fail')
                   })
+          
               }
             })
             .catch((err) => console.log(err));
