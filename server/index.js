@@ -24,15 +24,6 @@ app.use('/api/nohousing', nohousingRoutes);
 app.use('/api/history', historyRoutes);
 app.use('/api/questionaire', questionaireRoutes);
 
-// socket io
-io.on('connection', socket => {
-    console.log('User connected')
-    socket.on("chat message", msg => {
-        io.emit("chat message", msg);
-    })
-});
-
-
 
 // Run app
 const port = process.env.PORT || 3000;

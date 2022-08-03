@@ -18,7 +18,7 @@ import BirdFeed from "./screens/BirdFeed.js";
 import PeckView from "./screens/PeckView.js";
 import Profile from "./screens/Profile.js";
 import MessengerPigeon from "./screens/Messenger/MessengerPigeon.js";
-import ChatRoom from "./screens/Messenger/MessengerRoom";
+import MyChatScreen from "./screens/Messenger/MyChatScreen";
 import ChirpNotification from "./screens/ChirpNotification.js";
 import History from "./screens/History.js";
 import LoginScreen from "./screens/Auth/Login.js";
@@ -52,6 +52,8 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 // Redux
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
 
 const TabNavigator = () => {
   return (
@@ -78,7 +80,7 @@ const TabNavigator = () => {
       />
       <Tab.Screen
         name="Messenger Pigeon"
-        component={MessengerPigeon}
+        component={MyChatScreen}
         options={{
           tabBarIcon: () => (
             <Image style={{ height: 50, width: 50 }} source={MessengerLogo} />

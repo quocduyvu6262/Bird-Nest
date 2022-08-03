@@ -39,9 +39,14 @@ class Personality extends Component {
     );
   };
 
+  // UPDATE DATABASE
+  updateDatabase(){
+    // Get datas from redux store
+    
+  }
   
   createHousingInfo = () => {
-    Axios.post("http://localhost:3000/api/housings/create", {
+    Axios.post(`${Constants.BASE_URL}`, {
       user_id: 20,
       rent: 1250,
       city: "Kearny Mesa",

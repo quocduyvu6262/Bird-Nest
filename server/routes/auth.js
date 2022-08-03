@@ -79,7 +79,7 @@ router.post('/loginwithgoogle', async (req, res) => {
         VALUES("${user.fullname}", "${user.email}")`; // database link
         db(client => {
             client.query(checkExistQuery, (err, result) => {
-                if(result.length && result[0].isHousing){
+                if(result.length){
                     // console.log( "User found successfully.");
                     res.send('login');
                 } else {

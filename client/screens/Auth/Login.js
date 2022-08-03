@@ -33,39 +33,18 @@ import { updateHousing, updateUser } from "../../redux/slices/data";
 
 // Axios
 import Axios from "axios";
-import * as Network from "expo-network";
-import { acc } from "react-native-reanimated";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBBM6uF183divLctmv-7oivanZY76GrVxU",
-  authDomain: "bird-nest-ed655.firebaseapp.com",
-  projectId: "bird-nest-ed655",
-  storageBucket: "bird-nest-ed655.appspot.com",
-  messagingSenderId: "958405478516",
-  appId: "1:958405478516:web:9d1660a73cdc062020e921",
-  measurementId: "G-X34RQRY5BS"
-};
-
-let app; 
-
-if (firebase.apps.length === 0) {
-    app = firebaseApp = firebase.initializeApp(firebaseConfig)
-} else {
-    app = firebase.app();
-}
-
-const db = app.firestore();
-
-const auth = firebase.auth();
-
-const userRef = db.collection('user')
+// Firebase
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  auth,
+} from '../../firebase'
 
 WebBrowser.maybeCompleteAuthSession();
 
 const LoginScreen = ({ navigation }) => {
   const dispatch = useDispatch();
-  // execute google login
-  // const [accessToken, setAccessToken] = useState(null);
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId: Constants.IOS_GOOGLE_CLIENT_ID,
     androidClientId: "",
@@ -73,7 +52,7 @@ const LoginScreen = ({ navigation }) => {
     selectAccount: true,
   });
 
-  // fetchGoogleUser
+  // FETCH GOOGLE USER
   const fetchGoogleUser = async (accessToken) => {
     let userInfoRes = await fetch("https://www.googleapis.com/userinfo/v2/me", {
       headers: {
@@ -84,7 +63,7 @@ const LoginScreen = ({ navigation }) => {
     return data;
   };
 
-  // Fetch user
+  // FETCH USER
   const fetchUser = async (data) => {
     return Axios.get(`${Constants.BASE_URL}/api/users/${data.email}`)
       .then((res) => {
@@ -96,7 +75,7 @@ const LoginScreen = ({ navigation }) => {
       });
   };
 
-  // fetch user info
+  // FETCH HOUSING
   const fetchHousing = async (data) => {
     return Axios.get(`${Constants.BASE_URL}/api/housings/${data.email}`)
       .then((res) => {
@@ -108,7 +87,7 @@ const LoginScreen = ({ navigation }) => {
       });
   };
 
-  // login with google
+  // GOOGLE LOGIN
   const login = async (data) => {
     return Axios.post(`${Constants.BASE_URL}/api/users/loginwithgoogle`, {
       email: data.email,
@@ -119,6 +98,8 @@ const LoginScreen = ({ navigation }) => {
       })
       .catch((err) => console.log(err));
   };
+
+  // FIREBASE AUTH
 
   // use side effect
   React.useEffect(() => {
@@ -144,13 +125,32 @@ const LoginScreen = ({ navigation }) => {
                   Constants.MY_SECURE_AUTH_STATE_KEY_REDUX
                 ).then((data) => {
                   let jsonData = JSON.parse(data);
-                  console.log(jsonData);
                   //dispatch(updateUser(jsonData.userInfo));
                   //dispatch(updateHousing(jsonData.housing))
                 });
+
+                //FIREBASE LOGIN
+                await signInWithEmailAndPassword(auth , userInfo.email, Constants.FIREBASE_PASSWORD)
+                  .then(() => {
+                    console.log('Login successfully')
+                  })
+                  .catch(() => {
+                    console.log('Login fail')
+                  })
+                
               } else if (res === "register") {
                 // new user or user who has not filled in questionaires
                 navigation.navigate("IDQs");
+
+                // FIREBASE REGISTER
+                await createUserWithEmailAndPassword(auth, userInfo.email, Constants.FIREBASE_PASSWORD)
+                  .then(() => {
+                    console.log('Register successfully')
+                  })
+                  .catch(() => {
+                    console.log('Register fail')
+                  })
+          
               }
             })
             .catch((err) => console.log(err));
