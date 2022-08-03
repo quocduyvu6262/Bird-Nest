@@ -46,7 +46,8 @@ import { CardStyleInterpolators } from "@react-navigation/stack";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
 
-
+// Your web app's Firebase configuration
+import {initializeApp} from 'firebase/app';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 

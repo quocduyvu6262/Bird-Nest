@@ -1,13 +1,14 @@
 import { View, Text, SafeAreaView, StyleSheet, StatusBar } from "react-native";
 import React from "react";
 import MainHeader from "../../components/MainHeader";
-import UserFunc from "./UserFunc";
+import Users from "./Users";
+import ChatApp from "./ChatApp";
 
 const MessengerPigeon = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
       <MainHeader screen="Messenger Pigeon" navigation={navigation} />
-      <UserFunc></UserFunc>
+      <ChatApp></ChatApp>
     </SafeAreaView>
   );
 }
