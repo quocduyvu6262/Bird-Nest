@@ -22,7 +22,6 @@ import Paragraph from "../../components/Paragraph";
 import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
 import * as SecureStore from "expo-secure-store";
-import * as firebase from 'firebase';
 import 'firebase/firestore'
 import "firebase/auth";
 // Import constants

@@ -17,8 +17,7 @@ import SplashScreen from "./screens/Auth/SplashScreen";
 import BirdFeed from "./screens/BirdFeed.js";
 import PeckView from "./screens/PeckView.js";
 import Profile from "./screens/Profile.js";
-import MessengerPigeon from "./screens/Messenger/MessengerPigeon.js";
-import MyChatScreen from "./screens/Messenger/MyChatScreen";
+import MyChatScreen from "./screens/Messenger/MyChatScreen.js";
 import ChirpNotification from "./screens/ChirpNotification.js";
 import History from "./screens/History.js";
 import LoginScreen from "./screens/Auth/Login.js";
@@ -32,7 +31,7 @@ import NoHousingQ from "./screens/Questionnaires/NoHousingQ.js";
 import HasHousingQ from "./screens/Questionnaires/HasHousingQ.js";
 import Personality from "./screens/Questionnaires/Personality.js";
 import BasicInfo from "./screens/Questionnaires/BasicInfo.js";
-import ChatScreen from "./screens/Messenger/ChatScreen.js";
+import MessengerPigeon from "./screens/Messenger/MessengerPigeon.js";
 // logo icons
 import BirdFeedLogo from "./assets/BirdFeedLogo.png";
 import MessengerLogo from "./assets/MessengerLogo.png";
@@ -50,10 +49,6 @@ import { store } from "./redux/store";
 import {initializeApp} from 'firebase/app';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-
-// Redux
-import { Provider } from "react-redux";
-import { store } from "./redux/store";
 
 const TabNavigator = () => {
   return (
@@ -80,7 +75,7 @@ const TabNavigator = () => {
       />
       <Tab.Screen
         name="Messenger Pigeon"
-        component={MyChatScreen}
+        component={MessengerPigeon}
         options={{
           tabBarIcon: () => (
             <Image style={{ height: 50, width: 50 }} source={MessengerLogo} />
@@ -105,7 +100,7 @@ export default function App() {
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="BirdFeed" component={TabNavigator} />
           <Stack.Screen name="PeckView" component={PeckView} />
-
+          <Stack.Screen name="MyChatScreen" component={MyChatScreen}/>
           <Stack.Screen name="Settings" component={Settings} />
           <Stack.Screen name="ChirpNotificationEdit" component={ChirpNotificationEdit}/>
           <Stack.Screen name="HelpSupport" component={HelpSupport} />
