@@ -7,6 +7,7 @@ import React, {
 import { Platform, StyleSheet, Text, TextInput, View } from "react-native";
 import { GiftedChat } from 'react-native-gifted-chat';
 import * as AsyncStorage from '@react-native-async-storage/async-storage';
+import Button from '../../components/Button';
 import {
     getAuth,
     onAuthStateChanged,
@@ -26,7 +27,7 @@ import {
 } from '../../firebase';
 
 
-export default MyChatScreen = () => {
+export default MyChatScreen = ({navigation}) => {
     const [messages, setMessages] = useState([])
     
     useLayoutEffect(() => {
@@ -63,8 +64,8 @@ export default MyChatScreen = () => {
 
     return(
         // <GiftedChat 
-        
-        <GiftedChat
+          //<Button onPress={() => navigation.navigate('Messener Pigeon')}>Go back</Button>
+          <GiftedChat
           messages={messages}
           onSend={messages => onSend(messages)}
           messagesContainerStyle={{

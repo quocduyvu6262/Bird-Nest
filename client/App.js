@@ -18,6 +18,7 @@ import PeckView from "./screens/PeckView.js";
 import Profile from "./screens/Profile.js";
 import MessengerPigeon from "./screens/Messenger/MessengerPigeon.js";
 import MyChatScreen from "./screens/Messenger/MyChatScreen";
+import MyChatList from "./screens/Messenger/MyChatList";
 import MyAddChatScreen from "./screens/Messenger/MyAddChatScreen";
 import ChirpNotification from "./screens/ChirpNotification.js";
 import History from "./screens/History.js";
@@ -116,7 +117,8 @@ export default function App() {
           <Stack.Screen name="HasHousingQ" component={HasHousingQ} />
           <Stack.Screen name="Personality" component={Personality} />
           <Stack.Screen name="Roles" component={Roles} />
-          <Stack.Screen name="Messenger Pigeon" component={MyChatScreen} />
+          <Stack.Screen name="MyChatScreen" component={MyChatScreen} />
+          <Stack.Screen name="MyChatList" component={MyChatList} />
           <Stack.Screen
             name="History"
             component={History}

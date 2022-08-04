@@ -1,12 +1,13 @@
-import React, {
-    useState,
-    useEffect,
-    useLayoutEffect,
-    useCallback
-} from 'react';
-import { Platform, StyleSheet, Text, TextInput, View } from "react-native";
-import { GiftedChat } from 'react-native-gifted-chat';
-import * as AsyncStorage from '@react-native-async-storage/async-storage';
+import React, {useEffect, useLayoutEffect, useState} from "react";
+import { 
+    SafeAreaView, 
+    View, 
+    TouchableOpacity,
+    StyleSheet,
+    ScrollView,
+    Text,
+} from "react-native";
+import MainHeader from "../../components/MainHeader";
 import {
     getAuth,
     onAuthStateChanged,
@@ -16,6 +17,8 @@ import {
     signOut,
     collection,
     addDoc,
+    setDoc,
+    doc,
     getFirestore,
     onSnapshot,
     serverTimestamp,
@@ -24,18 +27,32 @@ import {
     auth, 
     database
 } from '../../firebase';
+import ChatItem from "./ChatItem";
 
-export default MyChatList = () => {
-    const [chats, setChats] = useState([])
-    useEffect(
-        () =>
-            onSnapshot(collection(db, 'chats'), (snapshot) => {
-                setChats(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })))
-            }
-    ),[])
-
+export default MyChatList = ({navigation}) => {
+    const [chats, setChats] = useState([]);
+    useEffect(() => {
+        const unsubscribe = onSnapshot(collection(database,"chats"), snapshot => {
+            setChats(snapshot.docs.map(doc => ({
+                id: doc.id,
+                data: doc.data()
+            })))
+        })
+    }, [])
     return(
-        <View></View>
+        <SafeAreaView style={{backgroundColor:'white'}}> 
+            <MainHeader screen="Messenger" navigation={navigation} />
+            <ScrollView style={styles.container}>
+                {chats.map(({id, data: {chatName}}) => (
+                    <ChatItem key={id} id={id} chatName={chatName}/>
+                ))}
+            </ScrollView>
+        </SafeAreaView>
     )
-    
 }
+
+const styles = StyleSheet.create({
+    container: {
+        height: '100%'
+    }
+})

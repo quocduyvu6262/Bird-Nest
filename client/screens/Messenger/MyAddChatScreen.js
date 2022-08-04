@@ -4,46 +4,67 @@ import React, {
     useLayoutEffect,
     useCallback
 } from 'react';
-import { Platform, StyleSheet, Text, TextInput, View } from "react-native";
-import { Button, Input } from 'react-native-element';
+import { Platform, 
+    StyleSheet, 
+    Text, 
+    TextInput,
+    View,
+} from "react-native";
+import Button from '../../components/Button';
 import { GiftedChat } from 'react-native-gifted-chat';
 import * as AsyncStorage from '@react-native-async-storage/async-storage';
 import {
-    getAuth,
-    onAuthStateChanged,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    updateProfile,
-    signOut,
-    collection,
+    setDoc,
+    doc,
+    database,
     addDoc,
-    getFirestore,
-    onSnapshot,
-    serverTimestamp,
-    query,
-    orderBy,
-    auth, 
-    database
+    collection
 } from '../../firebase';
 
 export default MyAddChatScreen = ({navigation}) => {
     const [input, setInput] = useState("");
-    useLayoutEffect(() => {
-        navigation.setOptions({
-            title: "Add a new Chat"
+    const createChat = async () => {
+        // await setDoc(doc(database, "chats", input),{
+        //     chatName: input
+        // }).then(() => {
+        //     console.log("Room added successfully")
+        // }).catch(() => {
+        //     console.log("Fail to add room")
+        // })
+        await addDoc(collection(database, "chats"),{
+            chatName: input
+        }).then(() => {
+            console.log("Room added successfully")
+            navigation.navigate('MyChatList');
+        }).catch(() => {
+            console.log("Room added fail")
         })
-    }, [])
-
+    }
     return(
         <View style={styles.container}>
-            <Input 
-                
+            <TextInput 
+                value={input}
+                onChangeText={(text) => setInput(text)}
+                placeholder='Enter the chat name'
             />
+            <Button onPress={createChat}>
+                Create new chat
+            </Button>
+            <Button onPress={() => {
+                navigation.navigate('MyChatList')
+            }}>
+                Enter Chat List
+            </Button>
         </View>
     )
     
 }
 
 const styles = StyleSheet.create({
-    container: {}
+    container: {
+        flex: 1,
+        padding: 100,
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
 })

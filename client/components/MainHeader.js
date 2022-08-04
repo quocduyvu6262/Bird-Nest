@@ -57,27 +57,17 @@ const MainHeader = ({ screen, navigation }) => {
           {/* if screen === Bird Feed */}
           {screen === "Bird Feed" && (
             <View style={Main_Header_styles.headerButtonView}>
-<<<<<<< HEAD
               <TouchableOpacity
                 style={Main_Header_styles.headerButtons}
                 onPress={() => navigation.navigate("PeckView")}
               >
-=======
-              <TouchableOpacity 
-                style={Main_Header_styles.headerButtons}
-                onPress = {() => navigation.navigate("PeckView")}>
->>>>>>> origin/Elie
                 <Icon name="contacts" size={27} />
               </TouchableOpacity>
 
               <TouchableOpacity
                 style={Main_Header_styles.headerButtons}
-<<<<<<< HEAD
                 onPress={() => navigation.navigate("History")}
               >
-=======
-                onPress={() => navigation.navigate("History")}>
->>>>>>> origin/Elie
                 <Icon name="history" size={30} />
               </TouchableOpacity>
 
@@ -85,40 +75,24 @@ const MainHeader = ({ screen, navigation }) => {
                 style={Main_Header_styles.headerButtons}
                 onPress={() => navigation.navigate("ChirpNotification")}
               >
-<<<<<<< HEAD
                 <Image source={require(`../assets/bird.png`)} />
-=======
-                <Image 
-                source={require(`../assets/bird.png`)} />
->>>>>>> origin/Elie
               </TouchableOpacity>
             </View>
           )}
 
           {screen === "Peck View" && (
             <View style={Main_Header_styles.headerButtonView}>
-<<<<<<< HEAD
               <TouchableOpacity
                 style={Main_Header_styles.headerButtons}
                 onPress={() => navigation.navigate("BirdFeed")}
               >
                 <Icon name="list" size={30}></Icon>
-=======
-              <TouchableOpacity 
-                style={Main_Header_styles.headerButtons}
-                onPress = {() => navigation.navigate("BirdFeed")}>
-               <Icon name="list" size = {30}></Icon>
->>>>>>> origin/Elie
               </TouchableOpacity>
 
               <TouchableOpacity
                 style={Main_Header_styles.headerButtons}
-<<<<<<< HEAD
                 onPress={() => navigation.navigate("History")}
               >
-=======
-                onPress={() => navigation.navigate("History")}>
->>>>>>> origin/Elie
                 <Icon name="history" size={30} />
               </TouchableOpacity>
 
