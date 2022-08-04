@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { StatusBar } from 'expo-status-bar';
 import {
   StyleSheet,
   View,
@@ -17,7 +16,11 @@ import SplashScreen from "./screens/Auth/SplashScreen";
 import BirdFeed from "./screens/BirdFeed.js";
 import PeckView from "./screens/PeckView.js";
 import Profile from "./screens/Profile.js";
-import MyChatScreen from "./screens/Messenger/MyChatScreen.js";
+import MessengerPigeon from "./screens/Messenger/MessengerPigeon.js";
+import MyChatScreen from "./screens/Messenger/MyChatScreen";
+import MyChatList from "./screens/Messenger/MyChatList";
+import MyUserList from "./screens/Messenger/MyUserList";
+import MyAddChatScreen from "./screens/Messenger/MyAddChatScreen";
 import ChirpNotification from "./screens/ChirpNotification.js";
 import History from "./screens/History.js";
 import LoginScreen from "./screens/Auth/Login.js";
@@ -31,7 +34,7 @@ import NoHousingQ from "./screens/Questionnaires/NoHousingQ.js";
 import HasHousingQ from "./screens/Questionnaires/HasHousingQ.js";
 import Personality from "./screens/Questionnaires/Personality.js";
 import BasicInfo from "./screens/Questionnaires/BasicInfo.js";
-import MessengerPigeon from "./screens/Messenger/MessengerPigeon.js";
+
 // logo icons
 import BirdFeedLogo from "./assets/BirdFeedLogo.png";
 import MessengerLogo from "./assets/MessengerLogo.png";
@@ -42,13 +45,12 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { CardStyleInterpolators } from "@react-navigation/stack";
-import { Provider } from "react-redux";
-import { store } from "./redux/store";
-
-// Your web app's Firebase configuration
-import {initializeApp} from 'firebase/app';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+
+// Redux
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
 
 const TabNavigator = () => {
   return (
@@ -75,7 +77,7 @@ const TabNavigator = () => {
       />
       <Tab.Screen
         name="Messenger Pigeon"
-        component={MessengerPigeon}
+        component={MyAddChatScreen}
         options={{
           tabBarIcon: () => (
             <Image style={{ height: 50, width: 50 }} source={MessengerLogo} />
@@ -86,7 +88,6 @@ const TabNavigator = () => {
   );
 };
 <ion-icon name="eye-outline"></ion-icon>;
-
 export default function App() {
   return (
     <Provider store={store}>
@@ -100,19 +101,29 @@ export default function App() {
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="BirdFeed" component={TabNavigator} />
           <Stack.Screen name="PeckView" component={PeckView} />
-          <Stack.Screen name="MyChatScreen" component={MyChatScreen}/>
           <Stack.Screen name="Settings" component={Settings} />
-          <Stack.Screen name="ChirpNotificationEdit" component={ChirpNotificationEdit}/>
+          <Stack.Screen
+            name="ChirpNotificationEdit"
+            component={ChirpNotificationEdit}
+          />
           <Stack.Screen name="HelpSupport" component={HelpSupport} />
           <Stack.Screen name="TermsOfService" component={TermsOfService} />
-          <Stack.Screen name="ChirpNotification" component={ChirpNotification}/>
+          <Stack.Screen
+            name="ChirpNotification"
+            component={ChirpNotification}
+          />
           <Stack.Screen name="IDQs" component={IDQs} />
           <Stack.Screen name="BasicInfo" component={BasicInfo} />
           <Stack.Screen name="NoHousingQ" component={NoHousingQ} />
           <Stack.Screen name="HasHousingQ" component={HasHousingQ} />
           <Stack.Screen name="Personality" component={Personality} />
           <Stack.Screen name="Roles" component={Roles} />
-          <Stack.Screen name="History" component={History}
+          <Stack.Screen name="MyChatScreen" component={MyChatScreen} />
+          <Stack.Screen name="MyChatList" component={MyChatList} />
+          <Stack.Screen name="MyUserList" component={MyUserList} />
+          <Stack.Screen
+            name="History"
+            component={History}
             // work on this
             // options={{
             //   cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,

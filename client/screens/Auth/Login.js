@@ -22,8 +22,6 @@ import Paragraph from "../../components/Paragraph";
 import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
 import * as SecureStore from "expo-secure-store";
-import 'firebase/firestore'
-import "firebase/auth";
 // Import constants
 import Constants from "../../constants/constants";
 // Redux
@@ -38,6 +36,9 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   auth,
+  database,
+  doc,
+  setDoc
 } from '../../firebase'
 
 WebBrowser.maybeCompleteAuthSession();
@@ -129,14 +130,18 @@ const LoginScreen = ({ navigation }) => {
                 });
 
                 //FIREBASE LOGIN
-                await signInWithEmailAndPassword(auth , userInfo.email, Constants.FIREBASE_PASSWORD)
-                  .then(() => {
+                const result = await signInWithEmailAndPassword(auth , userInfo.email, Constants.FIREBASE_PASSWORD)
+                  .then(async (result) => {
                     console.log('Login successfully')
+                    await setDoc(doc(database,"users", result.user.uid), {
+                      uid: result.user.uid,
+                      email: result.user.email,
+                      name: userInfo.name
+                    })
                   })
                   .catch(() => {
                     console.log('Login fail')
                   })
-                
               } else if (res === "register") {
                 // new user or user who has not filled in questionaires
                 navigation.navigate("IDQs");

@@ -1,5 +1,5 @@
 {
-  "expo": { 
+  "expo": {
     "owner": "quocduyvu6262",
     "name": "BirdNest",
     "slug": "BirdNest",
@@ -37,8 +37,8 @@
       "favicon": "./assets/favicon.png"
     },
     "scheme": "host.exp.exponent",
-    "packagerOpts": {
-      "sourceExts": ["cjs"]
-    }
+    "plugins": [
+      "react-native-health"
+    ]
   }
 }

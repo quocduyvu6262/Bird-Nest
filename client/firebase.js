@@ -3,10 +3,13 @@ import {
   getFirestore,
   collection,
   addDoc,
+  doc,
   onSnapshot,
   serverTimestamp,
   query,
+  where,
   orderBy,
+  setDoc
 } from 'firebase/firestore'
 import {
   getAuth,
@@ -38,9 +41,12 @@ export {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   updateProfile,
+  where,
   signOut,
   collection,
   addDoc,
+  setDoc,
+  doc,
   getFirestore,
   onSnapshot,
   serverTimestamp,

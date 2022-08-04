@@ -164,7 +164,7 @@ const IDQs_styles = StyleSheet.create({
   },
   headTitle: {
     color: "#FFF",
-    top: Platform.OS === "android" ? 0 : 55,
+    top: 55,
     alignSelf: "center",
     fontSize: 20,
     fontWeight: "bold",
