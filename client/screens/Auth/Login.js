@@ -38,7 +38,8 @@ import {
   auth,
   database,
   doc,
-  setDoc
+  setDoc,
+  updateProfile
 } from '../../firebase'
 
 WebBrowser.maybeCompleteAuthSession();
@@ -132,6 +133,9 @@ const LoginScreen = ({ navigation }) => {
                 //FIREBASE LOGIN
                 const result = await signInWithEmailAndPassword(auth , userInfo.email, Constants.FIREBASE_PASSWORD)
                   .then(async (result) => {
+                    updateProfile(result.user,{
+                      displayName: userInfo.name
+                    }).then().catch()
                     console.log('Login successfully')
                     await setDoc(doc(database,"users", result.user.uid), {
                       uid: result.user.uid,

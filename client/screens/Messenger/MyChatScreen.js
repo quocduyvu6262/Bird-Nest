@@ -34,6 +34,7 @@ export default MyChatScreen = ({navigation, route}) => {
     
     useLayoutEffect(() => {
         const collectionRef = doc(database,"chats",route.params.id);
+        console.log(route.params.id)
         const messageRef = collection(collectionRef,"messages")
         const q = query(messageRef, orderBy('createdAt', 'desc'));
         const unsubscribe = onSnapshot(q, querySnapshot => {

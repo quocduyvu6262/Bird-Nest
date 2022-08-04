@@ -38,6 +38,7 @@ export default MyChatList = ({navigation}) => {
                 data: doc.data()
             })))
         })
+        return unsubscribe;
     }, [])
 
     const enterChat = (id, chatName) => {
