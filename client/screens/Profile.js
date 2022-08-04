@@ -26,6 +26,8 @@ import Deondre from "../assets/deondre.jpg";
 import Constants from "../constants/constants";
 // Redux
 import { useDispatch, useSelector } from "react-redux";
+//carousel
+import CarouselCards from "../components/ProfileCarousel/CarouselCards";
 
 const Profile = ({ navigation }) => {
   
@@ -56,8 +58,10 @@ const Profile = ({ navigation }) => {
       <ScrollView>
         <Background>
           <UserCard
+            
             name={data.userInfo.firstname + " " + data.userInfo.lastname}
             image={Deondre}
+            // image={<CarouselCards/>}
           />
 
           <View style={styles.buttonContainer}>
