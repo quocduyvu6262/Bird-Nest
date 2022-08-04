@@ -29,13 +29,13 @@ import {
 
 export default MyChatScreen = ({navigation}) => {
     const [messages, setMessages] = useState([])
-    // const room = route.params.room;
-    // const userB = route.params.user;
+    const room = route.params.room;
+    const userB = route.params.user;
 
-    // const roomId = room ? room.id : randomId;
-    // const route = useRoute();
-    // const roomRef = doc(database, "rooms", roomId);
-    // const roomMessagesRef = collection(database, "rooms", roomId, "messages");
+    const roomId = room ? room.id : randomId;
+    const route = useRoute();
+    const roomRef = doc(database, "rooms", roomId);
+    const roomMessagesRef = collection(database, "rooms", roomId, "messages");
 
     useLayoutEffect(() => {
         const collectionRef = collection(database, 'chats');
@@ -53,7 +53,6 @@ export default MyChatScreen = ({navigation}) => {
               })})
             );
             });
-        return unsubscribe;
     }, []);
 
     const onSend = useCallback((messages = []) => {
