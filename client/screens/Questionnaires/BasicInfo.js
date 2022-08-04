@@ -18,77 +18,92 @@ import {
 import React, { Component, useState } from "react";
 import { Icon } from "@rneui/themed";
 import AppLoading from "expo";
-import { useFonts, Inter_900Black } from "@expo-google-fonts/inter";
+//import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
 import { Slider } from "@rneui/themed";
-// Redux
-import { useDispatch, useSelector, connect } from "react-redux";
-import {
-  updateFirstname,
-  updateLastname,
-  updateGender,
-  updateAge,
-  updatePronouns,
-  updateMajor,
-  updateGraduationyear,
-  updateProfilepic,
-  updateNeighborhood,
-  updateRent,
-  updateLease,
-} from "../redux/slices/data";
+import Axios from "axios";
 
-class HasHousingQ extends Component {
-  constructor(props) {
-    super(props);
-  }
+// IMPORT REDUX
+import { useDispatch, useSelector, connect } from "react-redux";
+import * as dataActions from "../../redux/slices/data";
+
+class BasicInfo extends Component {
+  createHousingInfo = async () => {
+    await Axios.post("http://localhost:3000/api/housings/create", {
+      user_id: 20,
+      rent: 1250,
+      city: "Kearny Mesa",
+      lease: 5,
+      garage: 1,
+      parking: 0,
+      gym: 1,
+      pool: 0,
+      appliances: 1,
+      furniture: 0,
+      ac: 1,
+    }).catch((error) => console.log(error));
+  };
+
   slider_state = {
     language: "English",
     value: 500,
   };
   state1 = {
+    name: true,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state2 = {
+    name: false,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state3 = {
+    name: "Morning",
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state4 = {
+    name: "Night Owl",
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state5 = {
+    name: true,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state6 = {
+    name: false,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state7 = {
+    name: true,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state8 = {
+    name: false,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state9 = {
+    name: true,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state10 = {
+    name: false,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state11 = {
+    name: true,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state12 = {
+    name: false,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
@@ -101,67 +116,61 @@ class HasHousingQ extends Component {
     backgroundColor: "#D9D9D9",
   };
   state15 = {
-    name: "Downtown SD",
+    name: "Dog",
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state16 = {
-    name: "La Jolla",
+    name: "Cat",
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state17 = {
-    name: "Del Mar",
+    name: "Fish",
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state18 = {
-    name: "Mira Mesa",
+    name: "Snake",
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state19 = {
-    name: "Pacific Beach",
+    name: "Turtle",
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state20 = {
-    name: "Clairemont",
+    name: "Hamster",
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state21 = {
-    name: "University City",
+    name: "Guinea Pig",
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state22 = {
-    name: "UTC",
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state23 = {
-    name: "Kerny Mesa",
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state24 = {
-    name: "Solana Beach",
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state25 = {
-    name: "Mission Valley",
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state26 = {
-    name: "Carmel Valley",
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state27 = {
-    name: "Sorrento Valley",
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
@@ -170,18 +179,113 @@ class HasHousingQ extends Component {
     backgroundColor: "#D9D9D9",
   };
   state29 = {
+    name: "Often",
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state30 = {
+    name: "Sometimes",
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state31 = {
+    name: "Rarely",
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state32 = {
+    name: "Never",
+    pressed: false,
+    backgroundColor: "#D9D9D9",
+  };
+  state41 = {
+    name: "Indifferent",
+    pressed: false,
+    backgroundColor: "#D9D9D9",
+  };
+  state42 = {
+    pressed: false,
+    backgroundColor: "#D9D9D9",
+  };
+  state43 = {
+    pressed: false,
+    backgroundColor: "#D9D9D9",
+  };
+  state44 = {
+    pressed: false,
+    backgroundColor: "#D9D9D9",
+  };
+  state45 = {
+    pressed: false,
+    backgroundColor: "#D9D9D9",
+  };
+  state46 = {
+    pressed: false,
+    backgroundColor: "#D9D9D9",
+  };
+  state47 = {
+    pressed: false,
+    backgroundColor: "#D9D9D9",
+  };
+  state48 = {
+    pressed: false,
+    backgroundColor: "#D9D9D9",
+  };
+  state49 = {
+    pressed: false,
+    backgroundColor: "#D9D9D9",
+  };
+  state50 = {
+    name: "Sometimes",
+    pressed: false,
+    backgroundColor: "#D9D9D9",
+  };
+  state51 = {
+    name: true,
+    pressed: false,
+    backgroundColor: "#D9D9D9",
+  };
+  state52 = {
+    name: false,
+    pressed: false,
+    backgroundColor: "#D9D9D9",
+  };
+  state53 = {
+    pressed: false,
+    backgroundColor: "#D9D9D9",
+  };
+  state54 = {
+    name: true,
+    pressed: false,
+    backgroundColor: "#D9D9D9",
+  };
+  state55 = {
+    name: false,
+    pressed: false,
+    backgroundColor: "#D9D9D9",
+  };
+  state56 = {
+    name: true,
+    pressed: false,
+    backgroundColor: "#D9D9D9",
+  };
+  state57 = {
+    name: false,
+    pressed: false,
+    backgroundColor: "#D9D9D9",
+  };
+  state58 = {
+    name: "Don't have car",
+    pressed: false,
+    backgroundColor: "#D9D9D9",
+  };
+  state59 = {
+    name: "Keep to myself",
+    pressed: false,
+    backgroundColor: "#D9D9D9",
+  };
+  state60 = {
+    name: "Interact",
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
@@ -249,107 +353,25 @@ class HasHousingQ extends Component {
       this.setState({ pressed: state_a.pressed });
     }
   }
-  changeMany(
-    state_a,
-    state_b,
-    state_c,
-    state_d,
-    state_e,
-    state_f,
-    state_g,
-    state_h,
-    state_i,
-    state_j,
-    state_k,
-    state_l,
-    state_m,
-    state_n
-  ) {
+  changeThreeColor(state_a, state_b, state_c) {
     if (
       state_a.pressed == false &&
-      (state_b.pressed == true ||
-        state_c.pressed == true ||
-        state_d.pressed == true ||
-        state_e.pressed == true ||
-        state_f.pressed == true ||
-        state_g.pressed == true ||
-        state_h.pressed == true ||
-        state_i.pressed == true ||
-        state_j.pressed == true ||
-        state_k.pressed == true ||
-        state_l.pressed == true ||
-        state_m.pressed == true ||
-        state_n.pressed == true) &&
+      (state_b.pressed == true || state_c.pressed == true) &&
       (state_b.backgroundColor == "#3B9CF1" ||
-        state_c.backgroundColor == "#3B9CF1" ||
-        state_d.backgroundColor == "#3B9CF1" ||
-        state_e.backgroundColor == "#3B9CF1" ||
-        state_f.backgroundColor == "#3B9CF1" ||
-        state_g.backgroundColor == "#3B9CF1" ||
-        state_h.backgroundColor == "#3B9CF1" ||
-        state_i.backgroundColor == "#3B9CF1" ||
-        state_j.backgroundColor == "#3B9CF1" ||
-        state_k.backgroundColor == "#3B9CF1" ||
-        state_l.backgroundColor == "#3B9CF1" ||
-        state_m.backgroundColor == "#3B9CF1" ||
-        state_n.backgroundColor == "#3B9CF1")
+        state_c.backgroundColor == "#3B9CF1")
     ) {
       state_a.backgroundColor = "#3B9CF1";
       state_b.backgroundColor = "#D9D9D9";
       state_c.backgroundColor = "#D9D9D9";
-      state_d.backgroundColor = "#D9D9D9";
-      state_e.backgroundColor = "#D9D9D9";
-      state_f.backgroundColor = "#D9D9D9";
-      state_g.backgroundColor = "#D9D9D9";
-      state_h.backgroundColor = "#D9D9D9";
-      state_i.backgroundColor = "#D9D9D9";
-      state_j.backgroundColor = "#D9D9D9";
-      state_k.backgroundColor = "#D9D9D9";
-      state_l.backgroundColor = "#D9D9D9";
-      state_m.backgroundColor = "#D9D9D9";
-      state_n.backgroundColor = "#D9D9D9";
       state_a.pressed = true;
       state_b.pressed = false;
       state_c.pressed = false;
-      state_d.pressed = false;
-      state_e.pressed = false;
-      state_f.pressed = false;
-      state_g.pressed = false;
-      state_h.pressed = false;
-      state_i.pressed = false;
-      state_j.pressed = false;
-      state_k.pressed = false;
-      state_l.pressed = false;
-      state_m.pressed = false;
-      state_n.pressed = false;
       this.setState({ backgroundColor: state_a.backgroundColor });
       this.setState({ backgroundColor: state_b.backgroundColor });
       this.setState({ backgroundColor: state_c.backgroundColor });
-      this.setState({ backgroundColor: state_d.backgroundColor });
-      this.setState({ backgroundColor: state_e.backgroundColor });
-      this.setState({ backgroundColor: state_f.backgroundColor });
-      this.setState({ backgroundColor: state_g.backgroundColor });
-      this.setState({ backgroundColor: state_h.backgroundColor });
-      this.setState({ backgroundColor: state_i.backgroundColor });
-      this.setState({ backgroundColor: state_j.backgroundColor });
-      this.setState({ backgroundColor: state_k.backgroundColor });
-      this.setState({ backgroundColor: state_l.backgroundColor });
-      this.setState({ backgroundColor: state_m.backgroundColor });
-      this.setState({ backgroundColor: state_n.backgroundColor });
       this.setState({ pressed: state_a.pressed });
       this.setState({ pressed: state_b.pressed });
       this.setState({ pressed: state_c.pressed });
-      this.setState({ pressed: state_d.pressed });
-      this.setState({ pressed: state_e.pressed });
-      this.setState({ pressed: state_f.pressed });
-      this.setState({ pressed: state_g.pressed });
-      this.setState({ pressed: state_h.pressed });
-      this.setState({ pressed: state_i.pressed });
-      this.setState({ pressed: state_j.pressed });
-      this.setState({ pressed: state_k.pressed });
-      this.setState({ pressed: state_l.pressed });
-      this.setState({ pressed: state_m.pressed });
-      this.setState({ pressed: state_n.pressed });
     } else if (!state_a.pressed) {
       state_a.backgroundColor = "#3B9CF1";
       state_a.pressed = true;
@@ -368,400 +390,97 @@ class HasHousingQ extends Component {
       state.pressed = true;
       this.setState({ backgroundColor: state.backgroundColor });
       this.setState({ pressed: state.pressed });
+      this.props.dispatch(dataActions.updatePets({
+        pet: state.name,
+        add: true
+      }));
     } else {
       state.backgroundColor = "#D9D9D9";
       state.pressed = false;
       this.setState({ backgroundColor: state.backgroundColor });
       this.setState({ pressed: state.pressed });
+      this.props.dispatch(dataActions.updatePets({
+        pet: state.name,
+        add: false
+      }));
     }
   }
   handleSliderChange = (value1) => {
     this.slider_state.value = value1;
     this.setState({ value: this.slider_state.value });
-    this.props.dispatch(updateRent(value1));
   };
   render() {
     return (
       <SafeAreaView style={HousingQ_styles.container}>
         <View style={HousingHeader_styles.header}>
-          <Text style={HousingHeader_styles.headerText}>Housing (4/4)</Text>
+          <Text style={HousingHeader_styles.headerText}>Habits (3/5)</Text>
           <TouchableOpacity
-            onPress={() => {
-              this.props.navigation.goBack();
-            }}
+            onPress={() => this.props.navigation.goBack()}
             style={{ alignSelf: "flex-start" }}
           >
             <Text style={HousingHeader_styles.returnToProfileArrow}>
               {"< "}
             </Text>
-            <Text style={HousingHeader_styles.returnToProfile}>Profile</Text>
+            <Text style={HousingHeader_styles.returnToProfile}>Roles</Text>
           </TouchableOpacity>
         </View>
         <ScrollView>
           <Text style={[HousingQ_styles.question1, { marginTop: 120 }]}>
-            What city or neighborhood is
+            Select the type of pet(s) that
           </Text>
-          <Text style={HousingQ_styles.question1}>
-            the property located in?
-          </Text>
+          <Text style={HousingQ_styles.question1}>you own:</Text>
           <TouchableOpacity
             style={[this.state15, HousingQ_styles.buttonContainerYes4]}
-            onPress={() => {
-              this.changeMany(
-                this.state15,
-                this.state16,
-                this.state17,
-                this.state18,
-                this.state19,
-                this.state20,
-                this.state21,
-                this.state22,
-                this.state23,
-                this.state24,
-                this.state25,
-                this.state26,
-                this.state27,
-                this.state28
-              );
-              this.props.dispatch(updateNeighborhood(this.state15.name));
-            }}
+            onPress={() => this.selectMany(this.state15)}
           >
-            <Text style={HousingQ_styles.buttonText}>Downtown SD</Text>
+            <Text style={HousingQ_styles.buttonText}>Dog</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[this.state16, HousingQ_styles.buttonContainerNo4]}
-            onPress={() => {
-              this.changeMany(
-                this.state16,
-                this.state15,
-                this.state17,
-                this.state18,
-                this.state19,
-                this.state20,
-                this.state21,
-                this.state22,
-                this.state23,
-                this.state24,
-                this.state25,
-                this.state26,
-                this.state27,
-                this.state28
-              );
-              this.props.dispatch(updateNeighborhood(this.state16.name));
-            }}
+            onPress={() => this.selectMany(this.state16)}
           >
-            <Text style={HousingQ_styles.buttonText}>La Jolla</Text>
+            <Text style={HousingQ_styles.buttonText}>Cat</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[this.state17, HousingQ_styles.buttonContainerYes5]}
-            onPress={() => {
-              this.changeMany(
-                this.state17,
-                this.state16,
-                this.state15,
-                this.state18,
-                this.state19,
-                this.state20,
-                this.state21,
-                this.state22,
-                this.state23,
-                this.state24,
-                this.state25,
-                this.state26,
-                this.state27,
-                this.state28
-              );
-              this.props.dispatch(updateNeighborhood(this.state17.name));
-            }}
+            onPress={() => this.selectMany(this.state17)}
           >
-            <Text style={HousingQ_styles.buttonText}>Del Mar</Text>
+            <Text style={HousingQ_styles.buttonText}>Fish</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[this.state18, HousingQ_styles.buttonContainerNo5]}
-            onPress={() => {
-              this.changeMany(
-                this.state18,
-                this.state16,
-                this.state17,
-                this.state15,
-                this.state19,
-                this.state20,
-                this.state21,
-                this.state22,
-                this.state23,
-                this.state24,
-                this.state25,
-                this.state26,
-                this.state27,
-                this.state28
-              );
-              this.props.dispatch(updateNeighborhood(this.state18.name));
-            }}
+            onPress={() => this.selectMany(this.state18)}
           >
-            <Text style={HousingQ_styles.buttonText}>Mira Mesa</Text>
+            <Text style={HousingQ_styles.buttonText}>Snake</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[this.state19, HousingQ_styles.buttonContainerYes5]}
-            onPress={() => {
-              this.changeMany(
-                this.state19,
-                this.state16,
-                this.state17,
-                this.state18,
-                this.state15,
-                this.state20,
-                this.state21,
-                this.state22,
-                this.state23,
-                this.state24,
-                this.state25,
-                this.state26,
-                this.state27,
-                this.state28
-              );
-              this.props.dispatch(updateNeighborhood(this.state19.name));
-            }}
+            onPress={() => this.selectMany(this.state19)}
           >
-            <Text style={HousingQ_styles.buttonText}>Pacific Beach</Text>
+            <Text style={HousingQ_styles.buttonText}>Turtle</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[this.state20, HousingQ_styles.buttonContainerNo5]}
-            onPress={() => {
-              this.changeMany(
-                this.state20,
-                this.state16,
-                this.state17,
-                this.state18,
-                this.state15,
-                this.state19,
-                this.state21,
-                this.state22,
-                this.state23,
-                this.state24,
-                this.state25,
-                this.state26,
-                this.state27,
-                this.state28
-              );
-              this.props.dispatch(updateNeighborhood(this.state20.name));
-            }}
+            onPress={() => this.selectMany(this.state20)}
           >
-            <Text style={HousingQ_styles.buttonText}>Clairemont</Text>
+            <Text style={HousingQ_styles.buttonText}>Hamster</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[this.state21, HousingQ_styles.buttonContainerYes5]}
-            onPress={() => {
-              this.changeMany(
-                this.state21,
-                this.state21,
-                this.state17,
-                this.state18,
-                this.state15,
-                this.state20,
-                this.state19,
-                this.state22,
-                this.state23,
-                this.state24,
-                this.state25,
-                this.state26,
-                this.state27,
-                this.state28
-              );
-              this.props.dispatch(updateNeighborhood(this.state15.name));
-            }}
+            onPress={() => this.selectMany(this.state21)}
           >
-            <Text style={HousingQ_styles.buttonText}>University City</Text>
+            <Text style={HousingQ_styles.buttonText}>Guinea Pig</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[this.state22, HousingQ_styles.buttonContainerNo5]}
-            onPress={() => {
-              this.changeMany(
-                this.state22,
-                this.state16,
-                this.state17,
-                this.state18,
-                this.state15,
-                this.state20,
-                this.state21,
-                this.state19,
-                this.state23,
-                this.state24,
-                this.state25,
-                this.state26,
-                this.state27,
-                this.state28
-              );
-              this.props.dispatch(updateNeighborhood(this.state22.name));
-            }}
-          >
-            <Text style={HousingQ_styles.buttonText}>UTC</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[this.state23, HousingQ_styles.buttonContainerYes5]}
-            onPress={() => {
-              this.changeMany(
-                this.state23,
-                this.state16,
-                this.state17,
-                this.state18,
-                this.state15,
-                this.state20,
-                this.state21,
-                this.state22,
-                this.state19,
-                this.state24,
-                this.state25,
-                this.state26,
-                this.state27,
-                this.state28
-              );
-              this.props.dispatch(updateNeighborhood(this.state23.name));
-            }}
-          >
-            <Text style={HousingQ_styles.buttonText}>Kearny Mesa</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[this.state24, HousingQ_styles.buttonContainerNo5]}
-            onPress={() => {
-              this.changeMany(
-                this.state24,
-                this.state16,
-                this.state17,
-                this.state18,
-                this.state15,
-                this.state20,
-                this.state21,
-                this.state22,
-                this.state23,
-                this.state19,
-                this.state25,
-                this.state26,
-                this.state27,
-                this.state28
-              );
-              this.props.dispatch(updateNeighborhood(this.state24.name));
-            }}
-          >
-            <Text style={HousingQ_styles.buttonText}>Solana Beach</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[this.state25, HousingQ_styles.buttonContainerYes5]}
-            onPress={() => {
-              this.changeMany(
-                this.state25,
-                this.state16,
-                this.state17,
-                this.state18,
-                this.state15,
-                this.state20,
-                this.state21,
-                this.state22,
-                this.state23,
-                this.state24,
-                this.state19,
-                this.state26,
-                this.state27,
-                this.state28
-              );
-              this.props.dispatch(updateNeighborhood(this.state25.name));
-            }}
-          >
-            <Text style={HousingQ_styles.buttonText}>Mission Valley</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[this.state26, HousingQ_styles.buttonContainerNo5]}
-            onPress={() => {
-              this.changeMany(
-                this.state26,
-                this.state16,
-                this.state17,
-                this.state18,
-                this.state15,
-                this.state20,
-                this.state21,
-                this.state22,
-                this.state23,
-                this.state24,
-                this.state25,
-                this.state19,
-                this.state27,
-                this.state28
-              );
-              this.props.dispatch(updateNeighborhood(this.state26.name));
-            }}
-          >
-            <Text style={HousingQ_styles.buttonText}>Carmel Valley</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[this.state27, HousingQ_styles.buttonContainerYes6]}
-            onPress={() => {
-              this.changeMany(
-                this.state27,
-                this.state16,
-                this.state17,
-                this.state18,
-                this.state15,
-                this.state20,
-                this.state21,
-                this.state22,
-                this.state23,
-                this.state24,
-                this.state25,
-                this.state26,
-                this.state19,
-                this.state28
-              );
-              this.props.dispatch(updateNeighborhood(this.state27.name));
-            }}
-          >
-            <Text style={HousingQ_styles.buttonText}>Sorrento Valley</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[this.state28, HousingQ_styles.buttonContainerNo6]}
-            onPress={() => {
-              this.changeMany(
-                this.state28,
-                this.state16,
-                this.state17,
-                this.state18,
-                this.state15,
-                this.state20,
-                this.state21,
-                this.state22,
-                this.state23,
-                this.state24,
-                this.state25,
-                this.state26,
-                this.state27,
-                this.state19
-              );
-            }}
+            onPress={() => this.selectMany(this.state22)}
           >
             <Text style={HousingQ_styles.buttonText}>Other</Text>
           </TouchableOpacity>
 
-          <Text style={HousingQ_styles.question1}>
-            How much does a roomate need
+          <Text style={[HousingQ_styles.question1, { marginTop: 10 }]}>
+            How often do you cook?
           </Text>
-          <Text style={HousingQ_styles.question1}>to pay in rent?</Text>
-
-          <Slider
-            value={this.slider_state.value}
-            maximumValue={5000}
-            minimumValue={500}
-            step={25}
-            onValueChange={this.handleSliderChange}
-            style={HousingQ_styles.slider}
-            thumbStyle={{ height: 15, width: 15, backgroundColor: "#6736B6" }}
-          ></Slider>
-          <Text style={HousingQ_styles.rentText}>
-            Rent: ${this.slider_state.value}
-          </Text>
-
-          <Text style={HousingQ_styles.question1}>
-            In terms of months, how long is
-          </Text>
-          <Text style={HousingQ_styles.question1}>the lease?</Text>
           <TouchableOpacity
             style={[this.state29, HousingQ_styles.buttonContainerYes7]}
             onPress={() => {
@@ -770,11 +489,11 @@ class HasHousingQ extends Component {
                 this.state30,
                 this.state31,
                 this.state32
-              );
-              this.props.dispatch(updateLease("1 - 3"));
+              )
+              this.props.dispatch(dataActions.updateCook(this.state29.name))
             }}
           >
-            <Text style={HousingQ_styles.buttonText}>1 to 3</Text>
+            <Text style={HousingQ_styles.buttonText}>Often</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[this.state30, HousingQ_styles.buttonContainerNo7]}
@@ -784,11 +503,11 @@ class HasHousingQ extends Component {
                 this.state29,
                 this.state31,
                 this.state32
-              );
-              this.props.dispatch(updateLease("4 - 7"));
+              )
+              this.props.dispatch(dataActions.updateCook(this.state30.name))
             }}
           >
-            <Text style={HousingQ_styles.buttonText}>4 to 7</Text>
+            <Text style={HousingQ_styles.buttonText}>Sometimes</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[this.state31, HousingQ_styles.buttonContainerYes8]}
@@ -798,11 +517,11 @@ class HasHousingQ extends Component {
                 this.state30,
                 this.state29,
                 this.state32
-              );
-              this.props.dispatch(updateLease("8 - 11"));
+              )
+              this.props.dispatch(dataActions.updateCook(this.state31.name))
             }}
           >
-            <Text style={HousingQ_styles.buttonText}>8 to 11</Text>
+            <Text style={HousingQ_styles.buttonText}>Rarely</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[this.state32, HousingQ_styles.buttonContainerNo8]}
@@ -812,137 +531,300 @@ class HasHousingQ extends Component {
                 this.state30,
                 this.state29,
                 this.state31
-              );
-              this.props.dispatch(updateLease("12+"));
+              )
+              this.props.dispatch(dataActions.updateCook(this.state32.name))
             }}
           >
-            <Text style={HousingQ_styles.buttonText}>12 +</Text>
+            <Text style={HousingQ_styles.buttonText}>Never</Text>
           </TouchableOpacity>
 
           <Text style={HousingQ_styles.question1}>
-            Does the property have a
+            Are you alcohol/420 friendly?
           </Text>
-          <Text style={HousingQ_styles.question1}>garage?</Text>
           <TouchableOpacity
             style={[this.state1, HousingQ_styles.buttonContainerYes1]}
-            onPress={() => this.changeColor(this.state1, this.state2)}
+            onPress={() => {
+              this.changeColor(this.state1, this.state2)
+              this.props.dispatch(dataActions.updateAlcohol(this.state1.name))
+            }}
           >
             <Text style={HousingQ_styles.buttonText}>Yes</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[this.state2, HousingQ_styles.buttonContainerNo1]}
-            onPress={() => this.changeColor(this.state2, this.state1)}
+            onPress={() =>{
+              this.changeColor(this.state2, this.state1)
+              this.props.dispatch(dataActions.updateAlcohol(this.state2.name))
+            }}
           >
             <Text style={HousingQ_styles.buttonText}>No</Text>
           </TouchableOpacity>
 
           <Text style={HousingQ_styles.question2}>
-            Does the property have parking?
+            What are your sleep habits?
           </Text>
           <TouchableOpacity
             style={[this.state3, HousingQ_styles.buttonContainerYes2]}
-            onPress={() => this.changeColor(this.state3, this.state4)}
+            onPress={() => {
+              this.changeThreeColor(this.state3, this.state4, this.state41)
+              this.props.dispatch(dataActions.updateSleep(this.state3.name))
+            }}
           >
-            <Text style={HousingQ_styles.buttonText}>Yes</Text>
+            <Text style={HousingQ_styles.buttonText}>Morning Person</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[this.state4, HousingQ_styles.buttonContainerNo2]}
-            onPress={() => this.changeColor(this.state4, this.state3)}
+            onPress={() => {
+              this.changeThreeColor(this.state4, this.state3, this.state41)
+              this.props.dispatch(dataActions.updateSleep(this.state4.name))
+            }}
           >
-            <Text style={HousingQ_styles.buttonText}>No</Text>
+            <Text style={HousingQ_styles.buttonText}>Night Owl</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              this.state41,
+              HousingQ_styles.buttonContainerYes2,
+              { marginTop: 43 },
+              { marginBottom: -30 },
+            ]}
+            onPress={() => {
+              this.changeThreeColor(this.state41, this.state4, this.state3)
+              this.props.dispatch(dataActions.updateSleep(this.state41.name))
+            }}
+          >
+            <Text style={HousingQ_styles.buttonText}>Indifferent</Text>
           </TouchableOpacity>
 
+          <Text style={HousingQ_styles.question3}>Are you okay with your</Text>
           <Text style={HousingQ_styles.question3}>
-            Does the property have a gym?
+            roommates having guests over?
           </Text>
           <TouchableOpacity
             style={[this.state5, HousingQ_styles.buttonContainerYes3]}
-            onPress={() => this.changeColor(this.state5, this.state6)}
+            onPress={() => {
+              this.changeColor(this.state5, this.state6)
+              this.props.dispatch(dataActions.updateGuess(this.state5.name))
+            }}
           >
             <Text style={HousingQ_styles.buttonText}>Yes</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[this.state6, HousingQ_styles.buttonContainerNo3]}
-            onPress={() => this.changeColor(this.state6, this.state5)}
+            onPress={() => {
+              this.changeColor(this.state6, this.state5)
+              this.props.dispatch(dataActions.updateGuess(this.state6.name))
+            }}
           >
             <Text style={HousingQ_styles.buttonText}>No</Text>
           </TouchableOpacity>
 
           <Text style={HousingQ_styles.question3}>
-            Does the property have a pool?
+            Do you spend most of your time
           </Text>
+          <Text style={HousingQ_styles.question3}>outside of your room?</Text>
           <TouchableOpacity
             style={[this.state7, HousingQ_styles.buttonContainerYes3]}
-            onPress={() => this.changeColor(this.state7, this.state8)}
+            onPress={() => {
+              this.changeThreeColor(this.state7, this.state8, this.state50)
+              this.props.dispatch(dataActions.updateOutside(this.state7.name))
+            }}
           >
             <Text style={HousingQ_styles.buttonText}>Yes</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[this.state8, HousingQ_styles.buttonContainerNo3]}
-            onPress={() => this.changeColor(this.state8, this.state7)}
+            onPress={() =>{
+              this.changeThreeColor(this.state8, this.state7, this.state50)
+              this.props.dispatch(dataActions.updateOutside(this.state8.name))
+            }}
           >
             <Text style={HousingQ_styles.buttonText}>No</Text>
           </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              this.state50,
+              HousingQ_styles.buttonContainerYes3,
+              { marginTop: 43 },
+              { marginBottom: -30 },
+            ]}
+            onPress={() => {
+              this.changeThreeColor(this.state50, this.state7, this.state8)
+              this.props.dispatch(dataActions.updateOutside(this.state50.name))
+            }}
+          >
+            <Text style={HousingQ_styles.buttonText}>Sometimes</Text>
+          </TouchableOpacity>
 
           <Text style={HousingQ_styles.question3}>
-            Does the property provide
+            When you study, do you need
           </Text>
-          <Text style={HousingQ_styles.question3}>
-            appliances for residents?
-          </Text>
+          <Text style={HousingQ_styles.question3}>the room to be silent?</Text>
           <TouchableOpacity
             style={[this.state9, HousingQ_styles.buttonContainerYes3]}
-            onPress={() => this.changeColor(this.state9, this.state10)}
+            onPress={() => {
+              this.changeColor(this.state9, this.state10)
+              this.props.dispatch(dataActions.updateSilent(this.state9.name))
+            }}
           >
             <Text style={HousingQ_styles.buttonText}>Yes</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[this.state10, HousingQ_styles.buttonContainerNo3]}
-            onPress={() => this.changeColor(this.state10, this.state9)}
+            onPress={() => {
+              this.changeColor(this.state10, this.state9)
+              this.props.dispatch(dataActions.updateSilent(this.state10.name))
+            }}
           >
             <Text style={HousingQ_styles.buttonText}>No</Text>
           </TouchableOpacity>
 
-          <Text style={HousingQ_styles.question3}>Is the property already</Text>
-          <Text style={HousingQ_styles.question3}>furnished?</Text>
+          <Text style={HousingQ_styles.question3}>Are you okay with your</Text>
+          <Text style={HousingQ_styles.question3}>
+            roommate staying up to work
+          </Text>
+          <Text style={HousingQ_styles.question3}>while you sleep?</Text>
           <TouchableOpacity
             style={[this.state11, HousingQ_styles.buttonContainerYes3]}
-            onPress={() => this.changeColor(this.state11, this.state12)}
+            onPress={() => {
+              this.changeColor(this.state11, this.state12)
+              this.props.dispatch(dataActions.updateRoommateWork(this.state11.name))
+            }}
           >
             <Text style={HousingQ_styles.buttonText}>Yes</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[this.state12, HousingQ_styles.buttonContainerNo3]}
-            onPress={() => this.changeColor(this.state12, this.state11)}
+            onPress={() => {
+              this.changeColor(this.state12, this.state11)
+              this.props.dispatch(dataActions.updateRoommateWork(this.state12.name))
+            }}
+          >
+            <Text style={HousingQ_styles.buttonText}>No</Text>
+          </TouchableOpacity>
+
+          <Text style={HousingQ_styles.question3}>Are you open to sharing</Text>
+          <Text style={HousingQ_styles.question3}>appliances?</Text>
+          <TouchableOpacity
+            style={[this.state51, HousingQ_styles.buttonContainerYes3]}
+            onPress={() => {
+              this.changeColor(this.state51, this.state52)
+              this.props.dispatch(dataActions.updateShareAppliances(this.state51.name))
+            }}
+          >
+            <Text style={HousingQ_styles.buttonText}>Yes</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[this.state52, HousingQ_styles.buttonContainerNo3]}
+            onPress={() => {
+              this.changeColor(this.state52, this.state51)
+              this.props.dispatch(dataActions.updateShareAppliances(this.state52.name))
+            }}
           >
             <Text style={HousingQ_styles.buttonText}>No</Text>
           </TouchableOpacity>
 
           <Text style={HousingQ_styles.question3}>
-            Does the property have air
+            If you have a car, are you
           </Text>
-          <Text style={HousingQ_styles.question3}>conditioning?</Text>
+          <Text style={HousingQ_styles.question3}>
+            comfortable with driving
+          </Text>
+          <Text style={HousingQ_styles.question3}>your roommates?</Text>
           <TouchableOpacity
-            style={[this.state13, HousingQ_styles.buttonContainerYes3]}
-            onPress={() => this.changeColor(this.state13, this.state14)}
+            style={[this.state56, HousingQ_styles.buttonContainerYes3]}
+            onPress={() =>{
+              this.changeThreeColor(this.state56, this.state57, this.state58)
+              this.props.dispatch(dataActions.updateCarWithRoommate(this.state56.name))
+            }}
+          >
+            <Text style={HousingQ_styles.buttonText}>Yes</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[this.state57, HousingQ_styles.buttonContainerNo3]}
+            onPress={() =>{
+              this.changeThreeColor(this.state57, this.state56, this.state58)
+              this.props.dispatch(dataActions.updateCarWithRoommate(this.state57.name))
+            }}
+          >
+            <Text style={HousingQ_styles.buttonText}>No</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              this.state58,
+              HousingQ_styles.buttonContainerYes3,
+              { marginTop: 43 },
+              { marginBottom: -30 },
+            ]}
+            onPress={() =>{
+              this.changeThreeColor(this.state58, this.state57, this.state56)
+              this.props.dispatch(dataActions.updateCarWithRoommate(this.state58.name))
+            }}
+          >
+            <Text style={HousingQ_styles.buttonText}>Don't have car</Text>
+          </TouchableOpacity>
+
+          <Text style={HousingQ_styles.question3}>Do you tend to keep</Text>
+          <Text style={HousingQ_styles.question3}>to yourself or interact</Text>
+          <Text style={HousingQ_styles.question3}>with your roommates?</Text>
+          <TouchableOpacity
+            style={[this.state59, HousingQ_styles.buttonContainerYes3]}
+            onPress={() => {
+              this.changeColor(this.state59, this.state60)
+              this.props.dispatch(dataActions.updateRoommateInteraction(this.state59.name))
+            }}
+          >
+            <Text style={HousingQ_styles.buttonText}>Keep to myself</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              this.state60,
+              HousingQ_styles.buttonContainerNo3,
+              { bottom: 1 },
+            ]}
+            onPress={() => {
+              this.changeColor(this.state60, this.state59)
+              this.props.dispatch(dataActions.updateRoommateInteraction(this.state60.name))
+            }}
+          >
+            <Text style={HousingQ_styles.buttonText}>Interact</Text>
+          </TouchableOpacity>
+
+          <Text style={HousingQ_styles.question3}>
+            If something is bothering you,
+          </Text>
+          <Text style={HousingQ_styles.question3}>
+            will you tell your roommate
+          </Text>
+          <Text style={HousingQ_styles.question3}>right away?</Text>
+          <TouchableOpacity
+            style={[this.state54, HousingQ_styles.buttonContainerYes3]}
+            onPress={() => {
+              this.changeColor(this.state54, this.state55)
+              this.props.dispatch(dataActions.updateTellRoommateIfBothered(this.state54.name))
+            }}
           >
             <Text style={HousingQ_styles.buttonText}>Yes</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[
-              this.state14,
+              this.state55,
               HousingQ_styles.buttonContainerNo3,
               { marginBottom: 110 },
             ]}
-            onPress={() => this.changeColor(this.state14, this.state13)}
+            onPress={() =>{
+               this.changeColor(this.state55, this.state54)
+               this.props.dispatch(dataActions.updateTellRoommateIfBothered(this.state55.name))
+              }}
           >
             <Text style={HousingQ_styles.buttonText}>No</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={HousingQ_styles.nextButton}
-            onPress={() => {
-              this.props.navigation.navigate("BirdFeed");
+            onPress={() =>{
+              //this.createHousingInfo()
+              this.props.navigation.navigate("HasHousingQ");
             }}
           >
             <Text style={[HousingQ_styles.buttonText, { color: "#FFF" }]}>
@@ -954,16 +836,6 @@ class HasHousingQ extends Component {
     );
   }
 }
-
-// DISPATCH
-// MAP DISPATCH
-const mapDispatchToProps = (dispatch) => {
-  return {
-    dispatch: (func) => dispatch(func),
-  };
-};
-
-// STYLE
 const HousingHeader_styles = StyleSheet.create({
   header: {
     backgroundColor: "#6736B6",
@@ -1262,4 +1134,15 @@ const HousingQ_styles = StyleSheet.create({
   },
 });
 
-export default connect(null, mapDispatchToProps)(HasHousingQ);
+
+// DISPATCH
+// MAP DISPATCH
+const mapDispatchToProps = (dispatch) => {
+  return {
+      dispatch: (func) => dispatch(func)
+  }
+};
+
+export default connect(null, mapDispatchToProps)(BasicInfo);
+
+
