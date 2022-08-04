@@ -55,7 +55,7 @@ export default MyUserList = ({navigation}) => {
         return unsubscribe;
     }, [])
     const createPrivateChat = async (selectedUser) => {
-        const id = `${currentUser.uid}_${selectedUser.id}`
+        const id = currentUser.uid > selectedUser.id ? `${currentUser.uid + selectedUser.id}` : `${selectedUser.id + currentUser.uid}`;
         await setDoc(doc(database,"chats",id),{
             chatName: `${currentUser.displayName} and ${selectedUser.data.name}`,
             id: id
@@ -76,7 +76,7 @@ export default MyUserList = ({navigation}) => {
                     return (
                         <UserItem 
                             key={user.id} 
-                            id={user.id} 
+                            id={currentUser.uid > user.id ? `${currentUser.uid + user.id}` : `${user.id + currentUser.uid}`} 
                             chatName={user.data.name} 
                             user={user} 
                             enterChat={enterChat}
