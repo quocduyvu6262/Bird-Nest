@@ -34,7 +34,7 @@ export default UserItem = ({id, chatName, enterChat, createPrivateChat, user}) =
         <View style={styles.container}>
             <TouchableOpacity onPress={() =>{
                 createPrivateChat(user)
-                enterChat(id, "Private Chat")
+                enterChat(id, chatName)
             }}
             >
                 <List.Item 
