@@ -34,6 +34,7 @@ export default MyChatScreen = ({navigation, route}) => {
     
     useLayoutEffect(() => {
         const collectionRef = doc(database,"chats",route.params.id);
+        console.log(route.params.id)
         const messageRef = collection(collectionRef,"messages")
         const q = query(messageRef, orderBy('createdAt', 'desc'));
         const unsubscribe = onSnapshot(q, querySnapshot => {
@@ -87,7 +88,7 @@ export default MyChatScreen = ({navigation, route}) => {
                   borderRadius: 20,
                 }}
                 user={{
-                  id: auth?.currentUser?.uid,
+                  _id: auth?.currentUser?.uid,
                   email: auth?.currentUser?.email,
                   avatar: 'https://i.pravatar.cc/300'
                 }}
