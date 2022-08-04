@@ -28,8 +28,6 @@ import {
 } from '../../firebase';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import MainHeader from '../../components/MainHeader';
-import { dismissBrowser } from 'expo-web-browser';
-
 
 export default MyChatScreen = ({navigation, route}) => {
     const [messages, setMessages] = useState([])
@@ -89,7 +87,8 @@ export default MyChatScreen = ({navigation, route}) => {
                   borderRadius: 20,
                 }}
                 user={{
-                  _id: auth?.currentUser?.email,
+                  id: auth?.currentUser?.uid,
+                  email: auth?.currentUser?.email,
                   avatar: 'https://i.pravatar.cc/300'
                 }}
             />

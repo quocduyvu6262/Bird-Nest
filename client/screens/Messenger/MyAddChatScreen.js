@@ -55,6 +55,12 @@ export default MyAddChatScreen = ({navigation}) => {
             }}>
                 Enter Chat List
             </Button>
+            
+            <Button onPress={() => {
+                navigation.navigate('MyUserList')
+            }}>
+                Enter User List
+            </Button>
         </View>
     )
     

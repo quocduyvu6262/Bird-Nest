@@ -19,6 +19,7 @@ import Profile from "./screens/Profile.js";
 import MessengerPigeon from "./screens/Messenger/MessengerPigeon.js";
 import MyChatScreen from "./screens/Messenger/MyChatScreen";
 import MyChatList from "./screens/Messenger/MyChatList";
+import MyUserList from "./screens/Messenger/MyUserList";
 import MyAddChatScreen from "./screens/Messenger/MyAddChatScreen";
 import ChirpNotification from "./screens/ChirpNotification.js";
 import History from "./screens/History.js";
@@ -119,6 +120,7 @@ export default function App() {
           <Stack.Screen name="Roles" component={Roles} />
           <Stack.Screen name="MyChatScreen" component={MyChatScreen} />
           <Stack.Screen name="MyChatList" component={MyChatList} />
+          <Stack.Screen name="MyUserList" component={MyUserList} />
           <Stack.Screen
             name="History"
             component={History}

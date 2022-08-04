@@ -7,6 +7,7 @@ import {
   onSnapshot,
   serverTimestamp,
   query,
+  where,
   orderBy,
   setDoc
 } from 'firebase/firestore'
@@ -40,6 +41,7 @@ export {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   updateProfile,
+  where,
   signOut,
   collection,
   addDoc,
