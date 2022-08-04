@@ -4,7 +4,7 @@ import React, {
     useLayoutEffect,
     useCallback
 } from 'react';
-import { Platform, StyleSheet, Text, TextInput, View } from "react-native";
+import { KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, View } from "react-native";
 import { GiftedChat } from 'react-native-gifted-chat';
 import * as AsyncStorage from '@react-native-async-storage/async-storage';
 import Button from '../../components/Button';
@@ -17,6 +17,7 @@ import {
     signOut,
     collection,
     addDoc,
+    doc,
     getFirestore,
     onSnapshot,
     serverTimestamp,
@@ -25,14 +26,18 @@ import {
     auth, 
     database
 } from '../../firebase';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import MainHeader from '../../components/MainHeader';
+import { dismissBrowser } from 'expo-web-browser';
 
 
-export default MyChatScreen = ({navigation}) => {
+export default MyChatScreen = ({navigation, route}) => {
     const [messages, setMessages] = useState([])
     
     useLayoutEffect(() => {
-        const collectionRef = collection(database, 'chats');
-        const q = query(collectionRef, orderBy('createdAt', 'desc'));
+        const collectionRef = doc(database,"chats",route.params.id);
+        const messageRef = collection(collectionRef,"messages")
+        const q = query(messageRef, orderBy('createdAt', 'desc'));
         const unsubscribe = onSnapshot(q, querySnapshot => {
             //console.log('querySnapshot unsusbscribe');
             setMessages(
@@ -46,6 +51,7 @@ export default MyChatScreen = ({navigation}) => {
                 })})
             );
         });
+
         return unsubscribe;
     }, []);
 
@@ -54,31 +60,46 @@ export default MyChatScreen = ({navigation}) => {
           GiftedChat.append(previousMessages, messages)
         );
         const { _id, createdAt, text, user } = messages[0]; 
-        addDoc(collection(database, 'chats'), {
+        // SUBDOC
+        const collectionRef = doc(database,"chats",route.params.id);
+        const messageRef = collection(collectionRef,"messages")
+        addDoc(messageRef, {
           _id: _id,
           createdAt: createdAt,
           text: text,
           user: user
-        });
-    }, []);
+        })
 
+    }, []);
+        
     return(
         // <GiftedChat 
           //<Button onPress={() => navigation.navigate('Messener Pigeon')}>Go back</Button>
-          <GiftedChat
-          messages={messages}
-          onSend={messages => onSend(messages)}
-          messagesContainerStyle={{
-            backgroundColor: '#fff'
-          }}
-          textInputStyle={{
-            backgroundColor: '#fff',
-            borderRadius: 20,
-          }}
-          user={{
-            _id: auth?.currentUser?.email,
-            avatar: 'https://i.pravatar.cc/300'
-          }}
-        />
+        <SafeAreaView style={{flex:1, backgroundColor: 'white'}}>
+          <KeyboardAvoidingView style={styles.container}>
+            <MainHeader screen={route.params.chatName} navigation={navigation}></MainHeader>
+              <GiftedChat
+                messages={messages}
+                onSend={messages => onSend(messages)}
+                messagesContainerStyle={{
+                  backgroundColor: '#fff'
+                }}
+                textInputStyle={{
+                  backgroundColor: '#fff',
+                  borderRadius: 20,
+                }}
+                user={{
+                  _id: auth?.currentUser?.email,
+                  avatar: 'https://i.pravatar.cc/300'
+                }}
+            />
+          </KeyboardAvoidingView>
+        </SafeAreaView>
     )
 }
+
+const styles = StyleSheet.create({
+  container:{
+    flex: 1
+  }
+})

@@ -39,12 +39,19 @@ export default MyChatList = ({navigation}) => {
             })))
         })
     }, [])
+
+    const enterChat = (id, chatName) => {
+        navigation.navigate('MyChatScreen',{
+            id: id,
+            chatName: chatName
+        });
+    }
     return(
         <SafeAreaView style={{backgroundColor:'white'}}> 
             <MainHeader screen="Messenger" navigation={navigation} />
             <ScrollView style={styles.container}>
                 {chats.map(({id, data: {chatName}}) => (
-                    <ChatItem key={id} id={id} chatName={chatName}/>
+                    <ChatItem key={id} id={id} chatName={chatName} enterChat={enterChat}/>
                 ))}
             </ScrollView>
         </SafeAreaView>
