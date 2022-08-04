@@ -87,7 +87,7 @@ export default MyChatScreen = ({navigation, route}) => {
                   borderRadius: 20,
                 }}
                 user={{
-                  id: auth?.currentUser?.uid,
+                  _id: auth?.currentUser?.uid,
                   email: auth?.currentUser?.email,
                   avatar: 'https://i.pravatar.cc/300'
                 }}

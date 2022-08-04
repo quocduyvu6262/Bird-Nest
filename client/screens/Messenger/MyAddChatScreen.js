@@ -47,9 +47,11 @@ export default MyAddChatScreen = ({navigation}) => {
                 onChangeText={(text) => setInput(text)}
                 placeholder='Enter the chat name'
             />
+
             <Button onPress={createChat}>
                 Create new chat
             </Button>
+
             <Button onPress={() => {
                 navigation.navigate('MyChatList')
             }}>

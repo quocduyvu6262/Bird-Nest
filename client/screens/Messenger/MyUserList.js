@@ -50,15 +50,30 @@ export default MyUserList = ({navigation}) => {
         })
         return unsubscribe;
     }, [])
-    const enterChat = () => {
-
+    const enterChat = (id, chatName = "Private Chat") => {
+        navigation.navigate('MyChatScreen', {
+            id: id,
+            chatName: chatName
+        });
+    }
+    const createPrivateChat = async(selectUserId) => {
+        const id = `${currentUser}_${selectUserId}`
+        await setDoc((database, "chats", id), {
+            id: id,
+            chatName: currentUser.name + "Private Chat",
+        });
     }
     return (
         <SafeAreaView style={{backgroundColor:'white', flex: 1}}> 
             <MainHeader screen="Users" navigation={navigation} />
             <ScrollView style={styles.container}>
                 {users.map(user => (
-                    <ChatItem key={user.id} id={user.id} chatName={user.data.name}/>
+                    <ChatItem
+                    key={user.id} 
+                    id={user.id} 
+                    chatName={user.data.name} 
+                    enterChat={enterChat} 
+                    createPrivateChat = {createPrivateChat}/>
                 ))}
             </ScrollView>
         </SafeAreaView>

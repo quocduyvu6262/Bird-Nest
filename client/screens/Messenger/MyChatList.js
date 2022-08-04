@@ -51,7 +51,11 @@ export default MyChatList = ({navigation}) => {
             <MainHeader screen="Rooms" navigation={navigation} />
             <ScrollView style={styles.container}>
                 {chats.map(({id, data: {chatName}}) => (
-                    <ChatItem key={id} id={id} chatName={chatName} enterChat={enterChat}/>
+                    <ChatItem 
+                    key={id} 
+                    id={id} 
+                    chatName={chatName} 
+                    enterChat={enterChat}/>
                 ))}
             </ScrollView>
         </SafeAreaView>

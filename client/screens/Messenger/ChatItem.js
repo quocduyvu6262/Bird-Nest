@@ -28,11 +28,16 @@ import {
     database
 } from '../../firebase';
 
-export default ChatItem = ({id, chatName, enterChat}) => {
+export default ChatItem = ({id, chatName, enterChat, createPrivateChat}) => {
 
     return(
         <View style={styles.container}>
-            <TouchableOpacity onPress={() => enterChat(id, chatName)}
+            <TouchableOpacity onPress={() => 
+            {enterChat(id, chatName)
+            if (createPrivateChat) {
+                createPrivateChat(id)
+            }
+            }}
             >
                 <List.Item 
                     style={styles.ListItem}
