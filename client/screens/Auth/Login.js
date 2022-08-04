@@ -22,7 +22,6 @@ import Paragraph from "../../components/Paragraph";
 import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
 import * as SecureStore from "expo-secure-store";
-
 // Import constants
 import Constants from "../../constants/constants";
 // Redux

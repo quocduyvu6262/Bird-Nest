@@ -49,7 +49,6 @@ export const dataSlice = createSlice({
         housing: housing
     },
     reducers: {
-
         updateUser: (state, action) => {
             let toAddUserInfoObj = action.payload;
             state.userInfo = {...state.userInfo, ...toAddUserInfoObj};
