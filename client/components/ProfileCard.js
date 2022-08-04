@@ -31,7 +31,7 @@ const ProfileCard = ({ item }) => {
       // inputRange: [0, 50, 100, 101],
       // outputRange: [-20, 0, 0, 1],
       inputRange: [0, 100],
-      outputRange: [-100, 0],
+      outputRange: [-20, 0],
       // inputRange: [-300, -100, 0, 100, 101],
       // outputRange: [300, 0, 1, 0, 0],
     });
@@ -127,6 +127,20 @@ const styles = StyleSheet.create({
   },
   noButton: {
     backgroundColor: "red",
+    height: 90,
+    width: 50,
+    backgroundColor: "lightgray",
+    alignSelf: "center",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    borderRadius: 20,
+    marginTop: 10,
+    shadowOffset: { height: 20 },
+    shadowOpacity: 0.5,
+    shadowColor: "black",
+    shadowRadius: 5,
+    elevation: 5,
   },
 });
 
