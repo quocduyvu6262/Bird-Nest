@@ -26,6 +26,7 @@ import Animated, {
   useSharedValue,
   useAnimatedStyle,
 } from "react-native-reanimated";
+import Swipeable from "react-native-gesture-handler/Swipeable";
 
 import { Icon } from "@rneui/themed";
 import Icon2 from "react-native-vector-icons/MaterialCommunityIcons";
