@@ -48,12 +48,12 @@ class BasicInfo extends Component {
     value: 500,
   };
   state1 = {
-    name: true,
+    name: "Yes",
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state2 = {
-    name: false,
+    name: "No",
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
@@ -68,42 +68,42 @@ class BasicInfo extends Component {
     backgroundColor: "#D9D9D9",
   };
   state5 = {
-    name: true,
+    name: "Yes",
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state6 = {
-    name: false,
+    name: "No",
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state7 = {
-    name: true,
+    name: "Yes",
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state8 = {
-    name: false,
+    name: "No",
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state9 = {
-    name: true,
+    name: "Yes",
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state10 = {
-    name: false,
+    name: "No",
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state11 = {
-    name: true,
+    name: "Yes",
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state12 = {
-    name: false,
+    name: "No",
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
@@ -241,12 +241,12 @@ class BasicInfo extends Component {
     backgroundColor: "#D9D9D9",
   };
   state51 = {
-    name: true,
+    name: "Yes",
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state52 = {
-    name: false,
+    name: "No",
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
@@ -255,22 +255,22 @@ class BasicInfo extends Component {
     backgroundColor: "#D9D9D9",
   };
   state54 = {
-    name: true,
+    name: "Yes",
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state55 = {
-    name: false,
+    name: "No",
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state56 = {
-    name: true,
+    name: "Yes",
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state57 = {
-    name: false,
+    name: "No",
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
@@ -1144,5 +1144,3 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(null, mapDispatchToProps)(BasicInfo);
-
-
