@@ -5,6 +5,7 @@ import {
   Image,
   StatusBar,
   Animated,
+  TouchableOpacity,
 } from "react-native";
 import React from "react";
 import {
@@ -28,12 +29,8 @@ const ProfileCard = ({ item }) => {
 
   const renderRightActions = (progress, dragX) => {
     const trans = dragX.interpolate({
-      // inputRange: [0, 50, 100, 101],
-      // outputRange: [-20, 0, 0, 1],
       inputRange: [0, 100],
-      outputRange: [-20, 0],
-      // inputRange: [-300, -100, 0, 100, 101],
-      // outputRange: [300, 0, 1, 0, 0],
+      outputRange: [-20, -20],
     });
     return (
       <Animated.View
@@ -44,26 +41,40 @@ const ProfileCard = ({ item }) => {
           },
         ]}
       >
-        <Text>No</Text>
+        <TouchableOpacity style={styles.swipeButton}>
+          <Text>No</Text>
+        </TouchableOpacity>
       </Animated.View>
-      // <RectButton style={styles.leftAction}>
-      //   <Animated.Text
-      //     style={[
-      //       styles.actionText,
-      //       {
-      //         transform: [{ translateX: trans }],
-      //       },
-      //     ]}
-      //   >
-      //     Archive
-      //   </Animated.Text>
-      // </RectButton>
+    );
+  };
+
+  const renderLeftActions = (progress, dragX) => {
+    const trans = dragX.interpolate({
+      inputRange: [0, 100],
+      outputRange: [20, 20],
+    });
+    return (
+      <Animated.View
+        style={[
+          styles.noButton,
+          {
+            transform: [{ translateX: trans }],
+          },
+        ]}
+      >
+        <TouchableOpacity
+          style={[styles.swipeButton, { backgroundColor: "green" }]}
+        >
+          <Text>Yes</Text>
+        </TouchableOpacity>
+      </Animated.View>
     );
   };
 
   return (
     <Swipeable
       renderRightActions={renderRightActions}
+      renderLeftActions={renderLeftActions}
       friction={2}
       overshootFriction={4}
       containerStyle={{ overflow: "visible" }}
@@ -86,12 +97,13 @@ const styles = StyleSheet.create({
     height: 90,
     width: "90%",
     backgroundColor: "lightgray",
+    // backgroundColor: "white",
     alignSelf: "center",
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
     borderRadius: 20,
-    marginTop: 10,
+    marginTop: 15,
     shadowOffset: { height: 20 },
     shadowOpacity: 0.5,
     shadowColor: "black",
@@ -106,6 +118,7 @@ const styles = StyleSheet.create({
   },
   text_box: {
     backgroundColor: "white",
+    // backgroundColor: "lightgray",
     height: "90%",
     width: "70%",
     alignSelf: "flex-end",
@@ -113,7 +126,6 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     padding: 10,
     marginRight: 8,
-    borderBottomWidth: 2,
   },
   text_box_name: {
     position: "absolute",
@@ -126,21 +138,31 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 10,
   },
   noButton: {
-    backgroundColor: "red",
     height: 90,
-    width: 50,
+    width: 70,
     backgroundColor: "lightgray",
     alignSelf: "center",
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
     borderRadius: 20,
-    marginTop: 10,
+    marginTop: 15,
     shadowOffset: { height: 20 },
     shadowOpacity: 0.5,
     shadowColor: "black",
     shadowRadius: 5,
     elevation: 5,
+  },
+  swipeButton: {
+    backgroundColor: "red",
+    height: "100%",
+    width: "100%",
+    borderRadius: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
+    top: 0,
+    right: 0,
   },
 });
 
