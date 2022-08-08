@@ -13,7 +13,6 @@ import { Icon } from "react-native-vector-icons/MaterialCommunityIcons";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import MainHeader from "../../components/MainHeader";
-import {auth, signOut} from '../../firebase'
 // Import constants
 import Constants from "../../constants/constants";
 const chatClient = StreamChat.getInstance(Constants.CHAT_API_KEY);
