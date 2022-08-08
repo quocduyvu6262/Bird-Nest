@@ -1,16 +1,15 @@
-import { View, Text, SafeAreaView, StyleSheet, StatusBar } from "react-native";
+import { View, Text, SafeAreaView, StyleSheet, StatusBar, TouchableOpacity } from "react-native";
 import React from "react";
 import MainHeader from "../../components/MainHeader";
-
-const MessengerPigeon = ({ navigation }) => {
+const MessengerPigeon = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
       <MainHeader screen="Messenger Pigeon" navigation={navigation} />
-      <Text>Messenger Pigeon</Text>
-      <Text>Send a message. I dare you.</Text>
     </SafeAreaView>
   );
-};
+}
+
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

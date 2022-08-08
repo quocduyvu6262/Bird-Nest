@@ -36,6 +36,9 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "scheme": "host.exp.exponent"
+    "scheme": "host.exp.exponent",
+    "plugins": [
+      "react-native-health"
+    ]
   }
 }

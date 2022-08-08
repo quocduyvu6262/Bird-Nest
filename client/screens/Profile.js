@@ -26,6 +26,8 @@ import Deondre from "../assets/deondre.jpg";
 import Constants from "../constants/constants";
 // Redux
 import { useDispatch, useSelector } from "react-redux";
+// firebase
+import {auth} from '../firebase'
 
 const Profile = ({ navigation }) => {
   
@@ -56,8 +58,7 @@ const Profile = ({ navigation }) => {
       <ScrollView>
         <Background>
           <UserCard
-            name={data.userInfo.firstname + " " + data.userInfo.lastname}
-            image={Deondre}
+            name={data.userInfo.fullname}
           />
 
           <View style={styles.buttonContainer}>
