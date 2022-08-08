@@ -30,6 +30,7 @@ import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
 import MainHeader from "../components/MainHeader.js";
 import Constants from "../constants/constants.js";
 import barackObama from "../assets/barackObama.jpeg";
+import { useChatClient } from "./ChatAPI/useChatClient.js";
 
 const BirdFeed = ({ navigation }) => {
   const [transferList, setTransferList] = useState([]);
@@ -136,7 +137,6 @@ const BirdFeed = ({ navigation }) => {
   const overlayButton = () => {
     overlayClicked ? setOverlayClicked(false) : setOverlayClicked(true);
   };
-
   useEffect(() => {
     viewUsers();
   }, []);

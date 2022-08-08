@@ -27,8 +27,9 @@ export default ChannelListScreen = (props) => {
     return(
         <ChannelList
             onSelect={(channel) => {
+                console.log(channel)
                 const { navigation } = props;
-                navigation.navigate('ChannelScreen', { channel });
+                navigation.navigate('ChannelScreen', {channel});
             }}
             filters={filters}
             sort={sort}

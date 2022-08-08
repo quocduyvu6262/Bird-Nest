@@ -37,13 +37,8 @@ const Settings = ({ navigation }) => {
             )
               .then(async () => {
                 SecureStore.deleteItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_REDUX);
-                signOut(auth).then( async () => {
-                  await chatClient.disconnectUser();
-                  console.log('Sign out successfully')
-                }).catch((error) => {
-                  console.log('Fail to sign out')
-                });
                 navigation.navigate("LoginScreen");
+                await chatClient.disconnectUser();
                 DevSettings.reload()
               })
               .catch((err) => {

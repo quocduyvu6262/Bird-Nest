@@ -43,8 +43,11 @@ export default ChatNavigator = ({navigation, route}) => {
     <OverlayProvider>
       <Chat client={chatClient}>
         <Stack.Navigator>
-          <Stack.Screen name="ChannelListScreen" component={ChannelListScreen} />
-          <Stack.Screen name="ChannelScreen" component={ChannelScreen} />
+          <Stack.Screen name="Messenger" component={ChannelListScreen} />
+          <Stack.Screen 
+            name="ChannelScreen" 
+            component={ChannelScreen} 
+          />
         </Stack.Navigator>
       </Chat>
     </OverlayProvider>

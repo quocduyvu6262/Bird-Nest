@@ -22,7 +22,7 @@ export const useChatClient = () => {
                 }).then(async result => {
                     let user = {
                         id: userID,
-                        name: displayName
+                        name: displayName,
                     }
                     await chatClient.connectUser(user, result.data);
                     setClientIsReady(true);
