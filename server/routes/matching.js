@@ -5,47 +5,64 @@ const express = require('express');
 const db = require('../utils/database');
 const router = express.Router();
 
-router.get('/', (req, res) => {
-    const query1 = '';
-	const query2 = '';
-	const query3 = '';
+router.post('/', (req, res) => { // input
+	var provided_id = 9; //temporary until ID is provided by front-end
+	//var provided_id = req.body.id:
+
+	//query for sending every user's variables to the front-end 
+	const resultQuery = "SELECT User.*, Matching.number FROM BirdNest.User JOIN BirdNest.Housing ON User.id = Housing.User_id JOIN BirdNest.Matching ON User.id = Matching.User_id ORDER BY number desc";
 	db(client => {
-		
+		var must_have_map = new Map();
+		client.query(`SELECT * FROM BirdNest.MustHave WHERE User_id = ${provided_id}`, //replaced NoHousing with MustHave
+			(err, result) => {
+				const provided_values = result;
+				//add the following matching variables to the map
+				must_have_map.set("neighborhood", provided_values[0].neighborhood);
+				must_have_map.set("city", provided_values[0].city);
+				must_have_map.set("lease", provided_values[0].lease);
+				must_have_map.set("rent", provided_values[0].rent);
+				must_have_map.set("age", provided_values[0].age);
+				must_have_map.set("gender", provided_values[0].gender);
+				must_have_map.set("pet", provided_values[0].pet);
+				must_have_map.set("alcohol", provided_values[0].alcohol);
+				must_have_map.set("sleep", provided_values[0].sleep);
+				must_have_map.set("guests", provided_values[0].guests);
+				must_have_map.set("cleanliness", provided_values[0].cleanliness);
+				for(const [key, value] of must_have_map) { //updates matches count for each user
+					if (key == "lease" || key == "rent") { //evaluates the lease and rent for a range
+						var matchingQuery = `UPDATE BirdNest.Matching JOIN BirdNest.MustHave ON Matching.User_id = MustHave.User_id SET number = number + 1 WHERE ${key} <= ${value}`;
+					} 
+					else if(key == "age") { //evaluates for age, whose value is an int
+						var matchingQuery = `UPDATE BirdNest.Matching JOIN BirdNest.MustHave ON Matching.User_id = MustHave.User_id SET number = number + 1 WHERE ${key} = ${value}`;
+					}
+					else { //evaluates for values that are strings
+						var matchingQuery = `UPDATE BirdNest.Matching JOIN BirdNest.MustHave ON Matching.User_id = MustHave.User_id SET number = number + 1 WHERE ${key} = '${value}'`;	
+					}
+					client.query(matchingQuery, [],(err, result) => {
+						if (err) throw err;
+					});
+				}
+				client.query(resultQuery, function (err, result) { //orders Matches table from most to least matches
+					if (err) throw err;
+					// Output result
+					res.send(result);
+					// Reset matching table
+					const reset = 'UPDATE BirdNest.Matching SET number = 0';
+					client.query(reset, (err, result) => { //resets matches to 0 for all users
+						if(err) throw err;
+					});
+				});
+		});
 	});
-})
+});
+
+router.get('/reset', (req, res) => {
+	db(client => {
+		const reset = 'UPDATE BirdNest.Matching SET number = 0'; //resets matches to 0 for all users
+		client.query(reset, (err, result) => {
+			if(err) throw err;
+		});
+	})
+});
 
 module.exports = router;
-
-/**
-var must_have_variables[] = list of must have variables
-var values_of_must_have_variables[];
-var mysql = require('mysql'); //idk what this does, needed for connection to database
-var con = mysql.createConnection({ //Establishes connection to database
-	host: "localhost",
-	user: "username",
-	password: "password",
-	database: "BirdNest"
-});
-con.connect(function(err) { //stores information of user A into userAInfo
- 	if (err) throw err;
- 	con.query("SELECT * from Housing WHERE userID = userAID", function (err, userAInfo, fields) { //userAID will be provided by front end
-    		if (err) throw err;
-  });
-for(int i = 0; i < userAInfo.length(); i++) { //(RUN TIME: O(n))
-	values_of_must_have_variables.add(userAID[0].(must_have_variables[i])); //row -> variable type
-} //at this point, values_of_must_have_variables is filled
-int index = 0; //the following code increments the value of Matches for each time a match is found per user
-for each variable in must_have_variables //(RUN TIME: O(k)) {
-	UPDATE Housing SET Matches = Matches + 1 WHERE 'variable = values_of_must_have_variables[index]'; //At this point, the Matches of values in the table that
-													  //match the current variable in must_have_variables is
-													  //is incremented by 1.
-	index = index + 1;						      
-}
- */
-
-/**
- * key     value
- * 
- * gynm    true/false
- * pool    true/false
- */
