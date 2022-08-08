@@ -13,7 +13,6 @@ import { Icon } from "react-native-vector-icons/MaterialCommunityIcons";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import MainHeader from "../../components/MainHeader";
-import {auth, signOut} from '../../firebase'
 // Import constants
 import Constants from "../../constants/constants";
 const chatClient = StreamChat.getInstance(Constants.CHAT_API_KEY);
@@ -37,12 +36,6 @@ const Settings = ({ navigation }) => {
             )
               .then(async () => {
                 SecureStore.deleteItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_REDUX);
-                signOut(auth).then( async () => {
-                  await chatClient.disconnectUser();
-                  console.log('Sign out successfully')
-                }).catch((error) => {
-                  console.log('Fail to sign out')
-                });
                 navigation.navigate("LoginScreen");
                 DevSettings.reload()
               })

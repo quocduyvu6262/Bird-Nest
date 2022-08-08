@@ -26,8 +26,6 @@ import Deondre from "../assets/deondre.jpg";
 import Constants from "../constants/constants";
 // Redux
 import { useDispatch, useSelector } from "react-redux";
-// firebase
-import {auth} from '../firebase'
 
 const Profile = ({ navigation }) => {
   
