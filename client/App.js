@@ -5,6 +5,7 @@ import {
   Image,
   InteractionManager,
   ActivityIndicator,
+  Pressable,
 } from "react-native";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Logo from "./assets/bird.png";
@@ -48,7 +49,7 @@ import ProfileLogo from "./assets/ProfileLogo.png";
 // STACK/TAB NAVIGATION
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createBottomTabNavigator, tabBarVisible } from "@react-navigation/bottom-tabs";
 import { CardStyleInterpolators } from "@react-navigation/stack";
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -59,6 +60,9 @@ import { store } from "./redux/store";
 import { useDispatch, useSelector } from "react-redux";
 
 const TabNavigator = () => {
+  const DisabledTabBarButton = ({ style, ...props }) => (
+    <Pressable disabled style={[{ opacity: 0.2 }, style]} {...props} />
+  )
   return (
     <Tab.Navigator
       screenOptions={{ headerShown: false, tabBarActiveTintColor: "#560CCE" }}
@@ -120,9 +124,6 @@ export default function App() {
             <Stack.Screen name="HasHousingQ" component={HasHousingQ} />
             <Stack.Screen name="Personality" component={Personality} />
             <Stack.Screen name="Roles" component={Roles} />
-            <Stack.Screen name="MyChatScreen" component={MyChatScreen} />
-            <Stack.Screen name="MyChatList" component={MyChatList} />
-            <Stack.Screen name="MyUserList" component={MyUserList} />
             <Stack.Screen name="History" component={History}/>
           </Stack.Navigator>
         </NavigationContainer>
