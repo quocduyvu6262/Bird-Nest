@@ -6,6 +6,7 @@ const matchRoutes = require('./routes/matching');
 const nohousingRoutes = require('./routes/nohousing');
 const historyRoutes = require('./routes/history');
 const questionaireRoutes = require('./routes/questionaire');
+const chatRoutes = require('./routes/chat')
 require('dotenv').config();
 
 
@@ -23,6 +24,7 @@ app.use('/api/matching', matchRoutes);
 app.use('/api/nohousing', nohousingRoutes);
 app.use('/api/history', historyRoutes);
 app.use('/api/questionaire', questionaireRoutes);
+app.use('/api/chat',chatRoutes);
 
 
 

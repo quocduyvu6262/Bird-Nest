@@ -103,7 +103,7 @@ const BirdFeed = ({ navigation }) => {
   const viewUsers = () => {
     setUserList([]);
     Axios.post(`${Constants.BASE_URL}/api/matching/`, {
-      user_id: 10,
+      user_id: 78,
     })
       .then((response) => {
         let userData = response.data;

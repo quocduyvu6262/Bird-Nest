@@ -25,22 +25,11 @@ import * as SecureStore from "expo-secure-store";
 // Import constants
 import Constants from "../../constants/constants";
 // Redux
-import { useDispatch, useSelector } from "react-redux";
-import { updateHousing, updateUser } from "../../redux/slices/data";
+import * as dataActions from '../../redux/slices/data';
+import { useDispatch } from "react-redux";
 
 // Axios
 import Axios from "axios";
-
-// Firebase
-import {
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  auth,
-  database,
-  doc,
-  setDoc,
-  updateProfile
-} from '../../firebase'
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -97,7 +86,7 @@ const LoginScreen = ({ navigation }) => {
       .then((res) => {
         return res.data;
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log("Axios fail"));
   };
 
   // FIREBASE AUTH
@@ -113,55 +102,33 @@ const LoginScreen = ({ navigation }) => {
         fetchGoogleUser(accessToken).then((userInfo) => {
           login(userInfo)
             .then(async (res) => {
-              // Store Token
+              // STORE TOKEN
               await SecureStore.setItemAsync(
                 Constants.MY_SECURE_AUTH_STATE_KEY_TOKEN,
                 JSON.stringify(accessToken)
               );
+              // STORE UID, EMAIL, NAME
+              console.log(res);
+              dispatch(dataActions.updateFullname(res.name));
+              dispatch(dataActions.updateUID(res.uid));
               // TWO CASES: LOGIN or REGISTER
-              if (res === "login") {
+              if (res.status === "login") {
+                // // get item redux
+                // SecureStore.getItemAsync(
+                //   Constants.MY_SECURE_AUTH_STATE_KEY_REDUX
+                // ).then((data) => {
+                //   let jsonData = JSON.parse(data);
+                //   //dispatch(updateUser(jsonData.userInfo));
+                //   //dispatch(updateHousing(jsonData.housing))
+                // });
+                console.log("Login Successfully")
                 navigation.navigate("BirdFeed");
-                // get item redux
-                SecureStore.getItemAsync(
-                  Constants.MY_SECURE_AUTH_STATE_KEY_REDUX
-                ).then((data) => {
-                  let jsonData = JSON.parse(data);
-                  //dispatch(updateUser(jsonData.userInfo));
-                  //dispatch(updateHousing(jsonData.housing))
-                });
-
-                //FIREBASE LOGIN
-                const result = await signInWithEmailAndPassword(auth , userInfo.email, Constants.FIREBASE_PASSWORD)
-                  .then(async (result) => {
-                    updateProfile(result.user,{
-                      displayName: userInfo.name
-                    }).then().catch()
-                    console.log('Login successfully')
-                    await setDoc(doc(database,"users", result.user.uid), {
-                      uid: result.user.uid,
-                      email: result.user.email,
-                      name: userInfo.name
-                    })
-                  })
-                  .catch(() => {
-                    console.log('Login fail')
-                  })
-              } else if (res === "register") {
-                // new user or user who has not filled in questionaires
+              } else if (res.status === "register") {
+                console.log("Register Successfully");
                 navigation.navigate("IDQs");
-
-                // FIREBASE REGISTER
-                await createUserWithEmailAndPassword(auth, userInfo.email, Constants.FIREBASE_PASSWORD)
-                  .then(() => {
-                    console.log('Register successfully')
-                  })
-                  .catch(() => {
-                    console.log('Register fail')
-                  })
-          
               }
             })
-            .catch((err) => console.log(err));
+            .catch((err) => console.log("Login/Register Fail"));
         });
       }
     }
