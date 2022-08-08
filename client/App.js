@@ -6,12 +6,13 @@ import {
   InteractionManager,
   ActivityIndicator,
 } from "react-native";
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Logo from "./assets/bird.png";
 
 import Axios from "axios";
 import * as SecureStore from "expo-secure-store";
 
-//Import screens in nav bar
+// IMPORT SCREENS
 import SplashScreen from "./screens/Auth/SplashScreen";
 import BirdFeed from "./screens/BirdFeed.js";
 import PeckView from "./screens/PeckView.js";
@@ -35,12 +36,16 @@ import HasHousingQ from "./screens/Questionnaires/HasHousingQ.js";
 import Personality from "./screens/Questionnaires/Personality.js";
 import BasicInfo from "./screens/Questionnaires/BasicInfo.js";
 
-// logo icons
+// IMPORT CHAT NAVIGATOR
+import ChatNavigator from "./screens/ChatAPI/ChatNavigator";
+
+
+// LOGO ICONS
 import BirdFeedLogo from "./assets/BirdFeedLogo.png";
 import MessengerLogo from "./assets/MessengerLogo.png";
 import ProfileLogo from "./assets/ProfileLogo.png";
 
-// Stack and Tab Navigation
+// STACK/TAB NAVIGATION
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -48,9 +53,10 @@ import { CardStyleInterpolators } from "@react-navigation/stack";
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-// Redux
+// REDUX
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
+import { useDispatch, useSelector } from "react-redux";
 
 const TabNavigator = () => {
   return (
@@ -77,7 +83,7 @@ const TabNavigator = () => {
       />
       <Tab.Screen
         name="Messenger Pigeon"
-        component={MyAddChatScreen}
+        component={ChatNavigator}
         options={{
           tabBarIcon: () => (
             <Image style={{ height: 50, width: 50 }} source={MessengerLogo} />
@@ -89,48 +95,38 @@ const TabNavigator = () => {
 };
 <ion-icon name="eye-outline"></ion-icon>;
 export default function App() {
+
   return (
     <Provider store={store}>
-      <NavigationContainer>
-        <Stack.Navigator
-          //change back default to "Splashcreen" after testing
-          initialRouteName="SplashScreen"
-          screenOptions={{ headerShown: false }}
-        >
-          <Stack.Screen name="SplashScreen" component={SplashScreen} />
-          <Stack.Screen name="LoginScreen" component={LoginScreen} />
-          <Stack.Screen name="BirdFeed" component={TabNavigator} />
-          <Stack.Screen name="PeckView" component={PeckView} />
-          <Stack.Screen name="Settings" component={Settings} />
-          <Stack.Screen
-            name="ChirpNotificationEdit"
-            component={ChirpNotificationEdit}
-          />
-          <Stack.Screen name="HelpSupport" component={HelpSupport} />
-          <Stack.Screen name="TermsOfService" component={TermsOfService} />
-          <Stack.Screen
-            name="ChirpNotification"
-            component={ChirpNotification}
-          />
-          <Stack.Screen name="IDQs" component={IDQs} />
-          <Stack.Screen name="BasicInfo" component={BasicInfo} />
-          <Stack.Screen name="NoHousingQ" component={NoHousingQ} />
-          <Stack.Screen name="HasHousingQ" component={HasHousingQ} />
-          <Stack.Screen name="Personality" component={Personality} />
-          <Stack.Screen name="Roles" component={Roles} />
-          <Stack.Screen name="MyChatScreen" component={MyChatScreen} />
-          <Stack.Screen name="MyChatList" component={MyChatList} />
-          <Stack.Screen name="MyUserList" component={MyUserList} />
-          <Stack.Screen
-            name="History"
-            component={History}
-            // work on this
-            // options={{
-            //   cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-            // }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <GestureHandlerRootView style={{flex: 1}}>
+        <NavigationContainer>
+          <Stack.Navigator
+            //change back default to "Splashcreen" after testing
+            initialRouteName="SplashScreen"
+            screenOptions={{ headerShown: false }}
+          >
+            <Stack.Screen name="SplashScreen" component={SplashScreen} />
+            <Stack.Screen name="LoginScreen" component={LoginScreen} />
+            <Stack.Screen name="BirdFeed" component={TabNavigator} />
+            <Stack.Screen name="PeckView" component={PeckView} />
+            <Stack.Screen name="Settings" component={Settings} />
+            <Stack.Screen name="ChirpNotificationEdit"component={ChirpNotificationEdit}/>
+            <Stack.Screen name="HelpSupport" component={HelpSupport} />
+            <Stack.Screen name="TermsOfService" component={TermsOfService} />
+            <Stack.Screen name="ChirpNotification" component={ChirpNotification}/>
+            <Stack.Screen name="IDQs" component={IDQs} />
+            <Stack.Screen name="BasicInfo" component={BasicInfo} />
+            <Stack.Screen name="NoHousingQ" component={NoHousingQ} />
+            <Stack.Screen name="HasHousingQ" component={HasHousingQ} />
+            <Stack.Screen name="Personality" component={Personality} />
+            <Stack.Screen name="Roles" component={Roles} />
+            <Stack.Screen name="MyChatScreen" component={MyChatScreen} />
+            <Stack.Screen name="MyChatList" component={MyChatList} />
+            <Stack.Screen name="MyUserList" component={MyUserList} />
+            <Stack.Screen name="History" component={History}/>
+          </Stack.Navigator>
+        </NavigationContainer>
+        </GestureHandlerRootView>
     </Provider>
   );
 }
