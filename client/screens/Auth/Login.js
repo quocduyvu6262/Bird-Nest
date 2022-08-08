@@ -31,6 +31,10 @@ import { useDispatch } from "react-redux";
 // Axios
 import Axios from "axios";
 
+// Chat
+import { useChatClient } from '../ChatAPI/useChatClient';
+
+
 WebBrowser.maybeCompleteAuthSession();
 
 const LoginScreen = ({ navigation }) => {
