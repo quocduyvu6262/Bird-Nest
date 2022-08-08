@@ -16,14 +16,28 @@ import {
 import React, { useState } from "react";
 import Axios from "axios";
 import { Icon } from "@rneui/themed";
-import QuestHeader from "../components/QuestHeader.js";
-//import { useFonts, Inter_400Regular} from '@expo-google-fonts/inter';
+import QuestHeader from "../../components/QuestHeader.js";
 
-//let [fontsLoaded] = useFonts({
-//    Inter_400Regular,
-//  });
+// IMPORT REDUX
+import { useDispatch, useSelector } from "react-redux";
+import * as dataActions from "../../redux/slices/data";
 
 const Roles = ({ navigation }) => {
+  const userInfo = useSelector((state) => state.data.userInfo); //added in
+  const dispatch = useDispatch();
+  const [formState, setFormState] = useState("");
+  const validate = () => {
+    let blankError = "";
+    if (userInfo.role === "") {
+      blankError = "Please select a role*";
+      setFormState(blankError);
+      return false;
+    }
+
+    setFormState("");
+    return true;
+  }
+
   const selectRoles = (selectedRole) => {
     console.log(selectedRole);
     /*
@@ -165,13 +179,13 @@ const Roles = ({ navigation }) => {
   return (
     <SafeAreaView style={Roles_styles.container}>
       <View style={Roles_styles.header}>
-        <Text style={Roles_styles.headTitle}>Roles (2/4)</Text>
+        <Text style={Roles_styles.headTitle}>Roles (2/5)</Text>
         <TouchableOpacity
           onPress={() => navigation.goBack()}
           style={Roles_styles.backButton}
         >
           <Image
-            source={require("../assets/backArrow.png")}
+            source={require("../../assets/backArrow.png")}
             style={Roles_styles.backIcon}
           />
           <Text style={Roles_styles.backText}>Profile</Text>
@@ -184,11 +198,14 @@ const Roles = ({ navigation }) => {
           </View>
           <TouchableOpacity
             style={Roles_styles.flamingoButton}
-            onPress={() => selectRoles("Flamingo")}
+            onPress={() => {
+              //selectRoles("Flamingo")
+              dispatch(dataActions.updateRole("Flamingo"))
+            }}
           >
             <Image
               style={Roles_styles.icons}
-              source={require("../assets/Flamingo-512.png")}
+              source={require("../../assets/Flamingo-512.png")}
             />
             <View style={Roles_styles.viewFlex}>
               <Text style={Roles_styles.roleTitle}>Flamingo</Text>
@@ -200,11 +217,14 @@ const Roles = ({ navigation }) => {
           </TouchableOpacity>
           <TouchableOpacity
             style={Roles_styles.owlButton}
-            onPress={() => selectRoles("Owl")}
+            onPress={() => {
+              //selectRoles("Owl")
+              dispatch(dataActions.updateRole("Owl"))
+            }}
           >
             <Image
               style={Roles_styles.icons}
-              source={require("../assets/owl-icon.png")}
+              source={require("../../assets/owl-icon.png")}
             />
             <View style={Roles_styles.viewFlex}>
               <Text style={Roles_styles.roleTitle}>Owl</Text>
@@ -216,11 +236,14 @@ const Roles = ({ navigation }) => {
           </TouchableOpacity>
           <TouchableOpacity
             style={Roles_styles.parrotButton}
-            onPress={() => selectRoles("Parrot")}
+            onPress={() => {
+              //selectRoles("Parrot")
+              dispatch(dataActions.updateRole("Parrot"))
+            }}
           >
             <Image
               style={Roles_styles.icons}
-              source={require("../assets/icons8-parrot-96.png")}
+              source={require("../../assets/icons8-parrot-96.png")}
             />
             <View style={Roles_styles.viewFlexMore}>
               <Text style={Roles_styles.roleTitle}>Parrot</Text>
@@ -232,11 +255,14 @@ const Roles = ({ navigation }) => {
           </TouchableOpacity>
           <TouchableOpacity
             style={Roles_styles.penguinButton}
-            onPress={() => selectRoles("Penguin")}
+            onPress={() => {
+              //selectRoles("Penguin")
+              dispatch(dataActions.updateRole("Penguin"))
+            }}
           >
             <Image
               style={Roles_styles.icons}
-              source={require("../assets/icons8-linux-96.png")}
+              source={require("../../assets/icons8-linux-96.png")}
             />
             <View style={Roles_styles.viewFlex}>
               <Text style={Roles_styles.roleTitle}>Penguin</Text>
@@ -248,11 +274,14 @@ const Roles = ({ navigation }) => {
           </TouchableOpacity>
           <TouchableOpacity
             style={Roles_styles.duckButton}
-            onPress={() => selectRoles("Duck")}
+            onPress={() => {
+              //selectRoles("Duck")
+              dispatch(dataActions.updateRole("Duck"))
+            }}
           >
             <Image
               style={Roles_styles.icons}
-              source={require("../assets/icons8-duck-96.png")}
+              source={require("../../assets/icons8-duck-96.png")}
             />
             <View style={Roles_styles.viewFlexMore}>
               <Text style={Roles_styles.roleTitle}>Duck</Text>
@@ -262,12 +291,28 @@ const Roles = ({ navigation }) => {
               </Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => navigation.navigate("BasicInfo")}
-            style={Roles_styles.nextButton}
-          >
-            <Text style={Roles_styles.nextText}>Next</Text>
-          </TouchableOpacity>
+          <View>
+            <Text style ={Roles_styles.invalidText}>
+              {formState}
+            </Text>
+          </View>
+        <TouchableOpacity
+          style={Roles_styles.nextButton}
+          onPress={() => {
+            console.log(userInfo.role);
+            if (!validate()) {
+              console.log("YOU SHALL NOT PASS");
+            }
+            else {
+              console.log("YOU SHALL PASS");
+              console.log(userInfo)
+              navigation.navigate("BasicInfo");
+            }
+          }}>
+          <Text style={Roles_styles.nextText}>
+            Next
+          </Text>
+        </TouchableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -403,6 +448,13 @@ const Roles_styles = StyleSheet.create({
   viewFlexMore: {
     flexShrink: 1,
     top: -6,
+  },
+  invalidText: {
+    fontSize: 18,
+    color: "red",
+    alignSelf: "center",
+    alignItems: "center",
+    bottom: -10,
   },
   nextButton: {
     flexDirection: "row",

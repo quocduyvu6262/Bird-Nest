@@ -9,39 +9,38 @@ import {
   StatusBar,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import QuestHeader from "../components/QuestHeader.js";
+import QuestHeader from "../../components/QuestHeader.js";
 // local storage
 import * as SecureStore from "expo-secure-store";
-import Constants from "../constants/constants.js";
+import Constants from "../../constants/constants.js";
 
 // Redux
-import { useDispatch, useSelector } from "react-redux";
-import {
-  updateFirstname,
-  updateLastname,
-  updateGender,
-  updateAge,
-  updatePronouns,
-  updateMajor,
-  updateGraduationyear,
-  updateBio,
-  updateProfilepic,
-} from "../redux/slices/data";
+import {useDispatch, useSelector} from 'react-redux';
+import * as dataActions from '../../redux/slices/data'; 
+import { validatePathConfig } from "@react-navigation/native";
 
 const IDQs = ({ navigation }) => {
   // Redux
   const userInfo = useSelector((state) => state.data.userInfo);
   const dispatch = useDispatch();
+  //Required question states
+  //const [] = useState("");
+  const [formState, setFormState] = useState("");
+  const validate = () => {
+    let blankError = "";
+    if (userInfo.firstname === "" || userInfo.lastname === ""
+        || userInfo.gender === "" || userInfo.age === "" 
+        || userInfo.pronouns === "" || userInfo.major === "" 
+        || userInfo.graduationyear === "") {
+      blankError = "Please fill in all required fields*";
+      setFormState(blankError);
+      return false;
+    }
 
-  // Store to secure store
-  const store = () => {
-    SecureStore.setItemAsync(
-      Constants.MY_SECURE_AUTH_STATE_KEY_REDUX,
-      JSON.stringify(userInfo)
-    );
+    setFormState("");
+    return true;
+  }
 
-  const [value, setValue] = useState();
-  };
   return (
     <SafeAreaView style={IDQs_styles.container}>
       {/* header */}
@@ -52,76 +51,77 @@ const IDQs = ({ navigation }) => {
       <Text style={IDQs_styles.headerText}>Let's get started!</Text>
       <TextInput
         style={IDQs_styles.textInput}
-        placeholder="First Name"
+        placeholder="First Name*"
         placeholderTextColor="#949494"
-        onChangeText={(value) => dispatch(updateFirstname(value))}
+        onChangeText={(value) => dispatch(dataActions.updateFirstname(value))}
       />
       <TextInput
         style={IDQs_styles.textInput}
-        placeholder="Last Name"
+        placeholder="Last Name*"
         placeholderTextColor="#949494"
-        onChangeText={(value) => dispatch(updateLastname(value))}
+        onChangeText={(value) => dispatch(dataActions.updateLastname(value))}
       />
       <View style={{ flexDirection: "row" }}>
         <TextInput
           style={IDQs_styles.textInput}
-          placeholder="Gender"
+          placeholder="Gender*"
           placeholderTextColor="#949494"
-          onChangeText={(value) => dispatch(updateGender(value))}
+          onChangeText={(value) => dispatch(dataActions.updateGender(value))}
         />
         <TextInput
           style={IDQs_styles.textInput}
-          placeholder="Age"
+          placeholder="Age*"
           placeholderTextColor="#949494"
-          onChangeText={(value) => dispatch(updateAge(value))}
+          onChangeText={(value) => dispatch(dataActions.updateAge(value))}
         />
       </View>
       <TextInput
         style={IDQs_styles.textInput}
-        placeholder="Pronouns"
+        placeholder="Pronouns*"
         placeholderTextColor="#949494"
-        onChangeText={(value) => dispatch(updatePronouns(value))}
+        onChangeText={(value) => dispatch(dataActions.updatePronouns(value))}
       />
       <TextInput
         style={IDQs_styles.textInput}
-        placeholder="Major"
+        placeholder="Major*"
         placeholderTextColor="#949494"
-        onChangeText={(value) => dispatch(updateMajor(value))}
+        onChangeText={(value) => dispatch(dataActions.updateMajor(value))}
       />
       <TextInput
         style={IDQs_styles.textInput}
-        placeholder="Graduation Year"
+        placeholder="Graduation Year*"
         placeholderTextColor="#949494"
-        onChangeText={(value) => dispatch(updateGraduationyear(value))}
+        onChangeText={(value) => dispatch(dataActions.updateGraduationyear(value))}
       />
       {/* Bio only for demo */}
-      <TextInput
-        style={IDQs_styles.textInput}
-        placeholder="Bio"
-        placeholderTextColor="#949494"
-        onChangeText={(value) => dispatch(updateBio(value))}
-      />
-      <Text style={IDQs_styles.photoWords}>
-        Show potential roommates what you look like!
-      </Text>
+      <TextInput style={IDQs_styles.textInput } placeholder='Bio' onChangeText={value => dispatch(dataActions.updateBio(value))}/>
+      <Text style={IDQs_styles.photoWords}>Show potential roommates what you look like!</Text>
       {/* photo upload button */}
       <TouchableOpacity style={IDQs_styles.photoButton}>
         <Image
           style={{ alignSelf: "center", tintColor: "#FFF" }}
-          source={require("../assets/Upload.png")}
+          source={require("../../assets/Upload.png")}
         />
         <Text style={{ fontSize: 15, color: "#FFF" }}>Upload your face!</Text>
       </TouchableOpacity>
       {/* next page button */}
+      <View>
+        <Text style ={IDQs_styles.invalidText}>
+          {formState}
+        </Text>
+      </View>
       <TouchableOpacity
         style={IDQs_styles.nextButton}
         onPress={() => {
-          store();
-          //validate here
+          //store();
+          if (!validate()) {
+            console.log("YOU SHALL NOT PASS");
+          }
+          else {
+            navigation.navigate("Roles");
+          }
           
-          navigation.navigate("Roles");
-        }}
-      >
+        }}>
         <Text style={IDQs_styles.nextText}>Next</Text>
       </TouchableOpacity>
     </SafeAreaView>
@@ -135,8 +135,11 @@ const IDQs_styles = StyleSheet.create({
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
   invalidText: {
-    fontSize: 12,
+    fontSize: 18,
     color: "red",
+    alignSelf: "center",
+    alignItems: "center",
+    bottom: -40,
   },
   textInput: {
     fontSize: 20,

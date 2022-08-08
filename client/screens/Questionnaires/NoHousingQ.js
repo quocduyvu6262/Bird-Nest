@@ -21,6 +21,8 @@ import {
   //import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
   import { Slider} from '@rneui/themed';
   import Axios from "axios";
+  import * as dataActions from "../../redux/slices/data";
+
   export default class NoHousingQ extends Component {
 
     createHousingInfo = () => {
@@ -39,6 +41,43 @@ import {
       })
       .catch(error => console.log(error));
     };
+    
+    userInfo = this.props.userInfo
+    fieldState = {blankError: ""};
+    validate = () => {
+      if ((this.state29.backgroundColor === "#3B9CF1" || this.state30.backgroundColor === "#3B9CF1" //lease
+            || this.state31.backgroundColor === "#3B9CF1" || this.state32.backgroundColor === "#3B9CF1") //
+          && (this.state1.backgroundColor === "#3B9CF1" || this.state2.backgroundColor === "#3B9CF1") //garage
+          && (this.state3.backgroundColor === "#3B9CF1" || this.state4.backgroundColor === "#3B9CF1")//parking
+          && (this.state15.backgroundColor === "#3B9CF1" || this.state16.backgroundColor === "#3B9CF1" //neighborhood
+            || this.state17.backgroundColor === "#3B9CF1" || this.state18.backgroundColor === "#3B9CF1" //
+            || this.state19.backgroundColor === "#3B9CF1" || this.state20.backgroundColor === "#3B9CF1" //
+            || this.state21.backgroundColor === "#3B9CF1" || this.state22.backgroundColor === "#3B9CF1" //
+            || this.state23.backgroundColor === "#3B9CF1" || this.state24.backgroundColor === "#3B9CF1"//
+            || this.state25.backgroundColor === "#3B9CF1" || this.state26.backgroundColor === "#3B9CF1" //
+            || this.state27.backgroundColor === "#3B9CF1" || this.state28.backgroundColor === "#3B9CF1") //
+          && (this.state7.backgroundColor === "#3B9CF1" || this.state8.backgroundColor === "#3B9CF1" )//pool
+          && (this.state5.backgroundColor === "#3B9CF1" || this.state6.backgroundColor === "#3B9CF1") //gym
+          && (this.state9.backgroundColor === "#3B9CF1" || this.state10.backgroundColor === "#3B9CF1") //appliances
+          && (this.state11.backgroundColor === "#3B9CF1" || this.state12.backgroundColor === "#3B9CF1") //furnished
+          && (this.state13.backgroundColor === "#3B9CF1" || this.state14.backgroundColor === "#3B9CF1") //AC
+          ) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    }  
+  
+    setField = () => {
+      this.fieldState = {blankError: "Please fill in all required fields*"};
+      this.setState({blankError: "Please fill in all required fields*"});
+    }
+  
+    clearField = () => {
+      this.fieldState = {blankError: ""};
+      this.setState({blankError: ""});
+    }
 
       slider_state = {
         language: "English",
@@ -277,7 +316,7 @@ import {
           </View>
           <ScrollView>
             <Text style={[HousingQ_styles.question1, {marginTop: 120}]}>What cities or neighborhoods</Text>
-            <Text style={HousingQ_styles.question1}>are you interested to live in?</Text>
+            <Text style={HousingQ_styles.question1}>are you interested to live in?{" "}<Text style={HousingQ_styles.highlight}>*</Text></Text>
             <TouchableOpacity style={[this.state15, HousingQ_styles.buttonContainerYes4]}
             onPress={()=>this.selectMany(this.state15)}>
               <Text style = {HousingQ_styles.buttonText}>Downtown SD</Text>
@@ -336,7 +375,7 @@ import {
             </TouchableOpacity>
 
             <Text style={HousingQ_styles.question1}>What is the maximum rent you</Text>
-            <Text style={HousingQ_styles.question1}>are willing to pay?</Text>
+            <Text style={HousingQ_styles.question1}>are willing to pay?{" "}<Text style={HousingQ_styles.highlight}>*</Text></Text>
             
             <Slider 
               value={this.slider_state.value}
@@ -352,7 +391,7 @@ import {
            
 
             <Text style={HousingQ_styles.question1}>In terms of months, how long of</Text>
-            <Text style={HousingQ_styles.question1}>a lease are you looking for?</Text>
+            <Text style={HousingQ_styles.question1}>a lease are you looking for?{" "}<Text style={HousingQ_styles.highlight}>*</Text></Text>
             <TouchableOpacity style={[this.state29, HousingQ_styles.buttonContainerYes7]}
             onPress={()=>this.changeMultipleColor(this.state29, this.state30, this.state31, this.state32)}>
               <Text style = {HousingQ_styles.buttonText}>1 to 3</Text>
@@ -371,7 +410,7 @@ import {
             </TouchableOpacity>
 
             <Text style={HousingQ_styles.question1}>Do you need to have a garage at</Text>
-            <Text style={HousingQ_styles.question1}>the property?</Text>  
+            <Text style={HousingQ_styles.question1}>the property?{" "}<Text style={HousingQ_styles.highlight}>*</Text></Text>  
             <TouchableOpacity style={[this.state1, HousingQ_styles.buttonContainerYes1]} 
             onPress={()=>this.changeColor(this.state1, this.state2)}>
             <Text style = {HousingQ_styles.buttonText}>Yes</Text>
@@ -382,7 +421,7 @@ import {
             </TouchableOpacity>
 
             <Text style={HousingQ_styles.question2}>Do you need to have parking at</Text>
-            <Text style={HousingQ_styles.question2}>the property?</Text>  
+            <Text style={HousingQ_styles.question2}>the property?{" "}<Text style={HousingQ_styles.highlight}>*</Text></Text>  
             <TouchableOpacity style={[this.state3, HousingQ_styles.buttonContainerYes2]}
             onPress={()=>this.changeColor(this.state3, this.state4)}>
               <Text style = {HousingQ_styles.buttonText}>Yes</Text>
@@ -393,7 +432,7 @@ import {
             </TouchableOpacity>
 
             <Text style={HousingQ_styles.question3}>Do you need to have a gym at</Text>
-            <Text style={HousingQ_styles.question3}>the property?</Text>  
+            <Text style={HousingQ_styles.question3}>the property?{" "}<Text style={HousingQ_styles.highlight}>*</Text></Text>  
             <TouchableOpacity style={[this.state5, HousingQ_styles.buttonContainerYes3]}
             onPress={()=>this.changeColor(this.state5, this.state6)}>
               <Text style = {HousingQ_styles.buttonText}>Yes</Text>
@@ -404,7 +443,7 @@ import {
             </TouchableOpacity>
 
             <Text style={HousingQ_styles.question3}>Do you need to have a pool at</Text>
-            <Text style={HousingQ_styles.question3}>the property?</Text> 
+            <Text style={HousingQ_styles.question3}>the property?{" "}<Text style={HousingQ_styles.highlight}>*</Text></Text> 
             <TouchableOpacity style={[this.state7, HousingQ_styles.buttonContainerYes3]}
             onPress={()=>this.changeColor(this.state7, this.state8)}>
               <Text style = {HousingQ_styles.buttonText}>Yes</Text>
@@ -415,7 +454,7 @@ import {
             </TouchableOpacity>
 
             <Text style={HousingQ_styles.question3}>Do you need the property to</Text>
-            <Text style={HousingQ_styles.question3}>have appliances?</Text>  
+            <Text style={HousingQ_styles.question3}>have appliances?{" "}<Text style={HousingQ_styles.highlight}>*</Text></Text>  
             <TouchableOpacity style={[this.state9, HousingQ_styles.buttonContainerYes3]}
             onPress={()=>this.changeColor(this.state9, this.state10)}>
               <Text style = {HousingQ_styles.buttonText}>Yes</Text>
@@ -426,7 +465,7 @@ import {
             </TouchableOpacity>
 
             <Text style={HousingQ_styles.question3}>Do you need the property to be</Text>
-            <Text style={HousingQ_styles.question3}>furnished?</Text>
+            <Text style={HousingQ_styles.question3}>furnished?{" "}<Text style={HousingQ_styles.highlight}>*</Text></Text>
             <TouchableOpacity style={[this.state11, HousingQ_styles.buttonContainerYes3]}
             onPress={()=>this.changeColor(this.state11, this.state12)}>
               <Text style = {HousingQ_styles.buttonText}>Yes</Text>
@@ -437,7 +476,7 @@ import {
             </TouchableOpacity>
 
             <Text style={HousingQ_styles.question3}>Do you want the property to</Text>
-            <Text style={HousingQ_styles.question3}>have air conditioning?</Text> 
+            <Text style={HousingQ_styles.question3}>have air conditioning?{" "}<Text style={HousingQ_styles.highlight}>*</Text></Text> 
             <TouchableOpacity style={[this.state13, HousingQ_styles.buttonContainerYes3]}
             onPress={()=>this.changeColor(this.state13, this.state14)}>
               <Text style = {HousingQ_styles.buttonText}>Yes</Text>
@@ -446,11 +485,30 @@ import {
             onPress={()=>this.changeColor(this.state14, this.state13)}>
               <Text style = {HousingQ_styles.buttonText}>No</Text>
             </TouchableOpacity>
-
-            <TouchableOpacity style={HousingQ_styles.nextButton}
-            onPress={()=>this.createHousingInfo()}>
-              <Text style = {[HousingQ_styles.buttonText, {color:'#FFF'}]}>Next</Text>
-            </TouchableOpacity>
+            <View>
+            <Text style ={HousingQ_styles.invalidText}>
+              {this.fieldState.blankError}
+            </Text>
+          </View>
+          <TouchableOpacity
+            style={HousingQ_styles.nextButton}
+            onPress={() =>{
+              if (!this.validate()) {
+                console.log("YOU SHALL NOT PASS");
+                console.log(this.userInfo)
+                this.setField();
+              }
+              else {
+                this.clearField();
+                console.log("YOU SHALL PASS");
+                console.log(this.userInfo)
+                this.props.navigation.navigate('Personality'); //
+              }
+            }}>
+            <Text style={[HousingQ_styles.buttonText, { color: "#FFF" }]}>
+              Next
+            </Text>
+          </TouchableOpacity>
           </ScrollView>
       </SafeAreaView>
        
@@ -498,6 +556,9 @@ import {
       marginBottom: 30,
       width: 260,
       left: 50
+    },
+    highlight: {
+      color: "red",
     },
     question1: {
       fontWeight: "400",
@@ -738,6 +799,13 @@ import {
       marginBottom: 13,
       borderRadius:23,
       top: -127
+    },
+    invalidText: {
+      fontSize: 18,
+      color: "red",
+      alignSelf: "center",
+      alignItems: "center",
+      bottom: 40,
     },
     nextButton: {
       fontWeight: "bold",

@@ -146,7 +146,31 @@ router.post('/role', (req, res) => {
     })
     //console.log(filterMap.user_id);
     //console.log(filterMap.role);
-})
+});
+/*
+router.post('/role', (req, res) => {
+    const users = req.body;
+    const query = `INSERT INTO User (fullname, email, username, password)
+        VALUES("${}", "${}", "${}", "${}")`;
+    console.log(user_id);
+    db(client => {
+        client.query(checkExistQuery, (err, result) => {
+            if(result.length){
+                // console.log( "User updated successfully.");
+                res.status(200).send();
+            } else {
+                db(client => {
+                    client.query(query, err => {
+                        res.send(`Login successfully`);
+                    });
+                });
+            }
+        });
+    })
+    //console.log(filterMap.user_id);
+    //console.log(filterMap.role);
+});
+*/
 
 
 module.exports = router;
