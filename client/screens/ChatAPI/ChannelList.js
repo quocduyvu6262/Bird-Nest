@@ -9,7 +9,6 @@ import { useDispatch, useSelector } from 'react-redux';
 
 
 
-
 export default ChannelListScreen = (props) => {
     const user = useSelector(state => state.data.userInfo);
     const displayName = user.fullname;
