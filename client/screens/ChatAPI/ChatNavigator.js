@@ -23,15 +23,6 @@ const Stack = createStackNavigator();
 const chatClient = StreamChat.getInstance(Constants.CHAT_API_KEY);
 
 
-const getChannelName = (members) => {
-  const defaultName = 'Johnny Blaze';
-
-  if (!members.length || members.length === 1) {
-    return members[0]?.user.name || defaultName;
-  }
-  return `${members[0]?.user.name || defaultName}, ${members[1]?.user.name || defaultName}`;
-}
-
 export default ChatNavigator = ({navigation, route}) => {
   useLayoutEffect(() => {
     const routeName = getFocusedRouteNameFromRoute(route);
