@@ -13,7 +13,7 @@ import {
 import { StreamChat } from 'stream-chat';
 import Constants from '../../constants/constants';
 import { useSelector } from 'react-redux';
-
+import MainHeader from '../../components/MainHeader';''
 //CHAT SCREEN
 import ChannelListScreen from './ChannelList';
 import ChannelScreen from './Channel';
@@ -53,8 +53,9 @@ export default ChatNavigator = ({navigation, route}) => {
       <Chat client={chatClient}>
         <Stack.Navigator>
           <Stack.Screen 
-            name="Messenger Pigeon" 
+            name="Messenger" 
             component={ChannelListScreen} 
+            options= {{headerShown: false}}
             />
           <Stack.Screen 
             name="ChannelScreen" 
