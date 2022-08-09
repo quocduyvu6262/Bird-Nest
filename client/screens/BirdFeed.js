@@ -28,20 +28,27 @@ import Animated, {
 } from "react-native-reanimated";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 
-import { Icon } from "@rneui/themed";
-import Icon2 from "react-native-vector-icons/MaterialCommunityIcons";
-import Icon3 from "react-native-vector-icons/Ionicons";
 import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
 import MainHeader from "../components/MainHeader.js";
 import Constants from "../constants/constants.js";
 import barackObama from "../assets/barackObama.jpeg";
-
+import { useChatClient } from "./ChatAPI/useChatClient.js";
+import FilterOverlay from "../components/FilterOverlay.js";
+// Old Imports for filter
+// import { Icon } from "@rneui/themed";
+// import Icon2 from "react-native-vector-icons/MaterialCommunityIcons";
+import Icon3 from "react-native-vector-icons/Ionicons";
 const BirdFeed = ({ navigation }) => {
-  const [transferList, setTransferList] = useState([]);
   const [userList, setUserList] = useState([]);
   const [listState, setListState] = useState(false);
+
+  // This is the old filter function on birdfeed
+
+  const overlayButton = () => {
+    overlayClicked ? setOverlayClicked(false) : setOverlayClicked(true);
+  };
+
   const [overlayClicked, setOverlayClicked] = useState(false);
-  const [backgroundGrey, setBackgroundGrey] = useState(false);
 
   const [switchEnabledNeigh, setSwitchEnabledNeigh] = useState(false);
   const toggleSwitchNeigh = () =>
@@ -83,32 +90,32 @@ const BirdFeed = ({ navigation }) => {
   const toggleSwitchApt = () =>
     setSwitchEnabledApt((previousState) => !previousState);
 
+  // const SingleSwitch = (props) => {
+  //   return (
+  //     <View style={styles.switchView}>
+  //       <Switch
+  //         trackColor={{ false: "%767577", true: "green" }}
+  //         thumbColor={props.enabled ? "#white" : "white"}
+  //         onValueChange={props.toggle}
+  //         value={props.enabled}
+  //       />
+  //       <Text style={styles.switchText}>
+  //         <Text></Text>
+  //           {props.variable}
+  //       </Text>
+  //     </View>
+  //   );
+  // };
+
   let [fontsLoaded] = useFonts({
     Pacifico_400Regular,
   });
-
-  const SingleSwitch = (props) => {
-    return (
-      <View style={styles.switchView}>
-        <Switch
-          trackColor={{ false: "%767577", true: "green" }}
-          thumbColor={props.enabled ? "#white" : "white"}
-          onValueChange={props.toggle}
-          value={props.enabled}
-        ></Switch>
-        <Text style={styles.switchText}>
-          <Text></Text>
-          {props.variable}
-        </Text>
-      </View>
-    );
-  };
   // ----- LOGIC FOR VIEW USER BUTTONS -----
 
   const viewUsers = () => {
     setUserList([]);
     Axios.post(`${Constants.BASE_URL}/api/matching/`, {
-      user_id: 10,
+      user_id: 78,
     })
       .then((response) => {
         let userData = response.data;
@@ -138,10 +145,6 @@ const BirdFeed = ({ navigation }) => {
     setListState(true);
   };
 
-  const overlayButton = () => {
-    overlayClicked ? setOverlayClicked(false) : setOverlayClicked(true);
-  };
-
   useEffect(() => {
     viewUsers();
   }, []);
@@ -166,7 +169,34 @@ const BirdFeed = ({ navigation }) => {
             color="black"
           />
         </TouchableOpacity>
-
+        {overlayClicked && (
+          <FilterOverlay setOverlayClicked={setOverlayClicked} 
+          overlayClicked={overlayClicked}
+          overlayButton={overlayButton}
+          switchEnabledNeigh={switchEnabledNeigh}
+          toggleSwitchNeigh={toggleSwitchNeigh}
+          switchEnabledSqua={switchEnabledSqua}
+          toggleSwitchSqua={toggleSwitchSqua}
+          switchEnabledPri={switchEnabledPri}
+          toggleSwitchPri={toggleSwitchPri}
+          switchEnabledIn={switchEnabledIn}
+          toggleSwitchIn={toggleSwitchIn}
+          switchEnabledPer={switchEnabledPer}
+          toggleSwitchPer={toggleSwitchPer}
+          switchEnabledRoo={switchEnabledRoo}
+          toggleSwitchRoo={toggleSwitchRoo}
+          switchEnabledYes={switchEnabledYes}
+          toggleSwitchYes={toggleSwitchYes}
+          switchEnabledNo={switchEnabledNo}
+          toggleSwitchNo={toggleSwitchNo}
+          switchEnabledRec={switchEnabledRec}
+          toggleSwitchRec={toggleSwitchRec}
+          switchEnabledApt={switchEnabledApt}
+          toggleSwitchApt={toggleSwitchApt}
+          />
+        )}
+        
+        {/* Old filter on birdfeed
         {overlayClicked && (
           <View style={styles.subContainer}>
             <ScrollView style={styles.filterCard}>
@@ -238,7 +268,7 @@ const BirdFeed = ({ navigation }) => {
               />
             </ScrollView>
           </View>
-        )}
+        )} */}
 
         {listState && (
           <View styles={styles.flatlist}>
