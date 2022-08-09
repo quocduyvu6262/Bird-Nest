@@ -18,6 +18,10 @@ import MainHeader from '../../components/MainHeader';''
 import ChannelListScreen from './ChannelList';
 import ChannelScreen from './Channel';
 
+LogBox.ignoreLogs([
+  'Non-serializable values were found in the navigation state',
+  'Sending `onAnimatedValueUpdate` with no listeners registered.'
+]);
 const Stack = createStackNavigator();
 const chatClient = StreamChat.getInstance(Constants.CHAT_API_KEY);
 
