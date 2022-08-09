@@ -97,46 +97,6 @@ export default function App() {
 
   return (
     <Provider store={store}>
-<<<<<<< HEAD
-      <NavigationContainer>
-        <Stack.Navigator
-          //change back default to "Splashcreen" after testing
-          initialRouteName="SplashScreen"
-          //initialRouteName="BasicInfo"
-          screenOptions={{ headerShown: false }}
-        >
-          <Stack.Screen name="SplashScreen" component={SplashScreen} />
-          <Stack.Screen name="LoginScreen" component={LoginScreen} />
-          <Stack.Screen name="BirdFeed" component={TabNavigator} />
-          <Stack.Screen name="PeckView" component={PeckView} />
-          <Stack.Screen name="Settings" component={Settings} />
-          <Stack.Screen
-            name="ChirpNotificationEdit"
-            component={ChirpNotificationEdit}
-          />
-          <Stack.Screen name="HelpSupport" component={HelpSupport} />
-          <Stack.Screen name="TermsOfService" component={TermsOfService} />
-          <Stack.Screen
-            name="ChirpNotification"
-            component={ChirpNotification}
-          />
-          <Stack.Screen name="IDQs" component={IDQs} />
-          <Stack.Screen name="BasicInfo" component={BasicInfo} />
-          <Stack.Screen name="NoHousingQ" component={NoHousingQ} />
-          <Stack.Screen name="HasHousingQ" component={HasHousingQ} />
-          <Stack.Screen name="Personality" component={Personality} />
-          <Stack.Screen name="Roles" component={Roles} />
-          <Stack.Screen
-            name="History"
-            component={History}
-            // work on this
-            // options={{
-            //   cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-            // }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-=======
       <GestureHandlerRootView style={{flex: 1}}>
         <NavigationContainer>
           <Stack.Navigator
@@ -163,7 +123,6 @@ export default function App() {
           </Stack.Navigator>
         </NavigationContainer>
         </GestureHandlerRootView>
->>>>>>> 7b5ddc4e655f640c3ec014e7b8dc1b83ad9ff2d3
     </Provider>
   );
 }
