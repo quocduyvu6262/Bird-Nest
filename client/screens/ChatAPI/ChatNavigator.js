@@ -18,7 +18,6 @@ import { useSelector } from 'react-redux';
 import ChannelListScreen from './ChannelList';
 import ChannelScreen from './Channel';
 
-
 const Stack = createStackNavigator();
 const chatClient = StreamChat.getInstance(Constants.CHAT_API_KEY);
 
@@ -53,7 +52,10 @@ export default ChatNavigator = ({navigation, route}) => {
     <OverlayProvider>
       <Chat client={chatClient}>
         <Stack.Navigator>
-          <Stack.Screen name="ChannelListScreen" component={ChannelListScreen} />
+          <Stack.Screen 
+            name="Messenger Pigeon" 
+            component={ChannelListScreen} 
+            />
           <Stack.Screen 
             name="ChannelScreen" 
             component={ChannelScreen} 
