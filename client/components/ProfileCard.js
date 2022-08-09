@@ -6,8 +6,9 @@ import {
   StatusBar,
   Animated,
   TouchableOpacity,
+  Easing,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import {
   GestureDetector,
   Gesture,
@@ -15,17 +16,18 @@ import {
 } from "react-native-gesture-handler";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import { RectButton } from "react-native-gesture-handler";
+import { BounceIn } from "react-native-reanimated";
 
-const ProfileCard = ({ item }) => {
-  // react-native-gesture-handler docs
+const ProfileCard = ({ item, index }) => {
+  const opacityTransition = useRef(new Animated.Value(0)).current;
+  const translation = useRef(
+    new Animated.ValueXY({
+      x: item.index % 2 == 0 ? -200 : 200,
+      y: -400,
+    })
+  ).current;
 
-  // const renderRightActions = () => {
-  //   return (
-  //     <View style={{ backgroundColor: "red", width: 100 }}>
-  //       <Text>Hello</Text>
-  //     </View>
-  //   );
-  // };
+  console.log(item.index);
 
   const renderRightActions = (progress, dragX) => {
     const trans = dragX.interpolate({
@@ -71,6 +73,28 @@ const ProfileCard = ({ item }) => {
     );
   };
 
+  useEffect(() => {
+    Animated.parallel([
+      Animated.timing(opacityTransition, {
+        toValue: 1,
+        delay: 200 * item.index + 200,
+        useNativeDriver: true,
+      }),
+      Animated.timing(translation.x, {
+        toValue: 0,
+        duration: 800 * item.index + 200,
+        useNativeDriver: true,
+        easing: Easing.easing,
+      }),
+      Animated.timing(translation.y, {
+        toValue: 0,
+        duration: 400 * item.index + 200,
+        useNativeDriver: true,
+        easing: Easing.easing,
+      }),
+    ]).start();
+  }, []);
+
   return (
     <Swipeable
       renderRightActions={renderRightActions}
@@ -79,7 +103,18 @@ const ProfileCard = ({ item }) => {
       overshootFriction={4}
       containerStyle={{ overflow: "visible" }}
     >
-      <View style={styles.container}>
+      <Animated.View
+        style={[
+          styles.container,
+          {
+            opacity: opacityTransition,
+            transform: [
+              { translateX: translation.x },
+              { translateY: translation.y },
+            ],
+          },
+        ]}
+      >
         <Image style={styles.image} source={item.item.src} />
         <View style={styles.text_box}>
           <Text>{item.item.city}</Text>
@@ -87,7 +122,7 @@ const ProfileCard = ({ item }) => {
             <Text style={{ color: "white" }}>{item.item.name}</Text>
           </View>
         </View>
-      </View>
+      </Animated.View>
     </Swipeable>
   );
 };
