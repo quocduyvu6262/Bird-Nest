@@ -1,6 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 
+
+
 const userInfo = {
     uid: "",
     firstname: "",
@@ -74,7 +76,8 @@ export const dataSlice = createSlice({
     name: "data",
     initialState: {
         userInfo: userInfo,
-        housing: housing
+        housing: housing,
+        channel: null
     },
     reducers: {
         // USER
