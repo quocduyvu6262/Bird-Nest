@@ -101,6 +101,9 @@ export const dataSlice = createSlice({
         updateLastname: (state, action) => {
             state.userInfo.lastname = action.payload;
         },
+        updateEmail: (state, action) => {
+            state.userInfo.email = action.payload;
+        },
         updateRole: (state, action) => {
             state.userInfo.role = action.payload;
         },
@@ -283,6 +286,7 @@ export const {
     updateUID,
     updateFullname,
     updateFirstname, 
+    updateEmail,
     updateRole, 
     updateLastname, 
     updateGender, 

@@ -17,7 +17,7 @@ router.get('/', (req, res) => {
     });
 })
 
- //Get housing by ID
+//Get housing by ID
 router.get('/:id', (req, res) => {
     const query = `SELECT * FROM Housing WHERE id=${req.params.id}`;
     db(client => {
@@ -32,8 +32,8 @@ router.get('/:id', (req, res) => {
 })
 
 // Get housing by Email
-router.get('/:email', (req, res) => {
-    const query = `SELECT * FROM BirdNest.Housing JOIN BirdNest.User ON User.id = Housing.User_id WHERE User.email= "${req.params.email}";`;
+router.get('/email/:email', (req, res) => {
+    const query = `SELECT Housing.* FROM BirdNest.Housing JOIN BirdNest.User ON User.id = Housing.User_id WHERE User.email= "${req.params.email}";`;
     db(client => {
         client.query(query, (err, result) => {
             if(!err && result.length) {
@@ -82,4 +82,36 @@ router.post('/delete', (req, res) => {
         });
     })   
 })
+
+//Store the buttons (Correspond to variables) a user clicked in an array (each button adds an element to the array)
+//Insert the strings into queries. Where 'variable' = 'variable_value
+
+router.get('/filtered', (req, res) => {
+    const filterVars = ["id", "fullname", "role", "gender", "age", "graduationyear", "major", "pet"];
+    //const filterVars = [];
+    //filterVars.push(var);
+    incompleteQuery = "SELECT ";
+    for (let i = 0; i < filterVars.length -1; i++) {    //skip last element because last doesnt have comma
+        incompleteQuery += filterVars[i] + ", ";
+    }
+    incompleteQuery += filterVars[filterVars.length -1] + " FROM User;";
+    //const query = "SELECT id, fullname, role, gender, age, graduationyear, major, pet FROM User;";
+    const query = incompleteQuery;
+    db(client => {
+        client.query(query, (err, results) => {
+            if(!err){
+                res.send(results);
+            } else {
+                //res.status(401).send("No users matching those filters found");
+                console.log(err);
+                res.status(401).send(results);
+            }
+        })
+    });
+})
+
+
+
+
+
 module.exports = router;
