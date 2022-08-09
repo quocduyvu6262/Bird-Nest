@@ -71,21 +71,42 @@ router.post('/login', async (req, res) => {
 });
 // login with google
 router.post('/loginwithgoogle', async (req, res) => {
+    const makeid = length => {
+        var result = '';
+        var characters =
+          'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var charactersLength = characters.length;
+        for (var i = 0; i < length; i++) {
+          result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
+    };
+    const uid = makeid(28);
     // get user info from req.body into user
     const user = req.body;
     try{
         const checkExistQuery = `SELECT * FROM BirdNest.User WHERE User.email = "${user.email}"`;
-        const query = `INSERT INTO BirdNest.User (fullname, email)
-        VALUES("${user.fullname}", "${user.email}")`; // database link
+        const query = `INSERT INTO BirdNest.User (fullname, email, uid)
+        VALUES("${user.fullname}", "${user.email}", "${uid}")`; // database link
         db(client => {
             client.query(checkExistQuery, (err, result) => {
-                if(result.length && result[0].isHousing){
+                if(result.length){
                     // console.log( "User found successfully.");
-                    res.send('login');
+                    res.send({
+                        status: "login",
+                        email: user.email,
+                        name: user.fullname,
+                        uid: result[0].uid
+                    });
                 } else {
                     db(client => {
                         client.query(query, err => {
-                            res.send('register');
+                            res.send({
+                                status: "register",
+                                email: user.email,
+                                name: user.name,
+                                uid: uid
+                            });
                         });
                     });
                 }

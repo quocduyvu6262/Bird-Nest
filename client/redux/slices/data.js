@@ -1,7 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 
+
+
 const userInfo = {
+    uid: "",
     firstname: "",
     lastname: "",
     fullname: null,
@@ -73,7 +76,8 @@ export const dataSlice = createSlice({
     name: "data",
     initialState: {
         userInfo: userInfo,
-        housing: housing
+        housing: housing,
+        channel: null
     },
     reducers: {
         // USER
@@ -84,6 +88,12 @@ export const dataSlice = createSlice({
         updateHousing: (state, action) => {
             let toAddHousingObj = action.payload;
             state.housing = {...state.housing, ...toAddHousingObj};
+        },
+        updateFullname: (state, action) => {
+            state.userInfo.fullname = action.payload;
+        },
+        updateUID: (state, action) => {
+            state.userInfo.uid = action.payload;
         },
         updateFirstname: (state, action) => {
             state.userInfo.firstname = action.payload;
@@ -270,6 +280,8 @@ export const {
     // UPDATE USER
     updateUser, 
     updateHousing, 
+    updateUID,
+    updateFullname,
     updateFirstname, 
     updateRole, 
     updateLastname, 

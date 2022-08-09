@@ -36,7 +36,7 @@ const History = ({ navigation }) => {
       user_id: 5,
     })
       .then((response) => {
-        let userData = response.data;
+        let userData = response.data; 
         // manually push all but last, then setUserList on last user to trigger FlatList rerender
         // reason is that FlatList will not re-render unless setUserList is properly called
         // but setUserList (setState) will only set state once
@@ -111,3 +111,4 @@ const styles = StyleSheet.create({
   },
 });
 export default History;
+

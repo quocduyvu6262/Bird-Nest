@@ -15,6 +15,13 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import MainHeader from "../../components/MainHeader";
 // Import constants
 import Constants from "../../constants/constants";
+const chatClient = StreamChat.getInstance(Constants.CHAT_API_KEY);
+import {StreamChat} from 'stream-chat'
+import * as Updates from 'expo-updates';
+import {DevSettings} from 'react-native';
+
+
+
 
 const Settings = ({ navigation }) => {
   const logout = async () => {
@@ -27,9 +34,11 @@ const Settings = ({ navigation }) => {
             await SecureStore.deleteItemAsync(
               Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING
             )
-              .then(() => {
+              .then(async () => {
                 SecureStore.deleteItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_REDUX);
                 navigation.navigate("LoginScreen");
+                await chatClient.disconnectUser();
+                DevSettings.reload()
               })
               .catch((err) => {
                 console.log(err);
