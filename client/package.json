@@ -61,7 +61,8 @@
     "react": "18.0.0",
     "react-dom": "18.0.0",
     "react-google-login": "^5.2.2",
-    "react-native": "0.69.3",
+    "react-native": "0.69.4",
+    "react-native-document-picker": "^8.1.1",
     "react-native-dotenv": "^3.3.1",
     "react-native-easy-grid": "^0.2.2",
     "react-native-element": "^1.2.1",
@@ -87,6 +88,7 @@
     "slide-button": "^1.0.4",
     "socket.io-client": "^4.5.1",
     "stream-chat-expo": "^4.13.0",
+    "stream-chat-react-native": "^4.13.0",
     "yarn": "^1.22.19",
     "yup": "^0.32.11"
   },
