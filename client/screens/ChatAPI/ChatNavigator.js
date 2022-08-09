@@ -13,11 +13,9 @@ import {
 import { StreamChat } from 'stream-chat';
 import Constants from '../../constants/constants';
 import { useSelector } from 'react-redux';
-
 //CHAT SCREEN
 import ChannelListScreen from './ChannelList';
 import ChannelScreen from './Channel';
-
 
 const Stack = createStackNavigator();
 const chatClient = StreamChat.getInstance(Constants.CHAT_API_KEY);
