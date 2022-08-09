@@ -12,9 +12,12 @@ import {
 import React, { useState } from "react";
 import { Icon } from "@rneui/themed";
 import Icon2 from "react-native-vector-icons/Ionicons";
+import { Slider } from '@rneui/themed';
 // List of variables
 
-// 13 buttons
+// 10 buttons yes/no type questions
+// 2 buttons cities/neighborhoods
+// 1 string
 // 3 sliders
 
 // - age *slider*
@@ -37,24 +40,38 @@ const FilterOverlay = (
   {navigation, 
   overlayButton,
   props,
-  switchEnabledNeigh,
-  toggleSwitchNeigh,
+
+  age, 
+  minAge,
+  maxAge,
+  ageIncrement,
+  handlerAgeChange,
+  ageName,
+
   switchEnabledSqua,
   toggleSwitchSqua,
+
   switchEnabledPri,
   toggleSwitchPri,
+
   switchEnabledIn,
   toggleSwitchIn,
+
   switchEnabledPer,
   toggleSwitchPer,
+
   switchEnabledRoo,
   toggleSwitchRoo,
+
   switchEnabledYes,
   toggleSwitchYes,
+
   switchEnabledNo,
   toggleSwitchNo,
+
   switchEnabledRec,
   toggleSwitchRec,
+
   switchEnabledApt,
   toggleSwitchApt }) => {
 
@@ -68,82 +85,104 @@ const FilterOverlay = (
           value={props.enabled}
         />
         <Text style={styles.switchText}>
-          <Text/> {props.variable}
+          {props.variable}
         </Text>
       </View>
     );
   };
+  const SingleSlider = (props) => {
+    return (
+      <View style={styles.slider}>
+        <Text style = {styles.slideText}>
+          {props.sliderText} : {props.slide}
+        </Text>
+        <Slider
+          value={props.slide}
+          maxiumumValue={props.max}
+          minimumValue={props.min}
+          step={props.increments}
+          onValueChange={props.handler}
+          style={styles.slider}
+          thumbStyle={{height: 15, width: 15, backgroundColor:'#6736B6'}}
+        />
+      </View>
+    )
+  }
   return (
-          <View style={styles.subContainer}>
-            <ScrollView style={styles.filterCard}>
-              <TouchableOpacity
-                style={styles.filterHeader}
-                onPress={overlayButton}
-              >
-                <Icon name="west" size={30} />
-                <Text style={styles.filterText}>Filter</Text>
-              </TouchableOpacity>
+    <View style={styles.subContainer}>
+      <ScrollView style={styles.filterCard}>
+        <TouchableOpacity
+          style={styles.filterHeader}
+          onPress={overlayButton}
+          >
+          <Icon name="west" size={30} />
+            <Text style={styles.filterText}>Filter</Text>
+        </TouchableOpacity>
 
-              <SingleSwitch
-                variable="Neighborhood"
-                enabled={switchEnabledNeigh}
-                toggle={toggleSwitchNeigh}
-              />
+        <SingleSlider
+          slide={age}
+          max={maxAge}
+          min={minAge}
+          increments={ageIncrement}
+          handler={handlerAgeChange}
+          sliderText={"Age"}
+        />
 
-              <SingleSwitch
-                variable="Square Footage"
-                enabled={switchEnabledSqua}
-                toggle={toggleSwitchSqua}
-              />
+        <SingleSwitch
+          variable="Square Footage"
+          enabled={switchEnabledSqua}
+          toggle={toggleSwitchSqua}
+        />
 
-              <SingleSwitch
-                variable="Price Range"
-                enabled={switchEnabledPri}
-                toggle={toggleSwitchPri}
-              />
+        <SingleSwitch
+          variable="Price Range"
+          enabled={switchEnabledPri}
+          toggle={toggleSwitchPri}
+        />
 
-              <SingleSwitch
-                variable="Indoor Parking"
-                enabled={switchEnabledIn}
-                toggle={toggleSwitchIn}
-              />
+        <SingleSwitch
+          variable="Indoor Parking"
+          enabled={switchEnabledIn}
+          toggle={toggleSwitchIn}
+        />
 
-              <SingleSwitch
-                variable="Percent Matched"
-                enabled={switchEnabledPer}
-                toggle={toggleSwitchPer}
-              />
+        <SingleSwitch
+          variable="Percent Matched"
+          enabled={switchEnabledPer}
+          toggle={toggleSwitchPer}
+        />
 
-              <SingleSwitch
-                variable="# of Roommates"
-                enabled={switchEnabledRoo}
-                toggle={toggleSwitchRoo}
-              />
+        <SingleSwitch
+          variable="# of Roommates"
+          enabled={switchEnabledRoo}
+          toggle={toggleSwitchRoo}
+        />
 
-              <SingleSwitch
-                variable="Pecked Yes"
-                enabled={switchEnabledYes}
-                toggle={toggleSwitchYes}
-              />
+        <SingleSwitch
+          variable="Pecked Yes"
+          enabled={switchEnabledYes}
+          toggle={toggleSwitchYes}
+        />
 
-              <SingleSwitch
-                variable="Pecked No"
-                enabled={switchEnabledNo}
-                toggle={toggleSwitchNo}
-              />
+        <SingleSwitch
+          variable="Pecked No"
+          enabled={switchEnabledNo}
+          toggle={toggleSwitchNo}
+        />
 
-              <SingleSwitch
-                variable="Most Recent"
-                enabled={switchEnabledRec}
-                toggle={toggleSwitchRec}
-              />
-              <SingleSwitch
-                variable="Apartment"
-                enabled={switchEnabledApt}
-                toggle={toggleSwitchApt}
-              />
-            </ScrollView>
-          </View>
+        <SingleSwitch
+          variable="Most Recent"
+          enabled={switchEnabledRec}
+          toggle={toggleSwitchRec}
+        />
+
+        <SingleSwitch
+          variable="Apartment"
+          enabled={switchEnabledApt}
+          toggle={toggleSwitchApt}
+        />
+      </ScrollView>
+    </View>
   );
 };
 
@@ -202,6 +241,19 @@ const styles = StyleSheet.create({
   switchText: {
     flexDirection: "row",
     alignItems: "center",
+    marginLeft: 5,
+    fontSize: 20,
+  },
+  slider: {
+    flex:1,
+    width: 150,
+    alignSelf:'flex-start',
+    marginLeft: 15,
+    justifyContent: 'center',
+  },
+  slideText: {
+    alignSelf:'center',
+    flexDirection: "column",
     marginLeft: 5,
     fontSize: 20,
   },

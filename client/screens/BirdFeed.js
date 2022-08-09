@@ -11,7 +11,6 @@ import {
   Platform,
   StatusBar,
   ScrollView,
-  Switch,
 } from "react-native";
 
 import React, { useEffect, useState } from "react";
@@ -36,18 +35,37 @@ import Icon3 from "react-native-vector-icons/Ionicons";
 const BirdFeed = ({ navigation }) => {
   const [userList, setUserList] = useState([]);
   const [listState, setListState] = useState(false);
-
+  const [ageState, setAgeState] = useState(0);
   // This is the old filter function on birdfeed
 
   const overlayButton = () => {
     overlayClicked ? setOverlayClicked(false) : setOverlayClicked(true);
   };
 
-  const [overlayClicked, setOverlayClicked] = useState(false);
+  const age = 18;
+  const minAge = 18;
+  const maxAge = 99;
+  const ageIncrement = 1;
+  const ageName = "Age";
+  
+  const handlerAgeChange = (ageSlide) => {
+    age.value = ageSlide;
+    setAgeState({value:age.value});
+  }
+  const [gender, setGender] = useState("");
+  const [pet, setPet] = useState(false);
+  const [drugs, setDrugs] = useState(false);
+  const [sleep, setSleep] = useState(false);
+  const [guest, setGuest] = useState(false);
+  const [clean, setClean] = useState(false);
+  const [temp, setTemp] = useState(false);
+  const [sound, setSound] = useState(false);
+  const [awake, setAwake] = useState(false);
+  const [sharing, setSharing] = useState(false);
+  const [interaction, setInteraction] = useState(false);
 
-  const [switchEnabledNeigh, setSwitchEnabledNeigh] = useState(false);
-  const toggleSwitchNeigh = () =>
-    setSwitchEnabledNeigh((previousState) => !previousState);
+
+  const [overlayClicked, setOverlayClicked] = useState(false);
 
   const [switchEnabledSqua, setSwitchEnabledSqua] = useState(false);
   const toggleSwitchSqua = () =>
@@ -168,24 +186,38 @@ const BirdFeed = ({ navigation }) => {
           <FilterOverlay setOverlayClicked={setOverlayClicked} 
           overlayClicked={overlayClicked}
           overlayButton={overlayButton}
-          switchEnabledNeigh={switchEnabledNeigh}
-          toggleSwitchNeigh={toggleSwitchNeigh}
+          
+          age={age}
+          min={minAge}
+          max={maxAge}
+          step={ageIncrement}
+          handler={handlerAgeChange}
+          sliderText={ageName}
+
           switchEnabledSqua={switchEnabledSqua}
           toggleSwitchSqua={toggleSwitchSqua}
+
           switchEnabledPri={switchEnabledPri}
           toggleSwitchPri={toggleSwitchPri}
+
           switchEnabledIn={switchEnabledIn}
           toggleSwitchIn={toggleSwitchIn}
+
           switchEnabledPer={switchEnabledPer}
           toggleSwitchPer={toggleSwitchPer}
+
           switchEnabledRoo={switchEnabledRoo}
           toggleSwitchRoo={toggleSwitchRoo}
+
           switchEnabledYes={switchEnabledYes}
           toggleSwitchYes={toggleSwitchYes}
+
           switchEnabledNo={switchEnabledNo}
           toggleSwitchNo={toggleSwitchNo}
+
           switchEnabledRec={switchEnabledRec}
           toggleSwitchRec={toggleSwitchRec}
+
           switchEnabledApt={switchEnabledApt}
           toggleSwitchApt={toggleSwitchApt}
           />
