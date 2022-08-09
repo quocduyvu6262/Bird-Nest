@@ -1,45 +1,40 @@
-//React
-import React, { useState, useEffect } from "react";
+// REACT
+import React, { useEffect } from "react";
 import {
   StyleSheet,
   View,
-  Text,
-  ScrollView,
-  KeyboardAvoidingView,
   TouchableOpacity,
-  TextInput,
-  Platform,
-  processColor,
-  Alert,
 } from "react-native";
 import Background from "../../components/Background";
 import Logo from "../../components/Logo";
 import Header from "../../components/Header";
 import Button from "../../components/Button";
 import Paragraph from "../../components/Paragraph";
-
-// Google sign in
+// GOOGLE SIGN IN
 import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
 import * as SecureStore from "expo-secure-store";
-
-// Import constants
+// CONSTANTS
 import Constants from "../../constants/constants";
-// Redux
-import { useDispatch, useSelector } from "react-redux";
-import { updateHousing, updateUser } from "../../redux/slices/data";
-
-// Axios
+// REDUX
+import * as dataActions from '../../redux/slices/data';
+import { useDispatch } from "react-redux";
+// AXIOS
 import Axios from "axios";
-import * as Network from "expo-network";
+
 
 WebBrowser.maybeCompleteAuthSession();
 
 const LoginScreen = ({ navigation }) => {
+
+  /**
+   * @returns the dispatch instance
+   */
   const dispatch = useDispatch();
 
-  // execute google login
-  // const [accessToken, setAccessToken] = useState(null);
+  /**
+   * States declaration
+   */
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId: Constants.IOS_GOOGLE_CLIENT_ID,
     androidClientId: "",
@@ -47,7 +42,11 @@ const LoginScreen = ({ navigation }) => {
     selectAccount: true,
   });
 
-  // fetchGoogleUser
+  /**
+   * Fetch the user data from Google access token
+   * @param accessToken the Google access token 
+   * @returns the Google User's data
+   */
   const fetchGoogleUser = async (accessToken) => {
     let userInfoRes = await fetch("https://www.googleapis.com/userinfo/v2/me", {
       headers: {
@@ -58,31 +57,11 @@ const LoginScreen = ({ navigation }) => {
     return data;
   };
 
-  // Fetch user
-  const fetchUser = async (data) => {
-    return Axios.get(`${Constants.BASE_URL}/api/users/${data.email}`)
-      .then((res) => {
-        let userInfo = res.data;
-        return userInfo;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  // fetch user info
-  const fetchHousing = async (data) => {
-    return Axios.get(`${Constants.BASE_URL}/api/housings/${data.email}`)
-      .then((res) => {
-        let houseInfo = res.data[0];
-        return houseInfo;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  // login with google
+  /**
+   * Perform the login in the backend
+   * @param data the object containing user's email and fullname 
+   * @returns the promise that contains either LOGIN or REGISTER status
+   */
   const login = async (data) => {
     return Axios.post(`${Constants.BASE_URL}/api/users/loginwithgoogle`, {
       email: data.email,
@@ -91,48 +70,78 @@ const LoginScreen = ({ navigation }) => {
       .then((res) => {
         return res.data;
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log("Fail to login in backend"));
   };
 
-  // use side effect
-  React.useEffect(() => {
+  /**
+   * Function that receives the user email and perform
+   * the GET request on the database in order to retrieve
+   * the user info, then pushing into SecureStore and Redux Store
+   * @param emai the current user's email
+   */
+  const storeData = async (email) => {
+    // Get and store user
+    Axios.get(`${Constants.BASE_URL}/api/users/${email}`).then(({data}) => {
+      const user = data[0];
+      // push into secure store
+      SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify(user));
+      // push into redux store
+      dispatch(dataActions.updateUser(user));
+    }).catch( err => {
+      console.log("Fail to store user data")
+    } )
+
+    // Get and store housing
+    Axios.get(`${Constants.BASE_URL}/api/housings/email/${email}`).then(({data}) => {
+      const housing = data[0];
+      // push into secure store
+      SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING, JSON.stringify(housing));
+      // push into redux store
+      dispatch(dataActions.updateHousing(housing));
+    }).catch( err => {
+      console.log("Fail to store housing data")
+    } )
+  }
+
+  /**
+   * Use Effect Hook
+   */
+  useEffect(() => {
     if (response?.type === "success") {
-      // setAccessToken(response.authentication.accessToken);
       const accessToken = response.authentication.accessToken;
-      // SecureStore.setItemAsync(MY_SECURE_AUTH_STATE_KEY,JSON.stringify(accessToken));
-      // navigation.navigate("BirdFeed");
       if (accessToken) {
         fetchGoogleUser(accessToken).then((userInfo) => {
           login(userInfo)
             .then(async (res) => {
-              // Store Token
+              // STORE TOKEN
               await SecureStore.setItemAsync(
                 Constants.MY_SECURE_AUTH_STATE_KEY_TOKEN,
                 JSON.stringify(accessToken)
               );
+              // STORE UID, EMAIL, NAME
+              console.log(res);
+              dispatch(dataActions.updateFullname(res.name));
+              dispatch(dataActions.updateUID(res.uid));
               // TWO CASES: LOGIN or REGISTER
-              if (res === "login") {
+              if (res.status === "login") {
+                console.log("Login Successfully")
+                // PULL FROM DATABASE -> STORE INTO SECURE STORAGE -> STORE INTO REDUX STORAGE
+                storeData(res.email);
                 navigation.navigate("BirdFeed");
-                // get item redux
-                SecureStore.getItemAsync(
-                  Constants.MY_SECURE_AUTH_STATE_KEY_REDUX
-                ).then((data) => {
-                  let jsonData = JSON.parse(data);
-                  console.log(jsonData);
-                  //dispatch(updateUser(jsonData.userInfo));
-                  //dispatch(updateHousing(jsonData.housing))
-                });
-              } else if (res === "register") {
-                // new user or user who has not filled in questionaires
+              } else if (res.status === "register") {
+                console.log("Register Successfully");
                 navigation.navigate("IDQs");
               }
             })
-            .catch((err) => console.log(err));
+            .catch((err) => console.log("Login/Register Fail"));
         });
       }
     }
   }, [response]);
 
+  /**
+   * Return Screen
+   */
   return (
     <Background>
       <View style={styles.background}>
@@ -161,6 +170,4 @@ const styles = StyleSheet.create({
     marginTop: '80%'
   }
 });
-
-
 export default LoginScreen;
