@@ -6,11 +6,12 @@ import Logo from '../../assets/bird.png';
 // Import constants
 import Constants from '../../constants/constants';
 // Redux
-import {useDispatch, useSelector} from 'react-redux';
-import {updateHousing, updateUser} from '../../redux/slices/data'
+import * as dataActions from '../../redux/slices/data';
+import { useDispatch } from "react-redux";
 export default function SplashScreen({navigation}) {
 
     const edges = useSafeAreaInsets();
+    // dispatch instance
     const dispatch = useDispatch();
     // Animation Values...
     const startAnimation = useRef(new Animated.Value(0)).current;
@@ -26,19 +27,39 @@ export default function SplashScreen({navigation}) {
     // Animating Content...
     const contentTransition = useRef(new Animated.Value(Dimensions.get('window').height)).current;
 
+    /**
+     * Pull data from Secure Store and store into Redux Store
+     */
+    const storeData = () => {
+        // Get and store user data
+        SecureStore.getItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER).then(res => {
+            const user = JSON.parse(res);
+            dispatch(dataActions.updateUser(user));
+        }).catch( err => {
+            console.log("Fail to store user data");
+        })
+
+        // Get and store housing data
+        SecureStore.getItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING).then(res => {
+            const housing = JSON.parse(res);
+            dispatch(dataActions.updateHousing(housing));
+        }).catch( err => {
+            console.log("Fail to store housing data");
+        })
+    }
+
+    /**
+     * Check login state in order to direct user to 
+     * the right destination
+     */
     const checkLoginState = async () => {
         // retrieve the value of the token
         const userToken = await SecureStore.getItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_TOKEN);
-        
         // navigate to the app screen if a token is present
         // else navigate to the auth screen
         setTimeout(() => {
             if(userToken){
-                SecureStore.getItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_REDUX).then(data => {
-                    let jsonData = JSON.parse(data);
-                    //dispatch(updateUser(jsonData.userInfo));
-                    //dispatch(updateHousing(jsonData.housing));
-                })
+                storeData();
                 navigation.navigate('BirdFeed');
             } else {
                 navigation.navigate('LoginScreen');
@@ -46,8 +67,10 @@ export default function SplashScreen({navigation}) {
         })
     }
 
+    /**
+     * Use Effect Hook
+     */
     useEffect(()=> {
-
         // Starting Animation after 500ms...
         setTimeout(() => {
 
@@ -113,7 +136,9 @@ export default function SplashScreen({navigation}) {
         }, 1000);
     }, [])
     
-    // Moving up like Nav Bar...
+    /**
+     * Return Screen
+     */
     return (
         <View style = {{
             position: 'absolute',
