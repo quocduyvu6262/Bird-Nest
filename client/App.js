@@ -12,7 +12,6 @@ import Logo from "./assets/bird.png";
 
 import Axios from "axios";
 import * as SecureStore from "expo-secure-store";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 // IMPORT SCREENS
 import SplashScreen from "./screens/Auth/SplashScreen";

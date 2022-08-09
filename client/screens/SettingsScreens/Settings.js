@@ -16,12 +16,9 @@ import MainHeader from "../../components/MainHeader";
 // Import constants
 import Constants from "../../constants/constants";
 const chatClient = StreamChat.getInstance(Constants.CHAT_API_KEY);
-import {StreamChat} from 'stream-chat'
-import * as Updates from 'expo-updates';
-import {DevSettings} from 'react-native';
-
-
-
+import { StreamChat } from "stream-chat";
+import * as Updates from "expo-updates";
+import { DevSettings } from "react-native";
 
 const Settings = ({ navigation }) => {
   const logout = async () => {
@@ -35,10 +32,12 @@ const Settings = ({ navigation }) => {
               Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING
             )
               .then(async () => {
-                SecureStore.deleteItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_REDUX);
+                SecureStore.deleteItemAsync(
+                  Constants.MY_SECURE_AUTH_STATE_KEY_REDUX
+                );
                 navigation.navigate("LoginScreen");
                 await chatClient.disconnectUser();
-                DevSettings.reload()
+                DevSettings.reload();
               })
               .catch((err) => {
                 console.log(err);
