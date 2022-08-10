@@ -31,5 +31,15 @@ router.post('/', (req, res) => {
         });
     });
 });
+router.get('/test', (req, res) => {
+    const query = "SELECT * FROM BirdNest.History"
+    db(client => {
+        client.query(query, (err, result) => {
+            if(!err){
+                res.send(result);
+            } 
+        })
+    })
+})
 
 module.exports = router;

@@ -39,7 +39,7 @@ router.get('/email/:email', (req, res) => {
             if(!err && result.length) {
                 res.send(result);
             } else {
-                console.log("nope");
+                console.log("Housing not found");
                 res.status(404).send('Housing not found.');
             }
         })

@@ -20,13 +20,13 @@ const userInfo = {
     profilepic: null,
 
     // BASIC INFO
-    pets: [],
+    pets: "", // array
     cook: "",
     alcohol: "",
     sleep: "",
     guests: "",
-    outsise: "",
-    slient: "",
+    outside: "",
+    silent: "",
     roommateWorkWhileYouSleep: "",
     shareAppliances: "",
     carWithRoommate: "",
@@ -40,10 +40,10 @@ const userInfo = {
     athletic: "",
     marvelDC: "",
     talkative: "",
-    dayout: [],
+    dayout: "", // array
     vanillaChocolate: "",
-    interiorDesign: [],
-    favoriteSport: [],
+    interiorDesign: "", // array
+    favoriteSport: "", // array
     michaelLebron: "",
     coffeeBoba: "",
     bobaBubble: "",
@@ -130,16 +130,22 @@ export const dataSlice = createSlice({
         },
         updatePets: (state, action) => {
             let {pet, add} = action.payload;
+            if(!state.userInfo.pets){
+                state.userInfo.pets = "[]";
+            } 
+            const temp = JSON.parse(state.userInfo.pets)
             if(add){
-                if(state.userInfo.pets.indexOf(pet) === -1) {
-                    state.userInfo.pets.push(pet);
+                if(temp.indexOf(pet) === -1) {
+                    temp.push(pet);
                 }
             } else {
-                let toRemoveIndex = state.userInfo.pets.indexOf(pet)
+                let toRemoveIndex = temp.indexOf(pet)
                 if(toRemoveIndex > -1){
-                    state.userInfo.pets.splice(toRemoveIndex,1);
+                    temp.splice(toRemoveIndex,1);
                 }
             }
+            // assign temp to pets
+            state.userInfo.pets = JSON.stringify(temp);
         },
         updateCook: (state, action) => {
             state.userInfo.cook = action.payload;
@@ -154,10 +160,10 @@ export const dataSlice = createSlice({
             state.userInfo.guests = action.payload;
         },
         updateOutside: (state, action) => {
-            state.userInfo.outsise = action.payload;
+            state.userInfo.outside = action.payload;
         },
         updateSilent: (state, action) => {
-            state.userInfo.slient = action.payload;
+            state.userInfo.silent = action.payload;
         },
         updateRoommateWork: (state, action) => {
             state.userInfo.roommateWorkWhileYouSleep = action.payload;
@@ -195,45 +201,63 @@ export const dataSlice = createSlice({
         },
         updateDayout: (state, action) => {
             let {activity, add} = action.payload;
+            if(!state.userInfo.dayout){
+                state.userInfo.dayout = "[]";
+            } 
+            const temp = JSON.parse(state.userInfo.dayout)
             if(add){
-                if(state.userInfo.dayout.indexOf(activity) === -1) {
-                    state.userInfo.dayout.push(activity);
+                if(temp.indexOf(activity) === -1) {
+                    temp.push(activity);
                 }
             } else {
-                let toRemoveIndex = state.userInfo.dayout.indexOf(activity)
+                let toRemoveIndex = temp.indexOf(activity)
                 if(toRemoveIndex > -1){
-                    state.userInfo.dayout.splice(toRemoveIndex,1);
+                    temp.splice(toRemoveIndex,1);
                 }
             }
+            // assign temp to pets
+            state.userInfo.dayout = JSON.stringify(temp);
         },
         updateVanillaChocolate: (state, action) => {
             state.userInfo.vanillaChocolate = action.payload;
         },
         updateInteriorDesign: (state, action) => {
             let {activity, add} = action.payload;
+            if(!state.userInfo.interiorDesign){
+                state.userInfo.interiorDesign = "[]";
+            } 
+            const temp = JSON.parse(state.userInfo.interiorDesign)
             if(add){
-                if(state.userInfo.interiorDesign.indexOf(activity) === -1) {
-                    state.userInfo.interiorDesign.push(activity);
+                if(temp.indexOf(activity) === -1) {
+                    temp.push(activity);
                 }
             } else {
-                let toRemoveIndex = state.userInfo.interiorDesign.indexOf(activity)
+                let toRemoveIndex = temp.indexOf(activity)
                 if(toRemoveIndex > -1){
-                    state.userInfo.interiorDesign.splice(toRemoveIndex,1);
+                    temp.splice(toRemoveIndex,1);
                 }
             }
+            // assign temp to pets
+            state.userInfo.interiorDesign = JSON.stringify(temp);
         },
         updateFavoriteSport: (state, action) => {
             let {activity, add} = action.payload;
+            if(!state.userInfo.favoriteSport){
+                state.userInfo.favoriteSport = "[]";
+            } 
+            const temp = JSON.parse(state.userInfo.favoriteSport)
             if(add){
-                if(state.userInfo.favoriteSport.indexOf(activity) === -1) {
-                    state.userInfo.favoriteSport.push(activity);
+                if(temp.indexOf(activity) === -1) {
+                    temp.push(activity);
                 }
             } else {
-                let toRemoveIndex = state.userInfo.favoriteSport.indexOf(activity)
+                let toRemoveIndex = temp.indexOf(activity)
                 if(toRemoveIndex > -1){
-                    state.userInfo.favoriteSport.splice(toRemoveIndex,1);
+                    temp.splice(toRemoveIndex,1);
                 }
             }
+            // assign temp to pets
+            state.userInfo.favoriteSport = JSON.stringify(temp);
         },
         updateMichaelLebron: (state, action) => {
             state.userInfo.michaelLebron = action.payload;

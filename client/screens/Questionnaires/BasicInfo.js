@@ -48,12 +48,12 @@ class BasicInfo extends Component {
     value: 500,
   };
   state1 = {
-    name: "Yes",
+    name: true,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state2 = {
-    name: "No",
+    name: false,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
@@ -68,12 +68,12 @@ class BasicInfo extends Component {
     backgroundColor: "#D9D9D9",
   };
   state5 = {
-    name: "Yes",
+    name: true,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state6 = {
-    name: "No",
+    name: false,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
@@ -88,22 +88,22 @@ class BasicInfo extends Component {
     backgroundColor: "#D9D9D9",
   };
   state9 = {
-    name: "Yes",
+    name: true,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state10 = {
-    name: "No",
+    name: false,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state11 = {
-    name: "Yes",
+    name: true,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state12 = {
-    name: "No",
+    name: false,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
@@ -241,12 +241,12 @@ class BasicInfo extends Component {
     backgroundColor: "#D9D9D9",
   };
   state51 = {
-    name: "Yes",
+    name: true,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state52 = {
-    name: "No",
+    name: false,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
@@ -255,22 +255,22 @@ class BasicInfo extends Component {
     backgroundColor: "#D9D9D9",
   };
   state54 = {
-    name: "Yes",
+    name: true,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state55 = {
-    name: "No",
+    name: false,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state56 = {
-    name: "Yes",
+    name: true,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state57 = {
-    name: "No",
+    name: false,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
