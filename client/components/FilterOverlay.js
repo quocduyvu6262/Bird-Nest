@@ -4,6 +4,7 @@ import {
   Platform,
   View,
   Text,
+  StatusBar,
   ScrollView,
   TouchableOpacity,
   Switch,
@@ -20,8 +21,8 @@ import { Slider } from '@rneui/themed';
 // 1 string
 // 3 sliders
 
-// - age *slider*
-// - gender *buttons*
+// - age /slider/  *DONE* 
+// - gender /buttons/
 // - pet *buttons*
 // - alcohol/420 friendly *buttons*
 // - sleep habits *buttons*
@@ -41,12 +42,8 @@ const FilterOverlay = (
   overlayButton,
   props,
 
-  age, 
-  minAge,
-  maxAge,
-  ageIncrement,
-  handlerAgeChange,
-  ageName,
+  ageState,
+  setAgeState,
 
   switchEnabledSqua,
   toggleSwitchSqua,
@@ -90,21 +87,11 @@ const FilterOverlay = (
       </View>
     );
   };
-  const SingleSlider = (props) => {
+
+  const MultipleButtons = (props) => {
     return (
-      <View style={styles.slider}>
-        <Text style = {styles.slideText}>
-          {props.sliderText} : {props.slide}
-        </Text>
-        <Slider
-          value={props.slide}
-          maxiumumValue={props.max}
-          minimumValue={props.min}
-          step={props.increments}
-          onValueChange={props.handler}
-          style={styles.slider}
-          thumbStyle={{height: 15, width: 15, backgroundColor:'#6736B6'}}
-        />
+      <View style = {styles.switchView}>
+        
       </View>
     )
   }
@@ -119,14 +106,20 @@ const FilterOverlay = (
             <Text style={styles.filterText}>Filter</Text>
         </TouchableOpacity>
 
-        <SingleSlider
-          slide={age}
-          max={maxAge}
-          min={minAge}
-          increments={ageIncrement}
-          handler={handlerAgeChange}
-          sliderText={"Age"}
-        />
+        <View style={styles.slider}>
+          <Text style = {styles.slideText}>
+            Age : {ageState}
+          </Text>
+          <Slider
+            value={ageState}
+            minimumValue={18}
+            maximumValue={99}
+            step={1}
+            onValueChange={value => setAgeState(value)}
+            style={styles.slider}
+            thumbStyle={{height: 15, width: 15, backgroundColor:'#6736B6'}}
+          />
+        </View>
 
         <SingleSwitch
           variable="Square Footage"

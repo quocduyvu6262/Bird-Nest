@@ -35,24 +35,19 @@ import Icon3 from "react-native-vector-icons/Ionicons";
 const BirdFeed = ({ navigation }) => {
   const [userList, setUserList] = useState([]);
   const [listState, setListState] = useState(false);
-  const [ageState, setAgeState] = useState(0);
   // This is the old filter function on birdfeed
 
   const overlayButton = () => {
     overlayClicked ? setOverlayClicked(false) : setOverlayClicked(true);
   };
-
-  const age = 18;
-  const minAge = 18;
-  const maxAge = 99;
-  const ageIncrement = 1;
-  const ageName = "Age";
   
-  const handlerAgeChange = (ageSlide) => {
-    age.value = ageSlide;
-    setAgeState({value:age.value});
-  }
-  const [gender, setGender] = useState("");
+  // const handlerAgeChange = (ageSlide) => {
+  //   setAgeState({ageState});
+  // }
+  const [ageState, setAgeState] = useState(18);
+  const [genderMale, setGenderMale] = useState(false);
+  const [genderFemale, setGenderFemale] = useState(false);
+
   const [pet, setPet] = useState(false);
   const [drugs, setDrugs] = useState(false);
   const [sleep, setSleep] = useState(false);
@@ -185,17 +180,55 @@ const BirdFeed = ({ navigation }) => {
         {overlayClicked && (
           <FilterOverlay setOverlayClicked={setOverlayClicked} 
           overlayClicked={overlayClicked}
-          overlayButton={overlayButton}
-          
-          age={age}
-          min={minAge}
-          max={maxAge}
-          step={ageIncrement}
-          handler={handlerAgeChange}
-          sliderText={ageName}
+          overlayButton={overlayButton} 
 
-          switchEnabledSqua={switchEnabledSqua}
-          toggleSwitchSqua={toggleSwitchSqua}
+          setAgeState={setAgeState}
+          ageState={ageState}
+      // changeMultipleColor(state_a, state_b, state_c, state_d){
+      //   if(state_a.pressed == false && (state_b.pressed == true || state_c.pressed == true || state_d.pressed == true)  && (state_b.backgroundColor == '#3B9CF1' || state_c.backgroundColor == '#3B9CF1' || state_d.backgroundColor == '#3B9CF1')) {
+      //     state_a.backgroundColor='#3B9CF1';
+      //     state_b.backgroundColor='#D9D9D9';
+      //     state_c.backgroundColor='#D9D9D9';
+      //     state_d.backgroundColor='#D9D9D9';
+      //     state_a.pressed=true;
+      //     state_b.pressed=false;
+      //     state_c.pressed=false;
+      //     state_d.pressed=false;
+      //     this.setState({backgroundColor: state_a.backgroundColor});
+      //     this.setState({backgroundColor: state_b.backgroundColor});
+      //     this.setState({backgroundColor: state_c.backgroundColor});
+      //     this.setState({backgroundColor: state_d.backgroundColor});
+      //     this.setState({pressed: state_a.pressed});
+      //     this.setState({pressed: state_b.pressed});
+      //     this.setState({pressed: state_c.pressed});
+      //     this.setState({pressed: state_d.pressed});
+      //   }
+          // state1 = {
+          //   name: true,
+          //   pressed: false,
+          //   backgroundColor: '#D9D9D9'
+          // };
+          // state2 = {
+          //   name: false,
+          //   pressed: false,
+          //   backgroundColor: '#D9D9D9'
+          // };
+          // <Text style={HousingQ_styles.question1}>Does the property have a</Text>
+          // <Text style={HousingQ_styles.question1}>garage?</Text>
+          // <TouchableOpacity style={[this.state1, HousingQ_styles.buttonContainerYes1]} 
+          // onPress={()=>{
+          //   this.changeColor(this.state1, this.state2)
+          //   this.props.dispatch(dataActions.updateGarage(this.state1.name))
+          // }}>
+          // <Text style = {HousingQ_styles.buttonText}>Yes</Text>
+          // </TouchableOpacity>
+          // <TouchableOpacity style={[this.state2, HousingQ_styles.buttonContainerNo1]}
+          // onPress={()=>{
+          //   this.changeColor(this.state2, this.state1)
+          //   this.props.dispatch(dataActions.updateGarage(this.state1.name))
+          // }}>
+          //   <Text style = {HousingQ_styles.buttonText}>No</Text>
+          // </TouchableOpacity>
 
           switchEnabledPri={switchEnabledPri}
           toggleSwitchPri={toggleSwitchPri}
