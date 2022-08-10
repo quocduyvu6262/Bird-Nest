@@ -114,6 +114,7 @@ const LoginScreen = ({ navigation }) => {
               // STORE UID, EMAIL, NAME
               console.log(res);
               dispatch(dataActions.updateFullname(res.name));
+              dispatch(dataActions.updateEmail(res.email));
               dispatch(dataActions.updateUID(res.uid));
               // TWO CASES: LOGIN or REGISTER
               if (res.status === "login") {

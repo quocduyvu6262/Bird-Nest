@@ -48,7 +48,8 @@ class BasicInfo extends Component {
 
 
   fieldState = {blankError: ""};
-  validate = () => {
+  validate = (userInfo) => {
+    /*
     if ((this.state54.backgroundColor === "#3B9CF1" || this.state55.backgroundColor === "#3B9CF1") //bother
         && (this.state59.backgroundColor === "#3B9CF1" || this.state60.backgroundColor === "#3B9CF1") //interact
         && (this.state51.backgroundColor === "#3B9CF1" || this.state52.backgroundColor === "#3B9CF1") //appliances
@@ -66,6 +67,13 @@ class BasicInfo extends Component {
     else {
       return false;
     }
+    */
+   if (userInfo.tellRoommateIfBothered !== null) {
+    return true;
+   }
+   else {
+    return false;
+   }
   }  
 
   setField = () => {
@@ -83,12 +91,12 @@ class BasicInfo extends Component {
     value: 500,
   };
   state1 = {
-    name: "Yes",
+    name: true,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state2 = {
-    name: "No",
+    name: false,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
@@ -103,42 +111,42 @@ class BasicInfo extends Component {
     backgroundColor: "#D9D9D9",
   };
   state5 = {
-    name: "Yes",
+    name: true,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state6 = {
-    name: "No",
+    name: false,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state7 = {
-    name: "Yes",
+    name: true,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state8 = {
-    name: "No",
+    name: false,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state9 = {
-    name: "Yes",
+    name: true,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state10 = {
-    name: "No",
+    name: false,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state11 = {
-    name: "Yes",
+    name: true,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state12 = {
-    name: "No",
+    name: false,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
@@ -186,6 +194,7 @@ class BasicInfo extends Component {
     backgroundColor: "#D9D9D9",
   };
   state22 = {
+    name: "Other",
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
@@ -276,12 +285,12 @@ class BasicInfo extends Component {
     backgroundColor: "#D9D9D9",
   };
   state51 = {
-    name: "Yes",
+    name: true,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state52 = {
-    name: "No",
+    name: false,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
@@ -290,22 +299,22 @@ class BasicInfo extends Component {
     backgroundColor: "#D9D9D9",
   };
   state54 = {
-    name: "Yes",
+    name: true,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state55 = {
-    name: "No",
+    name: false,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state56 = {
-    name: "Yes",
+    name: true,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state57 = {
-    name: "No",
+    name: false,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
@@ -863,7 +872,7 @@ class BasicInfo extends Component {
             style={HousingQ_styles.nextButton}
             onPress={() =>{
               //this.createHousingInfo()
-              if (!this.validate()) {
+              if (!this.validate(this.userInfo)) {
                 console.log("YOU SHALL NOT PASS");
                 //console.log(this.userInfo.role);
                 console.log(this.userInfo)

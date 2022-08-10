@@ -40,6 +40,7 @@ class Personality extends Component {
     );
   };
 
+  /*
   createHousingInfo = () => {
     Axios.post("http://localhost:3000/api/housings/create", {
       user_id: 20,
@@ -55,27 +56,35 @@ class Personality extends Component {
       ac: 1
     })
     .catch(error => console.log(error));
-  };
+  };*/
 
-  pushToDB = () => {
+  userInfo = this.props.userInfo;
+  housing = this.props.housing;
 
-    console.log(this.userInfo.email);
+  pushToDB = (userInfo) => {
     //First push all User table info to user table
-    /*
-    Axios.post("http://192.168.1.13:3000/api/users/role", {
-      user_id: 11, //TODO: Don't hard-code
-      role: selectedRole,
+    //const email = userInfo.email;
+    
+    //const dayout = userInfo.dayout;
+    Axios.post("http://192.168.1.13:3000/api/users/questionnaire", {
+      userInfo : userInfo,
     }).catch((error) => {
       console.log(error);
       console.log("POST ERROR");
     });
-    */
+    
     //Second push housing info to corresponding table, similar logic to Roles
-
+    //What if local storage is cleared (what would clear it?) and you want to update only 1 field of the questionnaire? 
+    //      You'd have to redo everything from memory. How to make it persist? Potentially pull from database if localstorage is null?
+    //Related edge case, let's say you answer all required questions and leave the optional ones blank but you already filled them in
+    //      before and they're in the database. When you push at the end you'd be pushing null and overwriting. Potentially loop through map
+    //      and push only non-null values (already null in db if not answered) to avoid overwriting optional questions as null? 
+    //TODO: Mostly Jack's job, make the buttons stay pressed based on localstorage
+    
+    
   }
 
-  userInfo = this.props.userInfo;
-  housing = this.props.housing;
+
 
     slider_state = {
       language: "English",
@@ -771,9 +780,11 @@ class Personality extends Component {
           onPress={()=>{
             //this.createHousingInfo()
             this.store();
-            this.pushToDB();
-            console.log(this.userInfo);
-            console.log(this.housing);
+            this.pushToDB(this.userInfo);
+            //console.log(this.props.userInfo.email);
+            //console.log(this.userInfo.email);
+            //console.log(this.userInfo);
+            //console.log(this.housing);
             this.props.navigation.navigate('BirdFeed'); //
           }}>
             <Text style = {[HousingQ_styles.buttonText, {color:'#FFF'}]}>Finish</Text>

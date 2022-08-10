@@ -33,7 +33,8 @@ class HasHousingQ extends Component {
   housing = this.props.housing;
 
   fieldState = {blankError: ""};
-  validate = () => {
+  validate = (housing) => {
+    /*
     if ((this.state29.backgroundColor === "#3B9CF1" || this.state30.backgroundColor === "#3B9CF1" //lease
           || this.state31.backgroundColor === "#3B9CF1" || this.state32.backgroundColor === "#3B9CF1") //
         && (this.state1.backgroundColor === "#3B9CF1" || this.state2.backgroundColor === "#3B9CF1") //garage
@@ -51,6 +52,12 @@ class HasHousingQ extends Component {
         && (this.state11.backgroundColor === "#3B9CF1" || this.state12.backgroundColor === "#3B9CF1") //furnished
         && (this.state13.backgroundColor === "#3B9CF1" || this.state14.backgroundColor === "#3B9CF1") //AC
         ) {
+      return true;
+    }
+    else {
+      return false;
+    }*/
+    if (housing.AC !== null) {
       return true;
     }
     else {
@@ -659,9 +666,9 @@ class HasHousingQ extends Component {
           <TouchableOpacity
             style={HousingQ_styles.nextButton}
             onPress={() =>{
-              if (!this.validate()) {
+              if (!this.validate(this.housing)) {
                 console.log("YOU SHALL NOT PASS");
-                console.log(this.userInfo)
+                console.log(this.housing)
                 this.setField();
               }
               else {

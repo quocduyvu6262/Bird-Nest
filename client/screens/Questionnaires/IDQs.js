@@ -28,12 +28,14 @@ const IDQs = ({ navigation }) => {
   const [formState, setFormState] = useState("");
   const validate = () => {
     let blankError = "";
+    let intError = "";
     if (userInfo.firstname === "" || userInfo.lastname === ""
         || userInfo.gender === "" || userInfo.age === "" 
         || userInfo.pronouns === "" || userInfo.major === "" 
         || userInfo.graduationyear === "") {
       blankError = "Please fill in all required fields*";
       setFormState(blankError);
+      console.log(userInfo);
       return false;
     }
 

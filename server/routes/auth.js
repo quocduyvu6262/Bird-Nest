@@ -152,14 +152,14 @@ router.post('/role', (req, res) => {
     const query = `UPDATE Users SET Role= "${users.role}" WHERE id="${users.user_id}"`;
     console.log(user_id);
     db(client => {
-        client.query(checkExistQuery, (err, result) => {
+        client.query(query, (err, result) => {
             if(result.length){
                 // console.log( "User updated successfully.");
                 res.status(200).send();
             } else {
                 db(client => {
                     client.query(query, err => {
-                        res.send(`Login successfully`);
+                        res.send(result);
                     });
                 });
             }
@@ -168,30 +168,84 @@ router.post('/role', (req, res) => {
     //console.log(filterMap.user_id);
     //console.log(filterMap.role);
 });
-/*
-router.post('/role', (req, res) => {
-    const users = req.body;
-    const query = `INSERT INTO User (fullname, email, username, password)
-        VALUES("${}", "${}", "${}", "${}")`;
-    console.log(user_id);
-    db(client => {
-        client.query(checkExistQuery, (err, result) => {
-            if(result.length){
-                // console.log( "User updated successfully.");
-                res.status(200).send();
-            } else {
-                db(client => {
-                    client.query(query, err => {
-                        res.send(`Login successfully`);
-                    });
-                });
-            }
-        });
-    })
-    //console.log(filterMap.user_id);
-    //console.log(filterMap.role);
+//Update all fields filled in from questionnaire (null or existing)
+
+router.post('/questionnaire', (req, res) => {
+    let userInfo = req.body.userInfo;
+    console.log(userInfo);
+    let incompleteQuery = "UPDATE User SET ";
+    for (let key in userInfo) {
+        //Possible edge case this creates: What if you want to deselect something optional and make it null? (BANDAID FIX)
+        //TODO: Handle boolean/yes/no?
+        if (userInfo[key] === null || userInfo[key] === "undefined" || userInfo[key] === '') {
+            continue;
+        } 
+        else if (key === "email" || key === "userInfo") {
+            continue;
+        }
+        else if (key === "pets" || key === "dayout" || key === "interiorDesign" || key === "favoriteSport") {
+            incompleteQuery += key + "=" + JSON.stringify(userInfo[key].toString()) + ",";
+        }
+        else if (userInfo[key] === false || userInfo[key] === true) {
+            incompleteQuery += key + "=" + `${userInfo[key].toString()}` + ",";
+        }
+        //Arrays not sending properly 
+        else {
+            incompleteQuery += key + "=" + `"${userInfo[key].toString()}"` + ",";
+        }
+    }
+    //UPDATE User Set role=... tellRoommateIfBothered=tellRoommateIfBothered, 
+    incompleteQuery = incompleteQuery.slice(0, -1);
+    //UPDATE User Set role=... tellRoommateIfBothered=tellRoommateIfBothered
+    incompleteQuery += ` WHERE email = '${userInfo.email}';`
+    query = incompleteQuery;
+    console.log(query);
+    //const age = req.body.age;
+    //console.log(req.body.athletic);
+    //const anime = req.body.anime;
+    //const pets = req.body.pets;
+    //const talkative = userInfo.talkative;
+    //console.log(userInfo.pets);
+    //console.log(userInfo.anime);
+    //console.log(anime);
+    //const graduationyear = req.body.graduationyear;
+    //console.log(typeof userInfo.graduationyear);
+    //console.log(typeof graduationyear);
+    //TODO: , pets="${userInfo.pets}" 
+    /*
+    const query = `UPDATE User SET role="${userInfo.role}", gender="${userInfo.gender}", 
+        age="${userInfo.age}", pronouns="${userInfo.pronouns}", graduationyear="${userInfo.graduationyear}",
+        bio="${userInfo.bio}", major="${userInfo.major}", cook="${userInfo.cook}", 
+        personality="${userInfo.personality}", hogwartHouse="${userInfo.hogwartHouse}",
+        anime="${Number(userInfo.anime)}", athletic="${Number(userInfo.athletic)}", marvelDC="${userInfo.marvelDC}",
+        talkative="${Number(talkative)}", dayout="${userInfo.dayout}",
+        vanillaChocolate="${userInfo.vanillaChocolate}", interiorDesign="${userInfo.interiorDesign}",
+        favoriteSport="${userInfo.favoriteSport}", michaelLebron="${userInfo.michaelLebron}",
+        coffeeBoba="${userInfo.coffeeBoba}", bobaBubble="${userInfo.bobaBubble}",
+        alcohol="${userInfo.alcohol}", sleep="${userInfo.sleep}", guests="${userInfo.guests}", 
+        outside="${userInfo.outside}", silent="${userInfo.silent}", 
+        roommateWorkWhileYouSleep="${userInfo.roommateWorkWhileYouSleep}", 
+        shareAppliances="${userInfo.shareAppliances}", carWithRoommate="${userInfo.carWithRoommate}",
+        roommateInteraction="${userInfo.roommateInteraction}", 
+        tellRoommateIfBothered="${userInfo.tellRoommateIfBothered}"
+        WHERE email="${userInfo.email}"`;
+    */
+    try {
+        db(client => {
+            client.query(query, (err, result) => {
+                if (err) {
+                    console.log(err);
+                }
+                else {
+                    res.send(result);
+                }
+            }) 
+        })
+    }  
+    catch(err) {
+        res.status(400).send(err);
+    } 
 });
-*/
 
 
 module.exports = router;
