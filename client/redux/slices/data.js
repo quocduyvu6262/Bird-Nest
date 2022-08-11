@@ -19,6 +19,7 @@ const userInfo = {
     status: null,
     major: null,
     profilepic: null,
+    picsList: [], // array
 
     // BASIC INFO
     pets: [], // array
@@ -54,6 +55,7 @@ const userInfo = {
 }
 
 const housing = {
+    neighborhoodList: [], // for no housing only
     neighborhood: null,
     city: null,
     squarefeet: 1000,
@@ -148,6 +150,16 @@ export const dataSlice = createSlice({
             // assign temp to pets
             state.userInfo.pets = temp;
         },
+        updatePicsList: (state, action) => {
+            let pic = action.payload;
+            if(state.userInfo.picsList === null){
+                state.userInfo.picsList = [];
+            } 
+            let temp = state.userInfo.picsList;
+            temp.push(pic);
+            state.userInfo.picsList = temp;
+        },
+
         updateCook: (state, action) => {
             state.userInfo.cook = action.payload;
         },
@@ -262,6 +274,22 @@ export const dataSlice = createSlice({
         },
 
         // HOUSING
+        updateNeighborhoodList: (state, action) => {
+            let {activity, add} = action.payload;
+            let temp = state.userInfo.neighborhoodList;
+            if(add){
+                if(temp.indexOf(activity) === -1) {
+                    temp.push(activity);
+                }
+            } else {
+                let toRemoveIndex = temp.indexOf(activity)
+                if(toRemoveIndex > -1){
+                    temp.splice(toRemoveIndex,1);
+                }
+            }
+            // assign temp to pets
+            state.userInfo.neighborhoodList = temp;
+        },
         updateNeighborhood: (state, action) => {
             state.housing.neighborhood = action.payload;
         },
@@ -315,6 +343,7 @@ export const {
     updateProfilepic, 
     updatePets, 
     updateCook, 
+    updatePicsList,
     updateAlcohol, 
     updateSleep, 
     updateGuess, 
@@ -340,6 +369,7 @@ export const {
     updateCoffeeBoba,
     updateBobaBubble,
     // UPDATE HOUSING 
+    updateNeighborhoodList,
     updateNeighborhood, 
     updateRent, 
     updateLease, 
