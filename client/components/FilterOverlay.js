@@ -40,7 +40,11 @@ import { Slider } from '@rneui/themed';
 // - rent *slider*
 const FilterOverlay = (
   {navigation, 
-  overlayButton,
+  overlayFilterButton,
+
+  overlayDropDownClicked,
+  overlayDropDownButton,
+  
   props,
 
   ageState,
@@ -105,7 +109,7 @@ const FilterOverlay = (
       <ScrollView style={styles.filterCard}>
         <TouchableOpacity
           style={styles.filterHeader}
-          onPress={overlayButton}
+          onPress={overlayFilterButton}
           >
           <Icon name="west" size={30} />
             <Text style={styles.filterText}>Filter</Text>
@@ -125,15 +129,33 @@ const FilterOverlay = (
           />
         </View>
 
-        <View style = {styles.neighbor}>
+        <View style = {styles.neighborText}>
           <Text style = {styles. slideText}>Neighborhood: </Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={setNeighborhood}
-            value={neighborhood}
-            placeholder="What Neighborhoods?"
-            keyboardType="numeric">
-        </TextInput>
+          <TouchableOpacity
+            style={styles.dropDown}
+            onPress={overlayDropDownButton}>
+          <Text
+            onChangeText={setNeighborhood("Test")}>
+              {neighborhood}
+          </Text>
+          </TouchableOpacity>
+          {overlayDropDownClicked && (
+            <View style = {styles.dropDownContainer}>
+              <ScrollView style = {styles.dropDownCard}>
+                <TouchableOpacity
+                  style={styles.filterHeader}
+                  onPress={overlayDropDownButton}>
+                     <Icon name="west" size={30} />
+                    <Text style = {styles.filterText}> Go back </Text>
+                </TouchableOpacity>
+                {/* <TouchableOpacity>
+                  <Text>
+                    La Jolla
+                  </Text>
+              </TouchableOpacity> */}
+              </ScrollView>
+            </View>
+          )}
         </View>
 
         <View style={styles.slider}>
@@ -243,11 +265,32 @@ const styles = StyleSheet.create({
     position: "absolute",
     zIndex: 1,
   },
+  dropDownContainer: {
+    width: '100%',
+    position: "absolute",
+    zIndex: 2,
+  },
   input: {
     width: 170,
     height: 40,
     borderWidth: 1,
     padding: 10,
+  },
+  dropDown: {
+    alignSelf: 'center',
+    height: 40,
+    borderWidth: 1,
+    padding: 10,
+  },
+  dropDownCard: {
+    alignSelf: 'center',
+    width:'75%',
+    borderRadius: 15,
+    marginTop: 20,
+    backgroundColor: 'white',
+    position: "absolute",
+    zIndex: 2,
+    borderColor: "black",
   },
   filterCard: {
     backgroundColor: "white",
@@ -298,7 +341,8 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     fontSize: 20,
   },
-  neighbor: {
+  neighborText: { 
+    backgroundColor: 'white',
     marginLeft: 10,
     flexDirection: "row",
     alignSelf: "flex-start",

@@ -37,10 +37,13 @@ const BirdFeed = ({ navigation }) => {
   const [listState, setListState] = useState(false);
   // This is the old filter function on birdfeed
 
-  const overlayButton = () => {
-    overlayClicked ? setOverlayClicked(false) : setOverlayClicked(true);
+  const overlayFilterButton = () => {
+    overlayFilterClicked ? setOverlayFilterClicked(false) : setOverlayFilterClicked(true);
   };
   
+  const overlayDropDownButton = () => {
+    overlayDropDownClicked ? setOverlayDropDownClicked(false) : setOverlayDropDownClicked(true);
+  };
   // const handlerAgeChange = (ageSlide) => {
   //   setAgeState({ageState});
   // }
@@ -68,7 +71,9 @@ const BirdFeed = ({ navigation }) => {
   const [interaction, setInteraction] = useState(false);
 
 
-  const [overlayClicked, setOverlayClicked] = useState(false);
+  const [overlayFilterClicked, setOverlayFilterClicked] = useState(false);
+
+  const [overlayDropDownClicked, setOverlayDropDownClicked] = useState(false);
 
   const [switchEnabledSqua, setSwitchEnabledSqua] = useState(false);
   const toggleSwitchSqua = () =>
@@ -159,7 +164,7 @@ const BirdFeed = ({ navigation }) => {
         <MainHeader screen="Bird Feed" navigation={navigation} />
         <TouchableOpacity
           style={[styles.input, { marginVertical: 7 }]}
-          onPress={overlayButton}
+          onPress={overlayFilterButton}
         >
           <Icon3
             style={styles.input}
@@ -168,10 +173,15 @@ const BirdFeed = ({ navigation }) => {
             color="black"
           />
         </TouchableOpacity>
-        {overlayClicked && (
-          <FilterOverlay setOverlayClicked={setOverlayClicked} 
-          overlayClicked={overlayClicked}
-          overlayButton={overlayButton} 
+        {overlayFilterClicked && (
+          <FilterOverlay 
+          setOverlayFilterClicked={setOverlayFilterClicked} 
+          overlaFilterClicked={overlayFilterClicked}
+          overlayFilterButton={overlayFilterButton} 
+
+          setOverlayDropDownClicked={setOverlayFilterClicked}
+          overlayDropDownClicked={overlayDropDownClicked}
+          overlayDropDownButton={overlayDropDownButton}
 
           setAgeState={setAgeState}
           ageState={ageState}

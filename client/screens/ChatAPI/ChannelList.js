@@ -3,7 +3,7 @@ import {
     ChannelList,
 } from 'stream-chat-expo';
 import Constants from '../../constants/constants';
-import { Text, SafeAreaView, LogBox } from 'react-native';
+import { Text, SafeAreaView, LogBox, StatusBar} from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import MainHeader from '../../components/MainHeader';
 
