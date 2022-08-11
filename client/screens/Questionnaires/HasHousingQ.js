@@ -57,10 +57,10 @@ class HasHousingQ extends Component {
     else {
       return false;
     }*/
-    if ((housing.neighborhood !== null) && (housing.rent !== null) && (housing.lease !== null)
-      && (housing.garage !== null) && (housing.parking !== null) && (housing.gym !== null)
-      && (housing.pool !== null) && (housing.appliances !== null) && (housing.furniture !== null)
-      && (housing.AC !== null)) {
+    if ((this.props.housing.neighborhood !== null) && (this.props.housing.rent !== null) && (this.props.housing.lease !== null)
+      && (this.props.housing.garage !== null) && (this.props.housing.parking !== null) && (this.props.housing.gym !== null)
+      && (this.props.housing.pool !== null) && (this.props.housing.appliances !== null) && (this.props.housing.furniture !== null)
+      && (this.props.housing.AC !== null)) {
       return true;
     }
     else {
@@ -673,14 +673,11 @@ class HasHousingQ extends Component {
             onPress={() =>{
               if (!this.validate(this.props.housing)) {
                 console.log("YOU SHALL NOT PASS");
-                console.log(this.props.housing)
                 this.setField();
               }
               else {
                 this.clearField();
                 console.log("YOU SHALL PASS");
-                //console.log(this.userInfo)
-                //console.log(this.housing)
                 this.props.navigation.navigate('Personality'); //
               }
             }}>

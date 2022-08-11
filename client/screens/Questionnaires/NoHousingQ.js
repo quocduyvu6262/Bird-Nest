@@ -24,24 +24,7 @@ import {
   import * as dataActions from "../../redux/slices/data";
 
   export default class NoHousingQ extends Component {
-
-    createHousingInfo = () => {
-      Axios.post("http://localhost:3000/api/housings/create", {
-        user_id: 20,
-        rent: 1250,
-        city: "Kearny Mesa",
-        lease: 5,
-        garage: 1,
-        parking: 0,
-        gym: 1,
-        pool: 0,
-        appliances: 1,
-        furniture: 0,
-        ac: 1
-      })
-      .catch(error => console.log(error));
-    };
-    
+     
     userInfo = this.props.userInfo
     fieldState = {blankError: ""};
     validate = () => {
@@ -495,13 +478,11 @@ import {
             onPress={() =>{
               if (!this.validate()) {
                 console.log("YOU SHALL NOT PASS");
-                console.log(this.userInfo)
                 this.setField();
               }
               else {
                 this.clearField();
                 console.log("YOU SHALL PASS");
-                console.log(this.userInfo)
                 this.props.navigation.navigate('Personality'); //
               }
             }}>
