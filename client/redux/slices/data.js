@@ -276,7 +276,7 @@ export const dataSlice = createSlice({
         // HOUSING
         updateNeighborhoodList: (state, action) => {
             let {activity, add} = action.payload;
-            let temp = state.userInfo.neighborhoodList;
+            let temp = state.housing.neighborhoodList;
             if(add){
                 if(temp.indexOf(activity) === -1) {
                     temp.push(activity);
@@ -288,7 +288,7 @@ export const dataSlice = createSlice({
                 }
             }
             // assign temp to pets
-            state.userInfo.neighborhoodList = temp;
+            state.housing.neighborhoodList = temp;
         },
         updateNeighborhood: (state, action) => {
             state.housing.neighborhood = action.payload;
