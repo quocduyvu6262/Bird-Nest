@@ -74,8 +74,8 @@ router.post('/create', (req, res) => {
                             res.status(400).send(`Bad Request.`)
                             return;
                         }
-                        console.log('Update housing successfully');
-                        res.send(`Update housing successfully`);
+                        console.log('Update housing successfully from questionnaire');
+                        res.send(`Update housing successfully from questionnaire`);
                     });
                 });
             } 
@@ -88,8 +88,8 @@ router.post('/create', (req, res) => {
                             res.status(400).send(`Bad Request.`)
                             return;
                         }
-                        console.log('Insert housing successfully');
-                        res.send(`Insert housing successfully`);
+                        console.log('Insert housing successfully from questionnaire');
+                        res.send(`Insert housing successfully from questionnaire`);
                     });
                 });
             }

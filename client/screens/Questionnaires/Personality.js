@@ -48,7 +48,7 @@ class Personality extends Component {
     Axios.post(`${Constants.BASE_URL}/api/users/questionnaire`, {
       userInfo : user,
     }).catch( err => {
-      console.log("Fail to store user into database");
+      console.log("Fail to store user into database from questionnaire");
     });
     // Store housing into database
     // TODO: Implement the method to store housing data into database
