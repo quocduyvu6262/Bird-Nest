@@ -8,6 +8,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Switch,
+  TextInput,
 
 } from "react-native";
 import React, { useState } from "react";
@@ -44,6 +45,18 @@ const FilterOverlay = (
 
   ageState,
   setAgeState,
+
+  neighborhood,
+  setNeighborhood,
+
+  setRentState,
+  rentState,
+
+  setLeaseState,
+  leaseState,
+
+  setSqFtState,
+  sqFtState,
 
   switchEnabledSqua,
   toggleSwitchSqua,
@@ -86,15 +99,7 @@ const FilterOverlay = (
         </Text>
       </View>
     );
-  };
-
-  const MultipleButtons = (props) => {
-    return (
-      <View style = {styles.switchView}>
-        
-      </View>
-    )
-  }
+  };  
   return (
     <View style={styles.subContainer}>
       <ScrollView style={styles.filterCard}>
@@ -116,16 +121,62 @@ const FilterOverlay = (
             maximumValue={99}
             step={1}
             onValueChange={value => setAgeState(value)}
-            style={styles.slider}
             thumbStyle={{height: 15, width: 15, backgroundColor:'#6736B6'}}
           />
         </View>
 
-        <SingleSwitch
-          variable="Square Footage"
-          enabled={switchEnabledSqua}
-          toggle={toggleSwitchSqua}
-        />
+        <View style = {styles.neighbor}>
+          <Text style = {styles. slideText}>Neighborhood: </Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={setNeighborhood}
+            value={neighborhood}
+            placeholder="What Neighborhoods?"
+            keyboardType="numeric">
+        </TextInput>
+        </View>
+
+        <View style={styles.slider}>
+          <Text style = {styles.slideText}>
+            Rent : {rentState}
+          </Text>
+          <Slider
+            value={rentState}
+            minimumValue={500}
+            maximumValue={5000}
+            step={25}
+            onValueChange={value => setRentState(value)}
+            thumbStyle={{height: 15, width: 15, backgroundColor:'#6736B6'}}
+          />
+        </View>
+
+        <View style={styles.slider}>
+          <Text style = {styles.slideText}>
+            Lease Month Term: {leaseState}
+          </Text>
+          <Slider
+            value={leaseState}
+            minimumValue={1}
+            maximumValue={12}
+            step={1}
+            onValueChange={value => setLeaseState(value)}
+            thumbStyle={{height: 15, width: 15, backgroundColor:'#6736B6'}}
+          />
+        </View>
+
+        <View style={styles.slider}>
+          <Text style = {styles.slideText}>
+            Square Feet : {sqFtState}
+          </Text>
+          <Slider
+            value={sqFtState}
+            minimumValue={100}
+            maximumValue={6000}
+            step={50}
+            onValueChange={value => setSqFtState(value)}
+            thumbStyle={{height: 15, width: 15, backgroundColor:'#6736B6'}}
+          />
+        </View>
 
         <SingleSwitch
           variable="Price Range"
@@ -193,9 +244,10 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   input: {
-    alignSelf: "flex-start",
-    flexDirection: "row",
-    color: "black",
+    width: 170,
+    height: 40,
+    borderWidth: 1,
+    padding: 10,
   },
   filterCard: {
     backgroundColor: "white",
@@ -203,7 +255,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     zIndex: 2,
     alignSelf: "auto",
-    borderWidth: 0.5,
     borderColor: "black",
     borderRadius: 15,
     width: "100%",
@@ -238,17 +289,20 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   slider: {
-    flex:1,
-    width: 150,
-    alignSelf:'flex-start',
-    marginLeft: 15,
-    justifyContent: 'center',
+    flex: 1,
+    alignSelf: 'flex-start',
+    marginLeft: 10,
   },
   slideText: {
     alignSelf:'center',
-    flexDirection: "column",
     marginLeft: 5,
     fontSize: 20,
+  },
+  neighbor: {
+    marginLeft: 10,
+    flexDirection: "row",
+    alignSelf: "flex-start",
+    alignItems: "center",
   },
 });
 export default FilterOverlay;

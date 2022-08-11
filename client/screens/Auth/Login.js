@@ -77,12 +77,13 @@ const LoginScreen = ({ navigation }) => {
    * Function that receives the user email and perform
    * the GET request on the database in order to retrieve
    * the user info, then pushing into SecureStore and Redux Store
-   * @param emai the current user's email
+   * @param email the current user's email
    */
   const storeData = async (email) => {
     // Get and store user
     Axios.get(`${Constants.BASE_URL}/api/users/${email}`).then(({data}) => {
       const user = data[0];
+      console.log(user)
       // push into secure store
       SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify(user));
       // push into redux store
@@ -120,8 +121,6 @@ const LoginScreen = ({ navigation }) => {
               );
               // STORE UID, EMAIL, NAME
               console.log(res);
-              dispatch(dataActions.updateFullname(res.name));
-              dispatch(dataActions.updateUID(res.uid));
               // TWO CASES: LOGIN or REGISTER
               if (res.status === "login") {
                 console.log("Login Successfully")

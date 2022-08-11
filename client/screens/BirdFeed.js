@@ -45,9 +45,17 @@ const BirdFeed = ({ navigation }) => {
   //   setAgeState({ageState});
   // }
   const [ageState, setAgeState] = useState(18);
+
+  const [rentState, setRentState] = useState(500);
+
+  const [neighborhood, setNeighborhood] = useState("");
+
+  const [leaseState, setLeaseState] = useState(1);
+
+  const [sqFtState, setSqFtState] = useState(100);
+
   const [genderMale, setGenderMale] = useState(false);
   const [genderFemale, setGenderFemale] = useState(false);
-
   const [pet, setPet] = useState(false);
   const [drugs, setDrugs] = useState(false);
   const [sleep, setSleep] = useState(false);
@@ -97,23 +105,6 @@ const BirdFeed = ({ navigation }) => {
   const [switchEnabledApt, setSwitchEnabledApt] = useState(false);
   const toggleSwitchApt = () =>
     setSwitchEnabledApt((previousState) => !previousState);
-
-  // const SingleSwitch = (props) => {
-  //   return (
-  //     <View style={styles.switchView}>
-  //       <Switch
-  //         trackColor={{ false: "%767577", true: "green" }}
-  //         thumbColor={props.enabled ? "#white" : "white"}
-  //         onValueChange={props.toggle}
-  //         value={props.enabled}
-  //       />
-  //       <Text style={styles.switchText}>
-  //         <Text></Text>
-  //           {props.variable}
-  //       </Text>
-  //     </View>
-  //   );
-  // };
 
   let [fontsLoaded] = useFonts({
     Pacifico_400Regular,
@@ -184,6 +175,19 @@ const BirdFeed = ({ navigation }) => {
 
           setAgeState={setAgeState}
           ageState={ageState}
+
+          setNeighborhood={setNeighborhood}
+          neighborhood={neighborhood}
+
+          setRentState={setRentState}
+          rentState={rentState}
+
+          setLeaseState={setLeaseState}
+          leaseState={leaseState}
+
+          setSqFtState={setSqFtState}
+          sqFtState={sqFtState}
+
       // changeMultipleColor(state_a, state_b, state_c, state_d){
       //   if(state_a.pressed == false && (state_b.pressed == true || state_c.pressed == true || state_d.pressed == true)  && (state_b.backgroundColor == '#3B9CF1' || state_c.backgroundColor == '#3B9CF1' || state_d.backgroundColor == '#3B9CF1')) {
       //     state_a.backgroundColor='#3B9CF1';
@@ -255,80 +259,6 @@ const BirdFeed = ({ navigation }) => {
           toggleSwitchApt={toggleSwitchApt}
           />
         )}
-        
-        {/* Old filter on birdfeed
-        {overlayClicked && (
-          <View style={styles.subContainer}>
-            <ScrollView style={styles.filterCard}>
-              <TouchableOpacity
-                style={styles.filterHeader}
-                onPress={overlayButton}
-              >
-                <Icon name="west" size={30} />
-                <Text style={styles.filterText}>Filter</Text>
-              </TouchableOpacity>
-
-              <SingleSwitch
-                variable="Neighborhood"
-                enabled={switchEnabledNeigh}
-                toggle={toggleSwitchNeigh}
-              />
-
-              <SingleSwitch
-                variable="Square Footage"
-                enabled={switchEnabledSqua}
-                toggle={toggleSwitchSqua}
-              />
-
-              <SingleSwitch
-                variable="Price Range"
-                enabled={switchEnabledPri}
-                toggle={toggleSwitchPri}
-              />
-
-              <SingleSwitch
-                variable="Indoor Parking"
-                enabled={switchEnabledIn}
-                toggle={toggleSwitchIn}
-              />
-
-              <SingleSwitch
-                variable="Percent Matched"
-                enabled={switchEnabledPer}
-                toggle={toggleSwitchPer}
-              />
-
-              <SingleSwitch
-                variable="# of Roommates"
-                enabled={switchEnabledRoo}
-                toggle={toggleSwitchRoo}
-              />
-
-              <SingleSwitch
-                variable="Pecked Yes"
-                enabled={switchEnabledYes}
-                toggle={toggleSwitchYes}
-              />
-
-              <SingleSwitch
-                variable="Pecked No"
-                enabled={switchEnabledNo}
-                toggle={toggleSwitchNo}
-              />
-
-              <SingleSwitch
-                variable="Most Recent"
-                enabled={switchEnabledRec}
-                toggle={toggleSwitchRec}
-              />
-              <SingleSwitch
-                variable="Apartment"
-                enabled={switchEnabledApt}
-                toggle={toggleSwitchApt}
-              />
-            </ScrollView>
-          </View>
-        )} */}
 
         {listState && (
           <View styles={styles.flatlist}>
