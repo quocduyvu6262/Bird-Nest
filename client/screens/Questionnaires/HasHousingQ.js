@@ -57,7 +57,10 @@ class HasHousingQ extends Component {
     else {
       return false;
     }*/
-    if (housing.AC !== null) {
+    if ((housing.neighborhood !== null) && (housing.rent !== null) && (housing.lease !== null)
+      && (housing.garage !== null) && (housing.parking !== null) && (housing.gym !== null)
+      && (housing.pool !== null) && (housing.appliances !== null) && (housing.furniture !== null)
+      && (housing.AC !== null)) {
       return true;
     }
     else {
@@ -215,6 +218,7 @@ class HasHousingQ extends Component {
       backgroundColor: '#D9D9D9'
     };
     state28 = {
+      name: 'Other',
       pressed: false,
       backgroundColor: '#D9D9D9'
     };
@@ -492,6 +496,7 @@ class HasHousingQ extends Component {
           <TouchableOpacity style={[this.state28, HousingQ_styles.buttonContainerNo6]}
           onPress={()=>{
             this.changeMany(this.state28, this.state16, this.state17, this.state18, this.state15, this.state20, this.state21, this.state22, this.state23, this.state24, this.state25, this.state26, this.state27, this.state19)
+            this.props.dispatch(dataActions.updateNeighborhood(this.state28.name));
           }}>
             <Text style = {HousingQ_styles.buttonText}>Other</Text>
           </TouchableOpacity>

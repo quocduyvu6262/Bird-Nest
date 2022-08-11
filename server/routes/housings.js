@@ -32,14 +32,14 @@ router.get('/:id', (req, res) => {
 })
 
 // Get housing by Email
-router.get('/:email', (req, res) => {
-    const query = `SELECT * FROM BirdNest.Housing JOIN BirdNest.User ON User.id = Housing.User_id WHERE User.email= "${req.params.email}";`;
+router.get('/email/:email', (req, res) => {
+    const query = `SELECT * FROM Housing JOIN User ON User.id = Housing.User_id WHERE User.email= "${req.params.email}";`;
     db(client => {
         client.query(query, (err, result) => {
             if(!err && result.length) {
                 res.send(result);
             } else {
-                console.log("nope");
+                console.log(err);
                 res.status(404).send('Housing not found.');
             }
         })
@@ -47,28 +47,57 @@ router.get('/:email', (req, res) => {
 })
 // Post housings
 router.post('/create', (req, res) => {
-    let housing = req.body;
-    const query = `
-        INSERT INTO Housing (neighborhood, city, squarefeet, lease, rent, garage, parking, gym, pool, appliances, furniture, AC, user_id)
-        VALUES ("${housing.neighborhood}", "${housing.city}",
-         "${housing.squarefeet}", "${housing.lease}", "${housing.rent}", 
-         "${housing.garage}", "${housing.parking}", 
-         "${housing.gym}", "${housing.pool}", 
-         "${housing.appliances}", "${housing.furniture}", "${housing.AC}", "${housing.User_id}")`;
+    let housing = req.body.housing;
+    let user_id = req.body.user_id;
+    //Check if user exists in housing table
+    const checkExistQuery = `SELECT * FROM Housing WHERE user_id = "${user_id}"`
+    const insertQuery = `
+    INSERT INTO Housing (neighborhood, city, squarefeet, lease, rent, garage, parking, gym, pool, appliances, furniture, AC, user_id)
+    VALUES ("${housing.neighborhood}", "${housing.city}",
+     "${housing.squarefeet}", "${housing.lease}", "${housing.rent}", 
+     "${housing.garage}", "${housing.parking}", 
+     "${housing.gym}", "${housing.pool}", 
+     "${housing.appliances}", "${housing.furniture}", "${housing.AC}", "${user_id}")`;
+    const updateQuery = `UPDATE Housing SET neighborhood="${housing.neighborhood}", city="${housing.city}", 
+        squarefeet="${housing.squarefeet}", lease="${housing.lease}", rent="${housing.rent}", 
+        garage="${housing.garage}", parking="${housing.parking}", gym="${housing.gym}", pool="${housing.pool}, 
+        appliances="${housing.appliances}", furniture="${housing.furniture}", AC="${housing.AC}" WHERE user_id=${user_id}`;
     db(client => {
-        client.query(query,(err,result) => {
-            if(err){
-                console.log(err);
-                res.status(400).send(`Bad Request.`)
-                return;
+        client.query(checkExistQuery, (err, result) => {
+            //if result is not empty a user is found, update
+            if(result.length){
+                // console.log( "User found successfully.");
+                db(client => {
+                    client.query(updateQuery, (err) => {
+                        if(err){
+                            console.log(err);
+                            res.status(400).send(`Bad Request.`)
+                            return;
+                        }
+                        res.send(`Update successfully.`);
+                    });
+                });
+            } 
+            //Else, user is not found. Insert
+            else {
+                db(client => {
+                    client.query(insertQuery, (err) => {
+                        if(err){
+                            console.log(err);
+                            res.status(400).send(`Bad Request.`)
+                            return;
+                        }
+                        res.send(`Insert successfully.`);
+                    });
+                });
             }
-            res.send(`Insert successfully.`);
         });
     })
 })
 // Delete housings
 router.post('/delete', (req, res) => {
     let housing = req.body;
+    //let User_id = req.body.user_id;
     const query = `
     DELETE FROM Housing WHERE User_id=${housing.User_id}`;
     db(client => {

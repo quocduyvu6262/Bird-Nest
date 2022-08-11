@@ -81,6 +81,133 @@ class Personality extends Component {
     //      and push only non-null values (already null in db if not answered) to avoid overwriting optional questions as null? 
     //TODO: Mostly Jack's job, make the buttons stay pressed based on localstorage
     
+    //if housing role selected
+    if (userInfo.role === "Flamingo" || userInfo.role === "Owl") {
+      //check if user is in nohousing table 
+      let getNohousing = "http:192.168.1.13:3000/api/Nohousing/email/" + userInfo.email;
+      Axios.get(getNohousing, {
+
+      })
+      .then((nohousingResponse) => {
+        //Need user_id because housing table doesn't use emails
+        let getUser_id = "http:192.168.1.13:3000/api/User/email/" + userInfo.email;
+        Axios.get(getUser_id, {
+
+        })
+        .then(user_idResponse => {
+          let user_id = user_idResponse.data.user_id;   //TODO: How to let this be accessed outside this block?
+        })
+        .catch((error) => {
+          console.log(error);
+          console.log("GET ERROR");
+        });
+        //if user is not found in nohousing table, create a new entry in housing table as normal
+        //TODO: Check if null is correct response when query returns empty
+        if (nohousingResponse.data === null) {
+          //post request handles if user exists in housing table
+          Axios.post("http:192.168.1.13:3000/api/Housings/create", {
+            housing : housing,
+            user_id,
+          })
+          .catch((error) => {
+            console.log(error);
+            console.log("POST ERROR");
+          });
+        }
+        //if user was found in the nohousing table, delete that entry and push the current userInfo to housing instead
+        //TODO: Is this else really needed? Can't I just do if not null or if length != 0 delete and then post at the end anyway? 
+        //if (!null)
+        //  delete
+        //post
+        else {
+          //delete from nohousing
+          Axios.post("http:192.168.1.13:3000/api/Nohousing/delete", {
+            user_id,
+          })
+          .catch((error) => {
+            console.log(error);
+            console.log("POST ERROR");
+          });
+          //post to housing
+          Axios.post("http:192.168.1.13:3000/api/Housings/create", {
+            housing : housing,
+            user_id,
+          })
+          .catch((error) => {
+            console.log(error);
+            console.log("POST ERROR");
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        console.log("GET ERROR");
+      });
+
+    }
+    //if nohousing role selected
+    else if (userInfo.role === "Parrot" || userInfo.role === "Penguin" || userInfo.role === "Duck") {
+      //check if user is in housing table 
+      let getHousing = "http:192.168.1.13:3000/api/Housings/email/" + userInfo.email;
+      Axios.get(getHousing, {
+
+      })
+      .then((housingResponse) => {
+        //Need user_id because nohousing table doesn't use emails
+        let getUser_id = "http:192.168.1.13:3000/api/User/email/" + userInfo.email;
+        Axios.get(getUser_id, {
+
+        })
+        .then(user_idResponse => {
+          let user_id = user_idResponse.data.user_id;   //TODO: How to let this be accessed outside this block?
+        })
+        .catch((error) => {
+          console.log(error);
+          console.log("GET ERROR");
+        });
+        //if user is not found in housing table, create a new entry in nohousing table as normal
+        //TODO: Check if null is correct response when query returns empty
+        if (housingResponse.data === null) {
+          //post request handles if user exists in housing table
+          Axios.post("http:192.168.1.13:3000/api/Nohousing/create", {
+            housing : housing,
+            user_id,
+          })
+          .catch((error) => {
+            console.log(error);
+            console.log("POST ERROR");
+          });
+        }
+        //if user was found in the housing table, delete that entry and push the current userInfo to nohousing instead
+        //TODO: Is this else really needed? Can't I just do if not null or if length != 0 delete and then post at the end anyway? 
+        //if (!null)
+        //  delete
+        //post
+        else {
+          //delete from housing
+          Axios.post("http:192.168.1.13:3000/api/Housing/delete", {
+            user_id,
+          })
+          .catch((error) => {
+            console.log(error);
+            console.log("POST ERROR");
+          });
+          //post to housing
+          Axios.post("http:192.168.1.13:3000/api/Nohousing/create", {
+            housing : housing,
+            user_id,
+          })
+          .catch((error) => {
+            console.log(error);
+            console.log("POST ERROR");
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        console.log("GET ERROR");
+      });
+    }
     
   }
 

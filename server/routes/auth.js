@@ -189,7 +189,6 @@ router.post('/questionnaire', (req, res) => {
         else if (userInfo[key] === false || userInfo[key] === true) {
             incompleteQuery += key + "=" + `${userInfo[key].toString()}` + ",";
         }
-        //Arrays not sending properly 
         else {
             incompleteQuery += key + "=" + `"${userInfo[key].toString()}"` + ",";
         }
@@ -200,18 +199,6 @@ router.post('/questionnaire', (req, res) => {
     incompleteQuery += ` WHERE email = '${userInfo.email}';`
     query = incompleteQuery;
     console.log(query);
-    //const age = req.body.age;
-    //console.log(req.body.athletic);
-    //const anime = req.body.anime;
-    //const pets = req.body.pets;
-    //const talkative = userInfo.talkative;
-    //console.log(userInfo.pets);
-    //console.log(userInfo.anime);
-    //console.log(anime);
-    //const graduationyear = req.body.graduationyear;
-    //console.log(typeof userInfo.graduationyear);
-    //console.log(typeof graduationyear);
-    //TODO: , pets="${userInfo.pets}" 
     /*
     const query = `UPDATE User SET role="${userInfo.role}", gender="${userInfo.gender}", 
         age="${userInfo.age}", pronouns="${userInfo.pronouns}", graduationyear="${userInfo.graduationyear}",

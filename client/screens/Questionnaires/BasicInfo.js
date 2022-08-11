@@ -68,7 +68,9 @@ class BasicInfo extends Component {
       return false;
     }
     */
-   if (userInfo.tellRoommateIfBothered !== null) {
+   if ((userInfo.pets !== "") && (userInfo.alcohol !== "") && (userInfo.sleep !== "")
+    && (userInfo.guests !== "") && (userInfo.silent !== "") && (userInfo.shareAppliances !== "")
+    && (userInfo.roommateInteraction !== "") && (userInfo.tellRoommateIfBothered !== "")) {
     return true;
    }
    else {
