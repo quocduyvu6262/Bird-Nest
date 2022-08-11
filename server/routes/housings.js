@@ -17,7 +17,7 @@ router.get('/', (req, res) => {
     });
 })
 
- //Get housing by ID
+//Get housing by ID
 router.get('/:id', (req, res) => {
     const query = `SELECT * FROM Housing WHERE id=${req.params.id}`;
     db(client => {
@@ -52,16 +52,16 @@ router.post('/create', (req, res) => {
     //Check if user exists in housing table
     const checkExistQuery = `SELECT * FROM Housing WHERE user_id = "${user_id}"`
     const insertQuery = `
-    INSERT INTO Housing (neighborhood, city, squarefeet, lease, rent, garage, parking, gym, pool, appliances, furniture, AC, user_id)
+    INSERT INTO Housing (neighborhood, city, squarefeet, lease, rent, garage, parking, gym, pool, appliances, furniture, AC, User_id)
     VALUES ("${housing.neighborhood}", "${housing.city}",
      "${housing.squarefeet}", "${housing.lease}", "${housing.rent}", 
-     "${housing.garage}", "${housing.parking}", 
-     "${housing.gym}", "${housing.pool}", 
-     "${housing.appliances}", "${housing.furniture}", "${housing.AC}", "${user_id}")`;
+     ${housing.garage}, ${housing.parking}, 
+     ${housing.gym}, ${housing.pool}, 
+     ${housing.appliances}, ${housing.furniture}, ${housing.AC}, "${user_id}")`;
     const updateQuery = `UPDATE Housing SET neighborhood="${housing.neighborhood}", city="${housing.city}", 
         squarefeet="${housing.squarefeet}", lease="${housing.lease}", rent="${housing.rent}", 
-        garage="${housing.garage}", parking="${housing.parking}", gym="${housing.gym}", pool="${housing.pool}, 
-        appliances="${housing.appliances}", furniture="${housing.furniture}", AC="${housing.AC}" WHERE user_id=${user_id}`;
+        garage=${housing.garage.toString()}, parking=${housing.parking.toString()}, gym=${housing.gym.toString()}, pool=${housing.pool.toString()}, 
+        appliances=${housing.appliances.toString()}, furniture=${housing.furniture.toString()}, AC=${housing.AC.toString()} WHERE User_id=${user_id}`;
     db(client => {
         client.query(checkExistQuery, (err, result) => {
             //if result is not empty a user is found, update
@@ -74,7 +74,8 @@ router.post('/create', (req, res) => {
                             res.status(400).send(`Bad Request.`)
                             return;
                         }
-                        res.send(`Update successfully.`);
+                        console.log('Update housing successfully');
+                        res.send(`Update housing successfully`);
                     });
                 });
             } 
@@ -87,13 +88,15 @@ router.post('/create', (req, res) => {
                             res.status(400).send(`Bad Request.`)
                             return;
                         }
-                        res.send(`Insert successfully.`);
+                        console.log('Insert housing successfully');
+                        res.send(`Insert housing successfully`);
                     });
                 });
             }
         });
     })
 })
+
 // Delete housings
 router.post('/delete', (req, res) => {
     let housing = req.body;
@@ -107,8 +110,40 @@ router.post('/delete', (req, res) => {
                 res.status(400).send(`Bad Request.`)
                 return;
             }
-            res.send(`Insert successfully.`);
+            res.send(`Delete successfully.`);
         });
     })   
 })
+
+//Store the buttons (Correspond to variables) a user clicked in an array (each button adds an element to the array)
+//Insert the strings into queries. Where 'variable' = 'variable_value
+
+router.get('/filtered', (req, res) => {
+    const filterVars = ["id", "fullname", "role", "gender", "age", "graduationyear", "major", "pet"];
+    //const filterVars = [];
+    //filterVars.push(var);
+    incompleteQuery = "SELECT ";
+    for (let i = 0; i < filterVars.length -1; i++) {    //skip last element because last doesnt have comma
+        incompleteQuery += filterVars[i] + ", ";
+    }
+    incompleteQuery += filterVars[filterVars.length -1] + " FROM User;";
+    //const query = "SELECT id, fullname, role, gender, age, graduationyear, major, pet FROM User;";
+    const query = incompleteQuery;
+    db(client => {
+        client.query(query, (err, results) => {
+            if(!err){
+                res.send(results);
+            } else {
+                //res.status(401).send("No users matching those filters found");
+                console.log(err);
+                res.status(401).send(results);
+            }
+        })
+    });
+})
+
+
+
+
+
 module.exports = router;

@@ -30,187 +30,47 @@ import * as dataActions from '../../redux/slices/data';
 
 
 class Personality extends Component {
-  // Store to secure store
-  store(){
-    // Store data
-    const {userInfo} = this.props;
-    SecureStore.setItemAsync(
-      Constants.MY_SECURE_AUTH_STATE_KEY_REDUX,
-      JSON.stringify(userInfo)
-    );
-  };
 
-  /*
-  createHousingInfo = () => {
-    Axios.post("http://localhost:3000/api/housings/create", {
-      user_id: 20,
-      rent: 1250,
-      city: "Kearny Mesa",
-      lease: 5,
-      garage: 1,
-      parking: 0,
-      gym: 1,
-      pool: 0,
-      appliances: 1,
-      furniture: 0,
-      ac: 1
-    })
-    .catch(error => console.log(error));
-  };*/
 
-  userInfo = this.props.userInfo;
-  housing = this.props.housing;
+  /**
+   * Pull data from Redux Store and store into
+   * Database and Secure Storage
+   */
+   storeData = () => {
+    const user = this.props.data.userInfo;
+    const housing = this.props.data.housing;
+    // Store into Secure Store
+    SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify(user));
+    SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING, JSON.stringify(housing));
 
-  pushToDB = (userInfo) => {
-    //First push all User table info to user table
-    //const email = userInfo.email;
-    
-    //const dayout = userInfo.dayout;
-    Axios.post("http://192.168.1.13:3000/api/users/questionnaire", {
-      userInfo : userInfo,
-    }).catch((error) => {
-      console.log(error);
-      console.log("POST ERROR");
+    // Store user into database
+    // TODO: Implement the method to store user data into database
+    Axios.post(`${Constants.BASE_URL}/api/users/questionnaire`, {
+      userInfo : user,
+    }).catch( err => {
+      console.log("Fail to store user into database");
     });
-    
-    //Second push housing info to corresponding table, similar logic to Roles
-    //What if local storage is cleared (what would clear it?) and you want to update only 1 field of the questionnaire? 
-    //      You'd have to redo everything from memory. How to make it persist? Potentially pull from database if localstorage is null?
-    //Related edge case, let's say you answer all required questions and leave the optional ones blank but you already filled them in
-    //      before and they're in the database. When you push at the end you'd be pushing null and overwriting. Potentially loop through map
-    //      and push only non-null values (already null in db if not answered) to avoid overwriting optional questions as null? 
-    //TODO: Mostly Jack's job, make the buttons stay pressed based on localstorage
-    
-    //if housing role selected
-    if (userInfo.role === "Flamingo" || userInfo.role === "Owl") {
-      //check if user is in nohousing table 
-      let getNohousing = "http:192.168.1.13:3000/api/Nohousing/email/" + userInfo.email;
-      Axios.get(getNohousing, {
-
+    // Store housing into database
+    // TODO: Implement the method to store housing data into database
+    if(user.role === 'Flamingo' || user.role === 'Owl'){
+      // Post to housing
+      Axios.post(`${Constants.BASE_URL}/api/housings/create`, {
+        user_id: user.id,
+        housing: housing
+      }).then().catch( err => {
+        console.log('Fail to update/insert housing from questionnaire');
       })
-      .then((nohousingResponse) => {
-        //Need user_id because housing table doesn't use emails
-        let getUser_id = "http:192.168.1.13:3000/api/User/email/" + userInfo.email;
-        Axios.get(getUser_id, {
-
-        })
-        .then(user_idResponse => {
-          let user_id = user_idResponse.data.user_id;   //TODO: How to let this be accessed outside this block?
-        })
-        .catch((error) => {
-          console.log(error);
-          console.log("GET ERROR");
-        });
-        //if user is not found in nohousing table, create a new entry in housing table as normal
-        //TODO: Check if null is correct response when query returns empty
-        if (nohousingResponse.data === null) {
-          //post request handles if user exists in housing table
-          Axios.post("http:192.168.1.13:3000/api/Housings/create", {
-            housing : housing,
-            user_id,
-          })
-          .catch((error) => {
-            console.log(error);
-            console.log("POST ERROR");
-          });
-        }
-        //if user was found in the nohousing table, delete that entry and push the current userInfo to housing instead
-        //TODO: Is this else really needed? Can't I just do if not null or if length != 0 delete and then post at the end anyway? 
-        //if (!null)
-        //  delete
-        //post
-        else {
-          //delete from nohousing
-          Axios.post("http:192.168.1.13:3000/api/Nohousing/delete", {
-            user_id,
-          })
-          .catch((error) => {
-            console.log(error);
-            console.log("POST ERROR");
-          });
-          //post to housing
-          Axios.post("http:192.168.1.13:3000/api/Housings/create", {
-            housing : housing,
-            user_id,
-          })
-          .catch((error) => {
-            console.log(error);
-            console.log("POST ERROR");
-          });
-        }
+    } else if(user.role === 'Parrot' || user.role === 'Penguin' || user.role === 'Duck'){
+      // Post to nohousing
+      Axios.post(`${Constants.BASE_URL}/api/nohousing/create`, {
+        user_id: user.id,
+        housing: housing
+      }).then().catch( err => {
+        console.log('Fail to update/insert nohousing from questionnaire');
       })
-      .catch((error) => {
-        console.log(error);
-        console.log("GET ERROR");
-      });
-
-    }
-    //if nohousing role selected
-    else if (userInfo.role === "Parrot" || userInfo.role === "Penguin" || userInfo.role === "Duck") {
-      //check if user is in housing table 
-      let getHousing = "http:192.168.1.13:3000/api/Housings/email/" + userInfo.email;
-      Axios.get(getHousing, {
-
-      })
-      .then((housingResponse) => {
-        //Need user_id because nohousing table doesn't use emails
-        let getUser_id = "http:192.168.1.13:3000/api/User/email/" + userInfo.email;
-        Axios.get(getUser_id, {
-
-        })
-        .then(user_idResponse => {
-          let user_id = user_idResponse.data.user_id;   //TODO: How to let this be accessed outside this block?
-        })
-        .catch((error) => {
-          console.log(error);
-          console.log("GET ERROR");
-        });
-        //if user is not found in housing table, create a new entry in nohousing table as normal
-        //TODO: Check if null is correct response when query returns empty
-        if (housingResponse.data === null) {
-          //post request handles if user exists in housing table
-          Axios.post("http:192.168.1.13:3000/api/Nohousing/create", {
-            housing : housing,
-            user_id,
-          })
-          .catch((error) => {
-            console.log(error);
-            console.log("POST ERROR");
-          });
-        }
-        //if user was found in the housing table, delete that entry and push the current userInfo to nohousing instead
-        //TODO: Is this else really needed? Can't I just do if not null or if length != 0 delete and then post at the end anyway? 
-        //if (!null)
-        //  delete
-        //post
-        else {
-          //delete from housing
-          Axios.post("http:192.168.1.13:3000/api/Housing/delete", {
-            user_id,
-          })
-          .catch((error) => {
-            console.log(error);
-            console.log("POST ERROR");
-          });
-          //post to housing
-          Axios.post("http:192.168.1.13:3000/api/Nohousing/create", {
-            housing : housing,
-            user_id,
-          })
-          .catch((error) => {
-            console.log(error);
-            console.log("POST ERROR");
-          });
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        console.log("GET ERROR");
-      });
     }
     
   }
-
 
 
     slider_state = {
@@ -906,13 +766,8 @@ class Personality extends Component {
           <TouchableOpacity style={HousingQ_styles.nextButton}
           onPress={()=>{
             //this.createHousingInfo()
-            this.store();
-            this.pushToDB(this.props.userInfo);
-            //console.log(this.props.userInfo.email);
-            //console.log(this.userInfo.email);
-            //console.log(this.userInfo);
-            //console.log(this.housing);
-            this.props.navigation.navigate('BirdFeed'); //
+            this.storeData();
+            this.props.navigation.navigate('BirdFeed')
           }}>
             <Text style = {[HousingQ_styles.buttonText, {color:'#FFF'}]}>Finish</Text>
           </TouchableOpacity>

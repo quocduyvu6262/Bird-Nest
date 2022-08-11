@@ -36,7 +36,9 @@ const PeckView = ({ navigation }) => {
       <MainHeader screen="Peck View" navigation={navigation} />
       <ScrollView>
         <Background>
-          <PeckCard name="Elie" image={Elie}></PeckCard>
+          <PeckCard name="Elie" image={Elie}>
+            
+          </PeckCard>
           <View style={PeckView_Styles.buttonContainer}>
             <TouchableOpacity>
               <Button

@@ -24,27 +24,12 @@ import {
   import * as dataActions from "../../redux/slices/data";
 
   export default class NoHousingQ extends Component {
-
-    createHousingInfo = () => {
-      Axios.post("http://localhost:3000/api/housings/create", {
-        user_id: 20,
-        rent: 1250,
-        city: "Kearny Mesa",
-        lease: 5,
-        garage: 1,
-        parking: 0,
-        gym: 1,
-        pool: 0,
-        appliances: 1,
-        furniture: 0,
-        ac: 1
-      })
-      .catch(error => console.log(error));
-    };
     
-    userInfo = this.props.userInfo
+    userInfo = this.props.userInfo;
+    housing = this.props.housing;
     fieldState = {blankError: ""};
-    validate = () => {
+    validate = (housing) => {
+      /*
       if ((this.state29.backgroundColor === "#3B9CF1" || this.state30.backgroundColor === "#3B9CF1" //lease
             || this.state31.backgroundColor === "#3B9CF1" || this.state32.backgroundColor === "#3B9CF1") //
           && (this.state1.backgroundColor === "#3B9CF1" || this.state2.backgroundColor === "#3B9CF1") //garage
@@ -62,6 +47,16 @@ import {
           && (this.state11.backgroundColor === "#3B9CF1" || this.state12.backgroundColor === "#3B9CF1") //furnished
           && (this.state13.backgroundColor === "#3B9CF1" || this.state14.backgroundColor === "#3B9CF1") //AC
           ) {
+        return true;
+      }
+      else {
+        return false;
+      }
+      */
+      if ((housing.neighborhood !== null) && (housing.rent !== null) && (housing.lease !== null)
+        && (housing.garage !== null) && (housing.parking !== null) && (housing.gym !== null)
+        && (housing.pool !== null) && (housing.appliances !== null) && (housing.furniture !== null)
+        && (housing.AC !== null)) {
         return true;
       }
       else {
@@ -493,15 +488,15 @@ import {
           <TouchableOpacity
             style={HousingQ_styles.nextButton}
             onPress={() =>{
-              if (!this.validate()) {
+              if (!this.validate(this.props.housing)) {
                 console.log("YOU SHALL NOT PASS");
-                console.log(this.userInfo)
+                //console.log(this.props.housing)
                 this.setField();
               }
               else {
                 this.clearField();
                 console.log("YOU SHALL PASS");
-                console.log(this.userInfo)
+                //console.log(this.props.housing)
                 this.props.navigation.navigate('Personality'); //
               }
             }}>

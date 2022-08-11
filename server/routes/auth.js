@@ -5,6 +5,7 @@ const {check, validationResult} = require('express-validator');
 const jwt = require('jsonwebtoken');
 // require db connection
 const db = require('../utils/database');
+const { query } = require('express');
 const router = express.Router();
 // add validation
 const validate = [
@@ -233,6 +234,53 @@ router.post('/questionnaire', (req, res) => {
         res.status(400).send(err);
     } 
 });
+
+// store user
+router.post('/questionnaire', (req, res) => {
+    let userInfo = req.body.userInfo;
+    let incompleteQuery = "UPDATE User SET ";
+    for (let key in userInfo) {
+        //Possible edge case this creates: What if you want to deselect something optional and make it null? (BANDAID FIX)
+        //TODO: Handle boolean/yes/no?
+        if (userInfo[key] === null || userInfo[key] === "undefined" || userInfo[key] === '') {
+            continue;
+        } 
+        else if (key === "email" || key === "userInfo") {
+            continue;
+        }
+        else if (key === "pets" || key === "dayout" || key === "interiorDesign" || key === "favoriteSport") {
+            incompleteQuery += key + "=" + JSON.stringify(userInfo[key].toString()) + ",";
+        }
+        else if (userInfo[key] === false || userInfo[key] === true) {
+            incompleteQuery += key + "=" + `${userInfo[key].toString()}` + ",";
+        }
+        //Arrays not sending properly 
+        else {
+            incompleteQuery += key + "=" + `"${userInfo[key].toString()}"` + ",";
+        }
+    }
+    //UPDATE User Set role=... tellRoommateIfBothered=tellRoommateIfBothered, 
+    incompleteQuery = incompleteQuery.slice(0, -1);
+    //UPDATE User Set role=... tellRoommateIfBothered=tellRoommateIfBothered
+    incompleteQuery += ` WHERE email = '${userInfo.email}';`
+    const query = incompleteQuery;
+    try {
+        db(client => {
+            client.query(query, (err, result) => {
+                if (err) {
+                    console.log(err);
+                }
+                else {
+                    res.send(result);
+                }
+            }) 
+        })
+    }  
+    catch(err) {
+        res.status(400).send(err);
+    } 
+});
+
 
 
 module.exports = router;
