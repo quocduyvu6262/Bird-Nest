@@ -671,16 +671,16 @@ class HasHousingQ extends Component {
           <TouchableOpacity
             style={HousingQ_styles.nextButton}
             onPress={() =>{
-              if (!this.validate(this.housing)) {
+              if (!this.validate(this.props.housing)) {
                 console.log("YOU SHALL NOT PASS");
-                console.log(this.housing)
+                console.log(this.props.housing)
                 this.setField();
               }
               else {
                 this.clearField();
                 console.log("YOU SHALL PASS");
-                console.log(this.userInfo)
-                console.log(this.housing)
+                //console.log(this.userInfo)
+                //console.log(this.housing)
                 this.props.navigation.navigate('Personality'); //
               }
             }}>

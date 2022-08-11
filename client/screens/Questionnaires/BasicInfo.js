@@ -27,21 +27,6 @@ import { useDispatch, useSelector, connect } from "react-redux";
 import * as dataActions from "../../redux/slices/data";
 
 class BasicInfo extends Component {
-  createHousingInfo = async () => {
-    await Axios.post("http://localhost:3000/api/housings/create", {
-      user_id: 20,
-      rent: 1250,
-      city: "Kearny Mesa",
-      lease: 5,
-      garage: 1,
-      parking: 0,
-      gym: 1,
-      pool: 0,
-      appliances: 1,
-      furniture: 0,
-      ac: 1,
-    }).catch((error) => console.log(error));
-  };
   //userInfo = useSelector((state) => state.data.userInfo); //added in
   //userInfo.garage = this.state17.name //check if color is blue, if it is set it (for loop, concatenate index)
   userInfo = this.props.userInfo
@@ -874,18 +859,24 @@ class BasicInfo extends Component {
             style={HousingQ_styles.nextButton}
             onPress={() =>{
               //this.createHousingInfo()
-              if (!this.validate(this.userInfo)) {
+              console.log(this.props.userInfo)
+              if (!this.validate(this.props.userInfo)) {
                 console.log("YOU SHALL NOT PASS");
                 //console.log(this.userInfo.role);
-                console.log(this.userInfo)
-                this.setField();
+                //console.log(this.userInfo)
+                //this.setField();
               }
               else {
                 this.clearField();
                 console.log("YOU SHALL PASS");
                 //console.log(this.userInfo.role);
-                console.log(this.userInfo)
-                this.props.navigation.navigate("HasHousingQ"); //
+                //console.log(this.userInfo)
+                if (this.userInfo.role === "Flamingo" || this.userInfo.role === "Owl") {
+                  this.props.navigation.navigate("HasHousingQ"); //
+                }
+                else if (this.userInfo.role === "Penguin" || this.userInfo.role === "Duck" || this.userInfo.role === "Parrot") {
+                  this.props.navigation.navigate("NoHousingQ");
+                }
               }
             }}>
             <Text style={[HousingQ_styles.buttonText, { color: "#FFF" }]}>

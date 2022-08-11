@@ -37,7 +37,7 @@ const Roles = ({ navigation }) => {
     setFormState("");
     return true;
   }
-
+  /*
   const selectRoles = (selectedRole) => {
     console.log(selectedRole);
     /*
@@ -56,6 +56,7 @@ const Roles = ({ navigation }) => {
     //const selectedRole  = "";
 
     //If housing role selected
+    /*
     if (selectedRole === "Flamingo" || selectedRole === "Owl") {
       console.log("HOUSINGS");
       //Check opposing table (nohousing)
@@ -82,7 +83,7 @@ const Roles = ({ navigation }) => {
             }).catch((error) => {
               console.log(error);
             });
-          }
+          } 
           //if user was found in opposite table (nohousing), copy that row into corresponding table and delete opposite table's row
           else {
             Axios.get("http://192.168.1.13:3000/api/nohousing/:id?=11", {
@@ -174,7 +175,8 @@ const Roles = ({ navigation }) => {
           console.log(error);
         });
     }
-  };
+    
+  };*/
 
   return (
     <SafeAreaView style={Roles_styles.container}>

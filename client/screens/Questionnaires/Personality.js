@@ -907,7 +907,7 @@ class Personality extends Component {
           onPress={()=>{
             //this.createHousingInfo()
             this.store();
-            this.pushToDB(this.userInfo);
+            this.pushToDB(this.props.userInfo);
             //console.log(this.props.userInfo.email);
             //console.log(this.userInfo.email);
             //console.log(this.userInfo);
