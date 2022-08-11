@@ -1112,10 +1112,11 @@ const mapDispatchToProps = (dispatch) => {
 //   data: state.data
 // });
 
+// MAP STATE TO PROPS
 const mapStateToProps = state => ({
-  userInfo: state.data.userInfo,
-  housing: state.data.housing
+  data: state.data
 });
+
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(Personality);
