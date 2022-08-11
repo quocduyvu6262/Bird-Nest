@@ -5,6 +5,7 @@ const {check, validationResult} = require('express-validator');
 const jwt = require('jsonwebtoken');
 // require db connection
 const db = require('../utils/database');
+const { query } = require('express');
 const router = express.Router();
 // add validation
 const validate = [
@@ -197,7 +198,7 @@ router.post('/questionnaire', (req, res) => {
     incompleteQuery = incompleteQuery.slice(0, -1);
     //UPDATE User Set role=... tellRoommateIfBothered=tellRoommateIfBothered
     incompleteQuery += ` WHERE email = '${userInfo.email}';`
-    query = incompleteQuery;
+    const query = incompleteQuery;
     try {
         db(client => {
             client.query(query, (err, result) => {

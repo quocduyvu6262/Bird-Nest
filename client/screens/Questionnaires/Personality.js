@@ -51,6 +51,24 @@ class Personality extends Component {
     });
     // Store housing into database
     // TODO: Implement the method to store housing data into database
+    if(user.role === 'Flamingo' || user.role === 'Owl'){
+      // Post to housing
+      Axios.post(`${Constants.BASE_URL}/api/housings/create`, {
+        user_id: user.id,
+        housing: housing
+      }).then().catch( err => {
+        console.log('Fail to update/insert housing from questionnaire');
+      })
+    } else if(user.role === 'Parrot' || user.role === 'Penguin' || user.role === 'Duck'){
+      // Post to nohousing
+      Axios.post(`${Constants.BASE_URL}/api/nohousing/create`, {
+        user_id: user.id,
+        housing: housing
+      }).then().catch( err => {
+        console.log('Fail to update/insert nohousing from questionnaire');
+      })
+    }
+    
   }
 
 
