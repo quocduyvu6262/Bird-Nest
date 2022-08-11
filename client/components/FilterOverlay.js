@@ -115,7 +115,7 @@ const FilterOverlay = (
             <Text style={styles.filterText}>Filter</Text>
         </TouchableOpacity>
 
-        <View style={styles.slider}>
+        {/* <View style={styles.slider}>
           <Text style = {styles.slideText}>
             Age : {ageState}
           </Text>
@@ -127,7 +127,7 @@ const FilterOverlay = (
             onValueChange={value => setAgeState(value)}
             thumbStyle={{height: 15, width: 15, backgroundColor:'#6736B6'}}
           />
-        </View>
+        </View> */}
 
         <View style = {styles.neighborText}>
           <Text style = {styles. slideText}>Neighborhood: </Text>
@@ -135,7 +135,7 @@ const FilterOverlay = (
             style={styles.dropDown}
             onPress={overlayDropDownButton}>
           <Text
-            onChangeText={setNeighborhood("Test")}>
+            onChangeText={setNeighborhood("W.I.P.")}>
               {neighborhood}
           </Text>
           </TouchableOpacity>
@@ -200,7 +200,7 @@ const FilterOverlay = (
           />
         </View>
 
-        <SingleSwitch
+        {/* <SingleSwitch
           variable="Price Range"
           enabled={switchEnabledPri}
           toggle={toggleSwitchPri}
@@ -246,7 +246,7 @@ const FilterOverlay = (
           variable="Apartment"
           enabled={switchEnabledApt}
           toggle={toggleSwitchApt}
-        />
+        /> */}
       </ScrollView>
     </View>
   );
