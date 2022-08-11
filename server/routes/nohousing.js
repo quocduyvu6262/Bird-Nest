@@ -18,7 +18,20 @@ router.get('/', (req, res) => {
         })
     });
 })
-
+// Get housing by Email
+router.get('/email/:email', (req, res) => {
+    const query = `SELECT * FROM NoHousing JOIN User ON User.id = NoHousing.User_id WHERE User.email= "${req.params.email}";`;
+    db(client => {
+        client.query(query, (err, result) => {
+            if(!err && result.length) {
+                res.send(result);
+            } else {
+                console.log(err);
+                res.status(404).send('Nohousing not found.');
+            }
+        })
+    });
+})
 // get nohousing by user_id
 router.get('/:id', (req, res) => {
     const query = `SELECT * FROM NoHousing WHERE User_id=${req.params.id}`;

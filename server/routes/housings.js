@@ -100,8 +100,9 @@ router.post('/create', (req, res) => {
 // Delete housings
 router.post('/delete', (req, res) => {
     let housing = req.body;
+    //let User_id = req.body.user_id;
     const query = `
-        DELETE FROM Housing WHERE User_id=${housing.User_id}`;
+    DELETE FROM Housing WHERE User_id=${housing.User_id}`;
     db(client => {
         client.query(query,(err,result) => {
             if(err){

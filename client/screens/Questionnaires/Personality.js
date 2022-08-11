@@ -28,6 +28,7 @@ import {useDispatch, useSelector, connect} from 'react-redux';
 import * as dataActions from '../../redux/slices/data';
 
 
+
 class Personality extends Component {
 
 
@@ -762,15 +763,13 @@ class Personality extends Component {
           }}>
             <Text style = {HousingQ_styles.buttonText}>Bubble tea</Text>
           </TouchableOpacity>
-
-
           <TouchableOpacity style={HousingQ_styles.nextButton}
           onPress={()=>{
             //this.createHousingInfo()
             this.storeData();
             this.props.navigation.navigate('BirdFeed')
           }}>
-            <Text style = {[HousingQ_styles.buttonText, {color:'#FFF'}]}>Next</Text>
+            <Text style = {[HousingQ_styles.buttonText, {color:'#FFF'}]}>Finish</Text>
           </TouchableOpacity>
         </ScrollView>
     </SafeAreaView>
@@ -1108,9 +1107,14 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-// MAP STATE TO PROPS
+//MAP STATE TO PROPS
+// const mapStateToProps = state => ({
+//   data: state.data
+// });
+
 const mapStateToProps = state => ({
-  data: state.data
+  userInfo: state.data.userInfo,
+  housing: state.data.housing
 });
 
 

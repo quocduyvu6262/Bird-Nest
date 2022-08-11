@@ -58,7 +58,7 @@ const housing = {
     city: null,
     squarefeet: 1000,
     lease: null,
-    rent: null,
+    rent: null, //500?
 
     garage: null,
     parking: null,
@@ -68,7 +68,7 @@ const housing = {
     furniture: null,
     AC: null,
 
-    allegry: null,
+    allergy: null,
     car: null,
     drugs: null,
 }
