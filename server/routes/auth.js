@@ -184,7 +184,7 @@ router.post('/questionnaire', (req, res) => {
             continue;
         }
         else if (key === "pets" || key === "dayout" || key === "interiorDesign" || key === "favoriteSport") {
-            incompleteQuery += key + "=" + JSON.stringify(userInfo[key].toString()) + ",";
+            incompleteQuery += key + "=" + JSON.stringify(JSON.stringify(userInfo[key])) + ",";
         }
         else if (userInfo[key] === false || userInfo[key] === true) {
             incompleteQuery += key + "=" + `${userInfo[key].toString()}` + ",";

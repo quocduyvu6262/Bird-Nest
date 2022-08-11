@@ -151,6 +151,7 @@ class BasicInfo extends Component {
     backgroundColor: "#D9D9D9",
   };
   state22 = {
+    name: "Other",
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
