@@ -22,6 +22,7 @@ import {
   import { Slider} from '@rneui/themed';
   import Axios from "axios";
   import * as dataActions from "../../redux/slices/data";
+  import {useDispatch, useSelector, connect} from 'react-redux';
 
   export default class NoHousingQ extends Component {
     
@@ -490,13 +491,11 @@ import {
             onPress={() =>{
               if (!this.validate(this.props.housing)) {
                 console.log("YOU SHALL NOT PASS");
-                //console.log(this.props.housing)
                 this.setField();
               }
               else {
                 this.clearField();
                 console.log("YOU SHALL PASS");
-                //console.log(this.props.housing)
                 this.props.navigation.navigate('Personality'); //
               }
             }}>

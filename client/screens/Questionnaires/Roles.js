@@ -301,13 +301,11 @@ const Roles = ({ navigation }) => {
         <TouchableOpacity
           style={Roles_styles.nextButton}
           onPress={() => {
-            console.log(userInfo.role);
             if (!validate()) {
               console.log("YOU SHALL NOT PASS");
             }
             else {
               console.log("YOU SHALL PASS");
-              console.log(userInfo)
               navigation.navigate("BasicInfo");
             }
           }}>

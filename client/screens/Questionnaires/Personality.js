@@ -48,7 +48,7 @@ class Personality extends Component {
     Axios.post(`${Constants.BASE_URL}/api/users/questionnaire`, {
       userInfo : user,
     }).catch( err => {
-      console.log("Fail to store user into database");
+      console.log("Fail to store user into database from questionnaire");
     });
     // Store housing into database
     // TODO: Implement the method to store housing data into database
@@ -58,6 +58,7 @@ class Personality extends Component {
         user_id: user.id,
         housing: housing
       }).then().catch( err => {
+        console.log(housing.squarefeet);
         console.log('Fail to update/insert housing from questionnaire');
       })
     } else if(user.role === 'Parrot' || user.role === 'Penguin' || user.role === 'Duck'){
@@ -1112,10 +1113,11 @@ const mapDispatchToProps = (dispatch) => {
 //   data: state.data
 // });
 
+// MAP STATE TO PROPS
 const mapStateToProps = state => ({
-  userInfo: state.data.userInfo,
-  housing: state.data.housing
+  data: state.data
 });
+
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(Personality);

@@ -120,9 +120,6 @@ const LoginScreen = ({ navigation }) => {
               );
               // Show user data
               console.log(res);
-              dispatch(dataActions.updateFullname(res.name));
-              dispatch(dataActions.updateEmail(res.email));
-              dispatch(dataActions.updateUID(res.uid));
               // TWO CASES: LOGIN or REGISTER
               if (res.status === "login") {
                 console.log("Login Successfully")

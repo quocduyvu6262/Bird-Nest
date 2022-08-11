@@ -39,7 +39,7 @@ router.get('/email/:email', (req, res) => {
             if(!err && result.length) {
                 res.send(result);
             } else {
-                console.log(err);
+                console.log("Housing not found");
                 res.status(404).send('Housing not found.');
             }
         })
@@ -49,6 +49,7 @@ router.get('/email/:email', (req, res) => {
 router.post('/create', (req, res) => {
     let housing = req.body.housing;
     let user_id = req.body.user_id;
+    console.log(housing.squarefeet);
     //Check if user exists in housing table
     const checkExistQuery = `SELECT * FROM Housing WHERE user_id = "${user_id}"`
     const insertQuery = `
@@ -74,8 +75,8 @@ router.post('/create', (req, res) => {
                             res.status(400).send(`Bad Request.`)
                             return;
                         }
-                        console.log('Update housing successfully');
-                        res.send(`Update housing successfully`);
+                        console.log('Update housing successfully from questionnaire');
+                        res.send(`Update housing successfully from questionnaire`);
                     });
                 });
             } 
@@ -88,8 +89,8 @@ router.post('/create', (req, res) => {
                             res.status(400).send(`Bad Request.`)
                             return;
                         }
-                        console.log('Insert housing successfully');
-                        res.send(`Insert housing successfully`);
+                        console.log('Insert housing successfully from questionnaire');
+                        res.send(`Insert housing successfully from questionnaire`);
                     });
                 });
             }

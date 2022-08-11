@@ -53,9 +53,9 @@ class BasicInfo extends Component {
       return false;
     }
     */
-   if ((userInfo.pets !== "") && (userInfo.alcohol !== "") && (userInfo.sleep !== "")
-    && (userInfo.guests !== "") && (userInfo.silent !== "") && (userInfo.shareAppliances !== "")
-    && (userInfo.roommateInteraction !== "") && (userInfo.tellRoommateIfBothered !== "")) {
+   if ((this.props.userInfo.pets !== "") && (this.props.userInfo.alcohol !== "") && (this.props.userInfo.sleep !== "")
+    && (this.props.userInfo.guests !== "") && (this.props.userInfo.silent !== "") && (this.props.userInfo.shareAppliances !== "")
+    && (this.props.userInfo.roommateInteraction !== "") && (this.props.userInfo.tellRoommateIfBothered !== "")) {
     return true;
    }
    else {
@@ -859,18 +859,12 @@ class BasicInfo extends Component {
             style={HousingQ_styles.nextButton}
             onPress={() =>{
               //this.createHousingInfo()
-              console.log(this.props.userInfo)
               if (!this.validate(this.props.userInfo)) {
                 console.log("YOU SHALL NOT PASS");
-                //console.log(this.userInfo.role);
-                //console.log(this.userInfo)
-                //this.setField();
               }
               else {
                 this.clearField();
                 console.log("YOU SHALL PASS");
-                //console.log(this.userInfo.role);
-                //console.log(this.userInfo)
                 if (this.userInfo.role === "Flamingo" || this.userInfo.role === "Owl") {
                   this.props.navigation.navigate("HasHousingQ"); //
                 }

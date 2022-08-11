@@ -21,7 +21,7 @@ const userInfo = {
     profilepic: null,
 
     // BASIC INFO
-    pets: "", // array
+    pets: [], // array
     cook: "",
     alcohol: "",
     sleep: "",
@@ -41,10 +41,10 @@ const userInfo = {
     athletic: "",
     marvelDC: "",
     talkative: "",
-    dayout: "", // array
+    dayout: [], // array
     vanillaChocolate: "",
-    interiorDesign: "", // array
-    favoriteSport: "", // array
+    interiorDesign: [], // array
+    favoriteSport: [], // array
     michaelLebron: "",
     coffeeBoba: "",
     bobaBubble: "",
@@ -134,13 +134,7 @@ export const dataSlice = createSlice({
         },
         updatePets: (state, action) => {
             let {pet, add} = action.payload;
-            if(state.userInfo.pets === ""){
-                state.userInfo.pets = "[]";
-            } 
-            if(typeof state.userInfo.pets === "object"){
-                state.userInfo.pets = JSON.stringify(state.userInfo.pets);
-            }
-            const temp = JSON.parse(state.userInfo.pets)
+            let temp = state.userInfo.pets;
             if(add){
                 if(temp.indexOf(pet) === -1) {
                     temp.push(pet);
@@ -152,7 +146,7 @@ export const dataSlice = createSlice({
                 }
             }
             // assign temp to pets
-            state.userInfo.pets = JSON.stringify(temp);
+            state.userInfo.pets = temp;
         },
         updateCook: (state, action) => {
             state.userInfo.cook = action.payload;
@@ -208,13 +202,10 @@ export const dataSlice = createSlice({
         },
         updateDayout: (state, action) => {
             let {activity, add} = action.payload;
-            if(!state.userInfo.dayout){
-                state.userInfo.dayout = "[]";
-            } 
-            if(typeof state.userInfo.dayout === "object"){
-                state.userInfo.dayout = JSON.stringify(state.userInfo.dayout);
+            if (state.userInfo.dayout === null) {
+                state.userInfo.dayout = [];
             }
-            const temp = JSON.parse(state.userInfo.dayout)
+            let temp = state.userInfo.dayout;
             if(add){
                 if(temp.indexOf(activity) === -1) {
                     temp.push(activity);
@@ -226,20 +217,17 @@ export const dataSlice = createSlice({
                 }
             }
             // assign temp to pets
-            state.userInfo.dayout = JSON.stringify(temp);
+            state.userInfo.dayout = temp;
         },
         updateVanillaChocolate: (state, action) => {
             state.userInfo.vanillaChocolate = action.payload;
         },
         updateInteriorDesign: (state, action) => {
             let {activity, add} = action.payload;
-            if(!state.userInfo.interiorDesign){
-                state.userInfo.interiorDesign = "[]";
+            if (state.userInfo.interiorDesign === null) {
+                state.userInfo.interiorDesign = [];
             }
-            if(typeof state.userInfo.interiorDesign === "object"){
-                state.userInfo.interiorDesign = JSON.stringify(state.userInfo.interiorDesign);
-            }
-            const temp = JSON.parse(state.userInfo.interiorDesign)
+            let temp = state.userInfo.interiorDesign;
             if(add){
                 if(temp.indexOf(activity) === -1) {
                     temp.push(activity);
@@ -251,17 +239,14 @@ export const dataSlice = createSlice({
                 }
             }
             // assign temp to pets
-            state.userInfo.interiorDesign = JSON.stringify(temp);
+            state.userInfo.interiorDesign = temp;
         },
         updateFavoriteSport: (state, action) => {
             let {activity, add} = action.payload;
-            if(!state.userInfo.favoriteSport){
-                state.userInfo.favoriteSport = "[]";
-            } 
-            if(typeof state.userInfo.favoriteSport === "object"){
-                state.userInfo.favoriteSport = JSON.stringify(state.userInfo.favoriteSport);
+            if (state.userInfo.favoriteSport === null) {
+                state.userInfo.favoriteSport = [];
             }
-            const temp = JSON.parse(state.userInfo.favoriteSport)
+            let temp = state.userInfo.favoriteSport;
             if(add){
                 if(temp.indexOf(activity) === -1) {
                     temp.push(activity);
@@ -273,7 +258,7 @@ export const dataSlice = createSlice({
                 }
             }
             // assign temp to pets
-            state.userInfo.favoriteSport = JSON.stringify(temp);
+            state.userInfo.favoriteSport = temp;
         },
         updateMichaelLebron: (state, action) => {
             state.userInfo.michaelLebron = action.payload;
