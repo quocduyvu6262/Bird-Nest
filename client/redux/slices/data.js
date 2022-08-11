@@ -1,11 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-<<<<<<< HEAD
-=======
 
 
 
->>>>>>> 14349b1b6f81648f1a3f20fb4feecbb3f0aa1d83
 const userInfo = {
     id: "",
     uid: "",
@@ -137,18 +134,12 @@ export const dataSlice = createSlice({
         },
         updatePets: (state, action) => {
             let {pet, add} = action.payload;
-<<<<<<< HEAD
-            if(!state.userInfo.pets){
-                state.userInfo.pets = "[]";
-            } 
-=======
             if(state.userInfo.pets === ""){
                 state.userInfo.pets = "[]";
             } 
             if(typeof state.userInfo.pets === "object"){
                 state.userInfo.pets = JSON.stringify(state.userInfo.pets);
             }
->>>>>>> 14349b1b6f81648f1a3f20fb4feecbb3f0aa1d83
             const temp = JSON.parse(state.userInfo.pets)
             if(add){
                 if(temp.indexOf(pet) === -1) {
@@ -220,12 +211,9 @@ export const dataSlice = createSlice({
             if(!state.userInfo.dayout){
                 state.userInfo.dayout = "[]";
             } 
-<<<<<<< HEAD
-=======
             if(typeof state.userInfo.dayout === "object"){
                 state.userInfo.dayout = JSON.stringify(state.userInfo.dayout);
             }
->>>>>>> 14349b1b6f81648f1a3f20fb4feecbb3f0aa1d83
             const temp = JSON.parse(state.userInfo.dayout)
             if(add){
                 if(temp.indexOf(activity) === -1) {
@@ -247,14 +235,10 @@ export const dataSlice = createSlice({
             let {activity, add} = action.payload;
             if(!state.userInfo.interiorDesign){
                 state.userInfo.interiorDesign = "[]";
-<<<<<<< HEAD
-            } 
-=======
             }
             if(typeof state.userInfo.interiorDesign === "object"){
                 state.userInfo.interiorDesign = JSON.stringify(state.userInfo.interiorDesign);
             }
->>>>>>> 14349b1b6f81648f1a3f20fb4feecbb3f0aa1d83
             const temp = JSON.parse(state.userInfo.interiorDesign)
             if(add){
                 if(temp.indexOf(activity) === -1) {
@@ -274,12 +258,9 @@ export const dataSlice = createSlice({
             if(!state.userInfo.favoriteSport){
                 state.userInfo.favoriteSport = "[]";
             } 
-<<<<<<< HEAD
-=======
             if(typeof state.userInfo.favoriteSport === "object"){
                 state.userInfo.favoriteSport = JSON.stringify(state.userInfo.favoriteSport);
             }
->>>>>>> 14349b1b6f81648f1a3f20fb4feecbb3f0aa1d83
             const temp = JSON.parse(state.userInfo.favoriteSport)
             if(add){
                 if(temp.indexOf(activity) === -1) {
