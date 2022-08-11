@@ -136,6 +136,9 @@ export const dataSlice = createSlice({
         },
         updatePets: (state, action) => {
             let {pet, add} = action.payload;
+            if(state.userInfo.pets === null){
+                state.userInfo.pets = [];
+            }
             let temp = state.userInfo.pets;
             if(add){
                 if(temp.indexOf(pet) === -1) {
@@ -152,6 +155,12 @@ export const dataSlice = createSlice({
         },
         updatePicsList: (state, action) => {
             let pic = action.payload;
+            if(state.userInfo.picsList === null){
+                state.userInfo.picsList = [];
+            }
+            if(state.userInfo.picsList === null){
+                state.userInfo.picsList = [];
+            }
             if(state.userInfo.picsList === null){
                 state.userInfo.picsList = [];
             } 
@@ -214,6 +223,9 @@ export const dataSlice = createSlice({
         },
         updateDayout: (state, action) => {
             let {activity, add} = action.payload;
+            if(state.userInfo.dayout === null){
+                state.userInfo.dayout = [];
+            }
             let temp = state.userInfo.dayout;
             if(add){
                 if(temp.indexOf(activity) === -1) {
@@ -233,6 +245,9 @@ export const dataSlice = createSlice({
         },
         updateInteriorDesign: (state, action) => {
             let {activity, add} = action.payload;
+            if(state.userInfo.interiorDesign === null){
+                state.userInfo.interiorDesign = [];
+            }
             let temp = state.userInfo.interiorDesign;
             if(add){
                 if(temp.indexOf(activity) === -1) {
@@ -249,6 +264,9 @@ export const dataSlice = createSlice({
         },
         updateFavoriteSport: (state, action) => {
             let {activity, add} = action.payload;
+            if(state.userInfo.favoriteSport === null){
+                state.userInfo.favoriteSport = [];
+            }
             let temp = state.userInfo.favoriteSport;
             if(add){
                 if(temp.indexOf(activity) === -1) {
@@ -276,6 +294,9 @@ export const dataSlice = createSlice({
         // HOUSING
         updateNeighborhoodList: (state, action) => {
             let {activity, add} = action.payload;
+            if(state.userInfo.neighborhoodList === null){
+                state.userInfo.neighborhoodList = [];
+            }
             let temp = state.housing.neighborhoodList;
             if(add){
                 if(temp.indexOf(activity) === -1) {

@@ -7,7 +7,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Switch,
-
+  StatusBar
 } from "react-native";
 import React, { useState } from "react";
 import { Icon } from "@rneui/themed";

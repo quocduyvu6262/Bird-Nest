@@ -31,6 +31,11 @@ import { useDispatch, useSelector } from "react-redux";
 const Profile = ({ navigation }) => {
   
   const data = useSelector(state => state.data);
+  let hasHousing = false;
+  const role = data.userInfo.role;
+  if(role === "Flamingo" || role === "Owl"){
+    hasHousing = true;
+  }
 
   const [name, setName] = useState();
   const [rent, setRent] = useState();
@@ -76,7 +81,9 @@ const Profile = ({ navigation }) => {
               </Button>
             </TouchableOpacity>
 
+
             <TouchableOpacity>
+
               <Button
                 color={buttonClicked ? "#560CCE" : "black"}
                 onPress={roomInfoButton}
