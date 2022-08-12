@@ -79,7 +79,6 @@ router.post('/create', (req, res) => {
         squarefeet="${housing.squarefeet}", lease="${housing.lease}", rent="${housing.rent}", 
         garage=${housing.garage.toString()}, parking=${housing.parking.toString()}, gym=${housing.gym.toString()}, pool=${housing.pool.toString()}, 
         appliances=${housing.appliances.toString()}, furniture=${housing.furniture.toString()}, AC=${housing.AC.toString()} WHERE User_id=${user_id}`;
-    console.log(insertQuery);
     db(client => {
         client.query(checkExistQuery, (err, result) => {
             //if result is not empty a user is found, update

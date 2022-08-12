@@ -92,7 +92,6 @@ router.post('/loginwithgoogle', async (req, res) => {
         db(client => {
             client.query(checkExistQuery, (err, result) => {
                 if(result.length){
-                    console.log(result);
                     // console.log( "User found successfully.");
                     res.send({
                         status: "login",
@@ -168,7 +167,6 @@ router.get('/', (req, res) => {
 router.post('/role', (req, res) => {
     const users = req.body;
     const query = `UPDATE Users SET Role= "${users.role}" WHERE id="${users.user_id}"`;
-    console.log(user_id);
     db(client => {
         client.query(query, (err, result) => {
             if(result.length){
