@@ -26,20 +26,16 @@ import Deondre from "../assets/deondre.jpg";
 import Constants from "../constants/constants";
 // Redux
 import { useDispatch, useSelector } from "react-redux";
-import {
-  updateFirstname,
-  updateLastname,
-  updateGender,
-  updateAge,
-  updatePronouns,
-  updateMajor,
-  updateGraduationyear,
-  updateProfilepic,
-} from "../redux/slices/data";
+// firebase
 
 const Profile = ({ navigation }) => {
-  const userInfo = useSelector((state) => state.data.userInfo);
-  const houseInfo = useSelector((state) => state.data.housing);
+  
+  const data = useSelector(state => state.data);
+  let hasHousing = false;
+  const role = data.userInfo.role;
+  if(role === "Flamingo" || role === "Owl"){
+    hasHousing = true;
+  }
 
   const [name, setName] = useState();
   const [rent, setRent] = useState();
@@ -66,8 +62,7 @@ const Profile = ({ navigation }) => {
       <ScrollView>
         <Background>
           <UserCard
-            name={userInfo.firstname + " " + userInfo.lastname}
-            image={Deondre}
+            name={data.userInfo.fullname}
           />
 
           <View style={styles.buttonContainer}>
@@ -86,7 +81,9 @@ const Profile = ({ navigation }) => {
               </Button>
             </TouchableOpacity>
 
+
             <TouchableOpacity>
+
               <Button
                 color={buttonClicked ? "#560CCE" : "black"}
                 onPress={roomInfoButton}
@@ -103,14 +100,10 @@ const Profile = ({ navigation }) => {
           </View>
 
           <InfoCard>
-            {!buttonClicked && <BioInfo bio={userInfo.bio}></BioInfo>}
+            {!buttonClicked && <BioInfo bio={data.userInfo.bio}></BioInfo>}
 
             {buttonClicked && (
-              <RentInfo
-                rent={houseInfo.rent}
-                lease={houseInfo.lease}
-                neighborhood={houseInfo.neighborhood}
-              />
+              <RentInfo rent={data.housing.rent} lease={data.housing.lease} neighborhood={data.housing.neighborhood} />
             )}
           </InfoCard>
 
@@ -142,7 +135,9 @@ const Profile = ({ navigation }) => {
 const BioInfo = (props) => {
   return (
     <View style={styles.subContainer}>
-      <Text style={styles.text}>{props.bio}</Text>
+      <Text style={styles.text}>
+        {props.bio}
+      </Text>
     </View>
   );
 };
@@ -159,8 +154,7 @@ const RentInfo = (props) => {
         months
       </Text>
       <Text style={styles.text}>
-        <Text style={{ fontWeight: "bold" }}> Neighborhood:</Text>{" "}
-        {props.neighborhood}
+        <Text style={{ fontWeight: "bold" }}> Neighborhood:</Text> {props.neighborhood}
       </Text>
     </View>
   );

@@ -21,24 +21,36 @@ import {
   //import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
   import { Slider} from '@rneui/themed';
   import Axios from "axios";
-  export default class NoHousingQ extends Component {
+  import * as dataActions from "../../redux/slices/data";
+  import {useDispatch, useSelector, connect} from 'react-redux';
 
-    createHousingInfo = () => {
-      Axios.post("http://localhost:3000/api/housings/create", {
-        user_id: 20,
-        rent: 1250,
-        city: "Kearny Mesa",
-        lease: 5,
-        garage: 1,
-        parking: 0,
-        gym: 1,
-        pool: 0,
-        appliances: 1,
-        furniture: 0,
-        ac: 1
-      })
-      .catch(error => console.log(error));
-    };
+  class NoHousingQ extends Component {
+    
+    userInfo = this.props.userInfo;
+    housing = this.props.housing;
+    fieldState = {blankError: ""};
+    validate = (housing) => {
+      if ((this.props.housing.neighborhoodList.length > 0) && (this.props.housing.rent !== null) && (this.props.housing.lease !== null)
+        && (this.props.housing.garage !== null) && (this.props.housing.parking !== null) && (this.props.housing.gym !== null)
+        && (this.props.housing.pool !== null) && (this.props.housing.appliances !== null) && (this.props.housing.furniture !== null)
+        && (this.props.housing.AC !== null)) {
+        return true;
+      }
+      else {
+        console.log(this.props.housing);
+        return false;
+      }
+    }  
+  
+    setField = () => {
+      this.fieldState = {blankError: "Please fill in all required fields*"};
+      this.setState({blankError: "Please fill in all required fields*"});
+    }
+  
+    clearField = () => {
+      this.fieldState = {blankError: ""};
+      this.setState({blankError: ""});
+    }
 
       slider_state = {
         language: "English",
@@ -46,59 +58,73 @@ import {
       };
       state1 = {
         pressed: false,
-        backgroundColor: '#D9D9D9'
+        backgroundColor: '#D9D9D9',
+        answer: true
       };
       state2 = {
         pressed: false,
-        backgroundColor: '#D9D9D9'
+        backgroundColor: '#D9D9D9',
+        answer: false
       };
       state3 = {
         pressed: false,
-        backgroundColor: '#D9D9D9'
+        backgroundColor: '#D9D9D9',
+        answer: true
       };
       state4 = {
         pressed: false,
-        backgroundColor: '#D9D9D9'
+        backgroundColor: '#D9D9D9',
+        answer: false
       };
       state5 = {
         pressed: false,
-        backgroundColor: '#D9D9D9'
+        backgroundColor: '#D9D9D9',
+        answer: true
       };
       state6 = {
         pressed: false,
-        backgroundColor: '#D9D9D9'
+        backgroundColor: '#D9D9D9',
+        answer: false
       };
       state7 = {
         pressed: false,
-        backgroundColor: '#D9D9D9'
+        backgroundColor: '#D9D9D9',
+        answer: true
       };
       state8 = {
         pressed: false,
-        backgroundColor: '#D9D9D9'
+        backgroundColor: '#D9D9D9',
+        answer: false
       };
       state9 = {
         pressed: false,
-        backgroundColor: '#D9D9D9'
+        backgroundColor: '#D9D9D9',
+        answer: true
       };
       state10 = {
         pressed: false,
-        backgroundColor: '#D9D9D9'
+        backgroundColor: '#D9D9D9',
+        answer: false
       };
       state11 = {
         pressed: false,
-        backgroundColor: '#D9D9D9'
+        backgroundColor: '#D9D9D9',
+        answer: true
       };
       state12 = {
         pressed: false,
-        backgroundColor: '#D9D9D9'
+        backgroundColor: '#D9D9D9',
+        answer: false
       };
       state13 = {
         pressed: false,
-        backgroundColor: '#D9D9D9'
+        backgroundColor: '#D9D9D9',
+        answer: true
       };
       state14 = {
         pressed: false,
-        backgroundColor: '#D9D9D9'
+        backgroundColor: '#D9D9D9',
+        answer: false
       };
       state15 = {
         pressed: false,
@@ -252,6 +278,10 @@ import {
         state.pressed=true;
         this.setState({backgroundColor: state.backgroundColor});
         this.setState({pressed: state.pressed});
+        this.props.dispatch(dataActions.updateNeighborhoodList({
+          activity: state.answer,
+          add: true
+        }));
       } 
       else {
         state.backgroundColor='#D9D9D9';
@@ -259,10 +289,15 @@ import {
         this.setState({backgroundColor: state.backgroundColor});
         this.setState({pressed: state.pressed});
       }
+      this.props.dispatch(dataActions.updateNeighborhoodList({
+        activity: state.name,
+        add: false
+      }));
     }
     handleSliderChange = (value1) => {
       this.slider_state.value = value1;
       this.setState({value: this.slider_state.value});
+      this.props.dispatch(dataActions.updateRent(value1));
     }
     render() {
     
@@ -277,9 +312,9 @@ import {
           </View>
           <ScrollView>
             <Text style={[HousingQ_styles.question1, {marginTop: 120}]}>What cities or neighborhoods</Text>
-            <Text style={HousingQ_styles.question1}>are you interested to live in?</Text>
+            <Text style={HousingQ_styles.question1}>are you interested to live in?{" "}<Text style={HousingQ_styles.highlight}>*</Text></Text>
             <TouchableOpacity style={[this.state15, HousingQ_styles.buttonContainerYes4]}
-            onPress={()=>this.selectMany(this.state15)}>
+            onPress={()=> this.selectMany(this.state15)}>
               <Text style = {HousingQ_styles.buttonText}>Downtown SD</Text>
             </TouchableOpacity>
             <TouchableOpacity style={[this.state16, HousingQ_styles.buttonContainerNo4]}
@@ -336,7 +371,7 @@ import {
             </TouchableOpacity>
 
             <Text style={HousingQ_styles.question1}>What is the maximum rent you</Text>
-            <Text style={HousingQ_styles.question1}>are willing to pay?</Text>
+            <Text style={HousingQ_styles.question1}>are willing to pay?{" "}<Text style={HousingQ_styles.highlight}>*</Text></Text>
             
             <Slider 
               value={this.slider_state.value}
@@ -352,7 +387,7 @@ import {
            
 
             <Text style={HousingQ_styles.question1}>In terms of months, how long of</Text>
-            <Text style={HousingQ_styles.question1}>a lease are you looking for?</Text>
+            <Text style={HousingQ_styles.question1}>a lease are you looking for?{" "}<Text style={HousingQ_styles.highlight}>*</Text></Text>
             <TouchableOpacity style={[this.state29, HousingQ_styles.buttonContainerYes7]}
             onPress={()=>this.changeMultipleColor(this.state29, this.state30, this.state31, this.state32)}>
               <Text style = {HousingQ_styles.buttonText}>1 to 3</Text>
@@ -371,86 +406,145 @@ import {
             </TouchableOpacity>
 
             <Text style={HousingQ_styles.question1}>Do you need to have a garage at</Text>
-            <Text style={HousingQ_styles.question1}>the property?</Text>  
+            <Text style={HousingQ_styles.question1}>the property?{" "}<Text style={HousingQ_styles.highlight}>*</Text></Text>  
             <TouchableOpacity style={[this.state1, HousingQ_styles.buttonContainerYes1]} 
-            onPress={()=>this.changeColor(this.state1, this.state2)}>
+            onPress={()=>{
+              this.changeColor(this.state1, this.state2)
+              this.props.dispatch(dataActions.updateGarage(this.state1.answer))
+            }}>
             <Text style = {HousingQ_styles.buttonText}>Yes</Text>
             </TouchableOpacity>
             <TouchableOpacity style={[this.state2, HousingQ_styles.buttonContainerNo1]}
-            onPress={()=>this.changeColor(this.state2, this.state1)}>
+            onPress={()=>{
+              this.changeColor(this.state2, this.state1)
+              this.props.dispatch(dataActions.updateGarage(this.state2.answer))
+            }}>
               <Text style = {HousingQ_styles.buttonText}>No</Text>
             </TouchableOpacity>
 
             <Text style={HousingQ_styles.question2}>Do you need to have parking at</Text>
-            <Text style={HousingQ_styles.question2}>the property?</Text>  
+            <Text style={HousingQ_styles.question2}>the property?{" "}<Text style={HousingQ_styles.highlight}>*</Text></Text>  
             <TouchableOpacity style={[this.state3, HousingQ_styles.buttonContainerYes2]}
-            onPress={()=>this.changeColor(this.state3, this.state4)}>
+            onPress={()=> {
+              this.changeColor(this.state3, this.state4)
+              this.props.dispatch(dataActions.updateParking(this.state3.answer))
+            }}>
               <Text style = {HousingQ_styles.buttonText}>Yes</Text>
             </TouchableOpacity>
             <TouchableOpacity style={[this.state4, HousingQ_styles.buttonContainerNo2]}
-            onPress={()=>this.changeColor(this.state4, this.state3)}>
+            onPress={()=>{
+              this.changeColor(this.state4, this.state3)
+              this.props.dispatch(dataActions.updateParking(this.state4.answer))
+            }}>
               <Text style = {HousingQ_styles.buttonText}>No</Text>
             </TouchableOpacity>
 
             <Text style={HousingQ_styles.question3}>Do you need to have a gym at</Text>
-            <Text style={HousingQ_styles.question3}>the property?</Text>  
+            <Text style={HousingQ_styles.question3}>the property?{" "}<Text style={HousingQ_styles.highlight}>*</Text></Text>  
             <TouchableOpacity style={[this.state5, HousingQ_styles.buttonContainerYes3]}
-            onPress={()=>this.changeColor(this.state5, this.state6)}>
+            onPress={()=> {
+              this.changeColor(this.state5, this.state6)
+              this.props.dispatch(dataActions.updateGym(this.state5.answer))
+            }}>
               <Text style = {HousingQ_styles.buttonText}>Yes</Text>
             </TouchableOpacity>
             <TouchableOpacity style={[this.state6, HousingQ_styles.buttonContainerNo3]}
-            onPress={()=>this.changeColor(this.state6, this.state5)}>
+            onPress={()=> {
+              this.changeColor(this.state6, this.state5)
+              this.props.dispatch(dataActions.updateGym(this.state6.answer))
+            }}>
               <Text style = {HousingQ_styles.buttonText}>No</Text>
             </TouchableOpacity>
 
             <Text style={HousingQ_styles.question3}>Do you need to have a pool at</Text>
-            <Text style={HousingQ_styles.question3}>the property?</Text> 
+            <Text style={HousingQ_styles.question3}>the property?{" "}<Text style={HousingQ_styles.highlight}>*</Text></Text> 
             <TouchableOpacity style={[this.state7, HousingQ_styles.buttonContainerYes3]}
-            onPress={()=>this.changeColor(this.state7, this.state8)}>
+            onPress={()=>{
+              this.changeColor(this.state7, this.state8)
+              this.props.dispatch(dataActions.updatePool(this.state7.answer))
+            }}>
               <Text style = {HousingQ_styles.buttonText}>Yes</Text>
             </TouchableOpacity>
             <TouchableOpacity style={[this.state8, HousingQ_styles.buttonContainerNo3]}
-            onPress={()=>this.changeColor(this.state8, this.state7)}>
+            onPress={()=> {
+              this.changeColor(this.state8, this.state7)
+              this.props.dispatch(dataActions.updatePool(this.state8.answer))
+            }}>
               <Text style = {HousingQ_styles.buttonText}>No</Text>
             </TouchableOpacity>
 
             <Text style={HousingQ_styles.question3}>Do you need the property to</Text>
-            <Text style={HousingQ_styles.question3}>have appliances?</Text>  
+            <Text style={HousingQ_styles.question3}>have appliances?{" "}<Text style={HousingQ_styles.highlight}>*</Text></Text>  
             <TouchableOpacity style={[this.state9, HousingQ_styles.buttonContainerYes3]}
-            onPress={()=>this.changeColor(this.state9, this.state10)}>
+            onPress={()=>{
+              this.changeColor(this.state9, this.state10)
+              this.props.dispatch(dataActions.updateAppliances(this.state9.answer))
+            }}>
               <Text style = {HousingQ_styles.buttonText}>Yes</Text>
             </TouchableOpacity>
             <TouchableOpacity style={[this.state10, HousingQ_styles.buttonContainerNo3]}
-            onPress={()=>this.changeColor(this.state10, this.state9)}>
+            onPress={()=>{
+              this.changeColor(this.state10, this.state9)
+              this.props.dispatch(dataActions.updateAppliances(this.state10.answer))
+            }}>
               <Text style = {HousingQ_styles.buttonText}>No</Text>
             </TouchableOpacity>
 
             <Text style={HousingQ_styles.question3}>Do you need the property to be</Text>
-            <Text style={HousingQ_styles.question3}>furnished?</Text>
+            <Text style={HousingQ_styles.question3}>furnished?{" "}<Text style={HousingQ_styles.highlight}>*</Text></Text>
             <TouchableOpacity style={[this.state11, HousingQ_styles.buttonContainerYes3]}
-            onPress={()=>this.changeColor(this.state11, this.state12)}>
+            onPress={()=>{
+              this.changeColor(this.state11, this.state12)
+              this.props.dispatch(dataActions.updateFurniture(this.state11.answer))
+            }}>
               <Text style = {HousingQ_styles.buttonText}>Yes</Text>
             </TouchableOpacity>
             <TouchableOpacity style={[this.state12, HousingQ_styles.buttonContainerNo3]}
-            onPress={()=>this.changeColor(this.state12, this.state11)}>
+            onPress={()=>{
+              this.changeColor(this.state12, this.state11)
+              this.props.dispatch(dataActions.updateFurniture(this.state12.answer))
+            }}>
               <Text style = {HousingQ_styles.buttonText}>No</Text>
             </TouchableOpacity>
 
             <Text style={HousingQ_styles.question3}>Do you want the property to</Text>
-            <Text style={HousingQ_styles.question3}>have air conditioning?</Text> 
+            <Text style={HousingQ_styles.question3}>have air conditioning?{" "}<Text style={HousingQ_styles.highlight}>*</Text></Text> 
             <TouchableOpacity style={[this.state13, HousingQ_styles.buttonContainerYes3]}
-            onPress={()=>this.changeColor(this.state13, this.state14)}>
+            onPress={()=>{
+              this.changeColor(this.state13, this.state14)
+              this.props.dispatch(dataActions.updateAC(this.state13.answer))
+            }}>
               <Text style = {HousingQ_styles.buttonText}>Yes</Text>
             </TouchableOpacity>
             <TouchableOpacity style={[this.state14, HousingQ_styles.buttonContainerNo3, {marginBottom: 110}]}
-            onPress={()=>this.changeColor(this.state14, this.state13)}>
+            onPress={()=>{
+              this.changeColor(this.state14, this.state13)
+              this.props.dispatch(dataActions.updateAC(this.state14.answer))
+            }}>
               <Text style = {HousingQ_styles.buttonText}>No</Text>
             </TouchableOpacity>
-
-            <TouchableOpacity style={HousingQ_styles.nextButton}
-            onPress={()=>this.createHousingInfo()}>
-              <Text style = {[HousingQ_styles.buttonText, {color:'#FFF'}]}>Next</Text>
-            </TouchableOpacity>
+            <View>
+            <Text style ={HousingQ_styles.invalidText}>
+              {this.fieldState.blankError}
+            </Text>
+          </View>
+          <TouchableOpacity
+            style={HousingQ_styles.nextButton}
+            onPress={() =>{
+              if (!this.validate(this.props.housing)) {
+                console.log("YOU SHALL NOT PASS");
+                this.setField();
+              }
+              else {
+                this.clearField();
+                console.log("YOU SHALL PASS");
+                this.props.navigation.navigate('Personality'); //
+              }
+            }}>
+            <Text style={[HousingQ_styles.buttonText, { color: "#FFF" }]}>
+              Next
+            </Text>
+          </TouchableOpacity>
           </ScrollView>
       </SafeAreaView>
        
@@ -498,6 +592,9 @@ import {
       marginBottom: 30,
       width: 260,
       left: 50
+    },
+    highlight: {
+      color: "red",
     },
     question1: {
       fontWeight: "400",
@@ -739,6 +836,13 @@ import {
       borderRadius:23,
       top: -127
     },
+    invalidText: {
+      fontSize: 18,
+      color: "red",
+      alignSelf: "center",
+      alignItems: "center",
+      bottom: 40,
+    },
     nextButton: {
       fontWeight: "bold",
       textAlign:'center',
@@ -755,3 +859,18 @@ import {
       backgroundColor: "#6736B6",
     },
   });
+
+// DISPATCH
+// MAP DISPATCH
+const mapDispatchToProps = (dispatch) => {
+  return {
+      dispatch: (func) => dispatch(func)
+  }
+};
+
+const mapStateToProps = state => ({
+  userInfo: state.data.userInfo,
+  housing: state.data.housing
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(NoHousingQ);
