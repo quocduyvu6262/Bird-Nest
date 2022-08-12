@@ -56,7 +56,6 @@ class BasicInfo extends Component {
    if ((this.props.userInfo.pets.length > 0) && (this.props.userInfo.alcohol !== "") && (this.props.userInfo.sleep !== "")
     && (this.props.userInfo.guests !== "") && (this.props.userInfo.silent !== "") && (this.props.userInfo.shareAppliances !== "")
     && (this.props.userInfo.roommateInteraction !== "") && (this.props.userInfo.tellRoommateIfBothered !== "")) {
-      console.log(this.props.userInfo);
       return true;
    }
    else {

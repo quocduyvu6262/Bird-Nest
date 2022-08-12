@@ -35,7 +35,6 @@ const IDQs = ({ navigation }) => {
         || userInfo.graduationyear === "") {
       blankError = "Please fill in all required fields*";
       setFormState(blankError);
-      console.log(userInfo);
       return false;
     }
 
