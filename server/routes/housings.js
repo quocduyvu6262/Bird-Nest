@@ -51,7 +51,7 @@ router.post('/create', (req, res) => {
     let user_id = req.body.user_id;
     console.log(housing.squarefeet);
     //Check if user exists in housing table
-    const checkExistQuery = `SELECT * FROM Housing WHERE user_id = "${user_id}"`
+    const checkExistQuery = `SELECT * FROM Housing WHERE User_id = "${user_id}"`
     const insertQuery = `
     INSERT INTO Housing (neighborhood, city, squarefeet, lease, rent, garage, parking, gym, pool, appliances, furniture, AC, User_id)
     VALUES ("${housing.neighborhood}", "${housing.city}",

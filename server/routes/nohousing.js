@@ -65,19 +65,20 @@ router.get('/email/:email', (req, res) => {
 router.post('/create', (req, res) => {
     let housing = req.body.housing;
     let user_id = req.body.user_id;
+    console.log(user_id);
     //Check if user exists in housing table
-    const checkExistQuery = `SELECT * FROM NoHousing WHERE user_id = "${user_id}"`
+    const checkExistQuery = `SELECT * FROM NoHousing WHERE User_id = ${user_id}`
     const insertQuery = `
     INSERT INTO NoHousing (neighborhood, city, squarefeet, lease, rent, garage, parking, gym, pool, appliances, furniture, AC, User_id)
-    VALUES ("${housing.neighborhood}", "${housing.city}",
+    VALUES (${JSON.stringify(JSON.stringify(housing.neighborhoodList))}, "${housing.city}",
      "${housing.squarefeet}", "${housing.lease}", "${housing.rent}", 
-     "${housing.garage}", "${housing.parking}", 
-     "${housing.gym}", "${housing.pool}", 
-     "${housing.appliances}", "${housing.furniture}", "${housing.AC}", "${user_id}")`;
-    const updateQuery = `UPDATE Housing SET neighborhood="${housing.neighborhood}", city="${housing.city}", 
+     ${housing.garage}, ${housing.parking}, 
+     ${housing.gym}, ${housing.pool}, 
+     ${housing.appliances}, ${housing.furniture}, ${housing.AC}, ${user_id})`;
+    const updateQuery = `UPDATE NoHousing SET neighborhood=${JSON.stringify(JSON.stringify(housing.neighborhoodList))}, city="${housing.city}", 
         squarefeet="${housing.squarefeet}", lease="${housing.lease}", rent="${housing.rent}", 
-        garage="${housing.garage}", parking="${housing.parking}", gym="${housing.gym}", pool="${housing.pool}, 
-        appliances="${housing.appliances}", furniture="${housing.furniture}", AC="${housing.AC}" WHERE User_id=${user_id}`;
+        garage=${housing.garage.toString()}, parking=${housing.parking.toString()}, gym=${housing.gym.toString()}, pool=${housing.pool.toString()}, 
+        appliances=${housing.appliances.toString()}, furniture=${housing.furniture.toString()}, AC=${housing.AC.toString()} WHERE User_id=${user_id}`;
     db(client => {
         client.query(checkExistQuery, (err, result) => {
             //if result is not empty a user is found, update

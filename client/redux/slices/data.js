@@ -136,6 +136,9 @@ export const dataSlice = createSlice({
         },
         updatePets: (state, action) => {
             let {pet, add} = action.payload;
+            if(state.userInfo.pets === null){
+                state.userInfo.pets = [];
+            }
             let temp = state.userInfo.pets;
             if(add){
                 if(temp.indexOf(pet) === -1) {
@@ -154,7 +157,7 @@ export const dataSlice = createSlice({
             let pic = action.payload;
             if(state.userInfo.picsList === null){
                 state.userInfo.picsList = [];
-            } 
+            }
             let temp = state.userInfo.picsList;
             temp.push(pic);
             state.userInfo.picsList = temp;

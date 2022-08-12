@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
   StatusBar,
   Switch,
-
 } from "react-native";
 import React, { useState } from "react";
 import { Icon } from "@rneui/themed";
