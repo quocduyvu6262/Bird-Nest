@@ -13,6 +13,8 @@ import {
   ScrollView,
   Switch,
 } from "react-native";
+import Svg, { Path } from "react-native-svg";
+import Bird_Drawing from "../assets/svg/Bird_Drawing.js";
 
 import React, { useEffect, useState } from "react";
 import Axios from "axios";
@@ -22,6 +24,11 @@ import { imagesIndex } from "../assets/images/imagesIndex.js";
 import { stepforward } from "react-native-vector-icons";
 import ViewUsers from "../components/buttons/ViewUsers.js";
 import AppLoading from "expo-app-loading";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+} from "react-native-reanimated";
+import Swipeable from "react-native-gesture-handler/Swipeable";
 
 import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
 import MainHeader from "../components/MainHeader.js";
@@ -156,6 +163,9 @@ const BirdFeed = ({ navigation }) => {
       // Header - Beginning
       <SafeAreaView style={styles.container}>
         <MainHeader screen="Bird Feed" navigation={navigation} />
+        <View style={[styles.svg, { transform: [{ translateY: 100 }] }]}>
+          <Bird_Drawing />
+        </View>
         <TouchableOpacity
           style={[styles.input, { marginVertical: 7 }]}
           onPress={overlayButton}
@@ -168,32 +178,33 @@ const BirdFeed = ({ navigation }) => {
           />
         </TouchableOpacity>
         {overlayClicked && (
-          <FilterOverlay setOverlayClicked={setOverlayClicked} 
-          overlayClicked={overlayClicked}
-          overlayButton={overlayButton}
-          switchEnabledNeigh={switchEnabledNeigh}
-          toggleSwitchNeigh={toggleSwitchNeigh}
-          switchEnabledSqua={switchEnabledSqua}
-          toggleSwitchSqua={toggleSwitchSqua}
-          switchEnabledPri={switchEnabledPri}
-          toggleSwitchPri={toggleSwitchPri}
-          switchEnabledIn={switchEnabledIn}
-          toggleSwitchIn={toggleSwitchIn}
-          switchEnabledPer={switchEnabledPer}
-          toggleSwitchPer={toggleSwitchPer}
-          switchEnabledRoo={switchEnabledRoo}
-          toggleSwitchRoo={toggleSwitchRoo}
-          switchEnabledYes={switchEnabledYes}
-          toggleSwitchYes={toggleSwitchYes}
-          switchEnabledNo={switchEnabledNo}
-          toggleSwitchNo={toggleSwitchNo}
-          switchEnabledRec={switchEnabledRec}
-          toggleSwitchRec={toggleSwitchRec}
-          switchEnabledApt={switchEnabledApt}
-          toggleSwitchApt={toggleSwitchApt}
+          <FilterOverlay
+            setOverlayClicked={setOverlayClicked}
+            overlayClicked={overlayClicked}
+            overlayButton={overlayButton}
+            switchEnabledNeigh={switchEnabledNeigh}
+            toggleSwitchNeigh={toggleSwitchNeigh}
+            switchEnabledSqua={switchEnabledSqua}
+            toggleSwitchSqua={toggleSwitchSqua}
+            switchEnabledPri={switchEnabledPri}
+            toggleSwitchPri={toggleSwitchPri}
+            switchEnabledIn={switchEnabledIn}
+            toggleSwitchIn={toggleSwitchIn}
+            switchEnabledPer={switchEnabledPer}
+            toggleSwitchPer={toggleSwitchPer}
+            switchEnabledRoo={switchEnabledRoo}
+            toggleSwitchRoo={toggleSwitchRoo}
+            switchEnabledYes={switchEnabledYes}
+            toggleSwitchYes={toggleSwitchYes}
+            switchEnabledNo={switchEnabledNo}
+            toggleSwitchNo={toggleSwitchNo}
+            switchEnabledRec={switchEnabledRec}
+            toggleSwitchRec={toggleSwitchRec}
+            switchEnabledApt={switchEnabledApt}
+            toggleSwitchApt={toggleSwitchApt}
           />
         )}
-        
+
         {/* Old filter on birdfeed
         {overlayClicked && (
           <View style={styles.subContainer}>
@@ -273,7 +284,7 @@ const BirdFeed = ({ navigation }) => {
             <FlatList
               data={userList}
               // data={UserData}
-              renderItem={ProfileCard}
+              renderItem={(item) => <ProfileCard item={item} />}
               extraData={userList}
               // extraData={UserData}
             />
@@ -367,6 +378,12 @@ const styles = StyleSheet.create({
     width: "100%",
     position: "absolute",
     zIndex: 1,
+  },
+  svg: {
+    position: "absolute",
+    zIndex: 5,
+    // top: 100,
+    // left: 200,
   },
 });
 export default BirdFeed;
