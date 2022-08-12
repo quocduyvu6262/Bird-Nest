@@ -62,7 +62,8 @@ const Profile = ({ navigation }) => {
       <ScrollView>
         <Background>
           <UserCard
-            name={data.userInfo.fullname}
+            // name={data.userInfo.fullname}
+            name={data.userInfo.firstname + " " + data.userInfo.lastname}
           />
 
           <View style={styles.buttonContainer}>
