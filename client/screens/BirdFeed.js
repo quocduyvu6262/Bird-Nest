@@ -40,7 +40,10 @@ import FilterOverlay from "../components/FilterOverlay.js";
 // import { Icon } from "@rneui/themed";
 // import Icon2 from "react-native-vector-icons/MaterialCommunityIcons";
 import Icon3 from "react-native-vector-icons/Ionicons";
+import { useSelector } from "react-redux";
 const BirdFeed = ({ navigation }) => {
+  const user = useSelector(state => state.data.userInfo);
+
   const [userList, setUserList] = useState([]);
   const [listState, setListState] = useState(false);
 
@@ -117,7 +120,7 @@ const BirdFeed = ({ navigation }) => {
   const viewUsers = () => {
     setUserList([]);
     Axios.post(`${Constants.BASE_URL}/api/matching/`, {
-      user_id: 78,
+      user_id: user.id,
     })
       .then((response) => {
         let userData = response.data;
