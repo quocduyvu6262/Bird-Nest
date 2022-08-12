@@ -27,33 +27,63 @@ import { useDispatch, useSelector, connect } from "react-redux";
 import * as dataActions from "../../redux/slices/data";
 
 class BasicInfo extends Component {
-  createHousingInfo = async () => {
-    await Axios.post("http://localhost:3000/api/housings/create", {
-      user_id: 20,
-      rent: 1250,
-      city: "Kearny Mesa",
-      lease: 5,
-      garage: 1,
-      parking: 0,
-      gym: 1,
-      pool: 0,
-      appliances: 1,
-      furniture: 0,
-      ac: 1,
-    }).catch((error) => console.log(error));
-  };
+  //userInfo = useSelector((state) => state.data.userInfo); //added in
+  //userInfo.garage = this.state17.name //check if color is blue, if it is set it (for loop, concatenate index)
+  userInfo = this.props.userInfo
+
+
+  fieldState = {blankError: ""};
+  validate = (userInfo) => {
+    /*
+    if ((this.state54.backgroundColor === "#3B9CF1" || this.state55.backgroundColor === "#3B9CF1") //bother
+        && (this.state59.backgroundColor === "#3B9CF1" || this.state60.backgroundColor === "#3B9CF1") //interact
+        && (this.state51.backgroundColor === "#3B9CF1" || this.state52.backgroundColor === "#3B9CF1") //appliances
+        && (this.state9.backgroundColor === "#3B9CF1" || this.state10.backgroundColor === "#3B9CF1")//silent
+        && (this.state15.backgroundColor === "#3B9CF1" || this.state16.backgroundColor === "#3B9CF1" //pets
+          || this.state17.backgroundColor === "#3B9CF1" || this.state18.backgroundColor === "#3B9CF1" //pets
+          || this.state19.backgroundColor === "#3B9CF1" || this.state20.backgroundColor === "#3B9CF1" //pets
+          || this.state21.backgroundColor === "#3B9CF1" || this.state22.backgroundColor === "#3B9CF1") //pets
+        && (this.state1.backgroundColor === "#3B9CF1" || this.state2.backgroundColor === "#3B9CF1")//420
+        && (this.state3.backgroundColor === "#3B9CF1" || this.state4.backgroundColor === "#3B9CF1" || this.state41.backgroundColor === "#3B9CF1")//sleep habits
+        && (this.state5.backgroundColor === "#3B9CF1" || this.state6.backgroundColor === "#3B9CF1") //guests over
+        ) {
+      return true;
+    }
+    else {
+      return false;
+    }
+    */
+   if ((this.props.userInfo.pets !== "") && (this.props.userInfo.alcohol !== "") && (this.props.userInfo.sleep !== "")
+    && (this.props.userInfo.guests !== "") && (this.props.userInfo.silent !== "") && (this.props.userInfo.shareAppliances !== "")
+    && (this.props.userInfo.roommateInteraction !== "") && (this.props.userInfo.tellRoommateIfBothered !== "")) {
+    return true;
+   }
+   else {
+    return false;
+   }
+  }  
+
+  setField = () => {
+    this.fieldState = {blankError: "Please fill in all required fields*"};
+    this.setState({blankError: "Please fill in all required fields*"});
+  }
+
+  clearField = () => {
+    this.fieldState = {blankError: ""};
+    this.setState({blankError: ""});
+  }
 
   slider_state = {
     language: "English",
     value: 500,
   };
   state1 = {
-    name: "Yes",
+    name: true,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state2 = {
-    name: "No",
+    name: false,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
@@ -68,42 +98,42 @@ class BasicInfo extends Component {
     backgroundColor: "#D9D9D9",
   };
   state5 = {
-    name: "Yes",
+    name: true,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state6 = {
-    name: "No",
+    name: false,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state7 = {
-    name: "Yes",
+    name: true,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state8 = {
-    name: "No",
+    name: false,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state9 = {
-    name: "Yes",
+    name: true,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state10 = {
-    name: "No",
+    name: false,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state11 = {
-    name: "Yes",
+    name: true,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state12 = {
-    name: "No",
+    name: false,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
@@ -151,6 +181,7 @@ class BasicInfo extends Component {
     backgroundColor: "#D9D9D9",
   };
   state22 = {
+    name: "Other",
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
@@ -241,12 +272,12 @@ class BasicInfo extends Component {
     backgroundColor: "#D9D9D9",
   };
   state51 = {
-    name: "Yes",
+    name: true,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state52 = {
-    name: "No",
+    name: false,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
@@ -255,22 +286,22 @@ class BasicInfo extends Component {
     backgroundColor: "#D9D9D9",
   };
   state54 = {
-    name: "Yes",
+    name: true,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state55 = {
-    name: "No",
+    name: false,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state56 = {
-    name: "Yes",
+    name: true,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
   state57 = {
-    name: "No",
+    name: false,
     pressed: false,
     backgroundColor: "#D9D9D9",
   };
@@ -428,7 +459,7 @@ class BasicInfo extends Component {
           <Text style={[HousingQ_styles.question1, { marginTop: 120 }]}>
             Select the type of pet(s) that
           </Text>
-          <Text style={HousingQ_styles.question1}>you own:</Text>
+          <Text style={HousingQ_styles.question1}>you own:{" "}<Text style={HousingQ_styles.highlight}>*</Text></Text>
           <TouchableOpacity
             style={[this.state15, HousingQ_styles.buttonContainerYes4]}
             onPress={() => this.selectMany(this.state15)}
@@ -539,7 +570,7 @@ class BasicInfo extends Component {
           </TouchableOpacity>
 
           <Text style={HousingQ_styles.question1}>
-            Are you alcohol/420 friendly?
+            Are you alcohol/420 friendly?{" "}<Text style={HousingQ_styles.highlight}>*</Text>
           </Text>
           <TouchableOpacity
             style={[this.state1, HousingQ_styles.buttonContainerYes1]}
@@ -561,7 +592,7 @@ class BasicInfo extends Component {
           </TouchableOpacity>
 
           <Text style={HousingQ_styles.question2}>
-            What are your sleep habits?
+            What are your sleep habits?{" "}<Text style={HousingQ_styles.highlight}>*</Text>
           </Text>
           <TouchableOpacity
             style={[this.state3, HousingQ_styles.buttonContainerYes2]}
@@ -598,7 +629,7 @@ class BasicInfo extends Component {
 
           <Text style={HousingQ_styles.question3}>Are you okay with your</Text>
           <Text style={HousingQ_styles.question3}>
-            roommates having guests over?
+            roommates having guests over?{" "}<Text style={HousingQ_styles.highlight}>*</Text>
           </Text>
           <TouchableOpacity
             style={[this.state5, HousingQ_styles.buttonContainerYes3]}
@@ -659,7 +690,7 @@ class BasicInfo extends Component {
           <Text style={HousingQ_styles.question3}>
             When you study, do you need
           </Text>
-          <Text style={HousingQ_styles.question3}>the room to be silent?</Text>
+          <Text style={HousingQ_styles.question3}>the room to be silent?{" "}<Text style={HousingQ_styles.highlight}>*</Text></Text>
           <TouchableOpacity
             style={[this.state9, HousingQ_styles.buttonContainerYes3]}
             onPress={() => {
@@ -704,7 +735,7 @@ class BasicInfo extends Component {
           </TouchableOpacity>
 
           <Text style={HousingQ_styles.question3}>Are you open to sharing</Text>
-          <Text style={HousingQ_styles.question3}>appliances?</Text>
+          <Text style={HousingQ_styles.question3}>appliances?{" "}<Text style={HousingQ_styles.highlight}>*</Text></Text>
           <TouchableOpacity
             style={[this.state51, HousingQ_styles.buttonContainerYes3]}
             onPress={() => {
@@ -766,7 +797,7 @@ class BasicInfo extends Component {
 
           <Text style={HousingQ_styles.question3}>Do you tend to keep</Text>
           <Text style={HousingQ_styles.question3}>to yourself or interact</Text>
-          <Text style={HousingQ_styles.question3}>with your roommates?</Text>
+          <Text style={HousingQ_styles.question3}>with your roommates?{" "}<Text style={HousingQ_styles.highlight}>*</Text></Text>
           <TouchableOpacity
             style={[this.state59, HousingQ_styles.buttonContainerYes3]}
             onPress={() => {
@@ -796,7 +827,7 @@ class BasicInfo extends Component {
           <Text style={HousingQ_styles.question3}>
             will you tell your roommate
           </Text>
-          <Text style={HousingQ_styles.question3}>right away?</Text>
+          <Text style={HousingQ_styles.question3}>right away?{" "}<Text style={HousingQ_styles.highlight}>*</Text></Text>
           <TouchableOpacity
             style={[this.state54, HousingQ_styles.buttonContainerYes3]}
             onPress={() => {
@@ -819,14 +850,29 @@ class BasicInfo extends Component {
           >
             <Text style={HousingQ_styles.buttonText}>No</Text>
           </TouchableOpacity>
-
+          <View>
+            <Text style ={HousingQ_styles.invalidText}>
+              {this.fieldState.blankError}
+            </Text>
+          </View>
           <TouchableOpacity
             style={HousingQ_styles.nextButton}
             onPress={() =>{
               //this.createHousingInfo()
-              this.props.navigation.navigate("HasHousingQ");
-            }}
-          >
+              if (!this.validate(this.props.userInfo)) {
+                console.log("YOU SHALL NOT PASS");
+              }
+              else {
+                this.clearField();
+                console.log("YOU SHALL PASS");
+                if (this.userInfo.role === "Flamingo" || this.userInfo.role === "Owl") {
+                  this.props.navigation.navigate("HasHousingQ"); //
+                }
+                else if (this.userInfo.role === "Penguin" || this.userInfo.role === "Duck" || this.userInfo.role === "Parrot") {
+                  this.props.navigation.navigate("NoHousingQ");
+                }
+              }
+            }}>
             <Text style={[HousingQ_styles.buttonText, { color: "#FFF" }]}>
               Next
             </Text>
@@ -877,6 +923,9 @@ const HousingQ_styles = StyleSheet.create({
     marginBottom: 30,
     width: 260,
     left: 50,
+  },
+  highlight: {
+    color: "red",
   },
   question1: {
     fontWeight: "400",
@@ -1117,6 +1166,13 @@ const HousingQ_styles = StyleSheet.create({
     borderRadius: 23,
     top: -127,
   },
+  invalidText: {
+    fontSize: 18,
+    color: "red",
+    alignSelf: "center",
+    alignItems: "center",
+    bottom: 40,
+  },
   nextButton: {
     fontWeight: "bold",
     textAlign: "center",
@@ -1143,4 +1199,10 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(null, mapDispatchToProps)(BasicInfo);
+const mapStateToProps = state => ({
+  userInfo: state.data.userInfo
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(BasicInfo);
+
+

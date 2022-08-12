@@ -22,13 +22,62 @@ import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
 import { Slider} from '@rneui/themed';
 // Redux
 import {useDispatch, useSelector, connect} from 'react-redux';
-import * as dataActions from '../../redux/slices/data';
+import data, * as dataActions from '../../redux/slices/data';
 
 class HasHousingQ extends Component {
   
   constructor(props){
     super(props)
   }
+  userInfo = this.props.userInfo;
+  housing = this.props.housing;
+
+  fieldState = {blankError: ""};
+  validate = (housing) => {
+    /*
+    if ((this.state29.backgroundColor === "#3B9CF1" || this.state30.backgroundColor === "#3B9CF1" //lease
+          || this.state31.backgroundColor === "#3B9CF1" || this.state32.backgroundColor === "#3B9CF1") //
+        && (this.state1.backgroundColor === "#3B9CF1" || this.state2.backgroundColor === "#3B9CF1") //garage
+        && (this.state3.backgroundColor === "#3B9CF1" || this.state4.backgroundColor === "#3B9CF1")//parking
+        && (this.state15.backgroundColor === "#3B9CF1" || this.state16.backgroundColor === "#3B9CF1" //neighborhood
+          || this.state17.backgroundColor === "#3B9CF1" || this.state18.backgroundColor === "#3B9CF1" //
+          || this.state19.backgroundColor === "#3B9CF1" || this.state20.backgroundColor === "#3B9CF1" //
+          || this.state21.backgroundColor === "#3B9CF1" || this.state22.backgroundColor === "#3B9CF1" //
+          || this.state23.backgroundColor === "#3B9CF1" || this.state24.backgroundColor === "#3B9CF1"//
+          || this.state25.backgroundColor === "#3B9CF1" || this.state26.backgroundColor === "#3B9CF1" //
+          || this.state27.backgroundColor === "#3B9CF1" || this.state28.backgroundColor === "#3B9CF1") //
+        && (this.state7.backgroundColor === "#3B9CF1" || this.state8.backgroundColor === "#3B9CF1" )//pool
+        && (this.state5.backgroundColor === "#3B9CF1" || this.state6.backgroundColor === "#3B9CF1") //gym
+        && (this.state9.backgroundColor === "#3B9CF1" || this.state10.backgroundColor === "#3B9CF1") //appliances
+        && (this.state11.backgroundColor === "#3B9CF1" || this.state12.backgroundColor === "#3B9CF1") //furnished
+        && (this.state13.backgroundColor === "#3B9CF1" || this.state14.backgroundColor === "#3B9CF1") //AC
+        ) {
+      return true;
+    }
+    else {
+      return false;
+    }*/
+    if ((this.props.housing.neighborhood !== null) && (this.props.housing.rent !== null) && (this.props.housing.lease !== null)
+      && (this.props.housing.garage !== null) && (this.props.housing.parking !== null) && (this.props.housing.gym !== null)
+      && (this.props.housing.pool !== null) && (this.props.housing.appliances !== null) && (this.props.housing.furniture !== null)
+      && (this.props.housing.AC !== null)) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }  
+
+  setField = () => {
+    this.fieldState = {blankError: "Please fill in all required fields*"};
+    this.setState({blankError: "Please fill in all required fields*"});
+  }
+
+  clearField = () => {
+    this.fieldState = {blankError: ""};
+    this.setState({blankError: ""});
+  }
+  
     slider_state = {
       language: "English",
       value: 500
@@ -169,6 +218,7 @@ class HasHousingQ extends Component {
       backgroundColor: '#D9D9D9'
     };
     state28 = {
+      name: 'Other',
       pressed: false,
       backgroundColor: '#D9D9D9'
     };
@@ -351,7 +401,7 @@ class HasHousingQ extends Component {
         </View>
         <ScrollView>
           <Text style={[HousingQ_styles.question1, {marginTop: 120}]}>What city or neighborhood is</Text>
-          <Text style={HousingQ_styles.question1}>the property located in?</Text>
+          <Text style={HousingQ_styles.question1}>the property located in?{" "}<Text style={HousingQ_styles.highlight}>*</Text></Text>
           <TouchableOpacity style={[this.state15, HousingQ_styles.buttonContainerYes4]}
           onPress={()=>{
             this.changeMany(this.state15, this.state16, this.state17, this.state18, this.state19, this.state20, this.state21, this.state22, this.state23, this.state24, this.state25, this.state26, this.state27, this.state28)
@@ -446,12 +496,13 @@ class HasHousingQ extends Component {
           <TouchableOpacity style={[this.state28, HousingQ_styles.buttonContainerNo6]}
           onPress={()=>{
             this.changeMany(this.state28, this.state16, this.state17, this.state18, this.state15, this.state20, this.state21, this.state22, this.state23, this.state24, this.state25, this.state26, this.state27, this.state19)
+            this.props.dispatch(dataActions.updateNeighborhood(this.state28.name));
           }}>
             <Text style = {HousingQ_styles.buttonText}>Other</Text>
           </TouchableOpacity>
 
           <Text style={HousingQ_styles.question1}>How much does a roomate need</Text>
-          <Text style={HousingQ_styles.question1}>to pay in rent?</Text>
+          <Text style={HousingQ_styles.question1}>to pay in rent?{" "}<Text style={HousingQ_styles.highlight}>*</Text></Text>
           
           <Slider 
             value={this.slider_state.value}
@@ -467,7 +518,7 @@ class HasHousingQ extends Component {
          
 
           <Text style={HousingQ_styles.question1}>In terms of months, how long is</Text>
-          <Text style={HousingQ_styles.question1}>the lease?</Text>
+          <Text style={HousingQ_styles.question1}>the lease?{" "}<Text style={HousingQ_styles.highlight}>*</Text></Text>
           <TouchableOpacity style={[this.state29, HousingQ_styles.buttonContainerYes7]}
           onPress={()=>{
             this.changeMultipleColor(this.state29, this.state30, this.state31, this.state32);
@@ -498,7 +549,7 @@ class HasHousingQ extends Component {
           </TouchableOpacity>
 
           <Text style={HousingQ_styles.question1}>Does the property have a</Text>
-          <Text style={HousingQ_styles.question1}>garage?</Text>
+          <Text style={HousingQ_styles.question1}>garage?{" "}<Text style={HousingQ_styles.highlight}>*</Text></Text>
           <TouchableOpacity style={[this.state1, HousingQ_styles.buttonContainerYes1]} 
           onPress={()=>{
             this.changeColor(this.state1, this.state2)
@@ -514,7 +565,7 @@ class HasHousingQ extends Component {
             <Text style = {HousingQ_styles.buttonText}>No</Text>
           </TouchableOpacity>
 
-          <Text style={HousingQ_styles.question2}>Does the property have parking?</Text>  
+          <Text style={HousingQ_styles.question2}>Does the property have parking?{" "}<Text style={HousingQ_styles.highlight}>*</Text></Text>  
           <TouchableOpacity style={[this.state3, HousingQ_styles.buttonContainerYes2]}
           onPress={()=>{
             this.changeColor(this.state3, this.state4)
@@ -530,7 +581,7 @@ class HasHousingQ extends Component {
             <Text style = {HousingQ_styles.buttonText}>No</Text>
           </TouchableOpacity>
 
-          <Text style={HousingQ_styles.question3}>Does the property have a gym?</Text>
+          <Text style={HousingQ_styles.question3}>Does the property have a gym?{" "}<Text style={HousingQ_styles.highlight}>*</Text></Text>
           <TouchableOpacity style={[this.state5, HousingQ_styles.buttonContainerYes3]}
           onPress={()=>{
             this.changeColor(this.state5, this.state6)
@@ -546,7 +597,7 @@ class HasHousingQ extends Component {
             <Text style = {HousingQ_styles.buttonText}>No</Text>
           </TouchableOpacity>
 
-          <Text style={HousingQ_styles.question3}>Does the property have a pool?</Text>
+          <Text style={HousingQ_styles.question3}>Does the property have a pool?{" "}<Text style={HousingQ_styles.highlight}>*</Text></Text>
           <TouchableOpacity style={[this.state7, HousingQ_styles.buttonContainerYes3]}
           onPress={()=>{
             this.changeColor(this.state7, this.state8)
@@ -563,7 +614,7 @@ class HasHousingQ extends Component {
           </TouchableOpacity>
 
           <Text style={HousingQ_styles.question3}>Does the property provide</Text>
-          <Text style={HousingQ_styles.question3}>appliances for residents?</Text>  
+          <Text style={HousingQ_styles.question3}>appliances for residents?{" "}<Text style={HousingQ_styles.highlight}>*</Text></Text>  
           <TouchableOpacity style={[this.state9, HousingQ_styles.buttonContainerYes3]}
           onPress={()=>{
             this.changeColor(this.state9, this.state10)
@@ -580,7 +631,7 @@ class HasHousingQ extends Component {
           </TouchableOpacity>
 
           <Text style={HousingQ_styles.question3}>Is the property already</Text>
-          <Text style={HousingQ_styles.question3}>furnished?</Text>
+          <Text style={HousingQ_styles.question3}>furnished?{" "}<Text style={HousingQ_styles.highlight}>*</Text></Text>
           <TouchableOpacity style={[this.state11, HousingQ_styles.buttonContainerYes3]}
           onPress={()=>{
             this.changeColor(this.state11, this.state12)
@@ -597,7 +648,7 @@ class HasHousingQ extends Component {
           </TouchableOpacity>
 
           <Text style={HousingQ_styles.question3}>Does the property have air</Text>
-          <Text style={HousingQ_styles.question3}>conditioning?</Text> 
+          <Text style={HousingQ_styles.question3}>conditioning?{" "}<Text style={HousingQ_styles.highlight}>*</Text></Text> 
           <TouchableOpacity style={[this.state13, HousingQ_styles.buttonContainerYes3]}
           onPress={()=>{
             this.changeColor(this.state13, this.state14)
@@ -612,13 +663,27 @@ class HasHousingQ extends Component {
           }}>
             <Text style = {HousingQ_styles.buttonText}>No</Text>
           </TouchableOpacity>
-
-          <TouchableOpacity style={HousingQ_styles.nextButton}
-            onPress={() => {
-              this.props.navigation.navigate('Personality')
-            }}
-          >
-            <Text style = {[HousingQ_styles.buttonText, {color:'#FFF'}]}>Next</Text>
+          <View>
+            <Text style ={HousingQ_styles.invalidText}>
+              {this.fieldState.blankError}
+            </Text>
+          </View>
+          <TouchableOpacity
+            style={HousingQ_styles.nextButton}
+            onPress={() =>{
+              if (!this.validate(this.props.housing)) {
+                console.log("YOU SHALL NOT PASS");
+                this.setField();
+              }
+              else {
+                this.clearField();
+                console.log("YOU SHALL PASS");
+                this.props.navigation.navigate('Personality'); //
+              }
+            }}>
+            <Text style={[HousingQ_styles.buttonText, { color: "#FFF" }]}>
+              Next
+            </Text>
           </TouchableOpacity>
         </ScrollView>
     </SafeAreaView>
@@ -669,6 +734,9 @@ const HousingQ_styles = StyleSheet.create({
     marginBottom: 30,
     width: 260,
     left: 50
+  },
+  highlight: {
+    color: "red",
   },
   question1: {
     fontWeight: "400",
@@ -910,6 +978,13 @@ const HousingQ_styles = StyleSheet.create({
     borderRadius:23,
     top: -127
   },
+  invalidText: {
+    fontSize: 18,
+    color: "red",
+    alignSelf: "center",
+    alignItems: "center",
+    bottom: 40,
+  },
   nextButton: {
     fontWeight: "bold",
     textAlign:'center',
@@ -935,5 +1010,9 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
+const mapStateToProps = state => ({
+  userInfo: state.data.userInfo,
+  housing: state.data.housing
+});
 
-export default connect(null, mapDispatchToProps)(HasHousingQ);
+export default connect(mapStateToProps, mapDispatchToProps)(HasHousingQ);

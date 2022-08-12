@@ -99,7 +99,7 @@ const LoginScreen = ({ navigation }) => {
       // push into redux store
       dispatch(dataActions.updateHousing(housing));
     }).catch( err => {
-      console.log("Fail to store housing data")
+      console.log("Fail to store housing data (Housing data is empty)")
     } )
   }
 
@@ -118,10 +118,8 @@ const LoginScreen = ({ navigation }) => {
                 Constants.MY_SECURE_AUTH_STATE_KEY_TOKEN,
                 JSON.stringify(accessToken)
               );
-              // STORE UID, EMAIL, NAME
+              // Show user data
               console.log(res);
-              dispatch(dataActions.updateFullname(res.name));
-              dispatch(dataActions.updateUID(res.uid));
               // TWO CASES: LOGIN or REGISTER
               if (res.status === "login") {
                 console.log("Login Successfully")

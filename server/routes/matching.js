@@ -38,31 +38,21 @@ router.post('/', (req, res) => { // input
 					else { //evaluates for values that are strings
 						var matchingQuery = `UPDATE BirdNest.Matching JOIN BirdNest.MustHave ON Matching.User_id = MustHave.User_id SET number = number + 1 WHERE ${key} = '${value}'`;	
 					}
-					client.query(matchingQuery, [],(err, result) => {
-						if (err) throw err;
+					client.query(matchingQuery, [],(err) => {
+						if (err) console.log("Fail to match");
 					});
 				}
 				client.query(resultQuery, function (err, result) { //orders Matches table from most to least matches
-					if (err) throw err;
+					if (err) console.log("Fail to show result");
 					// Output result
 					res.send(result);
 					// Reset matching table
 					const reset = 'UPDATE BirdNest.Matching SET number = 0';
-					client.query(reset, (err, result) => { //resets matches to 0 for all users
-						if(err) throw err;
+					client.query(reset, (err) => { //resets matches to 0 for all users
+						if(err) console.log("Reset fail");
 					});
 				});
 		});
 	});
 });
-
-router.get('/reset', (req, res) => {
-	db(client => {
-		const reset = 'UPDATE BirdNest.Matching SET number = 0'; //resets matches to 0 for all users
-		client.query(reset, (err, result) => {
-			if(err) throw err;
-		});
-	})
-});
-
 module.exports = router;
