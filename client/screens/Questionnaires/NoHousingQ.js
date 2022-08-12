@@ -389,19 +389,31 @@ import {
             <Text style={HousingQ_styles.question1}>In terms of months, how long of</Text>
             <Text style={HousingQ_styles.question1}>a lease are you looking for?{" "}<Text style={HousingQ_styles.highlight}>*</Text></Text>
             <TouchableOpacity style={[this.state29, HousingQ_styles.buttonContainerYes7]}
-            onPress={()=>this.changeMultipleColor(this.state29, this.state30, this.state31, this.state32)}>
+            onPress={()=>{
+              this.changeMultipleColor(this.state29, this.state30, this.state31, this.state32)
+              this.props.dispatch(dataActions.updateLease(this.state29.answer))
+            }}>
               <Text style = {HousingQ_styles.buttonText}>1 to 3</Text>
             </TouchableOpacity>
             <TouchableOpacity style={[this.state30, HousingQ_styles.buttonContainerNo7]}
-            onPress={()=>this.changeMultipleColor(this.state30, this.state29, this.state31, this.state32)}>
+            onPress={()=>{
+              this.changeMultipleColor(this.state30, this.state29, this.state31, this.state32)
+              this.props.dispatch(dataActions.updateLease(this.state30.answer))
+            }}>
               <Text style = {HousingQ_styles.buttonText}>4 to 7</Text>
             </TouchableOpacity>
             <TouchableOpacity style={[this.state31, HousingQ_styles.buttonContainerYes8]}
-            onPress={()=>this.changeMultipleColor(this.state31, this.state30, this.state29, this.state32)}>
+            onPress={()=>{
+              this.changeMultipleColor(this.state31, this.state30, this.state29, this.state32)
+              this.props.dispatch(dataActions.updateLease(this.state31.answer))
+            }}>
               <Text style = {HousingQ_styles.buttonText}>8 to 11</Text>
             </TouchableOpacity>
             <TouchableOpacity style={[this.state32, HousingQ_styles.buttonContainerNo8]}
-            onPress={()=>this.changeMultipleColor(this.state32, this.state30, this.state29, this.state31)}>
+            onPress={()=>{
+              this.changeMultipleColor(this.state32, this.state30, this.state29, this.state31)
+              this.props.dispatch(dataActions.updateLease(this.state32.answer))
+            }}>
               <Text style = {HousingQ_styles.buttonText}>12 +</Text>
             </TouchableOpacity>
 
