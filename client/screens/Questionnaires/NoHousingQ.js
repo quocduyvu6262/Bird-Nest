@@ -54,13 +54,17 @@ import {
         return false;
       }
       */
-      if ((housing.neighborhood !== null) && (housing.rent !== null) && (housing.lease !== null)
-        && (housing.garage !== null) && (housing.parking !== null) && (housing.gym !== null)
-        && (housing.pool !== null) && (housing.appliances !== null) && (housing.furniture !== null)
-        && (housing.AC !== null)) {
+      if ((this.props.housing.neighborhoodList.length) && (this.props.housing.rent !== null) && (this.props.housing.lease !== null)
+        && (this.props.housing.garage !== null) && (this.props.housing.parking !== null) && (this.props.housing.gym !== null)
+        && (this.props.housing.pool !== null) && (this.props.housing.appliances !== null) && (this.props.housing.furniture !== null)
+        && (this.props.housing.AC !== null)) {
         return true;
       }
       else {
+        console.log(housing);
+        console.log(housing.lease);
+        console.log(this.props.housing.lease);
+        //console.log(housing.neighborhoodList.length);
         return false;
       }
     }  
