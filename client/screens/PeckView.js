@@ -54,8 +54,23 @@ const PeckView = ({ navigation }) => {
   };
 
   useEffect(() => {
-    viewUsers();
+    // viewUsers();
   }, []);
+
+  // ----------- TEST LIST ---------------
+  const testList = [
+    {
+      name: "bob",
+    },
+    {
+      name: "nancy",
+    },
+    {
+      name: "drew",
+    },
+  ];
+
+  console.log(testList);
 
   return (
     <SafeAreaView style={PeckView_Styles.container}>
@@ -70,7 +85,7 @@ const PeckView = ({ navigation }) => {
       )}
 
       {listState &&
-        userList.map((user, index) => (
+        testList.map((user, index) => (
           <PeckViewCard
             user={user}
             key={index}

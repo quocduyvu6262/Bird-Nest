@@ -35,6 +35,8 @@ const PeckViewCard = ({ user, index, listState }) => {
   const rotateZ = useSharedValue(Math.random() * 20 - 10);
   const scale = useSharedValue(1);
 
+  console.log("user: " + user);
+
   useEffect(() => {
     const delay = 1000 + index * DURATION;
     y.value = withDelay(
