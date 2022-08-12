@@ -29,28 +29,16 @@ import {
     userInfo = this.props.userInfo
     fieldState = {blankError: ""};
     validate = () => {
-      if ((this.state29.backgroundColor === "#3B9CF1" || this.state30.backgroundColor === "#3B9CF1" //lease
-            || this.state31.backgroundColor === "#3B9CF1" || this.state32.backgroundColor === "#3B9CF1") //
-          && (this.state1.backgroundColor === "#3B9CF1" || this.state2.backgroundColor === "#3B9CF1") //garage
-          && (this.state3.backgroundColor === "#3B9CF1" || this.state4.backgroundColor === "#3B9CF1")//parking
-          && (this.state15.backgroundColor === "#3B9CF1" || this.state16.backgroundColor === "#3B9CF1" //neighborhood
-            || this.state17.backgroundColor === "#3B9CF1" || this.state18.backgroundColor === "#3B9CF1" //
-            || this.state19.backgroundColor === "#3B9CF1" || this.state20.backgroundColor === "#3B9CF1" //
-            || this.state21.backgroundColor === "#3B9CF1" || this.state22.backgroundColor === "#3B9CF1" //
-            || this.state23.backgroundColor === "#3B9CF1" || this.state24.backgroundColor === "#3B9CF1"//
-            || this.state25.backgroundColor === "#3B9CF1" || this.state26.backgroundColor === "#3B9CF1" //
-            || this.state27.backgroundColor === "#3B9CF1" || this.state28.backgroundColor === "#3B9CF1") //
-          && (this.state7.backgroundColor === "#3B9CF1" || this.state8.backgroundColor === "#3B9CF1" )//pool
-          && (this.state5.backgroundColor === "#3B9CF1" || this.state6.backgroundColor === "#3B9CF1") //gym
-          && (this.state9.backgroundColor === "#3B9CF1" || this.state10.backgroundColor === "#3B9CF1") //appliances
-          && (this.state11.backgroundColor === "#3B9CF1" || this.state12.backgroundColor === "#3B9CF1") //furnished
-          && (this.state13.backgroundColor === "#3B9CF1" || this.state14.backgroundColor === "#3B9CF1") //AC
-          ) {
+      if ((this.props.housing.neighborhoodList.length > 0) && (this.props.housing.rent !== null) && (this.props.housing.lease !== null)
+        && (this.props.housing.garage !== null) && (this.props.housing.parking !== null) && (this.props.housing.gym !== null)
+        && (this.props.housing.pool !== null) && (this.props.housing.appliances !== null) && (this.props.housing.furniture !== null)
+        && (this.props.housing.AC !== null)) {
         return true;
       }
       else {
         return false;
       }
+
     }  
   
     setField = () => {
