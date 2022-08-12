@@ -39,10 +39,26 @@ class Personality extends Component {
    storeData = () => {
     const user = this.props.data.userInfo;
     const housing = this.props.data.housing;
+    //console.log(user_id);
+    console.log(user);
+    console.log(housing);
     // Store into Secure Store
     SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify(user));
     SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING, JSON.stringify(housing));
 
+    //get user id by email
+    let user_id;
+    const getUserID = `${Constants.BASE_URL}/api/users/` + user.email;
+    Axios.get(getUserID, {
+
+    })
+    .then(response => {
+      console.log(response.user_id);
+      user_id = response.user_id;
+    })
+    .catch( err => {
+      console.log("Fail to get user by email");
+    });
     // Store user into database
     // TODO: Implement the method to store user data into database
     Axios.post(`${Constants.BASE_URL}/api/users/questionnaire`, {
@@ -55,10 +71,11 @@ class Personality extends Component {
     if(user.role === 'Flamingo' || user.role === 'Owl'){
       // Post to housing
       Axios.post(`${Constants.BASE_URL}/api/housings/create`, {
-        user_id: user.id,
+        user_id: user_id,
         housing: housing
       }).then().catch( err => {
-        console.log(housing.squarefeet);
+        //console.log(housing);
+        console.log(err);
         console.log('Fail to update/insert housing from questionnaire');
       })
     } else if(user.role === 'Parrot' || user.role === 'Penguin' || user.role === 'Duck'){
@@ -67,6 +84,8 @@ class Personality extends Component {
         user_id: user.id,
         housing: housing
       }).then().catch( err => {
+        console.log(housing);
+        console.log(err);
         console.log('Fail to update/insert nohousing from questionnaire');
       })
     }
