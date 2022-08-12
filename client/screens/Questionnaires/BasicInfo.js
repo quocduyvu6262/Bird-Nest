@@ -29,10 +29,9 @@ import * as dataActions from "../../redux/slices/data";
 class BasicInfo extends Component {
   //userInfo = useSelector((state) => state.data.userInfo); //added in
   //userInfo.garage = this.state17.name //check if color is blue, if it is set it (for loop, concatenate index)
-  userInfo = this.props.userInfo
+  userInfo = this.props.userInfo;
 
-
-  fieldState = {blankError: ""};
+  fieldState = { blankError: "" };
   validate = (userInfo) => {
     /*
     if ((this.state54.backgroundColor === "#3B9CF1" || this.state55.backgroundColor === "#3B9CF1") //bother
@@ -53,25 +52,31 @@ class BasicInfo extends Component {
       return false;
     }
     */
-   if ((this.props.userInfo.pets !== "") && (this.props.userInfo.alcohol !== "") && (this.props.userInfo.sleep !== "")
-    && (this.props.userInfo.guests !== "") && (this.props.userInfo.silent !== "") && (this.props.userInfo.shareAppliances !== "")
-    && (this.props.userInfo.roommateInteraction !== "") && (this.props.userInfo.tellRoommateIfBothered !== "")) {
-    return true;
-   }
-   else {
-    return false;
-   }
-  }  
+    if (
+      this.props.userInfo.pets.length > 0 &&
+      this.props.userInfo.alcohol !== "" &&
+      this.props.userInfo.sleep !== "" &&
+      this.props.userInfo.guests !== "" &&
+      this.props.userInfo.silent !== "" &&
+      this.props.userInfo.shareAppliances !== "" &&
+      this.props.userInfo.roommateInteraction !== "" &&
+      this.props.userInfo.tellRoommateIfBothered !== ""
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
 
   setField = () => {
-    this.fieldState = {blankError: "Please fill in all required fields*"};
-    this.setState({blankError: "Please fill in all required fields*"});
-  }
+    this.fieldState = { blankError: "Please fill in all required fields*" };
+    this.setState({ blankError: "Please fill in all required fields*" });
+  };
 
   clearField = () => {
-    this.fieldState = {blankError: ""};
-    this.setState({blankError: ""});
-  }
+    this.fieldState = { blankError: "" };
+    this.setState({ blankError: "" });
+  };
 
   slider_state = {
     language: "English",
@@ -421,19 +426,23 @@ class BasicInfo extends Component {
       state.pressed = true;
       this.setState({ backgroundColor: state.backgroundColor });
       this.setState({ pressed: state.pressed });
-      this.props.dispatch(dataActions.updatePets({
-        pet: state.name,
-        add: true
-      }));
+      this.props.dispatch(
+        dataActions.updatePets({
+          pet: state.name,
+          add: true,
+        })
+      );
     } else {
       state.backgroundColor = "#D9D9D9";
       state.pressed = false;
       this.setState({ backgroundColor: state.backgroundColor });
       this.setState({ pressed: state.pressed });
-      this.props.dispatch(dataActions.updatePets({
-        pet: state.name,
-        add: false
-      }));
+      this.props.dispatch(
+        dataActions.updatePets({
+          pet: state.name,
+          add: false,
+        })
+      );
     }
   }
   handleSliderChange = (value1) => {
@@ -459,7 +468,9 @@ class BasicInfo extends Component {
           <Text style={[HousingQ_styles.question1, { marginTop: 120 }]}>
             Select the type of pet(s) that
           </Text>
-          <Text style={HousingQ_styles.question1}>you own:{" "}<Text style={HousingQ_styles.highlight}>*</Text></Text>
+          <Text style={HousingQ_styles.question1}>
+            you own: <Text style={HousingQ_styles.highlight}>*</Text>
+          </Text>
           <TouchableOpacity
             style={[this.state15, HousingQ_styles.buttonContainerYes4]}
             onPress={() => this.selectMany(this.state15)}
@@ -520,8 +531,8 @@ class BasicInfo extends Component {
                 this.state30,
                 this.state31,
                 this.state32
-              )
-              this.props.dispatch(dataActions.updateCook(this.state29.name))
+              );
+              this.props.dispatch(dataActions.updateCook(this.state29.name));
             }}
           >
             <Text style={HousingQ_styles.buttonText}>Often</Text>
@@ -534,8 +545,8 @@ class BasicInfo extends Component {
                 this.state29,
                 this.state31,
                 this.state32
-              )
-              this.props.dispatch(dataActions.updateCook(this.state30.name))
+              );
+              this.props.dispatch(dataActions.updateCook(this.state30.name));
             }}
           >
             <Text style={HousingQ_styles.buttonText}>Sometimes</Text>
@@ -548,8 +559,8 @@ class BasicInfo extends Component {
                 this.state30,
                 this.state29,
                 this.state32
-              )
-              this.props.dispatch(dataActions.updateCook(this.state31.name))
+              );
+              this.props.dispatch(dataActions.updateCook(this.state31.name));
             }}
           >
             <Text style={HousingQ_styles.buttonText}>Rarely</Text>
@@ -562,43 +573,45 @@ class BasicInfo extends Component {
                 this.state30,
                 this.state29,
                 this.state31
-              )
-              this.props.dispatch(dataActions.updateCook(this.state32.name))
+              );
+              this.props.dispatch(dataActions.updateCook(this.state32.name));
             }}
           >
             <Text style={HousingQ_styles.buttonText}>Never</Text>
           </TouchableOpacity>
 
           <Text style={HousingQ_styles.question1}>
-            Are you alcohol/420 friendly?{" "}<Text style={HousingQ_styles.highlight}>*</Text>
+            Are you alcohol/420 friendly?{" "}
+            <Text style={HousingQ_styles.highlight}>*</Text>
           </Text>
           <TouchableOpacity
             style={[this.state1, HousingQ_styles.buttonContainerYes1]}
             onPress={() => {
-              this.changeColor(this.state1, this.state2)
-              this.props.dispatch(dataActions.updateAlcohol(this.state1.name))
+              this.changeColor(this.state1, this.state2);
+              this.props.dispatch(dataActions.updateAlcohol(this.state1.name));
             }}
           >
             <Text style={HousingQ_styles.buttonText}>Yes</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[this.state2, HousingQ_styles.buttonContainerNo1]}
-            onPress={() =>{
-              this.changeColor(this.state2, this.state1)
-              this.props.dispatch(dataActions.updateAlcohol(this.state2.name))
+            onPress={() => {
+              this.changeColor(this.state2, this.state1);
+              this.props.dispatch(dataActions.updateAlcohol(this.state2.name));
             }}
           >
             <Text style={HousingQ_styles.buttonText}>No</Text>
           </TouchableOpacity>
 
           <Text style={HousingQ_styles.question2}>
-            What are your sleep habits?{" "}<Text style={HousingQ_styles.highlight}>*</Text>
+            What are your sleep habits?{" "}
+            <Text style={HousingQ_styles.highlight}>*</Text>
           </Text>
           <TouchableOpacity
             style={[this.state3, HousingQ_styles.buttonContainerYes2]}
             onPress={() => {
-              this.changeThreeColor(this.state3, this.state4, this.state41)
-              this.props.dispatch(dataActions.updateSleep(this.state3.name))
+              this.changeThreeColor(this.state3, this.state4, this.state41);
+              this.props.dispatch(dataActions.updateSleep(this.state3.name));
             }}
           >
             <Text style={HousingQ_styles.buttonText}>Morning Person</Text>
@@ -606,8 +619,8 @@ class BasicInfo extends Component {
           <TouchableOpacity
             style={[this.state4, HousingQ_styles.buttonContainerNo2]}
             onPress={() => {
-              this.changeThreeColor(this.state4, this.state3, this.state41)
-              this.props.dispatch(dataActions.updateSleep(this.state4.name))
+              this.changeThreeColor(this.state4, this.state3, this.state41);
+              this.props.dispatch(dataActions.updateSleep(this.state4.name));
             }}
           >
             <Text style={HousingQ_styles.buttonText}>Night Owl</Text>
@@ -620,8 +633,8 @@ class BasicInfo extends Component {
               { marginBottom: -30 },
             ]}
             onPress={() => {
-              this.changeThreeColor(this.state41, this.state4, this.state3)
-              this.props.dispatch(dataActions.updateSleep(this.state41.name))
+              this.changeThreeColor(this.state41, this.state4, this.state3);
+              this.props.dispatch(dataActions.updateSleep(this.state41.name));
             }}
           >
             <Text style={HousingQ_styles.buttonText}>Indifferent</Text>
@@ -629,13 +642,14 @@ class BasicInfo extends Component {
 
           <Text style={HousingQ_styles.question3}>Are you okay with your</Text>
           <Text style={HousingQ_styles.question3}>
-            roommates having guests over?{" "}<Text style={HousingQ_styles.highlight}>*</Text>
+            roommates having guests over?{" "}
+            <Text style={HousingQ_styles.highlight}>*</Text>
           </Text>
           <TouchableOpacity
             style={[this.state5, HousingQ_styles.buttonContainerYes3]}
             onPress={() => {
-              this.changeColor(this.state5, this.state6)
-              this.props.dispatch(dataActions.updateGuess(this.state5.name))
+              this.changeColor(this.state5, this.state6);
+              this.props.dispatch(dataActions.updateGuess(this.state5.name));
             }}
           >
             <Text style={HousingQ_styles.buttonText}>Yes</Text>
@@ -643,8 +657,8 @@ class BasicInfo extends Component {
           <TouchableOpacity
             style={[this.state6, HousingQ_styles.buttonContainerNo3]}
             onPress={() => {
-              this.changeColor(this.state6, this.state5)
-              this.props.dispatch(dataActions.updateGuess(this.state6.name))
+              this.changeColor(this.state6, this.state5);
+              this.props.dispatch(dataActions.updateGuess(this.state6.name));
             }}
           >
             <Text style={HousingQ_styles.buttonText}>No</Text>
@@ -657,17 +671,17 @@ class BasicInfo extends Component {
           <TouchableOpacity
             style={[this.state7, HousingQ_styles.buttonContainerYes3]}
             onPress={() => {
-              this.changeThreeColor(this.state7, this.state8, this.state50)
-              this.props.dispatch(dataActions.updateOutside(this.state7.name))
+              this.changeThreeColor(this.state7, this.state8, this.state50);
+              this.props.dispatch(dataActions.updateOutside(this.state7.name));
             }}
           >
             <Text style={HousingQ_styles.buttonText}>Yes</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[this.state8, HousingQ_styles.buttonContainerNo3]}
-            onPress={() =>{
-              this.changeThreeColor(this.state8, this.state7, this.state50)
-              this.props.dispatch(dataActions.updateOutside(this.state8.name))
+            onPress={() => {
+              this.changeThreeColor(this.state8, this.state7, this.state50);
+              this.props.dispatch(dataActions.updateOutside(this.state8.name));
             }}
           >
             <Text style={HousingQ_styles.buttonText}>No</Text>
@@ -680,8 +694,8 @@ class BasicInfo extends Component {
               { marginBottom: -30 },
             ]}
             onPress={() => {
-              this.changeThreeColor(this.state50, this.state7, this.state8)
-              this.props.dispatch(dataActions.updateOutside(this.state50.name))
+              this.changeThreeColor(this.state50, this.state7, this.state8);
+              this.props.dispatch(dataActions.updateOutside(this.state50.name));
             }}
           >
             <Text style={HousingQ_styles.buttonText}>Sometimes</Text>
@@ -690,12 +704,15 @@ class BasicInfo extends Component {
           <Text style={HousingQ_styles.question3}>
             When you study, do you need
           </Text>
-          <Text style={HousingQ_styles.question3}>the room to be silent?{" "}<Text style={HousingQ_styles.highlight}>*</Text></Text>
+          <Text style={HousingQ_styles.question3}>
+            the room to be silent?{" "}
+            <Text style={HousingQ_styles.highlight}>*</Text>
+          </Text>
           <TouchableOpacity
             style={[this.state9, HousingQ_styles.buttonContainerYes3]}
             onPress={() => {
-              this.changeColor(this.state9, this.state10)
-              this.props.dispatch(dataActions.updateSilent(this.state9.name))
+              this.changeColor(this.state9, this.state10);
+              this.props.dispatch(dataActions.updateSilent(this.state9.name));
             }}
           >
             <Text style={HousingQ_styles.buttonText}>Yes</Text>
@@ -703,8 +720,8 @@ class BasicInfo extends Component {
           <TouchableOpacity
             style={[this.state10, HousingQ_styles.buttonContainerNo3]}
             onPress={() => {
-              this.changeColor(this.state10, this.state9)
-              this.props.dispatch(dataActions.updateSilent(this.state10.name))
+              this.changeColor(this.state10, this.state9);
+              this.props.dispatch(dataActions.updateSilent(this.state10.name));
             }}
           >
             <Text style={HousingQ_styles.buttonText}>No</Text>
@@ -718,8 +735,10 @@ class BasicInfo extends Component {
           <TouchableOpacity
             style={[this.state11, HousingQ_styles.buttonContainerYes3]}
             onPress={() => {
-              this.changeColor(this.state11, this.state12)
-              this.props.dispatch(dataActions.updateRoommateWork(this.state11.name))
+              this.changeColor(this.state11, this.state12);
+              this.props.dispatch(
+                dataActions.updateRoommateWork(this.state11.name)
+              );
             }}
           >
             <Text style={HousingQ_styles.buttonText}>Yes</Text>
@@ -727,20 +746,26 @@ class BasicInfo extends Component {
           <TouchableOpacity
             style={[this.state12, HousingQ_styles.buttonContainerNo3]}
             onPress={() => {
-              this.changeColor(this.state12, this.state11)
-              this.props.dispatch(dataActions.updateRoommateWork(this.state12.name))
+              this.changeColor(this.state12, this.state11);
+              this.props.dispatch(
+                dataActions.updateRoommateWork(this.state12.name)
+              );
             }}
           >
             <Text style={HousingQ_styles.buttonText}>No</Text>
           </TouchableOpacity>
 
           <Text style={HousingQ_styles.question3}>Are you open to sharing</Text>
-          <Text style={HousingQ_styles.question3}>appliances?{" "}<Text style={HousingQ_styles.highlight}>*</Text></Text>
+          <Text style={HousingQ_styles.question3}>
+            appliances? <Text style={HousingQ_styles.highlight}>*</Text>
+          </Text>
           <TouchableOpacity
             style={[this.state51, HousingQ_styles.buttonContainerYes3]}
             onPress={() => {
-              this.changeColor(this.state51, this.state52)
-              this.props.dispatch(dataActions.updateShareAppliances(this.state51.name))
+              this.changeColor(this.state51, this.state52);
+              this.props.dispatch(
+                dataActions.updateShareAppliances(this.state51.name)
+              );
             }}
           >
             <Text style={HousingQ_styles.buttonText}>Yes</Text>
@@ -748,8 +773,10 @@ class BasicInfo extends Component {
           <TouchableOpacity
             style={[this.state52, HousingQ_styles.buttonContainerNo3]}
             onPress={() => {
-              this.changeColor(this.state52, this.state51)
-              this.props.dispatch(dataActions.updateShareAppliances(this.state52.name))
+              this.changeColor(this.state52, this.state51);
+              this.props.dispatch(
+                dataActions.updateShareAppliances(this.state52.name)
+              );
             }}
           >
             <Text style={HousingQ_styles.buttonText}>No</Text>
@@ -764,18 +791,22 @@ class BasicInfo extends Component {
           <Text style={HousingQ_styles.question3}>your roommates?</Text>
           <TouchableOpacity
             style={[this.state56, HousingQ_styles.buttonContainerYes3]}
-            onPress={() =>{
-              this.changeThreeColor(this.state56, this.state57, this.state58)
-              this.props.dispatch(dataActions.updateCarWithRoommate(this.state56.name))
+            onPress={() => {
+              this.changeThreeColor(this.state56, this.state57, this.state58);
+              this.props.dispatch(
+                dataActions.updateCarWithRoommate(this.state56.name)
+              );
             }}
           >
             <Text style={HousingQ_styles.buttonText}>Yes</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[this.state57, HousingQ_styles.buttonContainerNo3]}
-            onPress={() =>{
-              this.changeThreeColor(this.state57, this.state56, this.state58)
-              this.props.dispatch(dataActions.updateCarWithRoommate(this.state57.name))
+            onPress={() => {
+              this.changeThreeColor(this.state57, this.state56, this.state58);
+              this.props.dispatch(
+                dataActions.updateCarWithRoommate(this.state57.name)
+              );
             }}
           >
             <Text style={HousingQ_styles.buttonText}>No</Text>
@@ -787,9 +818,11 @@ class BasicInfo extends Component {
               { marginTop: 43 },
               { marginBottom: -30 },
             ]}
-            onPress={() =>{
-              this.changeThreeColor(this.state58, this.state57, this.state56)
-              this.props.dispatch(dataActions.updateCarWithRoommate(this.state58.name))
+            onPress={() => {
+              this.changeThreeColor(this.state58, this.state57, this.state56);
+              this.props.dispatch(
+                dataActions.updateCarWithRoommate(this.state58.name)
+              );
             }}
           >
             <Text style={HousingQ_styles.buttonText}>Don't have car</Text>
@@ -797,12 +830,17 @@ class BasicInfo extends Component {
 
           <Text style={HousingQ_styles.question3}>Do you tend to keep</Text>
           <Text style={HousingQ_styles.question3}>to yourself or interact</Text>
-          <Text style={HousingQ_styles.question3}>with your roommates?{" "}<Text style={HousingQ_styles.highlight}>*</Text></Text>
+          <Text style={HousingQ_styles.question3}>
+            with your roommates?{" "}
+            <Text style={HousingQ_styles.highlight}>*</Text>
+          </Text>
           <TouchableOpacity
             style={[this.state59, HousingQ_styles.buttonContainerYes3]}
             onPress={() => {
-              this.changeColor(this.state59, this.state60)
-              this.props.dispatch(dataActions.updateRoommateInteraction(this.state59.name))
+              this.changeColor(this.state59, this.state60);
+              this.props.dispatch(
+                dataActions.updateRoommateInteraction(this.state59.name)
+              );
             }}
           >
             <Text style={HousingQ_styles.buttonText}>Keep to myself</Text>
@@ -814,8 +852,10 @@ class BasicInfo extends Component {
               { bottom: 1 },
             ]}
             onPress={() => {
-              this.changeColor(this.state60, this.state59)
-              this.props.dispatch(dataActions.updateRoommateInteraction(this.state60.name))
+              this.changeColor(this.state60, this.state59);
+              this.props.dispatch(
+                dataActions.updateRoommateInteraction(this.state60.name)
+              );
             }}
           >
             <Text style={HousingQ_styles.buttonText}>Interact</Text>
@@ -827,12 +867,16 @@ class BasicInfo extends Component {
           <Text style={HousingQ_styles.question3}>
             will you tell your roommate
           </Text>
-          <Text style={HousingQ_styles.question3}>right away?{" "}<Text style={HousingQ_styles.highlight}>*</Text></Text>
+          <Text style={HousingQ_styles.question3}>
+            right away? <Text style={HousingQ_styles.highlight}>*</Text>
+          </Text>
           <TouchableOpacity
             style={[this.state54, HousingQ_styles.buttonContainerYes3]}
             onPress={() => {
-              this.changeColor(this.state54, this.state55)
-              this.props.dispatch(dataActions.updateTellRoommateIfBothered(this.state54.name))
+              this.changeColor(this.state54, this.state55);
+              this.props.dispatch(
+                dataActions.updateTellRoommateIfBothered(this.state54.name)
+              );
             }}
           >
             <Text style={HousingQ_styles.buttonText}>Yes</Text>
@@ -843,36 +887,44 @@ class BasicInfo extends Component {
               HousingQ_styles.buttonContainerNo3,
               { marginBottom: 110 },
             ]}
-            onPress={() =>{
-               this.changeColor(this.state55, this.state54)
-               this.props.dispatch(dataActions.updateTellRoommateIfBothered(this.state55.name))
-              }}
+            onPress={() => {
+              this.changeColor(this.state55, this.state54);
+              this.props.dispatch(
+                dataActions.updateTellRoommateIfBothered(this.state55.name)
+              );
+            }}
           >
             <Text style={HousingQ_styles.buttonText}>No</Text>
           </TouchableOpacity>
           <View>
-            <Text style ={HousingQ_styles.invalidText}>
+            <Text style={HousingQ_styles.invalidText}>
               {this.fieldState.blankError}
             </Text>
           </View>
           <TouchableOpacity
             style={HousingQ_styles.nextButton}
-            onPress={() =>{
+            onPress={() => {
               //this.createHousingInfo()
               if (!this.validate(this.props.userInfo)) {
                 console.log("YOU SHALL NOT PASS");
-              }
-              else {
+              } else {
                 this.clearField();
                 console.log("YOU SHALL PASS");
-                if (this.userInfo.role === "Flamingo" || this.userInfo.role === "Owl") {
+                if (
+                  this.userInfo.role === "Flamingo" ||
+                  this.userInfo.role === "Owl"
+                ) {
                   this.props.navigation.navigate("HasHousingQ"); //
-                }
-                else if (this.userInfo.role === "Penguin" || this.userInfo.role === "Duck" || this.userInfo.role === "Parrot") {
+                } else if (
+                  this.userInfo.role === "Penguin" ||
+                  this.userInfo.role === "Duck" ||
+                  this.userInfo.role === "Parrot"
+                ) {
                   this.props.navigation.navigate("NoHousingQ");
                 }
               }
-            }}>
+            }}
+          >
             <Text style={[HousingQ_styles.buttonText, { color: "#FFF" }]}>
               Next
             </Text>
@@ -1190,19 +1242,16 @@ const HousingQ_styles = StyleSheet.create({
   },
 });
 
-
 // DISPATCH
 // MAP DISPATCH
 const mapDispatchToProps = (dispatch) => {
   return {
-      dispatch: (func) => dispatch(func)
-  }
+    dispatch: (func) => dispatch(func),
+  };
 };
 
-const mapStateToProps = state => ({
-  userInfo: state.data.userInfo
+const mapStateToProps = (state) => ({
+  userInfo: state.data.userInfo,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BasicInfo);
-
-
