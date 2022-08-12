@@ -60,7 +60,7 @@ const housing = {
     city: null,
     squarefeet: 1000,
     lease: null,
-    rent: null, //500?
+    rent: 500, //500?
 
     garage: null,
     parking: null,
@@ -217,7 +217,7 @@ export const dataSlice = createSlice({
         },
         updateDayout: (state, action) => {
             let {activity, add} = action.payload;
-            if(state.userInfo.dayout === null){
+            if (state.userInfo.dayout === null) {
                 state.userInfo.dayout = [];
             }
             let temp = state.userInfo.dayout;
@@ -239,7 +239,7 @@ export const dataSlice = createSlice({
         },
         updateInteriorDesign: (state, action) => {
             let {activity, add} = action.payload;
-            if(state.userInfo.interiorDesign === null){
+            if (state.userInfo.interiorDesign === null) {
                 state.userInfo.interiorDesign = [];
             }
             let temp = state.userInfo.interiorDesign;
@@ -258,7 +258,7 @@ export const dataSlice = createSlice({
         },
         updateFavoriteSport: (state, action) => {
             let {activity, add} = action.payload;
-            if(state.userInfo.favoriteSport === null){
+            if (state.userInfo.favoriteSport === null) {
                 state.userInfo.favoriteSport = [];
             }
             let temp = state.userInfo.favoriteSport;
@@ -288,8 +288,8 @@ export const dataSlice = createSlice({
         // HOUSING
         updateNeighborhoodList: (state, action) => {
             let {activity, add} = action.payload;
-            if(state.userInfo.neighborhoodList === null){
-                state.userInfo.neighborhoodList = [];
+            if (state.housing.neighborhoodList === null) {
+                state.housing.neighborhoodList = [];
             }
             let temp = state.housing.neighborhoodList;
             if(add){

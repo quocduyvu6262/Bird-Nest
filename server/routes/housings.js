@@ -33,7 +33,7 @@ router.get('/:id', (req, res) => {
 
 // Get housing by Email
 router.get('/email/:email', (req, res) => {
-    const query = `SELECT Housing.* FROM BirdNest.Housing JOIN BirdNest.User ON User.id = Housing.User_id WHERE User.email= "${req.params.email}";`;
+    const query = `SELECT * FROM Housing JOIN User ON User.id = Housing.User_id WHERE User.email= "${req.params.email}";`;
     db(client => {
         client.query(query, (err, result) => {
             if(!err && result.length) {
@@ -49,6 +49,7 @@ router.get('/email/:email', (req, res) => {
 router.post('/create', (req, res) => {
     let housing = req.body.housing;
     let user_id = req.body.user_id;
+    console.log(housing.squarefeet);
     //Check if user exists in housing table
     const checkExistQuery = `SELECT * FROM Housing WHERE User_id = "${user_id}"`
     const insertQuery = `

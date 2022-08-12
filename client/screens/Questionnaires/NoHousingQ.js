@@ -25,10 +25,11 @@ import {
   import {useDispatch, useSelector, connect} from 'react-redux';
 
   class NoHousingQ extends Component {
-     
-    userInfo = this.props.userInfo
+    
+    userInfo = this.props.userInfo;
+    housing = this.props.housing;
     fieldState = {blankError: ""};
-    validate = () => {
+    validate = (housing) => {
       if ((this.props.housing.neighborhoodList.length > 0) && (this.props.housing.rent !== null) && (this.props.housing.lease !== null)
         && (this.props.housing.garage !== null) && (this.props.housing.parking !== null) && (this.props.housing.gym !== null)
         && (this.props.housing.pool !== null) && (this.props.housing.appliances !== null) && (this.props.housing.furniture !== null)
@@ -36,9 +37,9 @@ import {
         return true;
       }
       else {
+        console.log(this.props.housing);
         return false;
       }
-
     }  
   
     setField = () => {
@@ -530,7 +531,7 @@ import {
           <TouchableOpacity
             style={HousingQ_styles.nextButton}
             onPress={() =>{
-              if (!this.validate()) {
+              if (!this.validate(this.props.housing)) {
                 console.log("YOU SHALL NOT PASS");
                 this.setField();
               }

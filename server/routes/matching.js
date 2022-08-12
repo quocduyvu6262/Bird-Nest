@@ -9,7 +9,7 @@ router.post("/", (req, res) => {
   // input
   var provided_id = req.body.user_id; //temporary until ID is provided by front-end
   //var provided_id = req.body.id:
-
+  console.log(provided_id);
   //query for sending every user's variables to the front-end
   const resultQuery =
     "SELECT User.*, Matching.number FROM BirdNest.User JOIN BirdNest.Housing ON User.id = Housing.User_id JOIN BirdNest.Matching ON User.id = Matching.User_id ORDER BY number desc";
@@ -34,10 +34,10 @@ router.post("/", (req, res) => {
           //updates matches count for each user
           if (key == "rent") {
             //evaluates the lease and rent for a range
-            var matchingQuery = `UPDATE BirdNest.Matching JOIN BirdNest.NoHousing ON Matching.User_id = NoHousing.User_id SET number = number + 1 WHERE ${key} <= ${value}`;
+            var matchingQuery = `UPDATE BirdNest.Matching JOIN BirdNest.Housing ON Matching.User_id = Housing.User_id SET number = number + 1 WHERE ${key} <= ${value}`;
           } else {
             //evaluates for values that are strings
-            var matchingQuery = `UPDATE BirdNest.Matching JOIN BirdNest.NoHousing ON Matching.User_id = NoHousing.User_id SET number = number + 1 WHERE ${key} = '${value}'`;
+            var matchingQuery = `UPDATE BirdNest.Matching JOIN BirdNest.Housing ON Matching.User_id = Housing.User_id SET number = number + 1 WHERE ${key} = '${value}'`;
           }
           client.query(matchingQuery, [], (err) => {
             if (err) console.log("Fail to match");
