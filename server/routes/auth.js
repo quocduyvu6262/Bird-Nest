@@ -101,13 +101,29 @@ router.post('/loginwithgoogle', async (req, res) => {
                     });
                 } else {
                     db(client => {
-                        client.query(query, err => {
-                            res.send({
-                                status: "register",
-                                email: user.email,
-                                name: user.name,
-                                uid: uid
-                            });
+                        client.query(query, (err, result) => {
+                            if(!err){
+                                db(client => {
+                                    client.query(checkExistQuery, (err, result) => {
+                                        const id = result[0].id;
+                                        // add matching table
+                                        db(client => {
+                                            const queryMatching = `INSERT INTO BirdNest.Matching (number, prioritycount, User_id)
+                                            VALUES(0, 0, "${id}")`; // database link
+                                            client.query(queryMatching, err => {
+                                                if(err) console.log("Fail to add matching table")
+                                            })
+                                            res.send({
+                                                status: "register",
+                                                email: user.email,
+                                                name: user.fullname,
+                                                uid: uid,
+                                                id: id
+                                            });
+                                        })
+                                    })
+                                })
+                            }
                         });
                     });
                 }
@@ -151,7 +167,6 @@ router.get('/', (req, res) => {
 router.post('/role', (req, res) => {
     const users = req.body;
     const query = `UPDATE Users SET Role= "${users.role}" WHERE id="${users.user_id}"`;
-    console.log(user_id);
     db(client => {
         client.query(query, (err, result) => {
             if(result.length){
@@ -182,7 +197,7 @@ router.post('/questionnaire', (req, res) => {
         else if (key === "email" || key === "userInfo") {
             continue;
         }
-        else if (key === "pets" || key === "dayout" || key === "interiorDesign" || key === "favoriteSport") {
+        else if (key === "pets" || key === "dayout" || key === "interiorDesign" || key === "favoriteSport" || key === "picsList") {
             incompleteQuery += key + "=" + JSON.stringify(JSON.stringify(userInfo[key])) + ","; // ["1", "2", "3"] => "[\"1\", \"2\" "]"
         }
         else if (userInfo[key] === false || userInfo[key] === true) {

@@ -102,6 +102,7 @@ const LoginScreen = ({ navigation }) => {
       console.log("Fail to store housing data (Housing data is empty)")
     } )
   }
+  
 
   /**
    * Use Effect Hook
@@ -127,6 +128,10 @@ const LoginScreen = ({ navigation }) => {
                 storeData(res.email);
                 navigation.navigate("BirdFeed");
               } else if (res.status === "register") {
+                dispatch(dataActions.updateID(res.id));
+                dispatch(dataActions.updateEmail(res.email));
+                dispatch(dataActions.updateUID(res.uid));
+                dispatch(dataActions.updateFullname(res.name));
                 console.log("Register Successfully");
                 navigation.navigate("IDQs");
               }

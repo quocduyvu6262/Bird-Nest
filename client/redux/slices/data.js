@@ -158,12 +158,6 @@ export const dataSlice = createSlice({
             if(state.userInfo.picsList === null){
                 state.userInfo.picsList = [];
             }
-            if(state.userInfo.picsList === null){
-                state.userInfo.picsList = [];
-            }
-            if(state.userInfo.picsList === null){
-                state.userInfo.picsList = [];
-            } 
             let temp = state.userInfo.picsList;
             temp.push(pic);
             state.userInfo.picsList = temp;

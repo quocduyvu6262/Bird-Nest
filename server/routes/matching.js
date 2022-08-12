@@ -13,30 +13,26 @@ router.post('/', (req, res) => { // input
 	const resultQuery = "SELECT User.*, Matching.number FROM BirdNest.User JOIN BirdNest.Housing ON User.id = Housing.User_id JOIN BirdNest.Matching ON User.id = Matching.User_id ORDER BY number desc";
 	db(client => {
 		var must_have_map = new Map();
-		client.query(`SELECT * FROM BirdNest.MustHave WHERE User_id = ${provided_id}`, //replaced NoHousing with MustHave
+		client.query(`SELECT * FROM BirdNest.NoHousing WHERE User_id = ${provided_id}`, //replaced NoHousing with MustHave
 			(err, result) => {
 				const provided_values = result;
 				//add the following matching variables to the map
 				must_have_map.set("neighborhood", provided_values[0].neighborhood);
-				must_have_map.set("city", provided_values[0].city);
 				must_have_map.set("lease", provided_values[0].lease);
 				must_have_map.set("rent", provided_values[0].rent);
-				must_have_map.set("age", provided_values[0].age);
-				must_have_map.set("gender", provided_values[0].gender);
-				must_have_map.set("pet", provided_values[0].pet);
-				must_have_map.set("alcohol", provided_values[0].alcohol);
-				must_have_map.set("sleep", provided_values[0].sleep);
-				must_have_map.set("guests", provided_values[0].guests);
-				must_have_map.set("cleanliness", provided_values[0].cleanliness);
+				must_have_map.set("squarefeet", provided_values[0].squarefeet);
+				must_have_map.set("parking", provided_values[0].parking);
+				must_have_map.set("gym", provided_values[0].gym);
+				must_have_map.set("pool", provided_values[0].pool);
+				must_have_map.set("appliances", provided_values[0].appliances);
+				must_have_map.set("furniture", provided_values[0].furniture);
+				must_have_map.set("AC", provided_values[0].AC);
 				for(const [key, value] of must_have_map) { //updates matches count for each user
-					if (key == "lease" || key == "rent") { //evaluates the lease and rent for a range
-						var matchingQuery = `UPDATE BirdNest.Matching JOIN BirdNest.MustHave ON Matching.User_id = MustHave.User_id SET number = number + 1 WHERE ${key} <= ${value}`;
+					if (key == "rent") { //evaluates the lease and rent for a range
+						var matchingQuery = `UPDATE BirdNest.Matching JOIN BirdNest.NoHousing ON Matching.User_id = NoHousing.User_id SET number = number + 1 WHERE ${key} <= ${value}`;
 					} 
-					else if(key == "age") { //evaluates for age, whose value is an int
-						var matchingQuery = `UPDATE BirdNest.Matching JOIN BirdNest.MustHave ON Matching.User_id = MustHave.User_id SET number = number + 1 WHERE ${key} = ${value}`;
-					}
 					else { //evaluates for values that are strings
-						var matchingQuery = `UPDATE BirdNest.Matching JOIN BirdNest.MustHave ON Matching.User_id = MustHave.User_id SET number = number + 1 WHERE ${key} = '${value}'`;	
+						var matchingQuery = `UPDATE BirdNest.Matching JOIN BirdNest.NoHousing ON Matching.User_id = NoHousing.User_id SET number = number + 1 WHERE ${key} = '${value}'`;	
 					}
 					client.query(matchingQuery, [],(err) => {
 						if (err) console.log("Fail to match");
