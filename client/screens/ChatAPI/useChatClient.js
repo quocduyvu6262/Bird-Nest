@@ -17,7 +17,7 @@ export const useChatClient = () => {
     useEffect(() => {
         const setupClient = async () => {
             try {
-                axios.post(`${Constants.BASE_URL}/api/chat`,{
+                axios.post(`${await Constants.BASE_URL()}/api/chat`,{
                     uid: userID
                 }).then(async result => {
                     let user = {

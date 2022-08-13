@@ -36,7 +36,7 @@ class Personality extends Component {
    * Pull data from Redux Store and store into
    * Database and Secure Storage
    */
-   storeData = () => {
+   storeData = async () => {
     const user = this.props.data.userInfo;
     const housing = this.props.data.housing;
     // Store into Secure Store
@@ -45,7 +45,7 @@ class Personality extends Component {
 
     // Store user into database
     // TODO: Implement the method to store user data into database
-    Axios.post(`${Constants.BASE_URL}/api/users/questionnaire`, {
+    Axios.post(`${await Constants.BASE_URL()}/api/users/questionnaire`, {
       userInfo : user,
     }).catch( err => {
       console.log("Fail to store user into database from questionnaire");
