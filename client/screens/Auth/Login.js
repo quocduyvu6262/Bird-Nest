@@ -21,8 +21,6 @@ import * as dataActions from '../../redux/slices/data';
 import { useDispatch } from "react-redux";
 // AXIOS
 import Axios from "axios";
-
-
 WebBrowser.maybeCompleteAuthSession();
 
 const LoginScreen = ({ navigation }) => {
@@ -132,7 +130,8 @@ const LoginScreen = ({ navigation }) => {
                 navigation.navigate("IDQs");
               }
             })
-            .catch((err) => console.log("Login/Register Fail"));
+            .catch((err) => 
+              console.log("Login/Register Fail"));
         });
       }
     }
@@ -143,7 +142,7 @@ const LoginScreen = ({ navigation }) => {
    */
   return (
     <Background>
-      <View style={styles.background}>
+      <View style={styles.background}>      
         <Logo />
         <Header>Bird Nest</Header>
         <Paragraph>

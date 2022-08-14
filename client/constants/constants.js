@@ -1,3 +1,24 @@
+// import React, { useState } from "react";
+// import publicIP from 'react-native-public-ip';
+
+// function getAsyncData() {
+//   let [ip, setIp] = useState(0);
+//   let IP = useRef(0);
+//   return new Promise((resolve, reject) => {
+//     publicIP()
+//       .then(ip => {
+//         resolve(ip);
+//       })
+//       .catch(error => {
+//         reject(error);
+//       });
+//   });
+// }
+// const getIP = async () => {
+//   let ipValue = await getAsyncData();
+//   IP.current = ipValue;
+//   setIp(ipValue);
+// };
 
 const Constants = {
   MY_SECURE_AUTH_STATE_KEY_TOKEN: "MySecureAuthStateKeyUserToken",

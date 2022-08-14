@@ -134,9 +134,8 @@ const FilterOverlay = (
           <TouchableOpacity
             style={styles.dropDown}
             onPress={overlayDropDownButton}>
-          <Text
-            onChangeText={setNeighborhood("W.I.P.")}>
-              {neighborhood}
+          <Text>
+            W.I.P.
           </Text>
           </TouchableOpacity>
           {overlayDropDownClicked && (
