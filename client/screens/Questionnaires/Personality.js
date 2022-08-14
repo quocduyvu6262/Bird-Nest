@@ -28,34 +28,51 @@ import {useDispatch, useSelector, connect} from 'react-redux';
 import * as dataActions from '../../redux/slices/data';
 
 
-class Personality extends Component {
-  // Store to secure store
-  store(){
-    // Store data
-    const {data} = this.props;
-    SecureStore.setItemAsync(
-      Constants.MY_SECURE_AUTH_STATE_KEY_REDUX,
-      JSON.stringify(data)
-    );
-  };
 
-  
-  createHousingInfo = () => {
-    Axios.post("http://localhost:3000/api/housings/create", {
-      user_id: 20,
-      rent: 1250,
-      city: "Kearny Mesa",
-      lease: 5,
-      garage: 1,
-      parking: 0,
-      gym: 1,
-      pool: 0,
-      appliances: 1,
-      furniture: 0,
-      ac: 1
-    })
-    .catch(error => console.log(error));
-  };
+class Personality extends Component {
+
+
+  /**
+   * Pull data from Redux Store and store into
+   * Database and Secure Storage
+   */
+   storeData = async () => {
+    const user = this.props.data.userInfo;
+    const housing = this.props.data.housing;
+    // Store into Secure Store
+    SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify(user));
+    SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING, JSON.stringify(housing));
+
+    // Store user into database
+    // TODO: Implement the method to store user data into database
+    Axios.post(`${await Constants.BASE_URL()}/api/users/questionnaire`, {
+      userInfo : user,
+    }).catch( err => {
+      console.log("Fail to store user into database from questionnaire");
+    });
+    // Store housing into database
+    // TODO: Implement the method to store housing data into database
+    if(user.role === 'Flamingo' || user.role === 'Owl'){
+      // Post to housing
+      Axios.post(`${Constants.BASE_URL}/api/housings/create`, {
+        user_id: user.id,
+        housing: housing
+      }).then().catch( err => {
+        console.log(housing.squarefeet);
+        console.log('Fail to update/insert housing from questionnaire');
+      })
+    } else if(user.role === 'Parrot' || user.role === 'Penguin' || user.role === 'Duck'){
+      // Post to nohousing
+      Axios.post(`${Constants.BASE_URL}/api/nohousing/create`, {
+        user_id: user.id,
+        housing: housing
+      }).then().catch( err => {
+        console.log('Fail to update/insert nohousing from questionnaire');
+      })
+    }
+    
+  }
+
 
     slider_state = {
       language: "English",
@@ -747,15 +764,13 @@ class Personality extends Component {
           }}>
             <Text style = {HousingQ_styles.buttonText}>Bubble tea</Text>
           </TouchableOpacity>
-
-
           <TouchableOpacity style={HousingQ_styles.nextButton}
           onPress={()=>{
             //this.createHousingInfo()
-            this.store();
+            this.storeData();
             this.props.navigation.navigate('BirdFeed')
           }}>
-            <Text style = {[HousingQ_styles.buttonText, {color:'#FFF'}]}>Next</Text>
+            <Text style = {[HousingQ_styles.buttonText, {color:'#FFF'}]}>Finish</Text>
           </TouchableOpacity>
         </ScrollView>
     </SafeAreaView>
@@ -1093,10 +1108,16 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
+//MAP STATE TO PROPS
+// const mapStateToProps = state => ({
+//   data: state.data
+// });
+
 // MAP STATE TO PROPS
 const mapStateToProps = state => ({
   data: state.data
 });
+
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(Personality);

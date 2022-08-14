@@ -30,9 +30,9 @@ const History = ({ navigation }) => {
     navigation.goBack();
   };
   // view history
-  const viewUsers = () => {
+  const viewUsers = async () => {
     setUserList([]);
-    Axios.post(`${Constants.BASE_URL}/api/history/`, {
+    Axios.post(`${await Constants.BASE_URL()}/api/history/`, {
       user_id: 5,
     })
       .then((response) => {

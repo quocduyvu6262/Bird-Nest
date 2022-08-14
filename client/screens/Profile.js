@@ -31,6 +31,11 @@ import { useDispatch, useSelector } from "react-redux";
 const Profile = ({ navigation }) => {
   
   const data = useSelector(state => state.data);
+  let hasHousing = false;
+  const role = data.userInfo.role;
+  if(role === "Flamingo" || role === "Owl"){
+    hasHousing = true;
+  }
 
   const [name, setName] = useState();
   const [rent, setRent] = useState();
@@ -57,7 +62,8 @@ const Profile = ({ navigation }) => {
       <ScrollView>
         <Background>
           <UserCard
-            name={data.userInfo.fullname}
+            // name={data.userInfo.fullname}
+            name={data.userInfo.firstname + " " + data.userInfo.lastname}
           />
 
           <View style={styles.buttonContainer}>
@@ -76,7 +82,9 @@ const Profile = ({ navigation }) => {
               </Button>
             </TouchableOpacity>
 
+
             <TouchableOpacity>
+
               <Button
                 color={buttonClicked ? "#560CCE" : "black"}
                 onPress={roomInfoButton}

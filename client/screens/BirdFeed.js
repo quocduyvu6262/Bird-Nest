@@ -12,6 +12,8 @@ import {
   StatusBar,
   ScrollView,
 } from "react-native";
+import Svg, { Path } from "react-native-svg";
+import Bird_Drawing from "../assets/svg/Bird_Drawing.js";
 
 import React, { useEffect, useState } from "react";
 import Axios from "axios";
@@ -21,6 +23,11 @@ import { imagesIndex } from "../assets/images/imagesIndex.js";
 import { stepforward } from "react-native-vector-icons";
 import ViewUsers from "../components/buttons/ViewUsers.js";
 import AppLoading from "expo-app-loading";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+} from "react-native-reanimated";
+import Swipeable from "react-native-gesture-handler/Swipeable";
 
 import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
 import MainHeader from "../components/MainHeader.js";
@@ -33,6 +40,8 @@ import FilterOverlay from "../components/FilterOverlay.js";
 // import Icon2 from "react-native-vector-icons/MaterialCommunityIcons";
 import Icon3 from "react-native-vector-icons/Ionicons";
 const BirdFeed = ({ navigation }) => {
+  const user = useSelector(state => state.data.userInfo);
+
   const [userList, setUserList] = useState([]);
   const [listState, setListState] = useState(false);
   // This is the old filter function on birdfeed
@@ -116,10 +125,10 @@ const BirdFeed = ({ navigation }) => {
   });
   // ----- LOGIC FOR VIEW USER BUTTONS -----
 
-  const viewUsers = () => {
+  const viewUsers = async () => {
     setUserList([]);
-    Axios.post(`${Constants.BASE_URL}/api/matching/`, {
-      user_id: 78,
+    Axios.post(`${await Constants.BASE_URL()}/api/matching/`, {
+      user_id: user.id,
     })
       .then((response) => {
         let userData = response.data;
@@ -162,6 +171,9 @@ const BirdFeed = ({ navigation }) => {
       // Header - Beginning
       <SafeAreaView style={styles.container}>
         <MainHeader screen="Bird Feed" navigation={navigation} />
+        <View style={[styles.svg, { transform: [{ translateY: 100 }] }]}>
+          <Bird_Drawing />
+        </View>
         <TouchableOpacity
           style={[styles.input, { marginVertical: 7 }]}
           onPress={overlayFilterButton}
@@ -275,7 +287,7 @@ const BirdFeed = ({ navigation }) => {
             <FlatList
               data={userList}
               // data={UserData}
-              renderItem={ProfileCard}
+              renderItem={(item) => <ProfileCard item={item} />}
               extraData={userList}
               // extraData={UserData}
             />
@@ -369,6 +381,12 @@ const styles = StyleSheet.create({
     width: "100%",
     position: "absolute",
     zIndex: 1,
+  },
+  svg: {
+    position: "absolute",
+    zIndex: 5,
+    // top: 100,
+    // left: 200,
   },
 });
 export default BirdFeed;

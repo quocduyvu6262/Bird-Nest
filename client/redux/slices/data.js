@@ -4,6 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 
 const userInfo = {
+    id: "",
     uid: "",
     firstname: "",
     lastname: "",
@@ -18,15 +19,16 @@ const userInfo = {
     status: null,
     major: null,
     profilepic: null,
+    picsList: [], // array
 
     // BASIC INFO
-    pets: [],
+    pets: [], // array
     cook: "",
     alcohol: "",
     sleep: "",
     guests: "",
-    outsise: "",
-    slient: "",
+    outside: "",
+    silent: "",
     roommateWorkWhileYouSleep: "",
     shareAppliances: "",
     carWithRoommate: "",
@@ -40,10 +42,10 @@ const userInfo = {
     athletic: "",
     marvelDC: "",
     talkative: "",
-    dayout: [],
+    dayout: [], // array
     vanillaChocolate: "",
-    interiorDesign: [],
-    favoriteSport: [],
+    interiorDesign: [], // array
+    favoriteSport: [], // array
     michaelLebron: "",
     coffeeBoba: "",
     bobaBubble: "",
@@ -53,11 +55,12 @@ const userInfo = {
 }
 
 const housing = {
+    neighborhoodList: [], // for no housing only
     neighborhood: null,
     city: null,
-    squarefeet: null,
+    squarefeet: 1000,
     lease: null,
-    rent: null,
+    rent: 500, //500?
 
     garage: null,
     parking: null,
@@ -67,7 +70,7 @@ const housing = {
     furniture: null,
     AC: null,
 
-    allegry: null,
+    allergy: null,
     car: null,
     drugs: null,
 }
@@ -88,6 +91,9 @@ export const dataSlice = createSlice({
         updateHousing: (state, action) => {
             let toAddHousingObj = action.payload;
             state.housing = {...state.housing, ...toAddHousingObj};
+        },
+        updateID: (state, action) => {
+            state.userInfo.id = action.payload;
         },
         updateFullname: (state, action) => {
             state.userInfo.fullname = action.payload;
@@ -130,17 +136,33 @@ export const dataSlice = createSlice({
         },
         updatePets: (state, action) => {
             let {pet, add} = action.payload;
+            if(state.userInfo.pets === null){
+                state.userInfo.pets = [];
+            }
+            let temp = state.userInfo.pets;
             if(add){
-                if(state.userInfo.pets.indexOf(pet) === -1) {
-                    state.userInfo.pets.push(pet);
+                if(temp.indexOf(pet) === -1) {
+                    temp.push(pet);
                 }
             } else {
-                let toRemoveIndex = state.userInfo.pets.indexOf(pet)
+                let toRemoveIndex = temp.indexOf(pet)
                 if(toRemoveIndex > -1){
-                    state.userInfo.pets.splice(toRemoveIndex,1);
+                    temp.splice(toRemoveIndex,1);
                 }
             }
+            // assign temp to pets
+            state.userInfo.pets = temp;
         },
+        updatePicsList: (state, action) => {
+            let pic = action.payload;
+            if(state.userInfo.picsList === null){
+                state.userInfo.picsList = [];
+            }
+            let temp = state.userInfo.picsList;
+            temp.push(pic);
+            state.userInfo.picsList = temp;
+        },
+
         updateCook: (state, action) => {
             state.userInfo.cook = action.payload;
         },
@@ -154,10 +176,10 @@ export const dataSlice = createSlice({
             state.userInfo.guests = action.payload;
         },
         updateOutside: (state, action) => {
-            state.userInfo.outsise = action.payload;
+            state.userInfo.outside = action.payload;
         },
         updateSilent: (state, action) => {
-            state.userInfo.slient = action.payload;
+            state.userInfo.silent = action.payload;
         },
         updateRoommateWork: (state, action) => {
             state.userInfo.roommateWorkWhileYouSleep = action.payload;
@@ -195,45 +217,63 @@ export const dataSlice = createSlice({
         },
         updateDayout: (state, action) => {
             let {activity, add} = action.payload;
+            if (state.userInfo.dayout === null) {
+                state.userInfo.dayout = [];
+            }
+            let temp = state.userInfo.dayout;
             if(add){
-                if(state.userInfo.dayout.indexOf(activity) === -1) {
-                    state.userInfo.dayout.push(activity);
+                if(temp.indexOf(activity) === -1) {
+                    temp.push(activity);
                 }
             } else {
-                let toRemoveIndex = state.userInfo.dayout.indexOf(activity)
+                let toRemoveIndex = temp.indexOf(activity)
                 if(toRemoveIndex > -1){
-                    state.userInfo.dayout.splice(toRemoveIndex,1);
+                    temp.splice(toRemoveIndex,1);
                 }
             }
+            // assign temp to pets
+            state.userInfo.dayout = temp;
         },
         updateVanillaChocolate: (state, action) => {
             state.userInfo.vanillaChocolate = action.payload;
         },
         updateInteriorDesign: (state, action) => {
             let {activity, add} = action.payload;
+            if (state.userInfo.interiorDesign === null) {
+                state.userInfo.interiorDesign = [];
+            }
+            let temp = state.userInfo.interiorDesign;
             if(add){
-                if(state.userInfo.interiorDesign.indexOf(activity) === -1) {
-                    state.userInfo.interiorDesign.push(activity);
+                if(temp.indexOf(activity) === -1) {
+                    temp.push(activity);
                 }
             } else {
-                let toRemoveIndex = state.userInfo.interiorDesign.indexOf(activity)
+                let toRemoveIndex = temp.indexOf(activity)
                 if(toRemoveIndex > -1){
-                    state.userInfo.interiorDesign.splice(toRemoveIndex,1);
+                    temp.splice(toRemoveIndex,1);
                 }
             }
+            // assign temp to pets
+            state.userInfo.interiorDesign = temp;
         },
         updateFavoriteSport: (state, action) => {
             let {activity, add} = action.payload;
+            if (state.userInfo.favoriteSport === null) {
+                state.userInfo.favoriteSport = [];
+            }
+            let temp = state.userInfo.favoriteSport;
             if(add){
-                if(state.userInfo.favoriteSport.indexOf(activity) === -1) {
-                    state.userInfo.favoriteSport.push(activity);
+                if(temp.indexOf(activity) === -1) {
+                    temp.push(activity);
                 }
             } else {
-                let toRemoveIndex = state.userInfo.favoriteSport.indexOf(activity)
+                let toRemoveIndex = temp.indexOf(activity)
                 if(toRemoveIndex > -1){
-                    state.userInfo.favoriteSport.splice(toRemoveIndex,1);
+                    temp.splice(toRemoveIndex,1);
                 }
             }
+            // assign temp to pets
+            state.userInfo.favoriteSport = temp;
         },
         updateMichaelLebron: (state, action) => {
             state.userInfo.michaelLebron = action.payload;
@@ -246,6 +286,25 @@ export const dataSlice = createSlice({
         },
 
         // HOUSING
+        updateNeighborhoodList: (state, action) => {
+            let {activity, add} = action.payload;
+            if (state.housing.neighborhoodList === null) {
+                state.housing.neighborhoodList = [];
+            }
+            let temp = state.housing.neighborhoodList;
+            if(add){
+                if(temp.indexOf(activity) === -1) {
+                    temp.push(activity);
+                }
+            } else {
+                let toRemoveIndex = temp.indexOf(activity)
+                if(toRemoveIndex > -1){
+                    temp.splice(toRemoveIndex,1);
+                }
+            }
+            // assign temp to pets
+            state.housing.neighborhoodList = temp;
+        },
         updateNeighborhood: (state, action) => {
             state.housing.neighborhood = action.payload;
         },
@@ -283,6 +342,7 @@ export const {
     // UPDATE USER
     updateUser, 
     updateHousing, 
+    updateID,
     updateUID,
     updateFullname,
     updateFirstname, 
@@ -298,6 +358,7 @@ export const {
     updateProfilepic, 
     updatePets, 
     updateCook, 
+    updatePicsList,
     updateAlcohol, 
     updateSleep, 
     updateGuess, 
@@ -323,6 +384,7 @@ export const {
     updateCoffeeBoba,
     updateBobaBubble,
     // UPDATE HOUSING 
+    updateNeighborhoodList,
     updateNeighborhood, 
     updateRent, 
     updateLease, 
