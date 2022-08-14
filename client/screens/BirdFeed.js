@@ -15,7 +15,7 @@ import {
 import Svg, { Path } from "react-native-svg";
 import Bird_Drawing from "../assets/svg/Bird_Drawing.js";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useSelector } from "react";
 import Axios from "axios";
 import Footer from "../components/Footer.js";
 import ProfileCard from "../components/ProfileCard.js";
