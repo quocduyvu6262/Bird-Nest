@@ -42,7 +42,7 @@ import FilterOverlay from "../components/FilterOverlay.js";
 import Icon3 from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
 const BirdFeed = ({ navigation }) => {
-  const user = useSelector(state => state.data.userInfo);
+  const user = useSelector((state) => state.data.userInfo);
 
   const [userList, setUserList] = useState([]);
   const [listState, setListState] = useState(false);
