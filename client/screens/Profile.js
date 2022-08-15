@@ -53,24 +53,21 @@ const Profile = ({ navigation }) => {
   /**
    * Function to retrieve image from firebase cloud storage
    */
-  // const retrieveImage = async() => {
-  //   let refPath = data.userInfo.profilepic;
-  //   if(refPath){
-  //     const reference = ref(storage, refPath);
-  //     await getDownloadURL(reference).then( url => {
-  //       setURL(url);
-  //     })
-  //   }
-  //   if(url == undefined){
-  //     retrieveImage();
-  //   }
-  // }
-  // /**
-  //  * Use effect
-  //  */
-  // useEffect(() => {
-  //   retrieveImage();
-  // }, [data]);
+  const retrieveImage = async() => {
+    let refPath = data.userInfo.profilepic;
+    if(refPath){
+      const reference = ref(storage, refPath);
+      await getDownloadURL(reference).then( url => {
+        setURL(url);
+      })
+    }
+  }
+  /**
+   * Use effect
+   */
+  useEffect(() => {
+    retrieveImage();
+  }, [data]);
 
 
   return (

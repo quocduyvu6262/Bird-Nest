@@ -58,7 +58,6 @@ class Personality extends Component {
         user_id: user.id,
         housing: housing
       }).then().catch( err => {
-        console.log(housing.squarefeet);
         console.log('Fail to update/insert housing from questionnaire');
       })
     } else if(user.role === 'Parrot' || user.role === 'Penguin' || user.role === 'Duck'){
