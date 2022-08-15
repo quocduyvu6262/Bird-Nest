@@ -39,9 +39,7 @@ import FilterOverlay from "../components/FilterOverlay.js";
 // import { Icon } from "@rneui/themed";
 // import Icon2 from "react-native-vector-icons/MaterialCommunityIcons";
 import Icon3 from "react-native-vector-icons/Ionicons";
-import { useSelector } from "react-redux";
-
-
+import {useSelector} from "react-redux"
 const BirdFeed = ({ navigation }) => {
   const user = useSelector(state => state.data.userInfo);
 
