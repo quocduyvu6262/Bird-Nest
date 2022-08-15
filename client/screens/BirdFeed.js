@@ -15,7 +15,7 @@ import {
 import Svg, { Path } from "react-native-svg";
 import Bird_Drawing from "../assets/svg/Bird_Drawing.js";
 
-import React, { useEffect, useState, useSelector } from "react";
+import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import Footer from "../components/Footer.js";
 import ProfileCard from "../components/ProfileCard.js";
@@ -39,6 +39,9 @@ import FilterOverlay from "../components/FilterOverlay.js";
 // import { Icon } from "@rneui/themed";
 // import Icon2 from "react-native-vector-icons/MaterialCommunityIcons";
 import Icon3 from "react-native-vector-icons/Ionicons";
+import { useSelector } from "react-redux";
+
+
 const BirdFeed = ({ navigation }) => {
   const user = useSelector(state => state.data.userInfo);
 
@@ -59,7 +62,7 @@ const BirdFeed = ({ navigation }) => {
   const [ageState, setAgeState] = useState(18);
 
   const [rentState, setRentState] = useState(500);
-
+  
   const [neighborhood, setNeighborhood] = useState("");
 
   const [leaseState, setLeaseState] = useState(1);

@@ -98,6 +98,7 @@ const FilterOverlay = (
           onValueChange={props.toggle}
           value={props.enabled}
         />
+        
         <Text style={styles.switchText}>
           {props.variable}
         </Text>
