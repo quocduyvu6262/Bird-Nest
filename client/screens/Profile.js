@@ -19,31 +19,25 @@ import UserCard from "../components/UserCard";
 import InfoCard from "../components/InfoCard";
 import Footer from "../components/Footer.js";
 import * as SecureStore from "expo-secure-store";
-import Axios from "axios";
 import MainHeader from "../components/MainHeader";
-import Deondre from "../assets/deondre.jpg";
-// Import constants
-import Constants from "../constants/constants";
-// Redux
 import { useDispatch, useSelector } from "react-redux";
-// firebase
+import {storage, ref, getDownloadURL} from '../firebaseConfig';
 
 const Profile = ({ navigation }) => {
   
   const data = useSelector(state => state.data);
-  let hasHousing = false;
-  const role = data.userInfo.role;
-  if(role === "Flamingo" || role === "Owl"){
-    hasHousing = true;
-  }
-
+  const user = useSelector(state => state.data.userInfo);
   const [name, setName] = useState();
   const [rent, setRent] = useState();
   const [lease, setLease] = useState();
   const [city, setCity] = useState();
   const [buttonClicked, setButtonClicked] = useState(false);
   const [interestButtonClicked, setInterestButtonClicked] = useState(false);
+  const [url, setURL] = useState();
 
+  /**
+   * Tracking the button state
+   */
   const roomInfoButton = () => {
     setButtonClicked(true);
   };
@@ -55,14 +49,43 @@ const Profile = ({ navigation }) => {
       ? setInterestButtonClicked(false)
       : setInterestButtonClicked(true);
   };
-  // return screen
+
+  /**
+   * Function to retrieve image from firebase cloud storage
+   */
+  /*
+  const retrieveImage = async() => {
+    let refPath = data.userInfo.profilepic;
+    if(refPath){
+      const reference = ref(storage, refPath);
+      await getDownloadURL(reference).then( url => {
+        setURL(url);
+      })
+    }
+    if(url == undefined){
+      retrieveImage();
+    }
+  }
+  */
+  /**
+   * Use effect
+   */
+  /*
+  useEffect(() => {
+    retrieveImage();
+  }, [data]);
+  */
+
+
   return (
     <SafeAreaView style={styles.container}>
       <MainHeader screen="Profile" navigation={navigation} />
       <ScrollView>
         <Background>
           <UserCard
-            name={data.userInfo.fullname}
+            // name={data.userInfo.fullname}
+            name={data.userInfo.firstname + " " + data.userInfo.lastname}
+            image={url}
           />
 
           <View style={styles.buttonContainer}>

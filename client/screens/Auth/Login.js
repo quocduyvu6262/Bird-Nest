@@ -63,7 +63,7 @@ const LoginScreen = ({ navigation }) => {
    * @returns the promise that contains either LOGIN or REGISTER status
    */
   const login = async (data) => {
-    return Axios.post(`${Constants.BASE_URL}/api/users/loginwithgoogle`, {
+    return Axios.post(`${await Constants.BASE_URL()}/api/users/loginwithgoogle`, {
       email: data.email,
       fullname: data.name,
     })
@@ -81,7 +81,7 @@ const LoginScreen = ({ navigation }) => {
    */
   const storeData = async (email) => {
     // Get and store user
-    Axios.get(`${Constants.BASE_URL}/api/users/${email}`).then(({data}) => {
+    Axios.get(`${await Constants.BASE_URL()}/api/users/${email}`).then(({data}) => {
       const user = data[0];
       // push into secure store
       SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify(user));
@@ -92,7 +92,7 @@ const LoginScreen = ({ navigation }) => {
     } )
 
     // Get and store housing
-    Axios.get(`${Constants.BASE_URL}/api/housings/email/${email}`).then(({data}) => {
+    Axios.get(`${await Constants.BASE_URL()}/api/housings/email/${email}`).then(({data}) => {
       const housing = data[0];
       // push into secure store
       SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING, JSON.stringify(housing));

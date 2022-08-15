@@ -89,7 +89,6 @@ router.post('/loginwithgoogle', async (req, res) => {
         const checkExistQuery = `SELECT * FROM BirdNest.User WHERE User.email = "${user.email}"`;
         const query = `INSERT INTO BirdNest.User (fullname, email, uid)
         VALUES("${user.fullname}", "${user.email}", "${uid}")`; // database link
-        console.log(user);
         db(client => {
             client.query(checkExistQuery, (err, result) => {
                 if(result.length){

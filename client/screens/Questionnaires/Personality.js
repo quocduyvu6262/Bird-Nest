@@ -36,7 +36,7 @@ class Personality extends Component {
    * Pull data from Redux Store and store into
    * Database and Secure Storage
    */
-   storeData = () => {
+   storeData = async () => {
     const user = this.props.data.userInfo;
     const housing = this.props.data.housing;
     //const user_id = user.user_id;
@@ -49,7 +49,7 @@ class Personality extends Component {
 
     // Store user into database
     // TODO: Implement the method to store user data into database
-    Axios.post(`${Constants.BASE_URL}/api/users/questionnaire`, {
+    Axios.post(`${await Constants.BASE_URL()}/api/users/questionnaire`, {
       userInfo : user,
     }).catch( err => {
       console.log("Fail to store user into database from questionnaire");
@@ -58,7 +58,7 @@ class Personality extends Component {
     // TODO: Implement the method to store housing data into database
     if(user.role === 'Flamingo' || user.role === 'Owl'){
       // Post to housing
-      Axios.post(`${Constants.BASE_URL}/api/housings/create`, {
+      Axios.post(`${await Constants.BASE_URL()}/api/housings/create`, {
         user_id: user.id,
         housing: housing
       }).then().catch( err => {
@@ -68,7 +68,7 @@ class Personality extends Component {
       })
     } else if(user.role === 'Parrot' || user.role === 'Penguin' || user.role === 'Duck'){
       // Post to nohousing
-      Axios.post(`${Constants.BASE_URL}/api/nohousing/create`, {
+      Axios.post(`${await Constants.BASE_URL()}/api/nohousing/create`, {
         user_id: user.id,
         housing: housing
       }).then().catch( err => {

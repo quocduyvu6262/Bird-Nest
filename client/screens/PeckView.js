@@ -22,9 +22,9 @@ const PeckView = ({ navigation }) => {
   const [userList, setUserList] = useState([]);
   const [listState, setListState] = useState(false);
 
-  const viewUsers = () => {
+  const viewUsers = async () => {
     setUserList([]);
-    Axios.post(`${Constants.BASE_URL}/api/matching/`, {
+    Axios.post(`${await Constants.BASE_URL()}/api/matching/`, {
       user_id: 78,
     })
       .then((response) => {
