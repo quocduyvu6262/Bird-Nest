@@ -31,7 +31,7 @@ const MainHeader = ({ screen, navigation }) => {
     }
 
     let result = await ImagePicker.launchImageLibraryAsync({ //wait for user to choose image
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      // mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsMultipleSelection: true,
       selectionLimit: 10,
     });
