@@ -31,12 +31,13 @@ const MainHeader = ({ screen, navigation }) => {
     }
 
     let result = await ImagePicker.launchImageLibraryAsync({ //wait for user to choose image
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsMultipleSelection: true,
       selectionLimit: 10,
     });
-    console.log(result)
- 
-
+    if(!result.cancelled){
+      console.log(result.uri)
+    }
   }
 
   /**

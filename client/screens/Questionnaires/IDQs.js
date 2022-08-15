@@ -52,10 +52,8 @@ const IDQs = ({ navigation }) => {
    * Pick avatar using expo-image-picker
    */
   const pickImage = async () => {
-
     // Permission
     let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync(); //ask user for permission into gallery
-    ImagePicker
     if (permissionResult.granted === false) { //if user denies permission
       alert("Permission to access camera roll is required!");
       return;
@@ -93,7 +91,7 @@ const IDQs = ({ navigation }) => {
 
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} behavior={Platform.OS === "ios" ? "padding": "height"}>
       {/* header */}
       <View style={styles.header}>
         <Text style={styles.headTitle}>Profile (1/4)</Text>
@@ -178,7 +176,9 @@ const IDQs = ({ navigation }) => {
             console.log("YOU SHALL NOT PASS");
           }
           else {
-            uploadImage();
+            if(currentUri){
+              uploadImage();
+            }
             navigation.navigate("Roles");
           }
           
