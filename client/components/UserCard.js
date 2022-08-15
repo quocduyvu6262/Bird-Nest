@@ -6,7 +6,7 @@ import React from "react";
 const UserCard = (props) => {
   return (
     <View style={styles.card}>
-      <Image style={styles.userImage} source={props.image} />
+      <Image style={styles.userImage} source={{uri: props.image}} />
       <Header>{props.name}</Header>
     </View>
   );

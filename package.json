@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.3",
+    "expo-file-system": "^14.1.0",
     "expo-secure-store": "^11.2.0",
     "expo-updates": "~0.14.4",
     "ip": "^1.1.8",
