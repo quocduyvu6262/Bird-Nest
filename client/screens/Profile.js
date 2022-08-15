@@ -61,9 +61,6 @@ const Profile = ({ navigation }) => {
         setURL(url);
       })
     }
-    if(url == undefined){
-      retrieveImage();
-    }
   }
   /**
    * Use effect
