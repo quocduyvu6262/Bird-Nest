@@ -66,7 +66,7 @@ const Profile = ({ navigation }) => {
    * Use effect
    */
   useEffect(() => {
-    retrieveImage();
+    // retrieveImage();
   }, [data]);
 
 
