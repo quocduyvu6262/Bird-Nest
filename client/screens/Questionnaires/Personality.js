@@ -54,7 +54,7 @@ class Personality extends Component {
     // TODO: Implement the method to store housing data into database
     if(user.role === 'Flamingo' || user.role === 'Owl'){
       // Post to housing
-      Axios.post(`${Constants.BASE_URL}/api/housings/create`, {
+      Axios.post(`${await Constants.BASE_URL()}/api/housings/create`, {
         user_id: user.id,
         housing: housing
       }).then().catch( err => {
@@ -63,7 +63,7 @@ class Personality extends Component {
       })
     } else if(user.role === 'Parrot' || user.role === 'Penguin' || user.role === 'Duck'){
       // Post to nohousing
-      Axios.post(`${Constants.BASE_URL}/api/nohousing/create`, {
+      Axios.post(`${await Constants.BASE_URL()}/api/nohousing/create`, {
         user_id: user.id,
         housing: housing
       }).then().catch( err => {
