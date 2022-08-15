@@ -40,6 +40,7 @@ import FilterOverlay from "../components/FilterOverlay.js";
 // import Icon2 from "react-native-vector-icons/MaterialCommunityIcons";
 import Icon3 from "react-native-vector-icons/Ionicons";
 import {useSelector} from "react-redux"
+import TagInput from 'react-native-tags-input';
 const BirdFeed = ({ navigation }) => {
   const user = useSelector(state => state.data.userInfo);
 
