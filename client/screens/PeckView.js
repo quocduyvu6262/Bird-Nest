@@ -69,15 +69,15 @@ const PeckView = ({ navigation }) => {
         </TouchableOpacity>
       )}
 
-      {listState &&
-        userList.map((user, index) => (
-          <PeckViewCard
-            user={user}
-            key={index}
-            index={index}
-            listState={listState}
-          />
-        ))}
+      {userList.map((user, index) => (
+        <PeckViewCard
+          user={user}
+          key={index}
+          index={index}
+          listState={listState}
+          setListState={setListState}
+        />
+      ))}
     </SafeAreaView>
   );
 };
@@ -93,7 +93,6 @@ const PeckView_Styles = StyleSheet.create({
     alignSelf: "center",
     top: 200,
   },
-  // lower: {},
 });
 
 export default PeckView;
