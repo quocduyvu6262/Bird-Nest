@@ -33,6 +33,8 @@ PODS:
     - ExpoModulesCore
   - Expo (46.0.6):
     - ExpoModulesCore
+  - expo-image-multiple-picker (4.4.0):
+    - React
   - ExpoCrypto (11.0.0):
     - ExpoModulesCore
   - ExpoHaptics (11.3.0):
@@ -419,6 +421,8 @@ PODS:
     - React
   - RNCAsyncStorage (1.17.9):
     - React-Core
+  - RNFS (2.20.0):
+    - React-Core
   - RNGestureHandler (2.5.0):
     - React-Core
   - RNReanimated (2.9.1):
@@ -475,6 +479,7 @@ DEPENDENCIES:
   - EXNetwork (from `../node_modules/expo-network/ios`)
   - EXNotifications (from `../node_modules/expo-notifications/ios`)
   - Expo (from `../node_modules/expo`)
+  - expo-image-multiple-picker (from `../node_modules/expo-image-multiple-picker`)
   - ExpoCrypto (from `../node_modules/expo-crypto/ios`)
   - ExpoHaptics (from `../node_modules/expo-haptics/ios`)
   - ExpoImageManipulator (from `../node_modules/expo-image-manipulator/ios`)
@@ -525,6 +530,7 @@ DEPENDENCIES:
   - ReactNativeElement (from `../node_modules/react-native-element`)
   - RNAppleHealthKit (from `../node_modules/react-native-health`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
+  - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
@@ -571,6 +577,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-notifications/ios"
   Expo:
     :path: "../node_modules/expo"
+  expo-image-multiple-picker:
+    :path: "../node_modules/expo-image-multiple-picker"
   ExpoCrypto:
     :path: "../node_modules/expo-crypto/ios"
   ExpoHaptics:
@@ -669,6 +677,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-health"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
+  RNFS:
+    :path: "../node_modules/react-native-fs"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNReanimated:
@@ -700,6 +710,7 @@ SPEC CHECKSUMS:
   EXNetwork: cba9570f90f4f27ce938afd57810b484febf1fab
   EXNotifications: 9a2aa201deb19dfe1dbe0e370eeb2922de0d2422
   Expo: efd244782651dd1a73c7bd977babe19ed80e3243
+  expo-image-multiple-picker: 36c51895bff2dddf00fef483d8e4b212f6b0a767
   ExpoCrypto: e534314db0e1a17ae12b5140d529bd0c5efcbc6a
   ExpoHaptics: efe9e68e9dfe0d15c183c0c70a25f3874124ab9e
   ExpoImageManipulator: f4e286afa83c1c618de8701b0812ee0b647895fc
@@ -750,6 +761,7 @@ SPEC CHECKSUMS:
   ReactNativeElement: 64552dd7790b4d325294d92683efd950bbcee730
   RNAppleHealthKit: 60a6beefdd89a75811e9a8873a5e24f351dee681
   RNCAsyncStorage: b2489b49e38c85e10ed45a888d13a2a4c7b32ea1
+  RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
   RNGestureHandler: bad495418bcbd3ab47017a38d93d290ebd406f50
   RNReanimated: 2cf7451318bb9cc430abeec8d67693f9cf4e039c
   RNScreens: 4a1af06327774490d97342c00aee0c2bafb497b7

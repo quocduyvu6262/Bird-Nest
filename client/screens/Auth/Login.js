@@ -63,6 +63,7 @@ const LoginScreen = ({ navigation }) => {
    * @returns the promise that contains either LOGIN or REGISTER status
    */
   const login = async (data) => {
+    console.log(await Constants.BASE_URL());
     return Axios.post(`${await Constants.BASE_URL()}/api/users/loginwithgoogle`, {
       email: data.email,
       fullname: data.name,

@@ -33,7 +33,6 @@ const Profile = ({ navigation }) => {
   const [city, setCity] = useState();
   const [buttonClicked, setButtonClicked] = useState(false);
   const [interestButtonClicked, setInterestButtonClicked] = useState(false);
-  const [url, setURL] = useState();
 
   /**
    * Tracking the button state
@@ -50,24 +49,6 @@ const Profile = ({ navigation }) => {
       : setInterestButtonClicked(true);
   };
 
-  /**
-   * Function to retrieve image from firebase cloud storage
-   */
-  const retrieveImage = async() => {
-    let refPath = data.userInfo.profilepic;
-    if(refPath){
-      const reference = ref(storage, refPath);
-      await getDownloadURL(reference).then( url => {
-        setURL(url);
-      })
-    }
-  }
-  /**
-   * Use effect
-   */
-  useEffect(() => {
-    // retrieveImage();
-  }, [data]);
 
 
   return (
@@ -78,7 +59,6 @@ const Profile = ({ navigation }) => {
           <UserCard
             // name={data.userInfo.fullname}
             name={data.userInfo.firstname + " " + data.userInfo.lastname}
-            image={url}
           />
 
           <View style={styles.buttonContainer}>
