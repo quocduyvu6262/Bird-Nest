@@ -42,21 +42,50 @@ class Personality extends Component {
     //const user_id = user.user_id;
     //console.log(user_id);
     console.log(user);
-    console.log(housing);
+    //console.log(housing);
     // Store into Secure Store
     SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify(user));
     SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING, JSON.stringify(housing));
 
     // Store user into database
-    // TODO: Implement the method to store user data into database
     Axios.post(`${await Constants.BASE_URL()}/api/users/questionnaire`, {
       userInfo : user,
     }).catch( err => {
+      console.log(err);
+      //console.log(user);
       console.log("Fail to store user into database from questionnaire");
     });
+
     // Store housing into database
-    // TODO: Implement the method to store housing data into database
     if(user.role === 'Flamingo' || user.role === 'Owl'){
+      //check if user is in nohousing table 
+      Axios.post(`${await Constants.BASE_URL()}/api/Nohousing/id`, {
+        user_id : user.id
+      })
+      .then(async(nohousingResponse) => {
+        //if user is found in nohousing table, delete that entry 
+        //TODO: Check if null is correct response when query returns empty
+        //delete from nohousing
+        console.log("NOT NULL NOT NULL");
+        Axios.post(`${await Constants.BASE_URL()}/api/Nohousing/delete`, {
+          user_id : user.id,
+        })
+        .catch((error) => {
+          console.log(error);
+          //console.log(user.id);
+          console.log("DELETE FROM NOHOUSING ERROR");
+        });
+        //housing.neighborhoodList = [];
+        //if user was found in the nohousing table, delete that entry and push the current userInfo to housing instead
+        //TODO: Is this else really needed? Can't I just do if not null or if length != 0 delete and then post at the end anyway? 
+        //if (!null)
+        //  delete
+        //post
+      })
+      .catch((error) => {
+        console.log(error);
+        console.log("NOHOUSING POST ERROR");
+      });
       // Post to housing
       Axios.post(`${await Constants.BASE_URL()}/api/housings/create`, {
         user_id: user.id,
@@ -66,16 +95,38 @@ class Personality extends Component {
         console.log(err);
         console.log('Fail to update/insert housing from questionnaire');
       })
-    } else if(user.role === 'Parrot' || user.role === 'Penguin' || user.role === 'Duck'){
+      
+    }
+    else if(user.role === 'Parrot' || user.role === 'Penguin' || user.role === 'Duck'){
+      //check if user is in housing table 
+      //let getHousing = `${await Constants.BASE_URL()}/api/Housings/id` + user.id;
+      Axios.post(`${await Constants.BASE_URL()}/api/Housings/id`, {
+        user_id: user.id
+      })
+      .then(async(housingResponse) => {
+        //if user is found in housing table, delete that entry 
+        //TODO: Check if null is correct response when query returns empty\
+        //delete from housing
+        Axios.post(`${await Constants.BASE_URL()}/api/Housings/delete`, {
+          user_id : user.id,
+        })
+        .catch((error) => {
+          console.log(error);
+          console.log(user.id);
+          console.log("DELETE FROM HOUSING ERROR");
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        console.log("HOUSING POST ERROR");
+      });
       // Post to nohousing
-      Axios.post(`${await Constants.BASE_URL()}/api/nohousing/create`, {
+      Axios.post(`${await Constants.BASE_URL()}/api/Nohousing/create`, {
         user_id: user.id,
         housing: housing
       }).then().catch( err => {
-        console.log(housing);
+        //console.log(housing);
         console.log(err);
-        console.log(user_id);
-        console.log(user.id);
         console.log('Fail to update/insert nohousing from questionnaire');
       })
     }

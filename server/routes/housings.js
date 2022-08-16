@@ -16,6 +16,23 @@ router.get('/', (req, res) => {
         })
     });
 })
+// post housing by id
+router.post('/id', (req, res) => {
+    let id = req.body.user_id;
+    const query = `SELECT * FROM Housing WHERE User_id= "${id}";`;
+    console.log(query);
+    db(client => {
+        client.query(query, (err, result) => {
+            if(!err && result.length) {
+                res.send(result);
+            } else {
+                console.log("Housing not found");
+                console.log(query);
+                res.status(404).send('Housing not found.');
+            }
+        })
+    });
+})
 
 //Get housing by ID
 router.get('/:id', (req, res) => {
@@ -31,20 +48,7 @@ router.get('/:id', (req, res) => {
     });
 })
 
-// Get housing by Email
-router.get('/email/:email', (req, res) => {
-    const query = `SELECT * FROM Housing JOIN User ON User.id = Housing.User_id WHERE User.email= "${req.params.email}";`;
-    db(client => {
-        client.query(query, (err, result) => {
-            if(!err && result.length) {
-                res.send(result);
-            } else {
-                console.log("Housing not found");
-                res.status(404).send('Housing not found.');
-            }
-        })
-    });
-})
+
 // Post housings
 router.post('/create', (req, res) => {
     let housing = req.body.housing;
@@ -100,14 +104,15 @@ router.post('/create', (req, res) => {
 
 // Delete housings
 router.post('/delete', (req, res) => {
-    let housing = req.body;
+    let user_id = req.body.user_id;
     //let User_id = req.body.user_id;
     const query = `
-    DELETE FROM Housing WHERE User_id=${housing.User_id}`;
+    DELETE FROM Housing WHERE User_id=${user_id}`;
     db(client => {
         client.query(query,(err,result) => {
             if(err){
                 console.log(err);
+                console.log(query);
                 res.status(400).send(`Bad Request.`)
                 return;
             }
