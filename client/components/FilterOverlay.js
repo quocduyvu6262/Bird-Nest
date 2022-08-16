@@ -159,7 +159,7 @@ const FilterOverlay = (
 
         <View style={styles.slider}>
           <Text style = {styles.slideText}>
-            Rent : {rentState}
+            Rent : ${rentState}
           </Text>
           <Slider
             value={rentState}
@@ -187,7 +187,7 @@ const FilterOverlay = (
 
         <View style={styles.slider}>
           <Text style = {styles.slideText}>
-            Square Feet : {sqFtState}
+            Square Feet : {sqFtState} 
           </Text>
           <Slider
             value={sqFtState}
