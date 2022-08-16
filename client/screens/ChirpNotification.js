@@ -11,6 +11,7 @@ import React from "react";
 
 import Footer from "../components/Footer.js";
 import MainHeader from "../components/MainHeader.js";
+import Bird_Drawing from "../assets/svg/Bird_Drawing";
 
 const ChirpNotification = ({ navigation }) => {
   return (
@@ -18,6 +19,7 @@ const ChirpNotification = ({ navigation }) => {
       <MainHeader screen="Chirp Notifications" navigation={navigation} />
       <Text>Chirp Notification</Text>
       <Text>W.I.P.</Text>
+      <Bird_Drawing />
     </SafeAreaView>
   );
 };

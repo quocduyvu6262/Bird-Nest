@@ -7,6 +7,8 @@ const nohousingRoutes = require('./routes/nohousing');
 const historyRoutes = require('./routes/history');
 const questionaireRoutes = require('./routes/questionaire');
 const chatRoutes = require('./routes/chat')
+const imagesRoutes = require('./routes/images');
+
 require('dotenv').config();
 
 
@@ -25,6 +27,7 @@ app.use('/api/nohousing', nohousingRoutes);
 app.use('/api/history', historyRoutes);
 app.use('/api/questionaire', questionaireRoutes);
 app.use('/api/chat',chatRoutes);
+app.use('/api/images', imagesRoutes);
 
 
 

@@ -1,24 +1,42 @@
-import { 
+import {
   SafeAreaView,
   StyleSheet,
   Platform,
   View,
   Text,
+  StatusBar,
   ScrollView,
   TouchableOpacity,
   Switch,
-
+  TextInput,
 } from "react-native";
 import React, { useState } from "react";
 import { Icon } from "@rneui/themed";
 import Icon2 from "react-native-vector-icons/Ionicons";
+import { Slider } from "@rneui/themed";
+import DropDownPicker from "react-native-dropdown-picker";
+import Buttons from "./Button.js";
 // List of variables
 
-// 13 buttons
+// 10 buttons yes/no type questions
+// 2 buttons cities/neighborhoods
+// 1 string
 // 3 sliders
 
-// - age *slider*
-// - gender *buttons*
+// Important ones to do for week 1
+// - neighborhood /buttons/ *DONE*
+// - lease /slider/ *DONE*
+// - rent /slider/ *DONE*
+// - parking /switch/ *DONE*
+// - gym /switch/ *DONE*
+// - pool /switch/ *DONE*
+// - appliances /switch/ *DONE*
+// - furniture /switch/ *DONE*
+// - AC /switch/ *DONE*
+
+// Second priority ones to do for week 2
+// - age /slider/  *DONE*
+// - gender /buttons/
 // - pet *buttons*
 // - alcohol/420 friendly *buttons*
 // - sleep habits *buttons*
@@ -29,35 +47,53 @@ import Icon2 from "react-native-vector-icons/Ionicons";
 // - awake *buttons*
 // - sharing *buttons*
 // - interaction with roommates *buttons*
-// - neighborhood *buttons*
-// - city *buttons*
-// - lease *slider*
-// - rent *slider*
-const FilterOverlay = (
-  {navigation, 
-  overlayButton,
-  props,
-  switchEnabledNeigh,
-  toggleSwitchNeigh,
-  switchEnabledSqua,
-  toggleSwitchSqua,
-  switchEnabledPri,
-  toggleSwitchPri,
-  switchEnabledIn,
-  toggleSwitchIn,
-  switchEnabledPer,
-  toggleSwitchPer,
-  switchEnabledRoo,
-  toggleSwitchRoo,
-  switchEnabledYes,
-  toggleSwitchYes,
-  switchEnabledNo,
-  toggleSwitchNo,
-  switchEnabledRec,
-  toggleSwitchRec,
-  switchEnabledApt,
-  toggleSwitchApt }) => {
 
+const FilterOverlay = ({
+  navigation,
+  overlayFilterButton,
+
+  open,
+  setOpen,
+
+  value,
+  setValue,
+
+  items,
+  setItems,
+
+  itemcount,
+
+  ageState,
+  setAgeState,
+
+  setRentState,
+  rentState,
+
+  setLeaseState,
+  leaseState,
+
+  setSqFtState,
+  sqFtState,
+
+  switchEnabledPar,
+  toggleSwitchPar,
+
+  switchEnabledGym,
+  toggleSwitchGym,
+
+  switchEnabledPoo,
+  toggleSwitchPoo,
+
+  switchEnabledApp,
+  toggleSwitchApp,
+
+  switchEnabledFur,
+  toggleSwitchFur,
+
+  switchEnabledAC,
+  toggleSwitchAC,
+}) => {
+  DropDownPicker.setListMode("SCROLLVIEW");
   const SingleSwitch = (props) => {
     return (
       <View style={styles.switchView}>
@@ -66,93 +102,141 @@ const FilterOverlay = (
           thumbColor={props.enabled ? "#white" : "white"}
           onValueChange={props.toggle}
           value={props.enabled}
-        />
+        ></Switch>
         <Text style={styles.switchText}>
-          <Text/> {props.variable}
+          <Text></Text>
+          {props.enabled ? props.variable : `No ${props.variable}`}
         </Text>
       </View>
     );
   };
   return (
-          <View style={styles.subContainer}>
-            <ScrollView style={styles.filterCard}>
-              <TouchableOpacity
-                style={styles.filterHeader}
-                onPress={overlayButton}
-              >
-                <Icon name="west" size={30} />
-                <Text style={styles.filterText}>Filter</Text>
-              </TouchableOpacity>
+    <View style={styles.subContainer}>
+      <ScrollView style={styles.filterCard}>
+        <TouchableOpacity
+          style={styles.filterHeader}
+          onPress={overlayFilterButton}
+        >
+          <Icon name="west" size={30} />
+          <Text style={styles.filterText}>Filter</Text>
+        </TouchableOpacity>
 
-              <SingleSwitch
-                variable="Neighborhood"
-                enabled={switchEnabledNeigh}
-                toggle={toggleSwitchNeigh}
-              />
+        {/* <View style={styles.slider}>
+          <Text style = {styles.slideText}>
+            Age : {ageState}
+          </Text>
+          <Slider
+            value={ageState}
+            minimumValue={18}
+            maximumValue={99}
+            step={1}
+            onValueChange={value => setAgeState(value)}
+            thumbStyle={{height: 15, width: 15, backgroundColor:'#6736B6'}}
+          />
+        </View> */}
+        <View style={styles.dropDown}>
+          <Text style={styles.slideText}>Neighborhood: </Text>
+          <DropDownPicker
+            style={{ width: 175 }}
+            dropDownContainerStyle={{
+              backgroundColor: "#dfdfdf",
+              width: 175,
+            }}
+            placeholder="0 items has been selected"
+            dropDownDirection="AUTO"
+            multiple={true}
+            min={0}
+            max={itemcount}
+            open={open}
+            value={value}
+            items={items}
+            setOpen={setOpen}
+            setValue={setValue}
+            setItems={setItems}
+          />
+        </View>
 
-              <SingleSwitch
-                variable="Square Footage"
-                enabled={switchEnabledSqua}
-                toggle={toggleSwitchSqua}
-              />
+        <View style={styles.slider}>
+          <Text style={styles.slideText}>Rent : ${rentState}</Text>
+          <Slider
+            value={rentState}
+            minimumValue={500}
+            maximumValue={5000}
+            step={25}
+            onValueChange={(value) => setRentState(value)}
+            thumbStyle={{ height: 15, width: 15, backgroundColor: "#6736B6" }}
+          />
+        </View>
 
-              <SingleSwitch
-                variable="Price Range"
-                enabled={switchEnabledPri}
-                toggle={toggleSwitchPri}
-              />
+        <View style={styles.slider}>
+          <Text style={styles.slideText}>Lease Month Term: {leaseState}</Text>
+          <Slider
+            value={leaseState}
+            minimumValue={1}
+            maximumValue={12}
+            step={1}
+            onValueChange={(value) => setLeaseState(value)}
+            thumbStyle={{ height: 15, width: 15, backgroundColor: "#6736B6" }}
+          />
+        </View>
 
-              <SingleSwitch
-                variable="Indoor Parking"
-                enabled={switchEnabledIn}
-                toggle={toggleSwitchIn}
-              />
+        <View style={styles.slider}>
+          <Text style={styles.slideText}>Square Feet : {sqFtState}</Text>
+          <Slider
+            value={sqFtState}
+            minimumValue={100}
+            maximumValue={6000}
+            step={50}
+            onValueChange={(value) => setSqFtState(value)}
+            thumbStyle={{ height: 15, width: 15, backgroundColor: "#6736B6" }}
+          />
+        </View>
 
-              <SingleSwitch
-                variable="Percent Matched"
-                enabled={switchEnabledPer}
-                toggle={toggleSwitchPer}
-              />
+        <SingleSwitch
+          variable="Parking"
+          enabled={switchEnabledPar}
+          toggle={toggleSwitchPar}
+        />
 
-              <SingleSwitch
-                variable="# of Roommates"
-                enabled={switchEnabledRoo}
-                toggle={toggleSwitchRoo}
-              />
+        <SingleSwitch
+          variable="Gym"
+          enabled={switchEnabledGym}
+          toggle={toggleSwitchGym}
+        />
+        <SingleSwitch
+          variable="Pool"
+          enabled={switchEnabledPoo}
+          toggle={toggleSwitchPoo}
+        />
 
-              <SingleSwitch
-                variable="Pecked Yes"
-                enabled={switchEnabledYes}
-                toggle={toggleSwitchYes}
-              />
+        <SingleSwitch
+          variable="Appliances"
+          enabled={switchEnabledApp}
+          toggle={toggleSwitchApp}
+        />
 
-              <SingleSwitch
-                variable="Pecked No"
-                enabled={switchEnabledNo}
-                toggle={toggleSwitchNo}
-              />
+        <SingleSwitch
+          variable="Furniture"
+          enabled={switchEnabledFur}
+          toggle={toggleSwitchFur}
+        />
 
-              <SingleSwitch
-                variable="Most Recent"
-                enabled={switchEnabledRec}
-                toggle={toggleSwitchRec}
-              />
-              <SingleSwitch
-                variable="Apartment"
-                enabled={switchEnabledApt}
-                toggle={toggleSwitchApt}
-              />
-            </ScrollView>
-          </View>
+        <SingleSwitch
+          variable="AC"
+          enabled={switchEnabledAC}
+          toggle={toggleSwitchAC}
+        />
+
+        <Buttons style={{ flex: 1 }} onPress={() => {}}>
+          {" "}
+          Submit
+        </Buttons>
+      </ScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-    backgroundColor: "white",
-  },
   subContainer: {
     backgroundColor: "rgba(0,0,0,0.5)",
     height: "120%",
@@ -160,10 +244,10 @@ const styles = StyleSheet.create({
     position: "absolute",
     zIndex: 1,
   },
-  input: {
-    alignSelf: "flex-start",
+  dropDown: {
+    marginLeft: 10,
+    zIndex: 2,
     flexDirection: "row",
-    color: "black",
   },
   filterCard: {
     backgroundColor: "white",
@@ -171,7 +255,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     zIndex: 2,
     alignSelf: "auto",
-    borderWidth: 0.5,
     borderColor: "black",
     borderRadius: 15,
     width: "100%",
@@ -191,6 +274,16 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontFamily: "Pacifico_400Regular",
     color: "#560CCE",
+  },
+  slider: {
+    flex: 1,
+    alignSelf: "flex-start",
+    marginLeft: 10,
+  },
+  slideText: {
+    alignSelf: "center",
+    marginLeft: 5,
+    fontSize: 20,
   },
   switchView: {
     marginLeft: 10,

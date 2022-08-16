@@ -8,7 +8,7 @@ podfile_properties = JSON.parse(File.read(File.join(__dir__, 'Podfile.properties
 platform :ios, podfile_properties['ios.deploymentTarget'] || '12.4'
 install! 'cocoapods',
   :deterministic_uuids => false
-
+use_frameworks! :linkage => :static
 target 'BirdNest' do
   use_expo_modules!
   config = use_native_modules!
