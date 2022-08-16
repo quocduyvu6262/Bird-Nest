@@ -117,9 +117,9 @@ const BirdFeed = ({ navigation }) => {
   });
   // ----- LOGIC FOR VIEW USER BUTTONS -----
 
-  const viewUsers = () => {
+  const viewUsers = async () => {
     setUserList([]);
-    Axios.post(`${Constants.BASE_URL}/api/matching/`, {
+    Axios.post(`${await Constants.BASE_URL()}/api/matching/`, {
       user_id: user.id,
     })
       .then((response) => {
