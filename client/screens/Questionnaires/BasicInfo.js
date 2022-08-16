@@ -52,21 +52,15 @@ class BasicInfo extends Component {
       return false;
     }
     */
-    if (
-      this.props.userInfo.pets.length > 0 &&
-      this.props.userInfo.alcohol !== "" &&
-      this.props.userInfo.sleep !== "" &&
-      this.props.userInfo.guests !== "" &&
-      this.props.userInfo.silent !== "" &&
-      this.props.userInfo.shareAppliances !== "" &&
-      this.props.userInfo.roommateInteraction !== "" &&
-      this.props.userInfo.tellRoommateIfBothered !== ""
-    ) {
+   if ((this.props.userInfo.pets.length > 0) && (this.props.userInfo.alcohol !== "") && (this.props.userInfo.sleep !== "")
+    && (this.props.userInfo.guests !== "") && (this.props.userInfo.silent !== "") && (this.props.userInfo.shareAppliances !== "")
+    && (this.props.userInfo.roommateInteraction !== "") && (this.props.userInfo.tellRoommateIfBothered !== "")) {
       return true;
-    } else {
-      return false;
-    }
-  };
+   }
+   else {
+    return false;
+   }
+  }  
 
   setField = () => {
     this.fieldState = { blankError: "Please fill in all required fields*" };

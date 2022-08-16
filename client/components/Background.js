@@ -1,7 +1,6 @@
 import React from 'react'
 import { ImageBackground, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native'
 import { theme } from '../core/theme'
-
 const Background = ({ children, ...props }) => {
     return (
         <ImageBackground style={styles.background} resizeMode="repeat" {...props}>
