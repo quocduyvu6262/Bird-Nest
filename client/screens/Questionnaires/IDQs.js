@@ -14,7 +14,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import * as dataActions from '../../redux/slices/data'; 
 import { validatePathConfig } from "@react-navigation/native";
 import * as ImagePicker from 'expo-image-picker';
-import { getStorage, ref, uploadBytes, storage } from '../../firebaseConfig';
+import { getStorage, ref, uploadBytes, storage, getDownloadURL } from '../../firebaseConfig';
 
 const IDQs = ({ navigation }) => {
   
@@ -59,6 +59,7 @@ const IDQs = ({ navigation }) => {
       return;
     }
     
+
     // Pick image from device library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -79,13 +80,28 @@ const IDQs = ({ navigation }) => {
   const uploadImage = async () => {
     const refPath = `images/${userInfo.uid}/avatar.jpg`;
     const reference = ref(storage, refPath);
-    // store ref path into redux 
-    dispatch(dataActions.updateProfilepic(`images/${userInfo.uid}/avatar.jpg`));
+    // store image downloaded URL into redux 
+    const imageDownloadedUrl = await retrieveImage(`images/${userInfo.uid}/avatar.jpg`);
+    if(imageDownloadedUrl){
+      dispatch(dataActions.updateProfilepic(imageDownloadedUrl));
+    }
     // convert image to array of bytes
     const img = await fetch(currentUri);
     const bytes = await img.blob();
     // upload to firebase cloud storage
     await uploadBytes(reference, bytes);
+  }
+
+  /**
+   * @params path the uri to image in Firebase Cloud Storage
+   * Function to retrieve image from firebase cloud storage
+   */
+   const retrieveImage = async (path) => {
+    if(path){
+      const reference = ref(storage, path);
+      const url = await getDownloadURL(reference);
+      return url;
+    }
   }
   
 

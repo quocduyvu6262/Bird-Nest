@@ -1,6 +1,5 @@
 // USAGE if no extra header buttons: <MainHeader screen="Screen name with spaces in between" navigation={navigation} />
 // if there are extra buttons, talk to Deondre
-
 import {
   View,
   Text,
@@ -14,11 +13,22 @@ import React from "react";
 import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
 import { Icon } from "@rneui/themed";
 import * as ImagePicker from 'expo-image-picker';
+import { useDispatch, useSelector } from "react-redux";
+import * as dataActions from '../redux/slices/data';
+import {storage, ref, uploadBytes, uploadBytesResumable, getDownloadURL} from '../firebaseConfig';
+import * as FileSystem from 'expo-file-system';
+import Axios from "axios";
+import Constants from "../constants/constants";
+import * as SecureStore from "expo-secure-store";
+
+
+
 
 // import buttons
 
 const MainHeader = ({ screen, navigation }) => {
-
+  const user = useSelector(state => state.data.userInfo);
+  const dispatch = useDispatch();
   /**
    * Pick multiple images
    */
@@ -29,14 +39,55 @@ const MainHeader = ({ screen, navigation }) => {
       alert("Permission to access camera roll is required!");
       return;
     }
-
     let result = await ImagePicker.launchImageLibraryAsync({ //wait for user to choose image
-      // mediaTypes: ImagePicker.MediaTypeOptions.All,
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsMultipleSelection: true,
-      selectionLimit: 10,
+      aspect: [4, 3],
+      quality: 1,
+      selectionLimit: 10
     });
+    // upload to firebase
     if(!result.cancelled){
-      console.log(result.uri)
+      let promises = []
+      let listUrl = []
+      result.selected.map(async (image, index, imageArray) => {
+        const img = await fetch(image.uri);
+        const bytes = await img.blob();
+        const storageRef = ref(storage, `images/${user.uid}/album/${image.fileName}`);
+        const uploadTask = uploadBytesResumable(storageRef, bytes);
+        promises.push(uploadTask)
+        // retrieve image url
+        const imageDownloadedUrl = await retrieveImage(`images/${user.uid}/album/${image.fileName}`);
+        // upload path to redux store
+        listUrl.push(imageDownloadedUrl);
+        dispatch(dataActions.updatePicsList(imageDownloadedUrl));
+        if(index == imageArray.length - 1){
+          // upload to database
+          Axios.post(`${await Constants.BASE_URL()}/api/images/multiple`,{
+            id: user.id,
+            pics: listUrl
+          })
+          // upload to secure store
+          SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify({...user, picsList: listUrl}));
+        }
+      })
+
+      Promise.all(promises)
+        .then(() =>{
+          console.log("All images uploaded")
+        })
+        .catch(err => console.log("Fail to upload images"))
+    }
+  }
+  /**
+   * @params path the uri to image in Firebase Cloud Storage
+   * Function to retrieve image from firebase cloud storage
+   */
+   const retrieveImage = async (path) => {
+    if(path){
+      const reference = ref(storage, path);
+      const url = await getDownloadURL(reference);
+      return url;
     }
   }
 

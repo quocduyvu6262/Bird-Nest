@@ -21,19 +21,17 @@ import Footer from "../components/Footer.js";
 import * as SecureStore from "expo-secure-store";
 import MainHeader from "../components/MainHeader";
 import { useDispatch, useSelector } from "react-redux";
-import {storage, ref, getDownloadURL} from '../firebaseConfig';
+import { storage, ref, getDownloadURL } from "../firebaseConfig";
 
 const Profile = ({ navigation }) => {
-  
-  const data = useSelector(state => state.data);
-  const user = useSelector(state => state.data.userInfo);
+  const data = useSelector((state) => state.data);
+  const user = useSelector((state) => state.data.userInfo);
   const [name, setName] = useState();
   const [rent, setRent] = useState();
   const [lease, setLease] = useState();
   const [city, setCity] = useState();
   const [buttonClicked, setButtonClicked] = useState(false);
   const [interestButtonClicked, setInterestButtonClicked] = useState(false);
-  const [url, setURL] = useState();
 
   /**
    * Tracking the button state
@@ -50,26 +48,6 @@ const Profile = ({ navigation }) => {
       : setInterestButtonClicked(true);
   };
 
-  /**
-   * Function to retrieve image from firebase cloud storage
-   */
-  // const retrieveImage = async() => {
-  //   let refPath = data.userInfo.profilepic;
-  //   if(refPath){
-  //     const reference = ref(storage, refPath);
-  //     await getDownloadURL(reference).then( url => {
-  //       setURL(url);
-  //     })
-  //   }
-  // }
-  // /**
-  //  * Use effect
-  //  */
-  // useEffect(() => {
-  //   retrieveImage();
-  // }, [data]);
-
-
   return (
     <SafeAreaView style={styles.container}>
       <MainHeader screen="Profile" navigation={navigation} />
@@ -78,7 +56,6 @@ const Profile = ({ navigation }) => {
           <UserCard
             // name={data.userInfo.fullname}
             name={data.userInfo.firstname + " " + data.userInfo.lastname}
-            image={url}
           />
 
           <View style={styles.buttonContainer}>
@@ -97,9 +74,7 @@ const Profile = ({ navigation }) => {
               </Button>
             </TouchableOpacity>
 
-
             <TouchableOpacity>
-
               <Button
                 color={buttonClicked ? "#560CCE" : "black"}
                 onPress={roomInfoButton}
@@ -119,7 +94,11 @@ const Profile = ({ navigation }) => {
             {!buttonClicked && <BioInfo bio={data.userInfo.bio}></BioInfo>}
 
             {buttonClicked && (
-              <RentInfo rent={data.housing.rent} lease={data.housing.lease} neighborhood={data.housing.neighborhood} />
+              <RentInfo
+                rent={data.housing.rent}
+                lease={data.housing.lease}
+                neighborhood={data.housing.neighborhood}
+              />
             )}
           </InfoCard>
 
@@ -151,9 +130,7 @@ const Profile = ({ navigation }) => {
 const BioInfo = (props) => {
   return (
     <View style={styles.subContainer}>
-      <Text style={styles.text}>
-        {props.bio}
-      </Text>
+      <Text style={styles.text}>{props.bio}</Text>
     </View>
   );
 };
@@ -170,7 +147,8 @@ const RentInfo = (props) => {
         months
       </Text>
       <Text style={styles.text}>
-        <Text style={{ fontWeight: "bold" }}> Neighborhood:</Text> {props.neighborhood}
+        <Text style={{ fontWeight: "bold" }}> Neighborhood:</Text>{" "}
+        {props.neighborhood}
       </Text>
     </View>
   );
