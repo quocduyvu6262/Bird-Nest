@@ -21,8 +21,6 @@ import * as dataActions from '../../redux/slices/data';
 import { useDispatch } from "react-redux";
 // AXIOS
 import Axios from "axios";
-
-
 WebBrowser.maybeCompleteAuthSession();
 
 const LoginScreen = ({ navigation }) => {
@@ -63,7 +61,8 @@ const LoginScreen = ({ navigation }) => {
    * @returns the promise that contains either LOGIN or REGISTER status
    */
   const login = async (data) => {
-    return Axios.post(`${Constants.BASE_URL}/api/users/loginwithgoogle`, {
+    console.log(await Constants.BASE_URL());
+    return Axios.post(`${await Constants.BASE_URL()}/api/users/loginwithgoogle`, {
       email: data.email,
       fullname: data.name,
     })
@@ -77,12 +76,13 @@ const LoginScreen = ({ navigation }) => {
    * Function that receives the user email and perform
    * the GET request on the database in order to retrieve
    * the user info, then pushing into SecureStore and Redux Store
-   * @param emai the current user's email
+   * @param email the current user's email
    */
   const storeData = async (email) => {
     // Get and store user
-    Axios.get(`${Constants.BASE_URL}/api/users/${email}`).then(({data}) => {
+    Axios.get(`${await Constants.BASE_URL()}/api/users/${email}`).then(({data}) => {
       const user = data[0];
+      console.log(user)
       // push into secure store
       SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify(user));
       // push into redux store
@@ -92,16 +92,17 @@ const LoginScreen = ({ navigation }) => {
     } )
 
     // Get and store housing
-    Axios.get(`${Constants.BASE_URL}/api/housings/email/${email}`).then(({data}) => {
+    Axios.get(`${await Constants.BASE_URL()}/api/housings/email/${email}`).then(({data}) => {
       const housing = data[0];
       // push into secure store
       SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING, JSON.stringify(housing));
       // push into redux store
       dispatch(dataActions.updateHousing(housing));
     }).catch( err => {
-      console.log("Fail to store housing data")
+      console.log("Fail to store housing data (Housing data is empty)")
     } )
   }
+  
 
   /**
    * Use Effect Hook
@@ -118,10 +119,8 @@ const LoginScreen = ({ navigation }) => {
                 Constants.MY_SECURE_AUTH_STATE_KEY_TOKEN,
                 JSON.stringify(accessToken)
               );
-              // STORE UID, EMAIL, NAME
+              // Show user data
               console.log(res);
-              dispatch(dataActions.updateFullname(res.name));
-              dispatch(dataActions.updateUID(res.uid));
               // TWO CASES: LOGIN or REGISTER
               if (res.status === "login") {
                 console.log("Login Successfully")
@@ -129,11 +128,16 @@ const LoginScreen = ({ navigation }) => {
                 storeData(res.email);
                 navigation.navigate("BirdFeed");
               } else if (res.status === "register") {
+                dispatch(dataActions.updateID(res.id));
+                dispatch(dataActions.updateEmail(res.email));
+                dispatch(dataActions.updateUID(res.uid));
+                dispatch(dataActions.updateFullname(res.name));
                 console.log("Register Successfully");
                 navigation.navigate("IDQs");
               }
             })
-            .catch((err) => console.log("Login/Register Fail"));
+            .catch((err) => 
+              console.log("Login/Register Fail"));
         });
       }
     }
@@ -144,7 +148,7 @@ const LoginScreen = ({ navigation }) => {
    */
   return (
     <Background>
-      <View style={styles.background}>
+      <View style={styles.background}>      
         <Logo />
         <Header>Bird Nest</Header>
         <Paragraph>

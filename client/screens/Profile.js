@@ -19,19 +19,13 @@ import UserCard from "../components/UserCard";
 import InfoCard from "../components/InfoCard";
 import Footer from "../components/Footer.js";
 import * as SecureStore from "expo-secure-store";
-import Axios from "axios";
 import MainHeader from "../components/MainHeader";
-import Deondre from "../assets/deondre.jpg";
-// Import constants
-import Constants from "../constants/constants";
-// Redux
 import { useDispatch, useSelector } from "react-redux";
-// firebase
+import { storage, ref, getDownloadURL } from "../firebaseConfig";
 
 const Profile = ({ navigation }) => {
-  
-  const data = useSelector(state => state.data);
-
+  const data = useSelector((state) => state.data);
+  const user = useSelector((state) => state.data.userInfo);
   const [name, setName] = useState();
   const [rent, setRent] = useState();
   const [lease, setLease] = useState();
@@ -39,6 +33,9 @@ const Profile = ({ navigation }) => {
   const [buttonClicked, setButtonClicked] = useState(false);
   const [interestButtonClicked, setInterestButtonClicked] = useState(false);
 
+  /**
+   * Tracking the button state
+   */
   const roomInfoButton = () => {
     setButtonClicked(true);
   };
@@ -50,14 +47,15 @@ const Profile = ({ navigation }) => {
       ? setInterestButtonClicked(false)
       : setInterestButtonClicked(true);
   };
-  // return screen
+
   return (
     <SafeAreaView style={styles.container}>
       <MainHeader screen="Profile" navigation={navigation} />
       <ScrollView>
         <Background>
           <UserCard
-            name={data.userInfo.fullname}
+            // name={data.userInfo.fullname}
+            name={data.userInfo.firstname + " " + data.userInfo.lastname}
           />
 
           <View style={styles.buttonContainer}>
@@ -96,7 +94,11 @@ const Profile = ({ navigation }) => {
             {!buttonClicked && <BioInfo bio={data.userInfo.bio}></BioInfo>}
 
             {buttonClicked && (
-              <RentInfo rent={data.housing.rent} lease={data.housing.lease} neighborhood={data.housing.neighborhood} />
+              <RentInfo
+                rent={data.housing.rent}
+                lease={data.housing.lease}
+                neighborhood={data.housing.neighborhood}
+              />
             )}
           </InfoCard>
 
@@ -128,9 +130,7 @@ const Profile = ({ navigation }) => {
 const BioInfo = (props) => {
   return (
     <View style={styles.subContainer}>
-      <Text style={styles.text}>
-        {props.bio}
-      </Text>
+      <Text style={styles.text}>{props.bio}</Text>
     </View>
   );
 };
@@ -147,7 +147,8 @@ const RentInfo = (props) => {
         months
       </Text>
       <Text style={styles.text}>
-        <Text style={{ fontWeight: "bold" }}> Neighborhood:</Text> {props.neighborhood}
+        <Text style={{ fontWeight: "bold" }}> Neighborhood:</Text>{" "}
+        {props.neighborhood}
       </Text>
     </View>
   );

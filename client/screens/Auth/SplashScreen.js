@@ -8,6 +8,7 @@ import Constants from '../../constants/constants';
 // Redux
 import * as dataActions from '../../redux/slices/data';
 import { useDispatch } from "react-redux";
+
 export default function SplashScreen({navigation}) {
 
     const edges = useSafeAreaInsets();
@@ -30,7 +31,7 @@ export default function SplashScreen({navigation}) {
     /**
      * Pull data from Secure Store and store into Redux Store
      */
-    const storeData = () => {
+    const storeData = async () => {
         // Get and store user data
         SecureStore.getItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER).then(res => {
             const user = JSON.parse(res);
@@ -57,7 +58,7 @@ export default function SplashScreen({navigation}) {
         const userToken = await SecureStore.getItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_TOKEN);
         // navigate to the app screen if a token is present
         // else navigate to the auth screen
-        setTimeout(() => {
+        setTimeout( () => {
             if(userToken){
                 storeData();
                 navigation.navigate('BirdFeed');
