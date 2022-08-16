@@ -7,7 +7,7 @@ import {
   ActivityIndicator,
   Pressable,
 } from "react-native";
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Logo from "./assets/bird.png";
 
 import Axios from "axios";
@@ -35,7 +35,6 @@ import BasicInfo from "./screens/Questionnaires/BasicInfo.js";
 // IMPORT CHAT NAVIGATOR
 import ChatNavigator from "./screens/ChatAPI/ChatNavigator";
 
-
 // LOGO ICONS
 import BirdFeedLogo from "./assets/BirdFeedLogo.png";
 import MessengerLogo from "./assets/MessengerLogo.png";
@@ -44,7 +43,10 @@ import ProfileLogo from "./assets/ProfileLogo.png";
 // STACK/TAB NAVIGATION
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { createBottomTabNavigator, tabBarVisible } from "@react-navigation/bottom-tabs";
+import {
+  createBottomTabNavigator,
+  tabBarVisible,
+} from "@react-navigation/bottom-tabs";
 import { CardStyleInterpolators } from "@react-navigation/stack";
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -57,7 +59,7 @@ import { useDispatch, useSelector } from "react-redux";
 const TabNavigator = () => {
   const DisabledTabBarButton = ({ style, ...props }) => (
     <Pressable disabled style={[{ opacity: 0.2 }, style]} {...props} />
-  )
+  );
   return (
     <Tab.Navigator
       screenOptions={{ headerShown: false, tabBarActiveTintColor: "#560CCE" }}
@@ -94,10 +96,9 @@ const TabNavigator = () => {
 };
 <ion-icon name="eye-outline"></ion-icon>;
 export default function App() {
-
   return (
     <Provider store={store}>
-      <GestureHandlerRootView style={{flex: 1}}>
+      <GestureHandlerRootView style={{ flex: 1 }}>
         <NavigationContainer>
           <Stack.Navigator
             //change back default to "Splashcreen" after testing
@@ -109,20 +110,26 @@ export default function App() {
             <Stack.Screen name="BirdFeed" component={TabNavigator} />
             <Stack.Screen name="PeckView" component={PeckView} />
             <Stack.Screen name="Settings" component={Settings} />
-            <Stack.Screen name="ChirpNotificationEdit"component={ChirpNotificationEdit}/>
+            <Stack.Screen
+              name="ChirpNotificationEdit"
+              component={ChirpNotificationEdit}
+            />
             <Stack.Screen name="HelpSupport" component={HelpSupport} />
             <Stack.Screen name="TermsOfService" component={TermsOfService} />
-            <Stack.Screen name="ChirpNotification" component={ChirpNotification}/>
+            <Stack.Screen
+              name="ChirpNotification"
+              component={ChirpNotification}
+            />
             <Stack.Screen name="IDQs" component={IDQs} />
             <Stack.Screen name="BasicInfo" component={BasicInfo} />
             <Stack.Screen name="NoHousingQ" component={NoHousingQ} />
             <Stack.Screen name="HasHousingQ" component={HasHousingQ} />
             <Stack.Screen name="Personality" component={Personality} />
             <Stack.Screen name="Roles" component={Roles} />
-            <Stack.Screen name="History" component={History}/>
+            <Stack.Screen name="History" component={History} />
           </Stack.Navigator>
         </NavigationContainer>
-        </GestureHandlerRootView>
+      </GestureHandlerRootView>
     </Provider>
   );
 }
