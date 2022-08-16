@@ -53,23 +53,34 @@ const MainHeader = ({ screen, navigation }) => {
       result.selected.map(async (image, index, imageArray) => {
         const img = await fetch(image.uri);
         const bytes = await img.blob();
-        const storageRef = ref(storage, `images/${user.uid}/album/${image.fileName}`);
+        const storageRef = ref(storage, `images/${user.uid}/album/${image.fileName.replace(/\s/g, '')}`);
         const uploadTask = uploadBytesResumable(storageRef, bytes);
         promises.push(uploadTask)
         // retrieve image url
-        const imageDownloadedUrl = await retrieveImage(`images/${user.uid}/album/${image.fileName}`);
-        // upload path to redux store
-        listUrl.push(imageDownloadedUrl);
-        dispatch(dataActions.updatePicsList(imageDownloadedUrl));
-        if(index == imageArray.length - 1){
-          // upload to database
-          Axios.post(`${await Constants.BASE_URL()}/api/images/multiple`,{
-            id: user.id,
-            pics: listUrl
-          })
-          // upload to secure store
-          SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify({...user, picsList: listUrl}));
-        }
+        let imageDownloadedUrl;
+        uploadTask.on('state_changed',
+          (snapshot) => {
+            
+          },
+          (err) => {
+            
+          },
+          async () => { // handle successfull case
+            imageDownloadedUrl = await retrieveImage(`images/${user.uid}/album/${image.fileName.replace(/\s/g, '')}`);
+            listUrl.push(imageDownloadedUrl);
+            dispatch(dataActions.updatePicsList(imageDownloadedUrl));
+            // upload path to redux store
+            if(index == imageArray.length - 1){
+              // upload to database
+              Axios.post(`${await Constants.BASE_URL()}/api/images/multiple`,{
+                id: user.id,
+                pics: listUrl
+              })
+              // upload to secure store
+              SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify({...user, picsList: listUrl}));
+            }
+          }
+        )
       })
 
       Promise.all(promises)

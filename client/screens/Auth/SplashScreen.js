@@ -31,7 +31,7 @@ export default function SplashScreen({navigation}) {
     /**
      * Pull data from Secure Store and store into Redux Store
      */
-    const storeData = () => {
+    const storeData = async () => {
         // Get and store user data
         SecureStore.getItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER).then(res => {
             const user = JSON.parse(res);
