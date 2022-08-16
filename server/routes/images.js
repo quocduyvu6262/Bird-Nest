@@ -5,6 +5,7 @@ const db = require('../utils/database');
 const router = express.Router();
 
 router.post('/multiple', (req, res) => {
+    console.log(req.body);
     db(client => {
         let id = req.body.id;
         let pics = req.body.pics;

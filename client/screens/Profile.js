@@ -36,15 +36,17 @@ const Profile = ({ navigation }) => {
   let pics1 = [];
   let pics2 = [];
   let pics3 = [];
-  for(let i = 0; i < pics.length; i++) {
-    if(i < 3) {
-      pics1.push(pics[i]);
-    }
-    else if(i >= 3 && i < 6) {
-      pics2.push(pics[i]);
-    }
-    else if(i >= 6) {
-      pics3.push(pics[i]);
+  if(pics){
+    for(let i = 0; i < pics.length; i++) {
+      if(i < 3) {
+        pics1.push(pics[i]);
+      }
+      else if(i >= 3 && i < 6) {
+        pics2.push(pics[i]);
+      }
+      else if(i >= 6) {
+        pics3.push(pics[i]);
+      }
     }
   }
  

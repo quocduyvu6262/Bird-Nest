@@ -154,14 +154,19 @@ export const dataSlice = createSlice({
             // assign temp to pets
             state.userInfo.pets = temp;
         },
+        // updatePicsList: (state, action) => {
+        //     let pic = action.payload;
+        //     console.log(pic);
+        //     if(state.userInfo.picsList === null){
+        //         state.userInfo.picsList = [];
+        //     }
+        //     let temp = state.userInfo.picsList;
+        //     temp.push(pic);
+        //     state.userInfo.picsList = temp;
+        // },
         updatePicsList: (state, action) => {
-            let pic = action.payload;
-            if(state.userInfo.picsList === null){
-                state.userInfo.picsList = [];
-            }
-            let temp = state.userInfo.picsList;
-            temp.push(pic);
-            state.userInfo.picsList = temp;
+            console.log(action.payload);
+            state.userInfo.picsList = action.payload;
         },
 
         updateCook: (state, action) => {
