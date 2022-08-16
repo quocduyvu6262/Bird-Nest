@@ -40,9 +40,27 @@ import FilterOverlay from "../components/FilterOverlay.js";
 // import Icon2 from "react-native-vector-icons/MaterialCommunityIcons";
 import Icon3 from "react-native-vector-icons/Ionicons";
 import {useSelector} from "react-redux"
-import TagInput from 'react-native-tags-input';
 const BirdFeed = ({ navigation }) => {
   const user = useSelector(state => state.data.userInfo);
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState([]);
+  const [items, setItems] = useState([
+    {label: 'Downtown SD', value: 'downtownsd'},
+    {label: 'La Jolla', value: 'lajolla'},
+    {label: 'Del Mar', value: 'delmar'},
+    {label: 'Mira Mesa', value: 'mira'},
+    {label: 'Pacific Beach', value: 'pacificbeach'},
+    {label: 'Clairemont', value: 'clairemont'},
+    {label: 'University City', value: 'universitycity'},
+    {label: 'UTC', value: 'utc'},
+    {label: 'Solana Beach', value: 'solanabeach'},
+    {label: 'Mission Valley', value: 'missionvalley'},
+    {label: 'Carmel Valley', value: 'carmelvalley'},
+    {label: 'Sorrento Valley', value: 'sorrentovalley'},
+    {label: 'Other', value: 'other'},
+
+  ]);
+  const itemcount = items.length;
 
   const [userList, setUserList] = useState([]);
   const [listState, setListState] = useState(false);
@@ -68,60 +86,38 @@ const BirdFeed = ({ navigation }) => {
 
   const [sqFtState, setSqFtState] = useState(100);
 
-  const [genderMale, setGenderMale] = useState(false);
-  const [genderFemale, setGenderFemale] = useState(false);
-  const [pet, setPet] = useState(false);
-  const [drugs, setDrugs] = useState(false);
-  const [sleep, setSleep] = useState(false);
-  const [guest, setGuest] = useState(false);
-  const [clean, setClean] = useState(false);
-  const [temp, setTemp] = useState(false);
-  const [sound, setSound] = useState(false);
-  const [awake, setAwake] = useState(false);
-  const [sharing, setSharing] = useState(false);
-  const [interaction, setInteraction] = useState(false);
 
 
   const [overlayFilterClicked, setOverlayFilterClicked] = useState(false);
 
-  const [overlayDropDownClicked, setOverlayDropDownClicked] = useState(false);
 
-  const [switchEnabledSqua, setSwitchEnabledSqua] = useState(false);
-  const toggleSwitchSqua = () =>
-    setSwitchEnabledSqua((previousState) => !previousState);
+  const [switchEnabledPar, setSwitchEnabledPar] = useState(false);
+  const toggleSwitchPar = () =>
+    setSwitchEnabledPar((previousState) => !previousState);
 
-  const [switchEnabledPri, setSwitchEnabledPri] = useState(false);
-  const toggleSwitchPri = () =>
-    setSwitchEnabledPri((previousState) => !previousState);
 
-  const [switchEnabledIn, setSwitchEnabledIn] = useState(false);
-  const toggleSwitchIn = () =>
-    setSwitchEnabledIn((previousState) => !previousState);
+  const [switchEnabledGym, setSwitchEnabledGym] = useState(false);
+  const toggleSwitchGym = () =>
+    setSwitchEnabledGym((previousState) => !previousState);
 
-  const [switchEnabledPer, setSwitchEnabledPer] = useState(false);
-  const toggleSwitchPer = () =>
-    setSwitchEnabledPer((previousState) => !previousState);
+  
+  const [switchEnabledPoo, setSwitchEnabledPoo] = useState(false);
+  const toggleSwitchPoo = () =>
+    setSwitchEnabledPoo((previousState) => !previousState);
 
-  const [switchEnabledRoo, setSwitchEnabledRoo] = useState(false);
-  const toggleSwitchRoo = () =>
-    setSwitchEnabledRoo((previousState) => !previousState);
+  const [switchEnabledApp, setSwitchEnabledApp] = useState(false);
+  const toggleSwitchApp = () =>
+    setSwitchEnabledApp((previousState) => !previousState);
+  
 
-  const [switchEnabledYes, setSwitchEnabledYes] = useState(false);
-  const toggleSwitchYes = () =>
-    setSwitchEnabledYes((previousState) => !previousState);
-
-  const [switchEnabledNo, setSwitchEnabledNo] = useState(false);
-  const toggleSwitchNo = () =>
-    setSwitchEnabledNo((previousState) => !previousState);
-
-  const [switchEnabledRec, setSwitchEnabledRec] = useState(false);
-  const toggleSwitchRec = () =>
-    setSwitchEnabledRec((previousState) => !previousState);
-
-  const [switchEnabledApt, setSwitchEnabledApt] = useState(false);
-  const toggleSwitchApt = () =>
-    setSwitchEnabledApt((previousState) => !previousState);
-
+  const [switchEnabledFur, setSwitchEnabledFur] = useState(false);
+  const toggleSwitchFur = () =>
+    setSwitchEnabledFur((previousState) => !previousState);
+  
+  
+    const [switchEnabledAC, setSwitchEnabledAC] = useState(false);
+    const toggleSwitchAC = () =>
+      setSwitchEnabledAC((previousState) => !previousState);
   let [fontsLoaded] = useFonts({
     Pacifico_400Regular,
   });
@@ -173,7 +169,7 @@ const BirdFeed = ({ navigation }) => {
       // Header - Beginning
       <SafeAreaView style={styles.container}>
         <MainHeader screen="Bird Feed" navigation={navigation} />
-        <View style={[styles.svg, { transform: [{ translateY: 100 }] }]}>
+        <View style={[styles.svg, { transform: [{ translateY: 20 }, {translateX: 100}] }]}>
           <Bird_Drawing />
         </View>
         <TouchableOpacity
@@ -193,9 +189,16 @@ const BirdFeed = ({ navigation }) => {
           overlaFilterClicked={overlayFilterClicked}
           overlayFilterButton={overlayFilterButton} 
 
-          setOverlayDropDownClicked={setOverlayFilterClicked}
-          overlayDropDownClicked={overlayDropDownClicked}
-          overlayDropDownButton={overlayDropDownButton}
+          open={open}
+          setOpen={setOpen}
+
+          value={value}
+          setValue={setValue}
+
+          items={items}
+          setItems={setItems}
+
+          itemcount={itemcount}
 
           setAgeState={setAgeState}
           ageState={ageState}
@@ -212,75 +215,29 @@ const BirdFeed = ({ navigation }) => {
           setSqFtState={setSqFtState}
           sqFtState={sqFtState}
 
-      // changeMultipleColor(state_a, state_b, state_c, state_d){
-      //   if(state_a.pressed == false && (state_b.pressed == true || state_c.pressed == true || state_d.pressed == true)  && (state_b.backgroundColor == '#3B9CF1' || state_c.backgroundColor == '#3B9CF1' || state_d.backgroundColor == '#3B9CF1')) {
-      //     state_a.backgroundColor='#3B9CF1';
-      //     state_b.backgroundColor='#D9D9D9';
-      //     state_c.backgroundColor='#D9D9D9';
-      //     state_d.backgroundColor='#D9D9D9';
-      //     state_a.pressed=true;
-      //     state_b.pressed=false;
-      //     state_c.pressed=false;
-      //     state_d.pressed=false;
-      //     this.setState({backgroundColor: state_a.backgroundColor});
-      //     this.setState({backgroundColor: state_b.backgroundColor});
-      //     this.setState({backgroundColor: state_c.backgroundColor});
-      //     this.setState({backgroundColor: state_d.backgroundColor});
-      //     this.setState({pressed: state_a.pressed});
-      //     this.setState({pressed: state_b.pressed});
-      //     this.setState({pressed: state_c.pressed});
-      //     this.setState({pressed: state_d.pressed});
-      //   }
-          // state1 = {
-          //   name: true,
-          //   pressed: false,
-          //   backgroundColor: '#D9D9D9'
-          // };
-          // state2 = {
-          //   name: false,
-          //   pressed: false,
-          //   backgroundColor: '#D9D9D9'
-          // };
-          // <Text style={HousingQ_styles.question1}>Does the property have a</Text>
-          // <Text style={HousingQ_styles.question1}>garage?</Text>
-          // <TouchableOpacity style={[this.state1, HousingQ_styles.buttonContainerYes1]} 
-          // onPress={()=>{
-          //   this.changeColor(this.state1, this.state2)
-          //   this.props.dispatch(dataActions.updateGarage(this.state1.name))
-          // }}>
-          // <Text style = {HousingQ_styles.buttonText}>Yes</Text>
-          // </TouchableOpacity>
-          // <TouchableOpacity style={[this.state2, HousingQ_styles.buttonContainerNo1]}
-          // onPress={()=>{
-          //   this.changeColor(this.state2, this.state1)
-          //   this.props.dispatch(dataActions.updateGarage(this.state1.name))
-          // }}>
-          //   <Text style = {HousingQ_styles.buttonText}>No</Text>
-          // </TouchableOpacity>
+          switchEnabledPar={switchEnabledPar}
+          setSwitchEnabledPar={setSwitchEnabledPar}
+          toggleSwitchPar={toggleSwitchPar}
 
-          switchEnabledPri={switchEnabledPri}
-          toggleSwitchPri={toggleSwitchPri}
+          switchEnabledGym={switchEnabledGym}
+          setSwitchEnabledGym={setSwitchEnabledGym}
+          toggleSwitchGym={toggleSwitchGym}
 
-          switchEnabledIn={switchEnabledIn}
-          toggleSwitchIn={toggleSwitchIn}
+          switchEnabledPoo={switchEnabledPoo}
+          setSwitchEnabledPoo={setSwitchEnabledPoo}
+          toggleSwitchPoo={toggleSwitchPoo}
 
-          switchEnabledPer={switchEnabledPer}
-          toggleSwitchPer={toggleSwitchPer}
+          switchEnabledApp={switchEnabledApp}
+          setSwitchEnabledApp={setSwitchEnabledApp}
+          toggleSwitchApp={toggleSwitchApp}
 
-          switchEnabledRoo={switchEnabledRoo}
-          toggleSwitchRoo={toggleSwitchRoo}
+          switchEnabledFur={switchEnabledFur}
+          setSwitchEnabledFur={setSwitchEnabledFur}
+          toggleSwitchFur={toggleSwitchFur}
 
-          switchEnabledYes={switchEnabledYes}
-          toggleSwitchYes={toggleSwitchYes}
-
-          switchEnabledNo={switchEnabledNo}
-          toggleSwitchNo={toggleSwitchNo}
-
-          switchEnabledRec={switchEnabledRec}
-          toggleSwitchRec={toggleSwitchRec}
-
-          switchEnabledApt={switchEnabledApt}
-          toggleSwitchApt={toggleSwitchApt}
+          switchEnabledAC={switchEnabledAC}
+          setSwitchEnabledAC={setSwitchEnabledAC}
+          toggleSwitchAC={toggleSwitchAC}
           />
         )}
 

@@ -27,7 +27,7 @@ const ProfileCard = ({ item, index }) => {
     })
   ).current;
 
-  console.log(item.index);
+  // console.log(item.index);
 
   const renderRightActions = (progress, dragX) => {
     const trans = dragX.interpolate({

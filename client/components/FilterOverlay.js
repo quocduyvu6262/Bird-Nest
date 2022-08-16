@@ -15,6 +15,8 @@ import React, { useState } from "react";
 import { Icon } from "@rneui/themed";
 import Icon2 from "react-native-vector-icons/Ionicons";
 import { Slider } from '@rneui/themed';
+import DropDownPicker from 'react-native-dropdown-picker';
+import Buttons from './Button.js';
 // List of variables
 
 // 10 buttons yes/no type questions
@@ -22,6 +24,18 @@ import { Slider } from '@rneui/themed';
 // 1 string
 // 3 sliders
 
+// Important ones to do for week 1
+// - neighborhood /buttons/ *DONE*
+// - lease /slider/ *DONE*
+// - rent /slider/ *DONE*
+// - parking /switch/ *DONE*
+// - gym /switch/ *DONE*
+// - pool /switch/ *DONE*
+// - appliances /switch/ *DONE*
+// - furniture /switch/ *DONE*
+// - AC /switch/ *DONE*
+
+// Second priority ones to do for week 2
 // - age /slider/  *DONE* 
 // - gender /buttons/
 // - pet *buttons*
@@ -34,24 +48,24 @@ import { Slider } from '@rneui/themed';
 // - awake *buttons*
 // - sharing *buttons*
 // - interaction with roommates *buttons*
-// - neighborhood *buttons*
-// - city *buttons*
-// - lease *slider*
-// - rent *slider*
+
 const FilterOverlay = (
   {navigation, 
   overlayFilterButton,
 
-  overlayDropDownClicked,
-  overlayDropDownButton,
-  
-  props,
+  open,
+  setOpen,
+
+  value,
+  setValue,
+
+  items,
+  setItems,
+
+  itemcount,
 
   ageState,
   setAgeState,
-
-  neighborhood,
-  setNeighborhood,
 
   setRentState,
   rentState,
@@ -62,33 +76,25 @@ const FilterOverlay = (
   setSqFtState,
   sqFtState,
 
-  switchEnabledSqua,
-  toggleSwitchSqua,
+  switchEnabledPar,
+  toggleSwitchPar,
 
-  switchEnabledPri,
-  toggleSwitchPri,
+  switchEnabledGym,
+  toggleSwitchGym,
 
-  switchEnabledIn,
-  toggleSwitchIn,
+  switchEnabledPoo,
+  toggleSwitchPoo,
 
-  switchEnabledPer,
-  toggleSwitchPer,
+  switchEnabledApp,
+  toggleSwitchApp,
 
-  switchEnabledRoo,
-  toggleSwitchRoo,
+  switchEnabledFur,
+  toggleSwitchFur,
 
-  switchEnabledYes,
-  toggleSwitchYes,
-
-  switchEnabledNo,
-  toggleSwitchNo,
-
-  switchEnabledRec,
-  toggleSwitchRec,
-
-  switchEnabledApt,
-  toggleSwitchApt }) => {
-
+  switchEnabledAC,
+  toggleSwitchAC,
+}) => {
+  DropDownPicker.setListMode("SCROLLVIEW");
   const SingleSwitch = (props) => {
     return (
       <View style={styles.switchView}>
@@ -97,14 +103,14 @@ const FilterOverlay = (
           thumbColor={props.enabled ? "#white" : "white"}
           onValueChange={props.toggle}
           value={props.enabled}
-        />
-        
+        ></Switch>
         <Text style={styles.switchText}>
-          {props.variable}
+          <Text></Text>
+          {props.enabled ? props.variable : `No ${props.variable}`}
         </Text>
       </View>
     );
-  };  
+  };
   return (
     <View style={styles.subContainer}>
       <ScrollView style={styles.filterCard}>
@@ -129,33 +135,26 @@ const FilterOverlay = (
             thumbStyle={{height: 15, width: 15, backgroundColor:'#6736B6'}}
           />
         </View> */}
-
-        <View style = {styles.neighborText}>
-          <Text style = {styles. slideText}>Neighborhood: </Text>
-          <TouchableOpacity
-            style={styles.dropDown}
-            onPress={overlayDropDownButton}>
-          <Text>
-            W.I.P.
-          </Text>
-          </TouchableOpacity>
-          {overlayDropDownClicked && (
-            <View style = {styles.dropDownContainer}>
-              <ScrollView style = {styles.dropDownCard}>
-                <TouchableOpacity
-                  style={styles.filterHeader}
-                  onPress={overlayDropDownButton}>
-                     <Icon name="west" size={30} />
-                    <Text style = {styles.filterText}> Go back </Text>
-                </TouchableOpacity>
-                {/* <TouchableOpacity>
-                  <Text>
-                    La Jolla
-                  </Text>
-              </TouchableOpacity> */}
-              </ScrollView>
-            </View>
-          )}
+        <View style = {styles.dropDown}>
+          <Text style = {styles.slideText }>Neighborhood: </Text>
+          <DropDownPicker
+            style = {{width: 175}}
+            dropDownContainerStyle={{
+              backgroundColor: "#dfdfdf",
+              width: 175,
+            }}
+            placeholder="0 items has been selected"
+            dropDownDirection="AUTO"
+            multiple={true}
+            min={0}
+            max={itemcount}
+            open={open}
+            value={value}
+            items={items}
+            setOpen={setOpen}
+            setValue={setValue}
+            setItems={setItems}
+            />
         </View>
 
         <View style={styles.slider}>
@@ -200,64 +199,52 @@ const FilterOverlay = (
           />
         </View>
 
-        {/* <SingleSwitch
-          variable="Price Range"
-          enabled={switchEnabledPri}
-          toggle={toggleSwitchPri}
+        <SingleSwitch
+          variable="Parking"
+          enabled={switchEnabledPar}
+          toggle={toggleSwitchPar}
         />
 
         <SingleSwitch
-          variable="Indoor Parking"
-          enabled={switchEnabledIn}
-          toggle={toggleSwitchIn}
+          variable="Gym"
+          enabled={switchEnabledGym}
+          toggle={toggleSwitchGym}
+        />
+        <SingleSwitch
+          variable="Pool"
+          enabled={switchEnabledPoo}
+          toggle={toggleSwitchPoo}
         />
 
         <SingleSwitch
-          variable="Percent Matched"
-          enabled={switchEnabledPer}
-          toggle={toggleSwitchPer}
+          variable="Appliances"
+          enabled={switchEnabledApp}
+          toggle={toggleSwitchApp}
         />
 
-        <SingleSwitch
-          variable="# of Roommates"
-          enabled={switchEnabledRoo}
-          toggle={toggleSwitchRoo}
+      <SingleSwitch
+          variable="Furniture"
+          enabled={switchEnabledFur}
+          toggle={toggleSwitchFur}
         />
 
-        <SingleSwitch
-          variable="Pecked Yes"
-          enabled={switchEnabledYes}
-          toggle={toggleSwitchYes}
+      <SingleSwitch
+          variable="AC"
+          enabled={switchEnabledAC}
+          toggle={toggleSwitchAC}
         />
 
-        <SingleSwitch
-          variable="Pecked No"
-          enabled={switchEnabledNo}
-          toggle={toggleSwitchNo}
-        />
-
-        <SingleSwitch
-          variable="Most Recent"
-          enabled={switchEnabledRec}
-          toggle={toggleSwitchRec}
-        />
-
-        <SingleSwitch
-          variable="Apartment"
-          enabled={switchEnabledApt}
-          toggle={toggleSwitchApt}
-        /> */}
+        <Buttons
+          style={{flex: 1}}
+          onPress={() => {
+        }}> Submit
+         </Buttons>
       </ScrollView>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-    backgroundColor: "white",
-  },
   subContainer: {
     backgroundColor: "rgba(0,0,0,0.5)",
     height: "120%",
@@ -265,32 +252,10 @@ const styles = StyleSheet.create({
     position: "absolute",
     zIndex: 1,
   },
-  dropDownContainer: {
-    width: '100%',
-    position: "absolute",
-    zIndex: 2,
-  },
-  input: {
-    width: 170,
-    height: 40,
-    borderWidth: 1,
-    padding: 10,
-  },
   dropDown: {
-    alignSelf: 'center',
-    height: 40,
-    borderWidth: 1,
-    padding: 10,
-  },
-  dropDownCard: {
-    alignSelf: 'center',
-    width:'75%',
-    borderRadius: 15,
-    marginTop: 20,
-    backgroundColor: 'white',
-    position: "absolute",
-    zIndex: 2,
-    borderColor: "black",
+    marginLeft: 10,
+    zIndex:2,
+    flexDirection: "row",
   },
   filterCard: {
     backgroundColor: "white",
@@ -318,6 +283,16 @@ const styles = StyleSheet.create({
     fontFamily: "Pacifico_400Regular",
     color: "#560CCE",
   },
+  slider: {
+    flex: 1,
+    alignSelf: 'flex-start',
+    marginLeft: 10,
+  },
+  slideText: {
+    alignSelf:'center',
+    marginLeft: 5,
+    fontSize: 20,
+  },
   switchView: {
     marginLeft: 10,
     flexDirection: "row",
@@ -330,23 +305,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginLeft: 5,
     fontSize: 20,
-  },
-  slider: {
-    flex: 1,
-    alignSelf: 'flex-start',
-    marginLeft: 10,
-  },
-  slideText: {
-    alignSelf:'center',
-    marginLeft: 5,
-    fontSize: 20,
-  },
-  neighborText: { 
-    backgroundColor: 'white',
-    marginLeft: 10,
-    flexDirection: "row",
-    alignSelf: "flex-start",
-    alignItems: "center",
   },
 });
 export default FilterOverlay;
