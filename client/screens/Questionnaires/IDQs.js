@@ -45,6 +45,7 @@ const IDQs = ({ navigation }) => {
     if (pickerResult.cancelled === true) { //if user exits out of gallery
       return;
     }
+    console.log(pickerResult.uri);
     setSelectedImage({ localUri: pickerResult.uri }); //stores uri of image in localUri
     if(pickerResult.uri != null) { //if an image was selected by user
       base64img = base64img + pickerResult.base64;

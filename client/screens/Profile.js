@@ -30,8 +30,12 @@ import { useDispatch, useSelector } from "react-redux";
 
 const Profile = ({ navigation }) => {
   
-  const data = useSelector(state => state.data);
+  let pics1 = ['file:///var/mobile/Containers/Data/Application/6525879C-DFA1-4D73-BC39-9EA131D452A5/Library/Caches/ExponentExperienceData/%2540quocduyvu6262%252FBirdNest/ImagePicker/F03C646F-D001-4D78-B078-821223701D56.jpg', 'file:///var/mobile/Containers/Data/Application/6525879C-DFA1-4D73-BC39-9EA131D452A5/Library/Caches/ExponentExperienceData/%2540quocduyvu6262%252FBirdNest/ImagePicker/FBEC029D-FA07-4C7F-B443-AFB28C5EF429.jpg', 'file:///var/mobile/Containers/Data/Application/6525879C-DFA1-4D73-BC39-9EA131D452A5/Library/Caches/ExponentExperienceData/%2540quocduyvu6262%252FBirdNest/ImagePicker/2B245AE6-D164-4ED7-A54F-0111FE86EC33.jpg']
+  let pics2 = ['file:///var/mobile/Containers/Data/Application/6525879C-DFA1-4D73-BC39-9EA131D452A5/Library/Caches/ExponentExperienceData/%2540quocduyvu6262%252FBirdNest/ImagePicker/0A1630EF-0177-4E0C-8FBD-6BFB778F3263.jpg', 'file:///var/mobile/Containers/Data/Application/6525879C-DFA1-4D73-BC39-9EA131D452A5/Library/Caches/ExponentExperienceData/%2540quocduyvu6262%252FBirdNest/ImagePicker/14AEEF7D-3B83-4C8C-9A9C-298D9464E2CC.jpg', 'file:///var/mobile/Containers/Data/Application/6525879C-DFA1-4D73-BC39-9EA131D452A5/Library/Caches/ExponentExperienceData/%2540quocduyvu6262%252FBirdNest/ImagePicker/14B13BC3-149C-408F-99C1-0374078B9DB8.jpg']
+  let pics3 = ['file:///var/mobile/Containers/Data/Application/6525879C-DFA1-4D73-BC39-9EA131D452A5/Library/Caches/ExponentExperienceData/%2540quocduyvu6262%252FBirdNest/ImagePicker/D4824626-F148-479F-9067-0155BA03502B.jpg', 'file:///var/mobile/Containers/Data/Application/6525879C-DFA1-4D73-BC39-9EA131D452A5/Library/Caches/ExponentExperienceData/%2540quocduyvu6262%252FBirdNest/ImagePicker/BD98E0AD-0415-4BAC-A8BB-7545CBC17683.jpg', 'file:///var/mobile/Containers/Data/Application/6525879C-DFA1-4D73-BC39-9EA131D452A5/Library/Caches/ExponentExperienceData/%2540quocduyvu6262%252FBirdNest/ImagePicker/FFCF7FEF-FEE1-4BFD-B465-79B1A0F18ECC.jpg']
 
+  const data = useSelector(state => state.data);
+  const [index, setIndex] = useState(0);
   const [name, setName] = useState();
   const [rent, setRent] = useState();
   const [lease, setLease] = useState();
@@ -39,6 +43,7 @@ const Profile = ({ navigation }) => {
   const [buttonClicked, setButtonClicked] = useState(false);
   const [interestButtonClicked, setInterestButtonClicked] = useState(false);
   const [deleteImage, setDeleteImage] = useState(false);
+  const [opacity, setOpacity] = useState(1);
 
   const roomInfoButton = () => {
     setButtonClicked(true);
@@ -51,16 +56,114 @@ const Profile = ({ navigation }) => {
       ? setInterestButtonClicked(false)
       : setInterestButtonClicked(true);
   };
-  const changeDelete = () => {
+  const openDelete = () => {
     setDeleteImage(true);
+    console.log('ran true');
+  }
+  const closeDelete = () => {
+    setDeleteImage(false);
+    console.log('ran false');
+  }
+  const changeIndex = () => {
+    setIndex(index+1);
+  }
+  const changeOpacity = () => {
+    setOpacity(0.5);
   }
   // return screen
+  let count1 = 0;
+  var images1 = pics1.map(function(image) {
+    if(count1 == 0) {
+      count1 = count1 + 1;
+      return (
+        <TouchableOpacity key={image} onPress ={changeOpacity}>
+          <Image style={{opacity: opacity, height: 125, width: 125, borderColor: 'black', borderWidth: 1}} source={{ uri: image}} ></Image>
+        </TouchableOpacity>
+      )
+    }
+    else if(count1 == 1) {
+      count1 = count1 + 1;
+      return (
+        <TouchableOpacity key={image} onPress ={changeOpacity}>
+          <Image style={{opacity: opacity, height: 125, width: 125, borderColor: 'black', borderWidth: 1}} source={{ uri: image}} ></Image>
+        </TouchableOpacity>
+      )
+    }
+    else if (count1 == 2) {
+      count1 = 0;
+      return (
+        <TouchableOpacity key={image} onPress ={changeOpacity}>
+          <Image style={{opacity: opacity, height: 125, width: 125, borderColor: 'black', borderWidth: 1}} source={{ uri: image}} ></Image>
+        </TouchableOpacity>
+      )
+    }
+   });
+   var images2 = pics2.map(function(image) {
+    return (
+      <TouchableOpacity key={image} onPress ={changeIndex}>
+        <Image style={{height: 125, width: 125, borderColor: 'black', borderWidth: 1}} onPress ={changeIndex} source={{ uri: image}} ></Image>
+      </TouchableOpacity>
+    )
+   });
+   var images3 = pics3.map(function(image) {
+    return (
+      <TouchableOpacity key={image} onPress ={changeIndex}>
+        <Image style={{height: 125, width: 125, borderColor: 'black', borderWidth: 1}} onPress ={changeIndex} source={{ uri: image}} ></Image>
+      </TouchableOpacity>
+    )
+    });
+
   return (
     <SafeAreaView style={styles.container}>
       <MainHeader screen="Profile" navigation={navigation} />
       <ScrollView>
         <Background>
-          
+          <Modal
+          transparent = {true}
+          visible = {deleteImage}
+          >
+          <View style ={{backgroundColor:'#000000aa', flex: 1}}>
+            <View style = {{backgroundColor:'#ffffff', flex: 1, padding: 14, borderRadius: 15, marginTop: 110, marginBottom: 110}}>
+
+              <View style = {{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <TouchableOpacity 
+                  onPress={closeDelete}
+                >
+                  <Text style={{fontSize: 16, color: '#560CCE'}}>Cancel</Text>
+                </TouchableOpacity>
+                <Text style={{fontSize: 16, color: '#560CCE', fontWeight: 'bold'}}>Delete photos</Text>
+                <TouchableOpacity 
+                 onPress={closeDelete}
+                >
+                  <Text style={{fontSize: 16, color: '#560CCE'}}>Done</Text>
+                </TouchableOpacity>
+              </View>
+
+              <View style={{flexDirection:'row', alignItems: 'center', justifyContent: 'center', marginTop: 20 }}>
+                {images1}
+              </View>
+              <View style={{flexDirection:'row', alignItems: 'flex-start', justifyContent: 'center',}}>
+                {images2}
+              </View>
+              <View style={{flexDirection:'row', alignItems: 'flex-start', justifyContent: 'center',}}>
+                {images3}
+              </View>
+
+              <View style ={{alignItems: 'center', justifyContent: 'center'}}>
+                <Text style={{fontSize: 16, color: '#560CCE', margin: 27}}>Select photos</Text>
+              </View>
+
+              <View style ={{alignItems: 'center', justifyContent: 'center'}}>
+                <TouchableOpacity onPress={closeDelete} style ={{margin: 15, backgroundColor: '#560CCE', borderRadius: 30, padding: 10, width: 110 }}>
+                  <Text 
+                  style={{textAlign: 'center', fontSize: 15, color: '#ffffff', fontWeight: 'bold'}}
+                  >Confirm</Text>
+                </TouchableOpacity>
+              </View>
+
+            </View>
+          </View>
+          </Modal>
           <UserCard
             name={data.userInfo.firstname + " " + data.userInfo.lastname}
           />
@@ -68,8 +171,8 @@ const Profile = ({ navigation }) => {
           <View style={styles.buttonContainer}>
           <TouchableOpacity>
               <Button
-                color={"#560CCE"}
-                
+                color={"black"}
+                onPress={openDelete}
                 style={
                   {
                     borderBottomWidth: 1,
@@ -84,7 +187,7 @@ const Profile = ({ navigation }) => {
             <TouchableOpacity>
               <Button
                 color={!buttonClicked ? "#560CCE" : "black"}
-                onPress={changeDelete}
+                onPress={bioButton}
                 style={
                   !buttonClicked && {
                     borderBottomColor: "#560CCE",
