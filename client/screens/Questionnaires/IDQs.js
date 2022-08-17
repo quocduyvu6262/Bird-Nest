@@ -15,6 +15,7 @@ import * as dataActions from '../../redux/slices/data';
 import { validatePathConfig } from "@react-navigation/native";
 import * as ImagePicker from 'expo-image-picker';
 import { getStorage, ref, uploadBytes, storage, getDownloadURL, uploadBytesResumable } from '../../firebaseConfig';
+import * as FileSystem from 'expo-file-system';
 
 const IDQs = ({ navigation }) => {
   
@@ -94,26 +95,18 @@ const IDQs = ({ navigation }) => {
         
       },
       async () => { // handle successfull case
-        const imageDownloadedUrl = await retrieveImage(`images/${userInfo.uid}/avatar.jpg`);
+        const imageDownloadedUrl = await getDownloadURL(uploadTask.snapshot.ref);
         if(imageDownloadedUrl){
-          dispatch(dataActions.updateProfilepic(imageDownloadedUrl));
+          dispatch(dataActions.updateProfilepic(uploadTask.snapshot.ref._location.path_));
+          FileSystem.downloadAsync(imageDownloadedUrl, FileSystem.documentDirectory + 'avatar.jpg').then(({uri})=>{
+            console.log(uri);
+            dispatch(dataActions.updateAvatar(uri));
+          })
         }
       }
     )
   }
 
-  /**
-   * @params path the uri to image in Firebase Cloud Storage
-   * Function to retrieve image from firebase cloud storage
-   */
-   const retrieveImage = async (path) => {
-    if(path){
-      const reference = ref(storage, path);
-      const url = await getDownloadURL(reference);
-      return url;
-    }
-  }
-  
 
 
   return (

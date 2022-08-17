@@ -49,7 +49,6 @@ router.get('/email/:email', (req, res) => {
 router.post('/create', (req, res) => {
     let housing = req.body.housing;
     let user_id = req.body.user_id;
-    console.log(housing.squarefeet);
     //Check if user exists in housing table
     const checkExistQuery = `SELECT * FROM Housing WHERE User_id = "${user_id}"`
     const insertQuery = `

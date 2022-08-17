@@ -28,6 +28,7 @@ import * as SecureStore from "expo-secure-store";
 
 const MainHeader = ({ screen, navigation }) => {
   const user = useSelector(state => state.data.userInfo);
+  const imageFileSystemUri = useSelector(state => state.data.imageFileSystemUri);
   const dispatch = useDispatch();
   /**
    * Pick multiple images
@@ -56,12 +57,15 @@ const MainHeader = ({ screen, navigation }) => {
     });
     // upload to firebase
     if(!result.cancelled){
-      let promises = []
-      let listUrl = []
+      let promises = [];
+      let listUrl = [];
+      let fileSystemList = [];
+      let count = 0;
       result.selected.map(async (image, index, imageArray) => {
+        const imageName = image.fileName.replace(/\s/g, '');
         const img = await fetch(image.uri);
         const bytes = await img.blob();
-        const storageRef = ref(storage, `images/${user.uid}/album/${image.fileName.replace(/\s/g, '')}`);
+        const storageRef = ref(storage, `images/${user.uid}/album/${imageName}`);
         const uploadTask = uploadBytesResumable(storageRef, bytes);
         promises.push(uploadTask)
         // retrieve image url
@@ -74,22 +78,43 @@ const MainHeader = ({ screen, navigation }) => {
             
           },
           async () => { // handle successfull case
-            imageDownloadedUrl = await retrieveImage(`images/${user.uid}/album/${image.fileName.replace(/\s/g, '')}`);
-            listUrl.push(imageDownloadedUrl);
-            dispatch(dataActions.updatePicsList(imageDownloadedUrl));
-            // upload path to redux store
-            if(index == imageArray.length - 1){
+            count += 1;
+            imageDownloadedUrl = await getDownloadURL(uploadTask.snapshot.ref);
+            // download image to file system
+            const result = await FileSystem.downloadAsync(imageDownloadedUrl, FileSystem.documentDirectory + imageName);
+            dispatch(dataActions.updateAlbum(result.uri));
+            fileSystemList.push(result.uri);
+            // put file path
+            listUrl.push(uploadTask.snapshot.ref._location.path_);
+            dispatch(dataActions.updatePicsList(uploadTask.snapshot.ref._location.path_));
+            // upload path to redux  tore
+            if(count === imageArray.length){
               // upload to database
+              let newListUrl = [];
+              if(user.picsList){
+                newListUrl = [...user.picsList, ...listUrl].filter(unique);
+              } else {
+                newListUrl = listUrl
+              }
               Axios.post(`${await Constants.BASE_URL()}/api/images/multiple`,{
                 id: user.id,
-                pics: listUrl
+                pics: newListUrl
               })
+              // file system
+              let newFileSystemList;
+              if(imageFileSystemUri.album.length){
+                newFileSystemList = [...imageFileSystemUri.album, ...fileSystemList];
+              }else {
+                newFileSystemList = fileSystemList;
+              }
               // upload to secure store
-              SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify({...user, picsList: listUrl}));
+              SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify({...user, picsList: newListUrl}));
+              SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_IMAGE_URI, JSON.stringify({avatar: imageFileSystemUri.avatar, album: newFileSystemList}));
             }
           }
         )
       })
+
 
       Promise.all(promises)
         .then(() =>{
@@ -98,16 +123,16 @@ const MainHeader = ({ screen, navigation }) => {
         .catch(err => console.log("Fail to upload images"))
     }
   }
+
   /**
-   * @params path the uri to image in Firebase Cloud Storage
-   * Function to retrieve image from firebase cloud storage
+   * Helper function: unique filter
+   * @param value 
+   * @param index 
+   * @param self 
+   * @returns 
    */
-   const retrieveImage = async (path) => {
-    if(path){
-      const reference = ref(storage, path);
-      const url = await getDownloadURL(reference);
-      return url;
-    }
+  const unique = (value, index, self) => {
+    return self.indexOf(value) === index
   }
 
   /**

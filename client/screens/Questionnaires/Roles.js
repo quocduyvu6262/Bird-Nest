@@ -37,147 +37,6 @@ const Roles = ({ navigation }) => {
     setFormState("");
     return true;
   }
-  /*
-  const selectRoles = (selectedRole) => {
-    console.log(selectedRole);
-    /*
-        //first check if your user id is in opposing table
-            //if flamingo or owl, check if nohousing has an entry for your userid
-            //if parrot, penguin, duck, check if housing has an entry for your userid
-            //if opposing table has an entry, create a new entry in your corresponding 
-              table and copy all values over from opposing table, then delete the opposing table row
-        //if not in opposing table, post userid to corresponding table
-            //if flamingo or owl post to housing screen
-            //if parrot, penguin, duck post to nohousing
-            //update Role variable in User table
-            //INSERT statement
-        */
-
-    //const selectedRole  = "";
-
-    //If housing role selected
-    /*
-    if (selectedRole === "Flamingo" || selectedRole === "Owl") {
-      console.log("HOUSINGS");
-      //Check opposing table (nohousing)
-      Axios.get("http:192.168.1.13:3000/api/nohousing/11", {
-        //TODO: don't hardcode ID
-      })
-        .then((response) => {
-          //let userResponse = response.data;
-          //console.log(response);
-          console.log("RESPONSE");
-          //if user not found in opposite table, insert normally into corresponding table (housing)
-          if (response === "null") {
-            //Update role in User Table
-            Axios.post("http://192.168.1.13:3000/api/users/role", {
-              user_id: 11, //TODO: Don't hard-code
-              role: selectedRole,
-            }).catch((error) => {
-              console.log(error);
-              console.log("POST ERROR");
-            });
-            //Insert user with user_id in corresponding table (housing)
-            Axios.post("http://192.168.1.13:3000/api/housings/create", {
-              user_id: 11, //TODO: Don't hard-code
-            }).catch((error) => {
-              console.log(error);
-            });
-          } 
-          //if user was found in opposite table (nohousing), copy that row into corresponding table and delete opposite table's row
-          else {
-            Axios.get("http://192.168.1.13:3000/api/nohousing/:id?=11", {
-              //TODO: don't hardcode ID
-            })
-              .then((response) => {
-                let oldInfo = response.data;
-                //Update the corresponding table (housing) with opposite table's old data
-                Axios.post("http://192.168.1.13:3000/api/housings/create", {
-                  oldInfo,
-                }).catch((error) => {
-                  console.log(error);
-                });
-              })
-              .catch((error) => {
-                console.log(error);
-              });
-            //Delete the old user data in the opposite table (nohousing)
-            Axios.post("http://192.168.1.13:3000/api/nohousing/delete", {
-              user_id: 11, //TODO: Don't hard-code
-              role: selectedRole,
-            }).catch((error) => {
-              console.log(error);
-            });
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-
-    //if nohousing role selected
-    else if (
-      selectedRole === "Parrot" ||
-      selectedRole === "Penguin" ||
-      selectedRole === "Duck"
-    ) {
-      //Check opposing table
-      Axios.get("http://192.168.1.13:3000/api/housings/", {
-        //TODO: don't hardcode ID
-      })
-        .then((response) => {
-          //let userResponse = response.data;
-          console.log(response);
-          //if user not found in opposite table, insert normally into corresponding table (housing)
-          if (response === "null") {
-            //Update role in User Table
-            Axios.post("http://192.168.1.13:3000/api/users/role", {
-              user_id: 11, //TODO: Don't hard-code
-              role: selectedRole,
-            }).catch((error) => {
-              console.log(error);
-            });
-            //Insert user with user_id in corresponding table (nohousing)
-            Axios.post("http://192.168.1.13:3000/api/nohousing/create", {
-              user_id: 11, //TODO: Don't hard-code
-            }).catch((error) => {
-              console.log(error);
-            });
-          }
-          //if user was found in opposite table (housing), copy that row into corresponding table and delete opposite table's row
-          else {
-            Axios.get("http://192.168.1.13:3000/api/housings/:id?=11", {
-              //TODO: don't hardcode ID
-            })
-              .then((response) => {
-                let oldInfo = response.data;
-                //Update the corresponding table (nohousing) with opposite table's old data
-                Axios.post("http://192.168.1.13:3000/api/nohousing/create", {
-                  oldInfo,
-                }).catch((error) => {
-                  console.log(error);
-                });
-              })
-              .catch((error) => {
-                console.log(error);
-              });
-            //Delete the old user data in the opposite table (housing)
-            Axios.post("http://192.168.1.13:3000/api/housings/delete", {
-              user_id: 11, //TODO: Don't hard-code
-              role: selectedRole,
-            }).catch((error) => {
-              console.log(error);
-            });
-          }
-        })
-        .catch((error) => {
-          console.log("!!!!!!!!!!!!!!!!!!");
-          console.log(error);
-        });
-    }
-    
-  };*/
-
   return (
     <SafeAreaView style={Roles_styles.container}>
       <View style={Roles_styles.header}>
@@ -203,6 +62,7 @@ const Roles = ({ navigation }) => {
             onPress={() => {
               //selectRoles("Flamingo")
               dispatch(dataActions.updateRole("Flamingo"))
+              dispatch(dataActions.updateIsHousing(true));
             }}
           >
             <Image
@@ -222,6 +82,7 @@ const Roles = ({ navigation }) => {
             onPress={() => {
               //selectRoles("Owl")
               dispatch(dataActions.updateRole("Owl"))
+              dispatch(dataActions.updateIsHousing(true));
             }}
           >
             <Image
@@ -241,6 +102,7 @@ const Roles = ({ navigation }) => {
             onPress={() => {
               //selectRoles("Parrot")
               dispatch(dataActions.updateRole("Parrot"))
+              dispatch(dataActions.updateIsHousing(false));
             }}
           >
             <Image
@@ -260,6 +122,7 @@ const Roles = ({ navigation }) => {
             onPress={() => {
               //selectRoles("Penguin")
               dispatch(dataActions.updateRole("Penguin"))
+              dispatch(dataActions.updateIsHousing(false));
             }}
           >
             <Image
@@ -279,6 +142,7 @@ const Roles = ({ navigation }) => {
             onPress={() => {
               //selectRoles("Duck")
               dispatch(dataActions.updateRole("Duck"))
+              dispatch(dataActions.updateIsHousing(false));
             }}
           >
             <Image

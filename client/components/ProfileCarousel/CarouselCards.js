@@ -8,9 +8,11 @@ import Axios from "axios";
 import { useSelector } from 'react-redux'
 import {storage, ref, getDownloadURL} from '../../firebaseConfig'
 const CarouselCards = () => {
+
   const isCarousel = React.useRef(null)
   const [picsListCarouselData, setPicsListCarouselData] = useState([]);
   const user = useSelector(state => state.data.userInfo);
+  const imageFileSystemUri = useSelector(state => state.data.imageFileSystemUri);
 
   /**
    * use effect
@@ -18,15 +20,15 @@ const CarouselCards = () => {
   useEffect(() => {
     let picsListCarouselData = []
     // avatar
-    if(user.profilepic){
+    if(imageFileSystemUri.avatar){
       picsListCarouselData.push({
         title: "Coral Reef",
         body: "Location: Red Sea",
-        imgUrl: user.profilepic
+        imgUrl: imageFileSystemUri.avatar
       })
     }
-    if(user.picsList){
-      user.picsList.map(picUrl => {
+    if(imageFileSystemUri.album.length){
+      imageFileSystemUri.album.map(picUrl => {
         picsListCarouselData.push({
           title: "Coral Reef",
           body: "Location: Red Sea",
@@ -35,7 +37,7 @@ const CarouselCards = () => {
       })
     }
     setPicsListCarouselData(picsListCarouselData);    
-  }, [user])
+  }, [imageFileSystemUri])
   
   
   return (
