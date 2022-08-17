@@ -76,15 +76,21 @@ const housing = {
     drugs: null,
 }
 
+const imageFileSystemUri = {
+    avatar: "",
+    album: []
+}
+
 export const dataSlice = createSlice({
     name: "data",
     initialState: {
         userInfo: userInfo,
         housing: housing,
+        imageFileSystemUri: imageFileSystemUri,
         channel: null
     },
     reducers: {
-        // USER
+        // ALL
         updateUser: (state, action) => {
             let toAddUserInfoObj = action.payload;
             state.userInfo = {...state.userInfo, ...toAddUserInfoObj};
@@ -93,6 +99,11 @@ export const dataSlice = createSlice({
             let toAddHousingObj = action.payload;
             state.housing = {...state.housing, ...toAddHousingObj};
         },
+        updateAllAlbum: (state, action) => {
+            let toAddImagesObj = action.payload;
+            state.imageFileSystemUri.album = action.payload;
+        },
+        // USER
         updateID: (state, action) => {
             state.userInfo.id = action.payload;
         },
@@ -366,14 +377,38 @@ export const dataSlice = createSlice({
         },
         updateAC: (state, action) => {
             state.housing.AC = action.payload;
-        }
+        },
+        // IMAGE FILESYSTEM URI
+        updateAvatar: (state, action) => {
+            state.imageFileSystemUri.avatar = action.payload;
+        },
+        updateAlbum: (state, action) => {
+            let pic = action.payload;
+            /**
+             * Helper function: unique filter
+             * @param value 
+             * @param index 
+             * @param self 
+             * @returns 
+             */
+            const unique = (value, index, self) => {
+                return self.indexOf(value) === index;
+            }
+            if(state.imageFileSystemUri.album === null){
+                state.imageFileSystemUri.album = [];
+            }
+            state.imageFileSystemUri.album.push(pic);
+            state.imageFileSystemUri.album.filter(unique);
+        },
     }
 });
 
 export const {
-    // UPDATE USER
+    // UPDATE ALL
     updateUser, 
     updateHousing, 
+    updateAllAlbum,
+    // UPDATE USER
     updateID,
     updateUID,
     updateFullname,
@@ -428,6 +463,9 @@ export const {
     updatePool,
     updateAppliances,
     updateFurniture,
-    updateAC
+    updateAC,
+    // IMAGE FILESYSTEM URI
+    updateAvatar,
+    updateAlbum
 } = dataSlice.actions;
 export default dataSlice.reducer;

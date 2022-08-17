@@ -28,6 +28,7 @@ import * as SecureStore from "expo-secure-store";
 
 const MainHeader = ({ screen, navigation }) => {
   const user = useSelector(state => state.data.userInfo);
+  const imageFileSystemUri = useSelector(state => state.data.imageFileSystemUri);
   const dispatch = useDispatch();
   /**
    * Pick multiple images
@@ -50,11 +51,13 @@ const MainHeader = ({ screen, navigation }) => {
     if(!result.cancelled){
       let promises = [];
       let listUrl = [];
+      let fileSystemList = [];
       let count = 0;
       result.selected.map(async (image, index, imageArray) => {
+        const imageName = image.fileName.replace(/\s/g, '');
         const img = await fetch(image.uri);
         const bytes = await img.blob();
-        const storageRef = ref(storage, `images/${user.uid}/album/${image.fileName.replace(/\s/g, '')}`);
+        const storageRef = ref(storage, `images/${user.uid}/album/${imageName}`);
         const uploadTask = uploadBytesResumable(storageRef, bytes);
         promises.push(uploadTask)
         // retrieve image url
@@ -69,9 +72,14 @@ const MainHeader = ({ screen, navigation }) => {
           async () => { // handle successfull case
             count += 1;
             imageDownloadedUrl = await getDownloadURL(uploadTask.snapshot.ref);
-            listUrl.push(imageDownloadedUrl);
-            dispatch(dataActions.updatePicsList(imageDownloadedUrl));
-            // upload path to redux store
+            // download image to file system
+            const result = await FileSystem.downloadAsync(imageDownloadedUrl, FileSystem.documentDirectory + imageName);
+            dispatch(dataActions.updateAlbum(result.uri));
+            fileSystemList.push(result.uri);
+            // put file path
+            listUrl.push(uploadTask.snapshot.ref._location.path_);
+            dispatch(dataActions.updatePicsList(uploadTask.snapshot.ref._location.path_));
+            // upload path to redux  tore
             if(count === imageArray.length){
               // upload to database
               let newListUrl = [];
@@ -80,13 +88,20 @@ const MainHeader = ({ screen, navigation }) => {
               } else {
                 newListUrl = listUrl
               }
-              console.log(newListUrl);
               Axios.post(`${await Constants.BASE_URL()}/api/images/multiple`,{
                 id: user.id,
                 pics: newListUrl
               })
+              // file system
+              let newFileSystemList;
+              if(imageFileSystemUri.album.length){
+                newFileSystemList = [...imageFileSystemUri.album, ...fileSystemList];
+              }else {
+                newFileSystemList = fileSystemList;
+              }
               // upload to secure store
               SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify({...user, picsList: newListUrl}));
+              SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_IMAGE_URI, JSON.stringify({avatar: imageFileSystemUri.avatar, album: newFileSystemList}));
             }
           }
         )
