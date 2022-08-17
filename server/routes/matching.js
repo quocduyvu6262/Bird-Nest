@@ -28,6 +28,7 @@ router.post('/', (req, res) => { // input
 				must_have_map.set("furniture", provided_values[0].furniture);
 				must_have_map.set("AC", provided_values[0].AC);
 				for(const [key, value] of must_have_map) { //updates matches count for each user
+					// 1ST RENT LEASE NEIGHBOTHOOD
 					if (key == "rent") { //evaluates the lease and rent for a range
 						var matchingQuery = `UPDATE BirdNest.Matching JOIN BirdNest.Housing ON Matching.User_id = Housing.User_id SET number = number + 1 WHERE ${key} <= ${value}`;
 					} 
@@ -37,6 +38,7 @@ router.post('/', (req, res) => { // input
 					client.query(matchingQuery, [],(err) => {
 						if (err) console.log("Fail to match");
 					});
+
 				}
 				client.query(resultQuery, function (err, result) { //orders Matches table from most to least matches
 					if (err) console.log("Fail to show result");
@@ -52,3 +54,4 @@ router.post('/', (req, res) => { // input
 	});
 });
 module.exports = router;
+

@@ -206,6 +206,9 @@ export const dataSlice = createSlice({
         updateTellRoommateIfBothered: (state, action) => {
             state.userInfo.tellRoommateIfBothered = action.payload;
         },
+        updateIsHousing: (state, action) => {
+            state.userInfo.isHousing = action.payload;
+        },
         // PERSONALITY
         updatePersonality: (state, action) => {
             state.userInfo.personality = action.payload;
@@ -398,6 +401,7 @@ export const {
     updateCarWithRoommate, 
     updateRoommateInteraction, 
     updateTellRoommateIfBothered,
+    updateIsHousing,
     // UPDATE PERSONALITY
     updatePersonality,
     updateHogwartHouse,

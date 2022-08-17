@@ -82,26 +82,43 @@ const LoginScreen = ({ navigation }) => {
    */
   const storeData = async (email) => {
     // Get and store user
-    Axios.get(`${await Constants.BASE_URL()}/api/users/${email}`).then(({data}) => {
+    Axios.get(`${await Constants.BASE_URL()}/api/users/${email}`).then(async ({data}) => {
       const user = data[0];
       // push into secure store
       SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify(user));
       // push into redux store
       dispatch(dataActions.updateUser(user));
+      // get housing/nohousing data
+
+      // Get and store housing
+      if(user.isHousing){
+        Axios.get(`${await Constants.BASE_URL()}/api/housings/email/${email}`).then(({data}) => {
+          const housing = data[0];
+          // push into secure store
+          SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING, JSON.stringify(housing));
+          // push into redux store
+          dispatch(dataActions.updateHousing(housing));
+        }).catch( err => {
+          console.log("Fail to store housing data (Housing data is empty)")
+        })
+      }
+      // Get and store no housing
+      else {
+        Axios.get(`${await Constants.BASE_URL()}/api/nohousing/email/${email}`).then(({data}) => {
+          const housing = data[0];
+          // push into secure store
+          SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING, JSON.stringify(housing));
+          // push into redux store
+          dispatch(dataActions.updateHousing(housing));
+        }).catch( err => {
+          console.log("Fail to store nohousing data (noHousing data is empty)");
+        })
+      }
+
+
     }).catch( err => {
       console.log("Fail to store user data")
-    } )
-
-    // Get and store housing
-    Axios.get(`${await Constants.BASE_URL()}/api/housings/email/${email}`).then(({data}) => {
-      const housing = data[0];
-      // push into secure store
-      SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING, JSON.stringify(housing));
-      // push into redux store
-      dispatch(dataActions.updateHousing(housing));
-    }).catch( err => {
-      console.log("Fail to store housing data (Housing data is empty)")
-    } )
+    })
   }
   
 
