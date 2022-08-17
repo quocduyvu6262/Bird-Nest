@@ -24,6 +24,7 @@ import Axios from "axios";
 import MainHeader from "../components/MainHeader";
 import Deondre from "../assets/deondre.jpg";
 import * as dataActions from '../redux/slices/data';
+import { getStorage, ref, deleteObject } from "firebase/storage";
 
 // Import constants
 import Constants from "../constants/constants";
@@ -33,6 +34,7 @@ import { removePics } from "../redux/slices/data";
 
 const Profile = ({ navigation }) => {
   const user = useSelector(state => state.data.userInfo);
+  const storage = getStorage();
   const dispatch = useDispatch();
   let pics = user.picsList;
   let pics1 = [];
@@ -49,7 +51,6 @@ const Profile = ({ navigation }) => {
       pics3.push(pics[i]);
     }
   }
- 
   let count1 = 0;
   let count2 = 0;
   let count3 = 0;
@@ -132,11 +133,23 @@ const Profile = ({ navigation }) => {
     if(opacity9 == 0.5) {
       selectedPics.push(pics[8]);
     }
+    let temp = [];
     for(let i = 0; i < selectedPics.length; i++) {
-      dispatch(dataActions.removePics(selectedPics[i]));
+      dispatch(dataActions.removePics(selectedPics[i])); //deletes from Redux
+      const desertRef = ref(storage, selectedPics[i]); //deletes from Firebase
+      deleteObject(desertRef).then(() => {
+      }).catch((error) => {
+      });
+      const index = pics.indexOf(selectedPics[i]);
+        if (index > -1) { // only splice array when item is found
+          temp.splice(index, 1); // 2nd parameter means remove one item only
+        }
+      }
+    if(selectedPics.length > 0) {
+      SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify({...user, picsList: temp}));
     }
-    closeDelete();
-  }
+      closeDelete();
+    }
   const changeOpacity1 = () => {
     if(opacity1 == 1) {
       setCounter(counter+1);
@@ -351,14 +364,6 @@ const Profile = ({ navigation }) => {
 
               <View style ={{alignItems: 'center', justifyContent: 'center'}}>
               <Text style={{fontSize: 16, color: '#560CCE', margin: 27}}>{counter} Photos Selected</Text>
-              </View>
-
-              <View style ={{alignItems: 'center', justifyContent: 'center'}}>
-                <TouchableOpacity onPress={closeDelete} style ={{margin: 15, backgroundColor: '#560CCE', borderRadius: 30, padding: 10, width: 110 }}>
-                  <Text 
-                  style={{textAlign: 'center', fontSize: 15, color: '#ffffff', fontWeight: 'bold'}}
-                  >Confirm</Text>
-                </TouchableOpacity>
               </View>
 
             </View>
