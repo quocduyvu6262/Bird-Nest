@@ -69,7 +69,6 @@ const Profile = ({ navigation }) => {
   //   retrieveImage();
   // }, [data]);
 
-
   return (
     <SafeAreaView style={styles.container}>
       <MainHeader screen="Profile" navigation={navigation} />
@@ -90,9 +89,7 @@ const Profile = ({ navigation }) => {
                   !buttonClicked && {
                     borderBottomColor: "#560CCE",
                     borderBottomWidth: 1,
-                  }
-                }
-              >
+                  }}>
                 Bio
               </Button>
             </TouchableOpacity>
@@ -106,10 +103,7 @@ const Profile = ({ navigation }) => {
                 style={
                   buttonClicked && {
                     borderBottomColor: "#560CCE",
-                    borderBottomWidth: 1,
-                  }
-                }
-              >
+                    borderBottomWidth: 1,}}>
                 Room Info
               </Button>
             </TouchableOpacity>
@@ -129,10 +123,7 @@ const Profile = ({ navigation }) => {
             style={
               interestButtonClicked && {
                 borderBottomColor: "#560CCE",
-                borderBottomWidth: 1,
-              }
-            }
-          >
+                borderBottomWidth: 1,}}>
             See Interests/Personality
           </Button>
 

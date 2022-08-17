@@ -9,7 +9,6 @@ import {
   FlatList,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-
 import Background from "../components/Background";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -18,12 +17,23 @@ import ProfileCard from "../components/ProfileCard";
 import { IconButton } from "react-native-paper";
 import Axios from "axios";
 import Constants from "../constants/constants";
-
 import MainHeader from "../components/MainHeader";
+import barackObama from "../assets/barackObama.jpeg";
+import {useSelector} from "react-redux"
 
 const History = ({ navigation }) => {
+  const user = useSelector(state => state.data.userInfo);
   const [userList, setUserList] = useState([]);
   const [listState, setListState] = useState(false);
+ 
+  const [peckedClicked, setPeckedClicked] = useState(false);
+
+  const PeckedNo = () => {
+    setPeckedClicked(false);
+  };
+  const PeckedYes = () => {
+    setPeckedClicked(true);
+  };
 
   //methods
   const goBack = () => {
@@ -32,11 +42,11 @@ const History = ({ navigation }) => {
   // view history
   const viewUsers = async () => {
     setUserList([]);
-    Axios.post(`${await Constants.BASE_URL()}/api/history/`, {
-      user_id: 5,
+    Axios.post(`${await Constants.BASE_URL()}/api/matching/`, {
+      user_id: user.id,
     })
       .then((response) => {
-        let userData = response.data; 
+        let userData = response.data;
         // manually push all but last, then setUserList on last user to trigger FlatList rerender
         // reason is that FlatList will not re-render unless setUserList is properly called
         // but setUserList (setState) will only set state once
@@ -44,6 +54,7 @@ const History = ({ navigation }) => {
           userList.push({
             name: userData[i].fullname,
             city: userData[i].city,
+            src: barackObama,
           });
         }
         setUserList((prevList) => [
@@ -51,6 +62,7 @@ const History = ({ navigation }) => {
           {
             name: userData[userData.length - 1].fullname,
             city: userData[userData.length - 1].city,
+            src: barackObama,
           },
         ]);
       })
@@ -60,36 +72,82 @@ const History = ({ navigation }) => {
 
     setListState(true);
   };
-  // useeffect
+
   useEffect(() => {
     viewUsers();
   }, []);
-  return (
-    <SafeAreaView style={styles.container}>
+
+  const PeckYes = (props) => {
+    return (
       <View>
-        {/* <View style={styles.headerContainer}>
-          <IconButton
-            icon="arrow-left"
-            iconColor="black"
-            size={30}
-            onPress={goBack}
-            style={styles.goBackButton}
-          />
-          <Header>History</Header>
-        </View> */}
-        <MainHeader screen="History" navigation={navigation} />
         {listState && (
           <View styles={styles.flatlist}>
             <FlatList
-              data={userList}
+              data={props.data}
               // data={UserData}
-              renderItem={ProfileCard}
-              extraData={userList}
+              renderItem={(item) => <ProfileCard item={item} />}
+              extraData={props.extraData}
               // extraData={UserData}
             />
           </View>
         )}
       </View>
+    );
+  };
+
+  const PeckNo = (props) => {
+    return (
+      <View>
+        {listState && (
+          <View styles={styles.flatlist}>
+            <FlatList
+              data={props.data}
+              // data={UserData}
+              renderItem={(item) => <ProfileCard item={item} />}
+              extraData={props.extraData}
+              // extraData={UserData}
+            />
+          </View>
+        )}
+      </View>
+    )
+  };
+  return (
+    <SafeAreaView style={styles.container}>
+      <MainHeader screen="History" navigation={navigation} />
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity>
+        <Button
+          color={!peckedClicked ? "#560CCE" : "black"}
+          onPress={PeckedNo}
+          style={
+            !peckedClicked && {
+              borderBottomColor: "#560CCE",
+              borderBottomWidth: 1,
+            }}
+        > Pecked No </Button>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Button 
+            color={peckedClicked ? "#560CCE" : "black"}
+            onPress={PeckedYes}
+            style={
+              peckedClicked && {
+                borderBottomColor: "#560CCE",
+                borderBottomWidth: 1,
+              }}
+            > Pecked Yes </Button>
+        </TouchableOpacity>
+      </View>
+
+      {!peckedClicked && <PeckNo 
+      data={userList}
+      extraData={userList}
+      />}
+      {peckedClicked && <PeckYes
+      data={userList}
+      extraData={userList}
+      />}
     </SafeAreaView>
   );
 };
@@ -105,10 +163,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   flatlist: {
-    height: 1000,
-    borderWidth: 1,
+    height: 670,
     borderColor: "black",
   },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: 'space-evenly',
+  },
+  subContainer: {
+    padding: 10,
+  },
+  text: {
+    padding: 10,
+    fontSize: 20,
+  },
+
 });
 export default History;
 
