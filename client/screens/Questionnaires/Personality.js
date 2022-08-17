@@ -41,8 +41,9 @@ class Personality extends Component {
     const housing = this.props.data.housing;
     //const user_id = user.user_id;
     //console.log(user_id);
-    console.log(user);
-    //console.log(housing);
+    //console.log(user);
+    console.log(housing.neighborhood);
+    console.log(housing.neighborhoodList);
     // Store into Secure Store
     SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify(user));
     SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING, JSON.stringify(housing));
@@ -112,7 +113,7 @@ class Personality extends Component {
         })
         .catch((error) => {
           console.log(error);
-          console.log(user.id);
+          //console.log(user.id);
           console.log("DELETE FROM HOUSING ERROR");
         });
       })

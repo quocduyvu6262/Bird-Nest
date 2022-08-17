@@ -203,6 +203,7 @@ const Roles = ({ navigation }) => {
             onPress={() => {
               //selectRoles("Flamingo")
               dispatch(dataActions.updateRole("Flamingo"))
+              dispatch(dataActions.updateIsHousing(1))
             }}
           >
             <Image
@@ -222,6 +223,7 @@ const Roles = ({ navigation }) => {
             onPress={() => {
               //selectRoles("Owl")
               dispatch(dataActions.updateRole("Owl"))
+              dispatch(dataActions.updateIsHousing(1))
             }}
           >
             <Image
@@ -241,6 +243,7 @@ const Roles = ({ navigation }) => {
             onPress={() => {
               //selectRoles("Parrot")
               dispatch(dataActions.updateRole("Parrot"))
+              dispatch(dataActions.updateIsHousing(0))
             }}
           >
             <Image
@@ -260,6 +263,7 @@ const Roles = ({ navigation }) => {
             onPress={() => {
               //selectRoles("Penguin")
               dispatch(dataActions.updateRole("Penguin"))
+              dispatch(dataActions.updateIsHousing(0))
             }}
           >
             <Image
@@ -279,6 +283,7 @@ const Roles = ({ navigation }) => {
             onPress={() => {
               //selectRoles("Duck")
               dispatch(dataActions.updateRole("Duck"))
+              dispatch(dataActions.updateIsHousing(0))
             }}
           >
             <Image

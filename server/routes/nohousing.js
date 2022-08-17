@@ -25,6 +25,7 @@ router.get('/email/:email', (req, res) => {
         client.query(query, (err, result) => {
             if(!err && result.length) {
                 res.send(result);
+                console.log("Nohousing found");
             } else {
                 console.log(err);
                 res.status(404).send('Nohousing not found.');
@@ -72,7 +73,7 @@ router.get('/:id', (req, res) => {
 router.post('/create', (req, res) => {
     let housing = req.body.housing;
     let user_id = req.body.user_id;
-    console.log(user_id);
+    //console.log(user_id);
     //Check if user exists in housing table
     const checkExistQuery = `SELECT * FROM NoHousing WHERE User_id = ${user_id}`
     const insertQuery = `
@@ -86,14 +87,16 @@ router.post('/create', (req, res) => {
         squarefeet="${housing.squarefeet}", lease="${housing.lease}", rent="${housing.rent}", 
         garage=${housing.garage.toString()}, parking=${housing.parking.toString()}, gym=${housing.gym.toString()}, pool=${housing.pool.toString()}, 
         appliances=${housing.appliances.toString()}, furniture=${housing.furniture.toString()}, AC=${housing.AC.toString()} WHERE User_id=${user_id}`;
-    console.log(checkExistQuery);
-    console.log(updateQuery);
-    console.log(insertQuery);
+    //console.log(checkExistQuery);
+    //console.log(updateQuery);
+    //console.log(insertQuery);
      db(client => {
         client.query(checkExistQuery, (err, result) => {
             //if result is not empty a user is found, update
             if ((typeof result !== 'undefined') && (result.length > 0)){
                 // console.log( "User found successfully.");
+                console.log(result);
+                console.log(result.length);
                 db(client => {
                     client.query(updateQuery, (err) => {
                         if(err){

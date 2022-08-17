@@ -19,13 +19,15 @@ router.get('/', (req, res) => {
 
 // Get housing by Email
 router.get('/email/:email', (req, res) => {
-    const query = `SELECT * FROM Housing JOIN User ON User.id = Housing.User_id WHERE User.email= "${req.params.email}";`;
+    const query = `SELECT * FROM Housing INNER JOIN User ON User.id = Housing.User_id WHERE User.email= "${req.params.email}";`;
     db(client => {
         client.query(query, (err, result) => {
             if(!err && result.length) {
                 res.send(result);
+                console.log("Housing found");
             } else {
                 console.log(err);
+                console.log("wtfhousing");
                 res.status(404).send('Housing not found.');
             }
         })
@@ -69,7 +71,7 @@ router.get('/:id', (req, res) => {
 router.post('/create', (req, res) => {
     let housing = req.body.housing;
     let user_id = req.body.user_id;
-    console.log(housing.squarefeet);
+    //console.log(housing.squarefeet);
     //Check if user exists in housing table
     const checkExistQuery = `SELECT * FROM Housing WHERE User_id = "${user_id}"`
     const insertQuery = `
@@ -86,8 +88,10 @@ router.post('/create', (req, res) => {
     db(client => {
         client.query(checkExistQuery, (err, result) => {
             //if result is not empty a user is found, update
-            if(result.length){
+            if((typeof result !== 'undefined') && (result.length > 0)){
                 // console.log( "User found successfully.");
+                console.log(result);
+                console.log(result.length);
                 db(client => {
                     client.query(updateQuery, (err) => {
                         if(err){

@@ -77,30 +77,53 @@ const LoginScreen = ({ navigation }) => {
    * Function that receives the user email and perform
    * the GET request on the database in order to retrieve
    * the user info, then pushing into SecureStore and Redux Store
-   * @param emai the current user's email
+   * @param email the current user's email
    */
   const storeData = async (email) => {
     // Get and store user
-    Axios.get(`${await Constants.BASE_URL()}/api/users/${email}`).then(({data}) => {
+    Axios.get(`${await Constants.BASE_URL()}/api/users/${email}`).then(async({data}) => {
       const user = data[0];
       // push into secure store
       SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify(user));
       // push into redux store
       dispatch(dataActions.updateUser(user));
+      //console.log(user.isHousing);
+      // Get and store housing
+      //if (user.role === "Flamingo" || user.role === "Owl")
+      if (user.isHousing) {
+        Axios.get(`${await Constants.BASE_URL()}/api/housings/email/${email}`).then(({data}) => {
+          const housing = data[0];
+          // push into secure store
+          SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING, JSON.stringify(housing));
+          // push into redux store
+          dispatch(dataActions.updateHousing(housing));
+          //console.log(housing);
+        }).catch( err => {
+          console.log(err);
+          console.log("Fail to store housing data (Housing data is empty)")
+        } )
+      }
+      //else if (user.role === "Parrot" || user.role === "Penguin" || user.role === "Duck")
+      else {
+        // Get and store nohousing
+        Axios.get(`${await Constants.BASE_URL()}/api/nohousing/email/${email}`).then(({data}) => {
+          const housing = data[0];
+          // push into secure store
+          SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING, JSON.stringify(housing));
+          // push into redux store
+          dispatch(dataActions.updateHousing(housing));
+          console.log(housing);
+        }).catch( err => {
+          console.log(err);
+          console.log("Fail to store housing data (Nohousing data is empty)")
+        } )
+      }
+      
     }).catch( err => {
       console.log("Fail to store user data")
     } )
 
-    // Get and store housing
-    Axios.get(`${await Constants.BASE_URL()}/api/housings/email/${email}`).then(({data}) => {
-      const housing = data[0];
-      // push into secure store
-      SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING, JSON.stringify(housing));
-      // push into redux store
-      dispatch(dataActions.updateHousing(housing));
-    }).catch( err => {
-      console.log("Fail to store housing data (Housing data is empty)")
-    } )
+
   }
   
 

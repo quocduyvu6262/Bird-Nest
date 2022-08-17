@@ -95,6 +95,9 @@ export const dataSlice = createSlice({
         updateID: (state, action) => {
             state.userInfo.id = action.payload;
         },
+        updateIsHousing: (state, action) => {
+            state.userInfo.isHousing = action.payload;
+        },
         updateFullname: (state, action) => {
             state.userInfo.fullname = action.payload;
         },
@@ -343,6 +346,7 @@ export const {
     updateUser, 
     updateHousing, 
     updateID,
+    updateIsHousing,
     updateUID,
     updateFullname,
     updateFirstname, 
