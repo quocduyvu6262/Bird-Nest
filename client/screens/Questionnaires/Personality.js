@@ -96,7 +96,7 @@ class Personality extends Component {
         console.log(err);
         console.log('Fail to update/insert housing from questionnaire');
       })
-      
+      // 
     }
     else if(user.role === 'Parrot' || user.role === 'Penguin' || user.role === 'Duck'){
       //check if user is in housing table 
