@@ -183,7 +183,18 @@ export const dataSlice = createSlice({
             state.userInfo.picsList.push(pic);
             state.userInfo.picsList.filter(unique);
         },
-
+        removePics: (state, action) => {
+            let pic = action.payload;
+            if(state.userInfo.picsList === null){
+                state.userInfo.picsList = [];
+            }
+            let temp = state.userInfo.picsList;
+            const index = temp.indexOf(pic);
+            if (index > -1) { // only splice array when item is found
+                temp.splice(index, 1); // 2nd parameter means remove one item only
+            }
+            state.userInfo.picsList = temp;
+        },
         updateCook: (state, action) => {
             state.userInfo.cook = action.payload;
         },
@@ -426,6 +437,7 @@ export const {
     updatePets, 
     updateCook, 
     updatePicsList,
+    removePics,
     updateAlcohol, 
     updateSleep, 
     updateGuess, 
