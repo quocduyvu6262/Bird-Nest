@@ -1,4 +1,4 @@
-import { 
+import {
   SafeAreaView,
   StyleSheet,
   Platform,
@@ -9,7 +9,6 @@ import {
   TouchableOpacity,
   Switch,
   TextInput,
-
 } from "react-native";
 import React, { useState } from "react";
 import { Icon } from "@rneui/themed";

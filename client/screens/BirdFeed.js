@@ -39,27 +39,25 @@ import FilterOverlay from "../components/FilterOverlay.js";
 // import { Icon } from "@rneui/themed";
 // import Icon2 from "react-native-vector-icons/MaterialCommunityIcons";
 import Icon3 from "react-native-vector-icons/Ionicons";
-import {useSelector} from "react-redux"
-
+import { useSelector } from "react-redux";
 const BirdFeed = ({ navigation }) => {
-  const user = useSelector(state => state.data.userInfo);
+  const user = useSelector((state) => state.data.userInfo);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState([]);
   const [items, setItems] = useState([
-    {label: 'Downtown SD', value: 'downtownsd'},
-    {label: 'La Jolla', value: 'lajolla'},
-    {label: 'Del Mar', value: 'delmar'},
-    {label: 'Mira Mesa', value: 'mira'},
-    {label: 'Pacific Beach', value: 'pacificbeach'},
-    {label: 'Clairemont', value: 'clairemont'},
-    {label: 'University City', value: 'universitycity'},
-    {label: 'UTC', value: 'utc'},
-    {label: 'Solana Beach', value: 'solanabeach'},
-    {label: 'Mission Valley', value: 'missionvalley'},
-    {label: 'Carmel Valley', value: 'carmelvalley'},
-    {label: 'Sorrento Valley', value: 'sorrentovalley'},
-    {label: 'Other', value: 'other'},
-
+    { label: "Downtown SD", value: "downtownsd" },
+    { label: "La Jolla", value: "lajolla" },
+    { label: "Del Mar", value: "delmar" },
+    { label: "Mira Mesa", value: "mira" },
+    { label: "Pacific Beach", value: "pacificbeach" },
+    { label: "Clairemont", value: "clairemont" },
+    { label: "University City", value: "universitycity" },
+    { label: "UTC", value: "utc" },
+    { label: "Solana Beach", value: "solanabeach" },
+    { label: "Mission Valley", value: "missionvalley" },
+    { label: "Carmel Valley", value: "carmelvalley" },
+    { label: "Sorrento Valley", value: "sorrentovalley" },
+    { label: "Other", value: "other" },
   ]);
   const itemcount = items.length;
 
@@ -68,40 +66,38 @@ const BirdFeed = ({ navigation }) => {
   // This is the old filter function on birdfeed
 
   const overlayFilterButton = () => {
-    overlayFilterClicked ? setOverlayFilterClicked(false) : setOverlayFilterClicked(true);
+    overlayFilterClicked
+      ? setOverlayFilterClicked(false)
+      : setOverlayFilterClicked(true);
   };
-  
-  const overlayDropDownButton = () => {
-    overlayDropDownClicked ? setOverlayDropDownClicked(false) : setOverlayDropDownClicked(true);
-  };
+
+  // const handlerAgeChange = (ageSlide) => {
+  //   setAgeState({ageState});
+  // }
+
   // const handlerAgeChange = (ageSlide) => {
   //   setAgeState({ageState});
   // }
   const [ageState, setAgeState] = useState(18);
 
   const [rentState, setRentState] = useState(500);
-  
+
   const [neighborhood, setNeighborhood] = useState("");
 
   const [leaseState, setLeaseState] = useState(1);
 
   const [sqFtState, setSqFtState] = useState(100);
 
-
-
   const [overlayFilterClicked, setOverlayFilterClicked] = useState(false);
-
 
   const [switchEnabledPar, setSwitchEnabledPar] = useState(false);
   const toggleSwitchPar = () =>
     setSwitchEnabledPar((previousState) => !previousState);
 
-
   const [switchEnabledGym, setSwitchEnabledGym] = useState(false);
   const toggleSwitchGym = () =>
     setSwitchEnabledGym((previousState) => !previousState);
 
-  
   const [switchEnabledPoo, setSwitchEnabledPoo] = useState(false);
   const toggleSwitchPoo = () =>
     setSwitchEnabledPoo((previousState) => !previousState);
@@ -109,16 +105,14 @@ const BirdFeed = ({ navigation }) => {
   const [switchEnabledApp, setSwitchEnabledApp] = useState(false);
   const toggleSwitchApp = () =>
     setSwitchEnabledApp((previousState) => !previousState);
-  
 
   const [switchEnabledFur, setSwitchEnabledFur] = useState(false);
   const toggleSwitchFur = () =>
     setSwitchEnabledFur((previousState) => !previousState);
-  
-  
-    const [switchEnabledAC, setSwitchEnabledAC] = useState(false);
-    const toggleSwitchAC = () =>
-      setSwitchEnabledAC((previousState) => !previousState);
+
+  const [switchEnabledAC, setSwitchEnabledAC] = useState(false);
+  const toggleSwitchAC = () =>
+    setSwitchEnabledAC((previousState) => !previousState);
   let [fontsLoaded] = useFonts({
     Pacifico_400Regular,
   });
@@ -170,7 +164,12 @@ const BirdFeed = ({ navigation }) => {
       // Header - Beginning
       <SafeAreaView style={styles.container}>
         <MainHeader screen="Bird Feed" navigation={navigation} />
-        <View style={[styles.svg, { transform: [{ translateY: 20 }, {translateX: 100}] }]}>
+        <View
+          style={[
+            styles.svg,
+            { transform: [{ translateY: 20 }, { translateX: 100 }] },
+          ]}
+        >
           <Bird_Drawing />
         </View>
         <TouchableOpacity
@@ -185,60 +184,45 @@ const BirdFeed = ({ navigation }) => {
           />
         </TouchableOpacity>
         {overlayFilterClicked && (
-          <FilterOverlay 
-          setOverlayFilterClicked={setOverlayFilterClicked} 
-          overlaFilterClicked={overlayFilterClicked}
-          overlayFilterButton={overlayFilterButton} 
-
-          open={open}
-          setOpen={setOpen}
-
-          value={value}
-          setValue={setValue}
-
-          items={items}
-          setItems={setItems}
-
-          itemcount={itemcount}
-
-          setAgeState={setAgeState}
-          ageState={ageState}
-
-          setNeighborhood={setNeighborhood}
-          neighborhood={neighborhood}
-
-          setRentState={setRentState}
-          rentState={rentState}
-
-          setLeaseState={setLeaseState}
-          leaseState={leaseState}
-
-          setSqFtState={setSqFtState}
-          sqFtState={sqFtState}
-
-          switchEnabledPar={switchEnabledPar}
-          setSwitchEnabledPar={setSwitchEnabledPar}
-          toggleSwitchPar={toggleSwitchPar}
-
-          switchEnabledGym={switchEnabledGym}
-          setSwitchEnabledGym={setSwitchEnabledGym}
-          toggleSwitchGym={toggleSwitchGym}
-
-          switchEnabledPoo={switchEnabledPoo}
-          setSwitchEnabledPoo={setSwitchEnabledPoo}
-          toggleSwitchPoo={toggleSwitchPoo}
-
-          switchEnabledApp={switchEnabledApp}
-          setSwitchEnabledApp={setSwitchEnabledApp}
-          toggleSwitchApp={toggleSwitchApp}
-
-          switchEnabledFur={switchEnabledFur}
-          setSwitchEnabledFur={setSwitchEnabledFur}
-          toggleSwitchFur={toggleSwitchFur}
-
-          switchEnabledAC={switchEnabledAC}
-          setSwitchEnabledAC={setSwitchEnabledAC}
-          toggleSwitchAC={toggleSwitchAC}
+          <FilterOverlay
+            setOverlayFilterClicked={setOverlayFilterClicked}
+            overlaFilterClicked={overlayFilterClicked}
+            overlayFilterButton={overlayFilterButton}
+            open={open}
+            setOpen={setOpen}
+            value={value}
+            setValue={setValue}
+            items={items}
+            setItems={setItems}
+            itemcount={itemcount}
+            setAgeState={setAgeState}
+            ageState={ageState}
+            setNeighborhood={setNeighborhood}
+            neighborhood={neighborhood}
+            setRentState={setRentState}
+            rentState={rentState}
+            setLeaseState={setLeaseState}
+            leaseState={leaseState}
+            setSqFtState={setSqFtState}
+            sqFtState={sqFtState}
+            switchEnabledPar={switchEnabledPar}
+            setSwitchEnabledPar={setSwitchEnabledPar}
+            toggleSwitchPar={toggleSwitchPar}
+            switchEnabledGym={switchEnabledGym}
+            setSwitchEnabledGym={setSwitchEnabledGym}
+            toggleSwitchGym={toggleSwitchGym}
+            switchEnabledPoo={switchEnabledPoo}
+            setSwitchEnabledPoo={setSwitchEnabledPoo}
+            toggleSwitchPoo={toggleSwitchPoo}
+            switchEnabledApp={switchEnabledApp}
+            setSwitchEnabledApp={setSwitchEnabledApp}
+            toggleSwitchApp={toggleSwitchApp}
+            switchEnabledFur={switchEnabledFur}
+            setSwitchEnabledFur={setSwitchEnabledFur}
+            toggleSwitchFur={toggleSwitchFur}
+            switchEnabledAC={switchEnabledAC}
+            setSwitchEnabledAC={setSwitchEnabledAC}
+            toggleSwitchAC={toggleSwitchAC}
           />
         )}
 

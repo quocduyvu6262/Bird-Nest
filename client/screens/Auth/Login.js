@@ -1,30 +1,23 @@
-// REACT
 import React, { useEffect } from "react";
-import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 import Background from "../../components/Background";
 import Logo from "../../components/Logo";
 import Header from "../../components/Header";
 import Button from "../../components/Button";
 import Paragraph from "../../components/Paragraph";
-// GOOGLE SIGN IN
 import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
 import * as SecureStore from "expo-secure-store";
-// CONSTANTS
 import Constants from "../../constants/constants";
-// REDUX
-import * as dataActions from '../../redux/slices/data';
+import * as dataActions from "../../redux/slices/data";
 import { useDispatch } from "react-redux";
-// AXIOS
 import Axios from "axios";
+import { storage, ref, getDownloadURL } from "../../firebaseConfig";
+import * as FileSystem from "expo-file-system";
+
 WebBrowser.maybeCompleteAuthSession();
 
 const LoginScreen = ({ navigation }) => {
-
   /**
    * @returns the dispatch instance
    */
@@ -42,7 +35,7 @@ const LoginScreen = ({ navigation }) => {
 
   /**
    * Fetch the user data from Google access token
-   * @param accessToken the Google access token 
+   * @param accessToken the Google access token
    * @returns the Google User's data
    */
   const fetchGoogleUser = async (accessToken) => {
@@ -57,14 +50,18 @@ const LoginScreen = ({ navigation }) => {
 
   /**
    * Perform the login in the backend
-   * @param data the object containing user's email and fullname 
+   * @param data the object containing user's email and fullname
    * @returns the promise that contains either LOGIN or REGISTER status
    */
   const login = async (data) => {
-    return Axios.post(`${await Constants.BASE_URL()}/api/users/loginwithgoogle`, {
-      email: data.email,
-      fullname: data.name,
-    })
+    console.log(await Constants.BASE_URL());
+    return Axios.post(
+      `${await Constants.BASE_URL()}/api/users/loginwithgoogle`,
+      {
+        email: data.email,
+        fullname: data.name,
+      }
+    )
       .then((res) => {
         return res.data;
       })
@@ -79,29 +76,112 @@ const LoginScreen = ({ navigation }) => {
    */
   const storeData = async (email) => {
     // Get and store user
-    Axios.get(`${await Constants.BASE_URL()}/api/users/${email}`).then(({data}) => {
-      const user = data[0];
-      console.log(user)
-      // push into secure store
-      SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify(user));
-      // push into redux store
-      dispatch(dataActions.updateUser(user));
-    }).catch( err => {
-      console.log("Fail to store user data")
-    } )
-
-    // Get and store housing
-    Axios.get(`${await Constants.BASE_URL()}/api/housings/email/${email}`).then(({data}) => {
-      const housing = data[0];
-      // push into secure store
-      SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING, JSON.stringify(housing));
-      // push into redux store
-      dispatch(dataActions.updateHousing(housing));
-    }).catch( err => {
-      console.log("Fail to store housing data (Housing data is empty)")
-    } )
-  }
-  
+    Axios.get(`${await Constants.BASE_URL()}/api/users/${email}`)
+      .then(async ({ data }) => {
+        const user = data[0];
+        console.log(user);
+        // push into secure store
+        SecureStore.setItemAsync(
+          Constants.MY_SECURE_AUTH_STATE_KEY_USER,
+          JSON.stringify(user)
+        );
+        // push into redux store
+        dispatch(dataActions.updateUser(user));
+        // download and store image(avatar)
+        let avatarUri;
+        let listFileSystem = [];
+        if (user.profilepic) {
+          const downloadedUrl = await retrieveImage(user.profilepic);
+          const result = await FileSystem.downloadAsync(
+            downloadedUrl,
+            FileSystem.documentDirectory + "avatar.jpg"
+          )
+            .then()
+            .catch((err) => {
+              console.log("Fail to store avatar to file system from login");
+            });
+          avatarUri = result.uri;
+          dispatch(dataActions.updateAvatar(avatarUri));
+        }
+        SecureStore.setItemAsync(
+          Constants.MY_SECURE_AUTH_STATE_IMAGE_URI,
+          JSON.stringify({ avatar: avatarUri, album: listFileSystem })
+        );
+        if (user.picsList) {
+          user.picsList.map(async (path) => {
+            const downloadedUrl = await retrieveImage(path);
+            const fileName = path.split("\\").pop().split("/").pop();
+            const result = await FileSystem.downloadAsync(
+              downloadedUrl,
+              FileSystem.documentDirectory + fileName
+            )
+              .then()
+              .catch((err) => {
+                console.log("Fail to store album to file system from login");
+              });
+            const uri = result.uri;
+            listFileSystem.push(uri);
+            dispatch(dataActions.updateAlbum(uri));
+            SecureStore.setItemAsync(
+              Constants.MY_SECURE_AUTH_STATE_IMAGE_URI,
+              JSON.stringify({ avatar: avatarUri, album: listFileSystem })
+            );
+          });
+        }
+        // Get and store housing
+        if (user.isHousing) {
+          Axios.get(`${await Constants.BASE_URL()}/api/housings/email/${email}`)
+            .then(({ data }) => {
+              const housing = data[0];
+              // push into secure store
+              SecureStore.setItemAsync(
+                Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING,
+                JSON.stringify(housing)
+              );
+              // push into redux store
+              dispatch(dataActions.updateHousing(housing));
+            })
+            .catch((err) => {
+              console.log("Fail to store housing data (Housing data is empty)");
+            });
+        }
+        // Get and store no housing
+        else {
+          Axios.get(
+            `${await Constants.BASE_URL()}/api/nohousing/email/${email}`
+          )
+            .then(({ data }) => {
+              const housing = data[0];
+              // push into secure store
+              SecureStore.setItemAsync(
+                Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING,
+                JSON.stringify(housing)
+              );
+              // push into redux store
+              dispatch(dataActions.updateHousing(housing));
+            })
+            .catch((err) => {
+              console.log(
+                "Fail to store nohousing data (noHousing data is empty)"
+              );
+            });
+        }
+      })
+      .catch((err) => {
+        console.log("Fail to store user data");
+      });
+  };
+  /**
+   * @params path the uri to image in Firebase Cloud Storage
+   * Function to retrieve image from firebase cloud storage
+   */
+  const retrieveImage = async (path) => {
+    if (path) {
+      const reference = ref(storage, path);
+      const url = await getDownloadURL(reference);
+      return url;
+    }
+  };
 
   /**
    * Use Effect Hook
@@ -122,9 +202,9 @@ const LoginScreen = ({ navigation }) => {
               console.log(res);
               // TWO CASES: LOGIN or REGISTER
               if (res.status === "login") {
-                console.log("Login Successfully")
+                console.log("Login Successfully");
                 // PULL FROM DATABASE -> STORE INTO SECURE STORAGE -> STORE INTO REDUX STORAGE
-                storeData(res.email);
+                await storeData(res.email);
                 navigation.navigate("BirdFeed");
               } else if (res.status === "register") {
                 dispatch(dataActions.updateID(res.id));
@@ -150,13 +230,11 @@ const LoginScreen = ({ navigation }) => {
       <View style={styles.background}>      
         <Logo />
         <Header>Bird Nest</Header>
-        <Paragraph>
-          Homes that Match
-        </Paragraph>
+        <Paragraph>Homes that Match</Paragraph>
         <TouchableOpacity>
           <Button
             mode="contained"
-            onPress={() => promptAsync({showInRecents: true})}
+            onPress={() => promptAsync({ showInRecents: true })}
           >
             Sign in with Google
           </Button>
@@ -167,10 +245,10 @@ const LoginScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  background:{
-    alignItems: 'center',
-    alignSelf: 'center',
-    marginTop: '80%'
-  }
+  background: {
+    alignItems: "center",
+    alignSelf: "center",
+    marginTop: "80%",
+  },
 });
 export default LoginScreen;

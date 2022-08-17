@@ -37,6 +37,7 @@ import {
         return true;
       }
       else {
+        console.log(this.props.housing);
         return false;
       }
     }  
