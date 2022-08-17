@@ -48,8 +48,9 @@ const MainHeader = ({ screen, navigation }) => {
     });
     // upload to firebase
     if(!result.cancelled){
-      let promises = []
-      let listUrl = []
+      let promises = [];
+      let listUrl = [];
+      let count = 0;
       result.selected.map(async (image, index, imageArray) => {
         const img = await fetch(image.uri);
         const bytes = await img.blob();
@@ -66,39 +67,37 @@ const MainHeader = ({ screen, navigation }) => {
             
           },
           async () => { // handle successfull case
+            count += 1;
             imageDownloadedUrl = await getDownloadURL(uploadTask.snapshot.ref);
             listUrl.push(imageDownloadedUrl);
-            dispatch([...user.picsList, ...listUrl].filter(unique));
+            dispatch(dataActions.updatePicsList(imageDownloadedUrl));
             // upload path to redux store
-            if(index == imageArray.length - 1){
+            if(count === imageArray.length){
               // upload to database
+              let newListUrl = [];
+              if(user.picsList){
+                newListUrl = [...user.picsList, ...listUrl].filter(unique);
+              } else {
+                newListUrl = listUrl
+              }
+              console.log(newListUrl);
               Axios.post(`${await Constants.BASE_URL()}/api/images/multiple`,{
                 id: user.id,
-                pics: [...user.picsList, ...listUrl].filter(unique)
+                pics: newListUrl
               })
               // upload to secure store
-              SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify({...user, picsList: listUrl}));
+              SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify({...user, picsList: newListUrl}));
             }
           }
         )
       })
+
 
       Promise.all(promises)
         .then(() =>{
           console.log("All images uploaded")
         })
         .catch(err => console.log("Fail to upload images"))
-    }
-  }
-  /**
-   * @params path the uri to image in Firebase Cloud Storage
-   * Function to retrieve image from firebase cloud storage
-   */
-   const retrieveImage = async (path) => {
-    if(path){
-      const reference = ref(storage, path);
-      const url = await getDownloadURL(reference);
-      return url;
     }
   }
 
