@@ -32,6 +32,7 @@ router.post("/", (req, res) => {
         must_have_map.set("AC", provided_values[0].AC);
         for (const [key, value] of must_have_map) {
           //updates matches count for each user
+          // 1ST RENT LEASE NEIGHBOTHOOD
           if (key == "rent") {
             //evaluates the lease and rent for a range
             var matchingQuery = `UPDATE BirdNest.Matching JOIN BirdNest.Housing ON Matching.User_id = Housing.User_id SET number = number + 1 WHERE ${key} <= ${value}`;

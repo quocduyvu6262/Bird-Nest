@@ -14,10 +14,8 @@ require('dotenv').config();
 
 // Initiate express
 const app = express();
-const http = require('http');
-const server = http.createServer(app);
-const io = require("socket.io")(server);
 app.use(express.json());
+
 
 // Adding routes
 app.use('/api/housings', housingsRoutes);
@@ -35,6 +33,6 @@ app.use('/api/images', imagesRoutes);
 
 // Run app
 const port = process.env.PORT || 3000;
-server.listen(port, () => {
+app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
