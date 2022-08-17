@@ -23,11 +23,13 @@ import * as SecureStore from "expo-secure-store";
 import Axios from "axios";
 import MainHeader from "../components/MainHeader";
 import Deondre from "../assets/deondre.jpg";
+import * as dataActions from '../redux/slices/data';
 
 // Import constants
 import Constants from "../constants/constants";
 // Redux
 import { useDispatch, useSelector } from "react-redux";
+import { removePics } from "../redux/slices/data";
 
 const Profile = ({ navigation }) => {
   const user = useSelector(state => state.data.userInfo);
@@ -51,7 +53,7 @@ const Profile = ({ navigation }) => {
   let count1 = 0;
   let count2 = 0;
   let count3 = 0;
-
+  let selectedPics = [];
   const data = useSelector(state => state.data);
   const [index, setIndex] = useState(0);
   const [name, setName] = useState();
@@ -87,10 +89,53 @@ const Profile = ({ navigation }) => {
     setDeleteImage(true);
   }
   const closeDelete = () => {
+    setOpacity1(1);
+    setOpacity2(1);
+    setOpacity3(1);
+    setOpacity4(1);
+    setOpacity5(1);
+    setOpacity6(1);
+    setOpacity7(1);
+    setOpacity8(1);
+    setOpacity9(1);
+    setCounter(0);
     setDeleteImage(false);
   }
   const changeIndex = () => {
     setIndex(index+1);
+  }
+  const findSelected = () => {
+    if(opacity1 == 0.5) {
+      selectedPics.push(pics[0]);
+    }
+    if(opacity2 == 0.5) {
+      selectedPics.push(pics[1]);
+    }
+    if(opacity3 == 0.5) {
+      selectedPics.push(pics[2]);
+    }
+    if(opacity4 == 0.5) {
+      selectedPics.push(pics[3]);
+    }
+    if(opacity5 == 0.5) {
+      selectedPics.push(pics[4]);
+    }
+    if(opacity6 == 0.5) {
+      selectedPics.push(pics[5]);
+    }
+    if(opacity7 == 0.5) {
+      selectedPics.push(pics[6]);
+    }
+    if(opacity8 == 0.5) {
+      selectedPics.push(pics[7]);
+    }
+    if(opacity9 == 0.5) {
+      selectedPics.push(pics[8]);
+    }
+    for(let i = 0; i < selectedPics.length; i++) {
+      dispatch(dataActions.removePics(selectedPics[i]));
+    }
+    closeDelete();
   }
   const changeOpacity1 = () => {
     if(opacity1 == 1) {
@@ -288,7 +333,7 @@ const Profile = ({ navigation }) => {
                 </TouchableOpacity>
                 <Text style={{fontSize: 16, color: '#560CCE', fontWeight: 'bold'}}>Delete photos</Text>
                 <TouchableOpacity 
-                 onPress={closeDelete}
+                 onPress={findSelected}
                 >
                   <Text style={{fontSize: 16, color: '#560CCE'}}>Done</Text>
                 </TouchableOpacity>
