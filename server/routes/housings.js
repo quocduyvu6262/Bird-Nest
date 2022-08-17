@@ -88,7 +88,7 @@ router.post('/create', (req, res) => {
     db(client => {
         client.query(checkExistQuery, (err, result) => {
             //if result is not empty a user is found, update
-            if((typeof result !== 'undefined') && (result.length > 0)){
+            if(!err && (typeof result !== 'undefined') && (result.length > 0)){
                 // console.log( "User found successfully.");
                 console.log(result);
                 console.log(result.length);
