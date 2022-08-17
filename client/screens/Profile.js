@@ -34,11 +34,7 @@ import { removePics } from "../redux/slices/data";
 
 const Profile = ({ navigation }) => {
   const user = useSelector(state => state.data.userInfo);
-<<<<<<< HEAD
   const imageFileSystem = useSelector(state => state.data.imageFileSystemUri)
-=======
-  const storage = getStorage();
->>>>>>> origin/jack
   const dispatch = useDispatch();
   let pics = imageFileSystem.album;
   let pics1 = [];
