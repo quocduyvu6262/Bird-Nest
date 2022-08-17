@@ -31,8 +31,9 @@ import { useDispatch, useSelector } from "react-redux";
 
 const Profile = ({ navigation }) => {
   const user = useSelector(state => state.data.userInfo);
+  const imageFileSystem = useSelector(state => state.data.imageFileSystemUri)
   const dispatch = useDispatch();
-  let pics = user.picsList;
+  let pics = imageFileSystem.album;
   let pics1 = [];
   let pics2 = [];
   let pics3 = [];
