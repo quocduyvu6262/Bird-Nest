@@ -42,8 +42,8 @@ const History = ({ navigation }) => {
   // view history
   const viewUsers = async () => {
     setUserList([]);
-    Axios.post(`${await Constants.BASE_URL()}/api/history/`, {
-      user_id: 5,
+    Axios.post(`${await Constants.BASE_URL()}/api/matching/`, {
+      user_id: user.id,
     })
       .then((response) => {
         let userData = response.data;
