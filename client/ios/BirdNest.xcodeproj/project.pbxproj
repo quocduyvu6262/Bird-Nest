@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+<<<<<<< HEAD
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -22,6 +23,16 @@
 		B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
 >>>>>>> 9683aaa3131cf153da7fdde29f168979b8bf64b4
+=======
+		0E8C09410709EA62A6CACCD7 /* Pods_BirdNest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFDCE3C9C7AFBAF44D4E7A3D /* Pods_BirdNest.framework */; };
+		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
+		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
+		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
+		694F140770634B7FBB694250 /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCB95A36A0D4665BCB58ACE /* noop-file.swift */; };
+		B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */; };
+		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
+>>>>>>> dev
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +43,7 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = BirdNest/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = BirdNest/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = BirdNest/main.m; sourceTree = "<group>"; };
+<<<<<<< HEAD
 <<<<<<< HEAD
 		58EEBF8E8E6FB1BC6CAF49B5 /* libPods-BirdNest.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BirdNest.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C2E3173556A471DD304B334 /* Pods-BirdNest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BirdNest.debug.xcconfig"; path = "Target Support Files/Pods-BirdNest/Pods-BirdNest.debug.xcconfig"; sourceTree = "<group>"; };
@@ -47,6 +59,16 @@
 		438DFA789A374443B7A6D271 /* noop-file.swift */ = {isa = PBXFileReference; name = "noop-file.swift"; path = "BirdNest/noop-file.swift"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.swift; explicitFileType = undefined; includeInIndex = 0; };
 =======
 >>>>>>> 9683aaa3131cf153da7fdde29f168979b8bf64b4
+=======
+		6C2E3173556A471DD304B334 /* Pods-BirdNest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BirdNest.debug.xcconfig"; path = "Target Support Files/Pods-BirdNest/Pods-BirdNest.debug.xcconfig"; sourceTree = "<group>"; };
+		7A4D352CD337FB3A3BF06240 /* Pods-BirdNest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BirdNest.release.xcconfig"; path = "Target Support Files/Pods-BirdNest/Pods-BirdNest.release.xcconfig"; sourceTree = "<group>"; };
+		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = BirdNest/SplashScreen.storyboard; sourceTree = "<group>"; };
+		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
+		EBCB95A36A0D4665BCB58ACE /* noop-file.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = "noop-file.swift"; path = "BirdNest/noop-file.swift"; sourceTree = "<group>"; };
+		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		EFDCE3C9C7AFBAF44D4E7A3D /* Pods_BirdNest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BirdNest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-BirdNest/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+>>>>>>> dev
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,9 +77,13 @@
 			buildActionMask = 2147483647;
 			files = (
 <<<<<<< HEAD
+<<<<<<< HEAD
 				96905EF65AED1B983A6B3ABC /* libPods-BirdNest.a in Frameworks */,
 =======
 >>>>>>> 9683aaa3131cf153da7fdde29f168979b8bf64b4
+=======
+				0E8C09410709EA62A6CACCD7 /* Pods_BirdNest.framework in Frameworks */,
+>>>>>>> dev
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,7 +101,11 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
+<<<<<<< HEAD
 				438DFA789A374443B7A6D271 /* noop-file.swift */,
+=======
+				EBCB95A36A0D4665BCB58ACE /* noop-file.swift */,
+>>>>>>> dev
 			);
 			name = BirdNest;
 			sourceTree = "<group>";
@@ -85,9 +115,13 @@
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 <<<<<<< HEAD
+<<<<<<< HEAD
 				58EEBF8E8E6FB1BC6CAF49B5 /* libPods-BirdNest.a */,
 =======
 >>>>>>> 9683aaa3131cf153da7fdde29f168979b8bf64b4
+=======
+				EFDCE3C9C7AFBAF44D4E7A3D /* Pods_BirdNest.framework */,
+>>>>>>> dev
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -143,10 +177,15 @@
 			isa = PBXGroup;
 			children = (
 <<<<<<< HEAD
+<<<<<<< HEAD
 				6C2E3173556A471DD304B334 /* Pods-BirdNest.debug.xcconfig */,
 				7A4D352CD337FB3A3BF06240 /* Pods-BirdNest.release.xcconfig */,
 =======
 >>>>>>> 9683aaa3131cf153da7fdde29f168979b8bf64b4
+=======
+				6C2E3173556A471DD304B334 /* Pods-BirdNest.debug.xcconfig */,
+				7A4D352CD337FB3A3BF06240 /* Pods-BirdNest.release.xcconfig */,
+>>>>>>> dev
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -167,18 +206,26 @@
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "BirdNest" */;
 			buildPhases = (
 <<<<<<< HEAD
+<<<<<<< HEAD
 				08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */,
 =======
 >>>>>>> 9683aaa3131cf153da7fdde29f168979b8bf64b4
+=======
+				08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */,
+>>>>>>> dev
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 <<<<<<< HEAD
+<<<<<<< HEAD
 				800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */,
 =======
 >>>>>>> 9683aaa3131cf153da7fdde29f168979b8bf64b4
+=======
+				800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */,
+>>>>>>> dev
 			);
 			buildRules = (
 			);
@@ -246,9 +293,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
+<<<<<<< HEAD
 			shellScript = "export NODE_BINARY=node\n\n# The project root by default is one level up from the ios directory\nexport PROJECT_ROOT=\"$PROJECT_DIR\"/..\n\n`node --print \"require('path').dirname(require.resolve('react-native/package.json')) + '/scripts/react-native-xcode.sh'\"`\n";
 		};
 <<<<<<< HEAD
+=======
+			shellScript = "if [[ -f \"$PODS_ROOT/../.xcode.env\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env\"\nfi\nif [[ -f \"$PODS_ROOT/../.xcode.env.local\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env.local\"\nfi\n\n# The project root by default is one level up from the ios directory\nexport PROJECT_ROOT=\"$PROJECT_DIR\"/..\n\nif [[ \"$CONFIGURATION\" = *Debug* ]]; then\n  export SKIP_BUNDLING=1\nfi\n`$NODE_BINARY --print \"require('path').dirname(require.resolve('react-native/package.json')) + '/scripts/react-native-xcode.sh'\"`\n\n";
+		};
+>>>>>>> dev
 		08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -280,12 +332,50 @@
 				"${PODS_ROOT}/Target Support Files/Pods-BirdNest/Pods-BirdNest-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/EXConstants/EXConstants.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/EXUpdates/EXUpdates.bundle",
+<<<<<<< HEAD
+=======
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Feather.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Foundation.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Octicons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Zocial.ttf",
+>>>>>>> dev
 				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EXConstants.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EXUpdates.bundle",
+<<<<<<< HEAD
+=======
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AntDesign.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Entypo.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EvilIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Feather.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Brands.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Regular.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Solid.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Fontisto.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Foundation.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Ionicons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialCommunityIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Octicons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SimpleLineIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Zocial.ttf",
+>>>>>>> dev
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -293,8 +383,11 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BirdNest/Pods-BirdNest-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+<<<<<<< HEAD
 =======
 >>>>>>> 9683aaa3131cf153da7fdde29f168979b8bf64b4
+=======
+>>>>>>> dev
 		FD10A7F022414F080027D42C /* Start Packager */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -324,7 +417,11 @@
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */,
+<<<<<<< HEAD
 				2A647EB5E0074BA6919E6CCC /* noop-file.swift in Sources */,
+=======
+				694F140770634B7FBB694250 /* noop-file.swift in Sources */,
+>>>>>>> dev
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -334,10 +431,14 @@
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> dev
 			baseConfigurationReference = 6C2E3173556A471DD304B334 /* Pods-BirdNest.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+<<<<<<< HEAD
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
 =======
@@ -353,6 +454,12 @@
 =======
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64";
 >>>>>>> 298309e965c98d89961a5fc15c0d5e4c20be46fe
+=======
+				CODE_SIGN_ENTITLEMENTS = BirdNest/BirdNest.entitlements;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_BITCODE = NO;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
+>>>>>>> dev
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"FB_SONARKIT_ENABLED=1",
@@ -366,6 +473,7 @@
 					"-lc++",
 				);
 <<<<<<< HEAD
+<<<<<<< HEAD
 				PRODUCT_BUNDLE_IDENTIFIER = "host.exp.exponent";
 				PRODUCT_NAME = "BirdNest";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -377,21 +485,33 @@
 =======
 				PRODUCT_BUNDLE_IDENTIFIER = host.exp.exponent;
 				PRODUCT_NAME = "BirdNest";
+=======
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
+				PRODUCT_BUNDLE_IDENTIFIER = host.exp.exponent;
+				PRODUCT_NAME = BirdNest;
+>>>>>>> dev
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
+<<<<<<< HEAD
 >>>>>>> 9683aaa3131cf153da7fdde29f168979b8bf64b4
+=======
+>>>>>>> dev
 			};
 			name = Debug;
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> dev
 			baseConfigurationReference = 7A4D352CD337FB3A3BF06240 /* Pods-BirdNest.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+<<<<<<< HEAD
 				CURRENT_PROJECT_VERSION = 1;
 =======
 			buildSettings = {
@@ -405,6 +525,11 @@
 =======
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64";
 >>>>>>> 298309e965c98d89961a5fc15c0d5e4c20be46fe
+=======
+				CODE_SIGN_ENTITLEMENTS = BirdNest/BirdNest.entitlements;
+				CURRENT_PROJECT_VERSION = 1;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
+>>>>>>> dev
 				INFOPLIST_FILE = BirdNest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -413,6 +538,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+<<<<<<< HEAD
 <<<<<<< HEAD
 				PRODUCT_BUNDLE_IDENTIFIER = "host.exp.exponent";
 				PRODUCT_NAME = "BirdNest";
@@ -428,6 +554,14 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 >>>>>>> 9683aaa3131cf153da7fdde29f168979b8bf64b4
+=======
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
+				PRODUCT_BUNDLE_IDENTIFIER = host.exp.exponent;
+				PRODUCT_NAME = BirdNest;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+>>>>>>> dev
 			};
 			name = Release;
 		};
@@ -460,13 +594,20 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 				CODE_SIGN_ENTITLEMENTS = BirdNest/BirdNest.entitlements;
 >>>>>>> 9683aaa3131cf153da7fdde29f168979b8bf64b4
+=======
+>>>>>>> dev
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+<<<<<<< HEAD
+=======
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
+>>>>>>> dev
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -487,11 +628,16 @@
 				LIBRARY_SEARCH_PATHS = "\"$(inherited)\"";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+<<<<<<< HEAD
 				SDKROOT = iphoneos;
 <<<<<<< HEAD
 				CODE_SIGN_ENTITLEMENTS = "BirdNest/BirdNest.entitlements";
 =======
 >>>>>>> 9683aaa3131cf153da7fdde29f168979b8bf64b4
+=======
+				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
+				SDKROOT = iphoneos;
+>>>>>>> dev
 			};
 			name = Debug;
 		};
@@ -524,13 +670,20 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 				CODE_SIGN_ENTITLEMENTS = BirdNest/BirdNest.entitlements;
 >>>>>>> 9683aaa3131cf153da7fdde29f168979b8bf64b4
+=======
+>>>>>>> dev
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+<<<<<<< HEAD
+=======
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
+>>>>>>> dev
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -543,12 +696,18 @@
 				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
 				LIBRARY_SEARCH_PATHS = "\"$(inherited)\"";
 				MTL_ENABLE_DEBUG_INFO = NO;
+<<<<<<< HEAD
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 <<<<<<< HEAD
 				CODE_SIGN_ENTITLEMENTS = "BirdNest/BirdNest.entitlements";
 =======
 >>>>>>> 9683aaa3131cf153da7fdde29f168979b8bf64b4
+=======
+				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+>>>>>>> dev
 			};
 			name = Release;
 		};

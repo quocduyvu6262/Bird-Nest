@@ -11,8 +11,13 @@ import {
   Platform,
   StatusBar,
   ScrollView,
+<<<<<<< HEAD
   Switch,
+=======
+>>>>>>> dev
 } from "react-native";
+import Svg, { Path } from "react-native-svg";
+import Bird_Drawing from "../assets/svg/Bird_Drawing.js";
 
 import React, { useEffect, useState } from "react";
 import Axios from "axios";
@@ -22,19 +27,51 @@ import { imagesIndex } from "../assets/images/imagesIndex.js";
 import { stepforward } from "react-native-vector-icons";
 import ViewUsers from "../components/buttons/ViewUsers.js";
 import AppLoading from "expo-app-loading";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+} from "react-native-reanimated";
+import Swipeable from "react-native-gesture-handler/Swipeable";
 
-import { Icon } from "@rneui/themed";
-import Icon2 from "react-native-vector-icons/MaterialCommunityIcons";
-import Icon3 from "react-native-vector-icons/Ionicons";
 import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
 import MainHeader from "../components/MainHeader.js";
 import Constants from "../constants/constants.js";
 import barackObama from "../assets/barackObama.jpeg";
+<<<<<<< HEAD
 
+=======
+import { useChatClient } from "./ChatAPI/useChatClient.js";
+import FilterOverlay from "../components/FilterOverlay.js";
+// Old Imports for filter
+// import { Icon } from "@rneui/themed";
+// import Icon2 from "react-native-vector-icons/MaterialCommunityIcons";
+import Icon3 from "react-native-vector-icons/Ionicons";
+import { useSelector } from "react-redux";
+>>>>>>> dev
 const BirdFeed = ({ navigation }) => {
-  const [transferList, setTransferList] = useState([]);
+  const user = useSelector((state) => state.data.userInfo);
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState([]);
+  const [items, setItems] = useState([
+    { label: "Downtown SD", value: "downtownsd" },
+    { label: "La Jolla", value: "lajolla" },
+    { label: "Del Mar", value: "delmar" },
+    { label: "Mira Mesa", value: "mira" },
+    { label: "Pacific Beach", value: "pacificbeach" },
+    { label: "Clairemont", value: "clairemont" },
+    { label: "University City", value: "universitycity" },
+    { label: "UTC", value: "utc" },
+    { label: "Solana Beach", value: "solanabeach" },
+    { label: "Mission Valley", value: "missionvalley" },
+    { label: "Carmel Valley", value: "carmelvalley" },
+    { label: "Sorrento Valley", value: "sorrentovalley" },
+    { label: "Other", value: "other" },
+  ]);
+  const itemcount = items.length;
+
   const [userList, setUserList] = useState([]);
   const [listState, setListState] = useState(false);
+<<<<<<< HEAD
   const [overlayClicked, setOverlayClicked] = useState(false);
   const [backgroundGrey, setBackgroundGrey] = useState(false);
 
@@ -77,11 +114,65 @@ const BirdFeed = ({ navigation }) => {
   const [switchEnabledApt, setSwitchEnabledApt] = useState(false);
   const toggleSwitchApt = () =>
     setSwitchEnabledApt((previousState) => !previousState);
+=======
+  // This is the old filter function on birdfeed
+>>>>>>> dev
 
+  const overlayFilterButton = () => {
+    overlayFilterClicked
+      ? setOverlayFilterClicked(false)
+      : setOverlayFilterClicked(true);
+  };
+
+  const overlayDropDownButton = () => {
+    overlayDropDownClicked
+      ? setOverlayDropDownClicked(false)
+      : setOverlayDropDownClicked(true);
+  };
+  // const handlerAgeChange = (ageSlide) => {
+  //   setAgeState({ageState});
+  // }
+  const [ageState, setAgeState] = useState(18);
+
+  const [rentState, setRentState] = useState(500);
+
+  const [neighborhood, setNeighborhood] = useState("");
+
+  const [leaseState, setLeaseState] = useState(1);
+
+  const [sqFtState, setSqFtState] = useState(100);
+
+  const [overlayFilterClicked, setOverlayFilterClicked] = useState(false);
+
+  const [switchEnabledPar, setSwitchEnabledPar] = useState(false);
+  const toggleSwitchPar = () =>
+    setSwitchEnabledPar((previousState) => !previousState);
+
+  const [switchEnabledGym, setSwitchEnabledGym] = useState(false);
+  const toggleSwitchGym = () =>
+    setSwitchEnabledGym((previousState) => !previousState);
+
+  const [switchEnabledPoo, setSwitchEnabledPoo] = useState(false);
+  const toggleSwitchPoo = () =>
+    setSwitchEnabledPoo((previousState) => !previousState);
+
+  const [switchEnabledApp, setSwitchEnabledApp] = useState(false);
+  const toggleSwitchApp = () =>
+    setSwitchEnabledApp((previousState) => !previousState);
+
+  const [switchEnabledFur, setSwitchEnabledFur] = useState(false);
+  const toggleSwitchFur = () =>
+    setSwitchEnabledFur((previousState) => !previousState);
+
+  const [switchEnabledAC, setSwitchEnabledAC] = useState(false);
+  const toggleSwitchAC = () =>
+    setSwitchEnabledAC((previousState) => !previousState);
   let [fontsLoaded] = useFonts({
     Pacifico_400Regular,
   });
+  // ----- LOGIC FOR VIEW USER BUTTONS -----
 
+<<<<<<< HEAD
   const SingleSwitch = (props) => {
     return (
       <View style={styles.switchView}>
@@ -104,6 +195,12 @@ const BirdFeed = ({ navigation }) => {
     setUserList([]);
     Axios.post(`${Constants.BASE_URL}/api/matching/`, {
       user_id: 10,
+=======
+  const viewUsers = async () => {
+    setUserList([]);
+    Axios.post(`${await Constants.BASE_URL()}/api/matching/`, {
+      user_id: user.id,
+>>>>>>> dev
     })
       .then((response) => {
         let userData = response.data;
@@ -133,10 +230,13 @@ const BirdFeed = ({ navigation }) => {
     setListState(true);
   };
 
+<<<<<<< HEAD
   const overlayButton = () => {
     overlayClicked ? setOverlayClicked(false) : setOverlayClicked(true);
   };
 
+=======
+>>>>>>> dev
   useEffect(() => {
     viewUsers();
   }, []);
@@ -150,9 +250,23 @@ const BirdFeed = ({ navigation }) => {
       // Header - Beginning
       <SafeAreaView style={styles.container}>
         <MainHeader screen="Bird Feed" navigation={navigation} />
+<<<<<<< HEAD
         <TouchableOpacity
           style={[styles.input, { marginVertical: 7 }]}
           onPress={overlayButton}
+=======
+        <View
+          style={[
+            styles.svg,
+            { transform: [{ translateY: 20 }, { translateX: 100 }] },
+          ]}
+        >
+          <Bird_Drawing />
+        </View>
+        <TouchableOpacity
+          style={[styles.input, { marginVertical: 7 }]}
+          onPress={overlayFilterButton}
+>>>>>>> dev
         >
           <Icon3
             style={styles.input}
@@ -161,6 +275,7 @@ const BirdFeed = ({ navigation }) => {
             color="black"
           />
         </TouchableOpacity>
+<<<<<<< HEAD
 
         {overlayClicked && (
           <View style={styles.subContainer}>
@@ -233,6 +348,49 @@ const BirdFeed = ({ navigation }) => {
               />
             </ScrollView>
           </View>
+=======
+        {overlayFilterClicked && (
+          <FilterOverlay
+            setOverlayFilterClicked={setOverlayFilterClicked}
+            overlaFilterClicked={overlayFilterClicked}
+            overlayFilterButton={overlayFilterButton}
+            open={open}
+            setOpen={setOpen}
+            value={value}
+            setValue={setValue}
+            items={items}
+            setItems={setItems}
+            itemcount={itemcount}
+            setAgeState={setAgeState}
+            ageState={ageState}
+            setNeighborhood={setNeighborhood}
+            neighborhood={neighborhood}
+            setRentState={setRentState}
+            rentState={rentState}
+            setLeaseState={setLeaseState}
+            leaseState={leaseState}
+            setSqFtState={setSqFtState}
+            sqFtState={sqFtState}
+            switchEnabledPar={switchEnabledPar}
+            setSwitchEnabledPar={setSwitchEnabledPar}
+            toggleSwitchPar={toggleSwitchPar}
+            switchEnabledGym={switchEnabledGym}
+            setSwitchEnabledGym={setSwitchEnabledGym}
+            toggleSwitchGym={toggleSwitchGym}
+            switchEnabledPoo={switchEnabledPoo}
+            setSwitchEnabledPoo={setSwitchEnabledPoo}
+            toggleSwitchPoo={toggleSwitchPoo}
+            switchEnabledApp={switchEnabledApp}
+            setSwitchEnabledApp={setSwitchEnabledApp}
+            toggleSwitchApp={toggleSwitchApp}
+            switchEnabledFur={switchEnabledFur}
+            setSwitchEnabledFur={setSwitchEnabledFur}
+            toggleSwitchFur={toggleSwitchFur}
+            switchEnabledAC={switchEnabledAC}
+            setSwitchEnabledAC={setSwitchEnabledAC}
+            toggleSwitchAC={toggleSwitchAC}
+          />
+>>>>>>> dev
         )}
 
         {listState && (
@@ -240,7 +398,7 @@ const BirdFeed = ({ navigation }) => {
             <FlatList
               data={userList}
               // data={UserData}
-              renderItem={ProfileCard}
+              renderItem={(item) => <ProfileCard item={item} />}
               extraData={userList}
               // extraData={UserData}
             />
@@ -334,6 +492,15 @@ const styles = StyleSheet.create({
     width: "100%",
     position: "absolute",
     zIndex: 1,
+<<<<<<< HEAD
+=======
+  },
+  svg: {
+    position: "absolute",
+    zIndex: 5,
+    // top: 100,
+    // left: 200,
+>>>>>>> dev
   },
 });
 export default BirdFeed;
