@@ -39,12 +39,20 @@ const MainHeader = ({ screen, navigation }) => {
       alert("Permission to access camera roll is required!");
       return;
     }
+    let limit = 9;
+    if(user.picsList) {
+      let length = user.picsList.length;
+      if(length == 9) { //if user already has 9 pics in their carousel
+        return;
+      }
+      limit = 9 - length;
+    }
     let result = await ImagePicker.launchImageLibraryAsync({ //wait for user to choose image
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsMultipleSelection: true,
       aspect: [4, 3],
       quality: 1,
-      selectionLimit: 10
+      selectionLimit: limit
     });
     // upload to firebase
     if(!result.cancelled){

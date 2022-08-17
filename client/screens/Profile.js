@@ -37,24 +37,31 @@ const Profile = ({ navigation }) => {
   const storage = getStorage();
   const dispatch = useDispatch();
   let pics = user.picsList;
+  let temp = [];
+  for(let i = 0; i < pics.length; i++) { //puts pics[] in new temp[] array because pics[] is read-only
+    temp.push(pics[i]);
+  }
   let pics1 = [];
   let pics2 = [];
   let pics3 = [];
-  for(let i = 0; i < pics.length; i++) {
-    if(i < 3) {
-      pics1.push(pics[i]);
-    }
-    else if(i >= 3 && i < 6) {
-      pics2.push(pics[i]);
-    }
-    else if(i >= 6) {
-      pics3.push(pics[i]);
+  if(pics) {
+    for(let i = 0; i < pics.length; i++) {
+      if(i < 3) {
+        pics1.push(pics[i]);
+      }
+      else if(i >= 3 && i < 6) {
+        pics2.push(pics[i]);
+      }
+      else if(i >= 6) {
+        pics3.push(pics[i]);
+      }
     }
   }
   let count1 = 0;
   let count2 = 0;
   let count3 = 0;
   let selectedPics = [];
+  let keptPics = [];
   const data = useSelector(state => state.data);
   const [index, setIndex] = useState(0);
   const [name, setName] = useState();
@@ -133,7 +140,6 @@ const Profile = ({ navigation }) => {
     if(opacity9 == 0.5) {
       selectedPics.push(pics[8]);
     }
-    let temp = [];
     for(let i = 0; i < selectedPics.length; i++) {
       dispatch(dataActions.removePics(selectedPics[i])); //deletes from Redux
       const desertRef = ref(storage, selectedPics[i]); //deletes from Firebase
@@ -146,7 +152,8 @@ const Profile = ({ navigation }) => {
         }
       }
     if(selectedPics.length > 0) {
-      SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify({...user, picsList: temp}));
+      console.log(temp);
+      SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify({...user, picsList: temp})); //delete from SecureStore
     }
       closeDelete();
     }
