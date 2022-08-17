@@ -411,6 +411,18 @@ export const dataSlice = createSlice({
             state.imageFileSystemUri.album.push(pic);
             state.imageFileSystemUri.album.filter(unique);
         },
+        deleteAlbumItem:(state, action) => {
+            let pic = action.payload;
+            if(state.imageFileSystemUri.album === null){
+                state.imageFileSystemUri.album = [];
+            }
+            let temp = state.imageFileSystemUri.album;
+            const index = temp.indexOf(pic);
+            if (index > -1) { // only splice array when item is found
+                temp.splice(index, 1); // 2nd parameter means remove one item only
+            }
+            state.imageFileSystemUri.album = temp;
+        }
     }
 });
 
@@ -478,6 +490,7 @@ export const {
     updateAC,
     // IMAGE FILESYSTEM URI
     updateAvatar,
-    updateAlbum
+    updateAlbum,
+    deleteAlbumItem
 } = dataSlice.actions;
 export default dataSlice.reducer;

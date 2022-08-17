@@ -98,7 +98,6 @@ const LoginScreen = ({ navigation }) => {
         dispatch(dataActions.updateAvatar(avatarUri));
       }
       SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_IMAGE_URI, JSON.stringify({avatar: avatarUri, album: listFileSystem}));
-      console.log(user);
       if(user.picsList){
         user.picsList.map(async path => {
           const downloadedUrl = await retrieveImage(path);

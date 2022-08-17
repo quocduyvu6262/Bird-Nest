@@ -24,13 +24,12 @@ import Axios from "axios";
 import MainHeader from "../components/MainHeader";
 import Deondre from "../assets/deondre.jpg";
 import * as dataActions from '../redux/slices/data';
-import { getStorage, ref, deleteObject } from "firebase/storage";
-
-// Import constants
+import { storage, ref, deleteObject } from "../firebaseConfig";
 import Constants from "../constants/constants";
-// Redux
 import { useDispatch, useSelector } from "react-redux";
 import { removePics } from "../redux/slices/data";
+import * as FileSystem from 'expo-file-system'
+import { CONSTANTS } from "@firebase/util";
 
 const Profile = ({ navigation }) => {
   const user = useSelector(state => state.data.userInfo);
@@ -107,7 +106,7 @@ const Profile = ({ navigation }) => {
   const changeIndex = () => {
     setIndex(index+1);
   }
-  const findSelected = () => {
+  const findSelected = async () => {
     if(opacity1 == 0.5) {
       selectedPics.push(pics[0]);
     }
@@ -135,23 +134,41 @@ const Profile = ({ navigation }) => {
     if(opacity9 == 0.5) {
       selectedPics.push(pics[8]);
     }
-    let temp = [];
+    let tempAlbum = Array.from(imageFileSystem.album);
+    let tempPicsList = Array.from(user.picsList);
     for(let i = 0; i < selectedPics.length; i++) {
-      dispatch(dataActions.removePics(selectedPics[i])); //deletes from Redux
-      const desertRef = ref(storage, selectedPics[i]); //deletes from Firebase
-      deleteObject(desertRef).then(() => {
-      }).catch((error) => {
-      });
-      const index = pics.indexOf(selectedPics[i]);
-        if (index > -1) { // only splice array when item is found
-          temp.splice(index, 1); // 2nd parameter means remove one item only
-        }
+      const fileName = selectedPics[i].split('\\').pop().split('/').pop();
+      const filePath = `images/${user.uid}/album/${fileName}`;
+      const filePathFileSystem = selectedPics[i];
+      // delete in firebase
+      const reference = ref(storage, filePath); 
+      deleteObject(reference).then().catch();
+      //deletes from Redux
+      dispatch(dataActions.removePics(filePath));
+      dispatch(dataActions.deleteAlbumItem(filePathFileSystem));
+      // File System 
+      FileSystem.deleteAsync(FileSystem.documentDirectory + fileName);
+      // Update Secure Store
+      const index = tempAlbum.indexOf(filePathFileSystem);
+      if (index > -1) { // only splice array when item is found
+        tempAlbum.splice(index, 1); // 2nd parameter means remove one item only
       }
+      const index2 = tempPicsList.indexOf(filePath);
+      if (index2 > -1) { // only splice array when item is found
+        tempPicsList.splice(index2, 1); // 2nd parameter means remove one item only
+      }
+    }
     if(selectedPics.length > 0) {
-      SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify({...user, picsList: temp}));
+      SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify({...user, picsList: tempPicsList}));
+      SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_IMAGE_URI, JSON.stringify({avatar: imageFileSystem.avatar, album: tempAlbum}));
+      // delete in database
+      Axios.post(`${await Constants.BASE_URL()}/api/images/multiple`,{
+        id: user.id,
+        pics: tempPicsList
+      })
     }
-      closeDelete();
-    }
+    closeDelete();
+  }
   const changeOpacity1 = () => {
     if(opacity1 == 1) {
       setCounter(counter+1);
