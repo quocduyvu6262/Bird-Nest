@@ -13,11 +13,10 @@ export const useChatClient = () => {
     const displayName = user.fullname;
     const trimName = displayName.replace(/\s/g, '');
     const userID = `${trimName}_${user.uid}`;
-
     useEffect(() => {
         const setupClient = async () => {
             try {
-                axios.post(`${Constants.BASE_URL}/api/chat`,{
+                axios.post(`${await Constants.BASE_URL()}/api/chat`,{
                     uid: userID
                 }).then(async result => {
                     let user = {

@@ -7,6 +7,8 @@ const router = express.Router();
 
 router.post('/', (req, res) => {
     var provided_id = req.body.user_id; //temporary ID until backend connected to frontend
+    console.log(provided_id)
+
     const userQuery = `SELECT list_of_users_all FROM BirdNest.History WHERE User_id = ${provided_id}`;
     db(client => {
         client.query(userQuery, (err, result) => { //query to find list of users of whom the provided_id user left AND right on
@@ -31,5 +33,15 @@ router.post('/', (req, res) => {
         });
     });
 });
+router.get('/test', (req, res) => {
+    const query = "SELECT * FROM BirdNest.History"
+    db(client => {
+        client.query(query, (err, result) => {
+            if(!err){
+                res.send(result);
+            } 
+        })
+    })
+})
 
 module.exports = router;

@@ -23,150 +23,24 @@ import { useDispatch, useSelector } from "react-redux";
 import * as dataActions from "../../redux/slices/data";
 
 const Roles = ({ navigation }) => {
+  const userInfo = useSelector((state) => state.data.userInfo); //added in
   const dispatch = useDispatch();
-
-  const selectRoles = (selectedRole) => {
-    console.log(selectedRole);
-    /*
-        //first check if your user id is in opposing table
-            //if flamingo or owl, check if nohousing has an entry for your userid
-            //if parrot, penguin, duck, check if housing has an entry for your userid
-            //if opposing table has an entry, create a new entry in your corresponding 
-              table and copy all values over from opposing table, then delete the opposing table row
-        //if not in opposing table, post userid to corresponding table
-            //if flamingo or owl post to housing screen
-            //if parrot, penguin, duck post to nohousing
-            //update Role variable in User table
-            //INSERT statement
-        */
-
-    //const selectedRole  = "";
-
-    //If housing role selected
-    if (selectedRole === "Flamingo" || selectedRole === "Owl") {
-      console.log("HOUSINGS");
-      //Check opposing table (nohousing)
-      Axios.get("http:192.168.1.13:3000/api/nohousing/11", {
-        //TODO: don't hardcode ID
-      })
-        .then((response) => {
-          //let userResponse = response.data;
-          //console.log(response);
-          console.log("RESPONSE");
-          //if user not found in opposite table, insert normally into corresponding table (housing)
-          if (response === "null") {
-            //Update role in User Table
-            Axios.post("http://192.168.1.13:3000/api/users/role", {
-              user_id: 11, //TODO: Don't hard-code
-              role: selectedRole,
-            }).catch((error) => {
-              console.log(error);
-              console.log("POST ERROR");
-            });
-            //Insert user with user_id in corresponding table (housing)
-            Axios.post("http://192.168.1.13:3000/api/housings/create", {
-              user_id: 11, //TODO: Don't hard-code
-            }).catch((error) => {
-              console.log(error);
-            });
-          }
-          //if user was found in opposite table (nohousing), copy that row into corresponding table and delete opposite table's row
-          else {
-            Axios.get("http://192.168.1.13:3000/api/nohousing/:id?=11", {
-              //TODO: don't hardcode ID
-            })
-              .then((response) => {
-                let oldInfo = response.data;
-                //Update the corresponding table (housing) with opposite table's old data
-                Axios.post("http://192.168.1.13:3000/api/housings/create", {
-                  oldInfo,
-                }).catch((error) => {
-                  console.log(error);
-                });
-              })
-              .catch((error) => {
-                console.log(error);
-              });
-            //Delete the old user data in the opposite table (nohousing)
-            Axios.post("http://192.168.1.13:3000/api/nohousing/delete", {
-              user_id: 11, //TODO: Don't hard-code
-              role: selectedRole,
-            }).catch((error) => {
-              console.log(error);
-            });
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+  const [formState, setFormState] = useState("");
+  const validate = () => {
+    let blankError = "";
+    if (userInfo.role === "") {
+      blankError = "Please select a role*";
+      setFormState(blankError);
+      return false;
     }
 
-    //if nohousing role selected
-    else if (
-      selectedRole === "Parrot" ||
-      selectedRole === "Penguin" ||
-      selectedRole === "Duck"
-    ) {
-      //Check opposing table
-      Axios.get("http://192.168.1.13:3000/api/housings/", {
-        //TODO: don't hardcode ID
-      })
-        .then((response) => {
-          //let userResponse = response.data;
-          console.log(response);
-          //if user not found in opposite table, insert normally into corresponding table (housing)
-          if (response === "null") {
-            //Update role in User Table
-            Axios.post("http://192.168.1.13:3000/api/users/role", {
-              user_id: 11, //TODO: Don't hard-code
-              role: selectedRole,
-            }).catch((error) => {
-              console.log(error);
-            });
-            //Insert user with user_id in corresponding table (nohousing)
-            Axios.post("http://192.168.1.13:3000/api/nohousing/create", {
-              user_id: 11, //TODO: Don't hard-code
-            }).catch((error) => {
-              console.log(error);
-            });
-          }
-          //if user was found in opposite table (housing), copy that row into corresponding table and delete opposite table's row
-          else {
-            Axios.get("http://192.168.1.13:3000/api/housings/:id?=11", {
-              //TODO: don't hardcode ID
-            })
-              .then((response) => {
-                let oldInfo = response.data;
-                //Update the corresponding table (nohousing) with opposite table's old data
-                Axios.post("http://192.168.1.13:3000/api/nohousing/create", {
-                  oldInfo,
-                }).catch((error) => {
-                  console.log(error);
-                });
-              })
-              .catch((error) => {
-                console.log(error);
-              });
-            //Delete the old user data in the opposite table (housing)
-            Axios.post("http://192.168.1.13:3000/api/housings/delete", {
-              user_id: 11, //TODO: Don't hard-code
-              role: selectedRole,
-            }).catch((error) => {
-              console.log(error);
-            });
-          }
-        })
-        .catch((error) => {
-          console.log("!!!!!!!!!!!!!!!!!!");
-          console.log(error);
-        });
-    }
-  };
-
+    setFormState("");
+    return true;
+  }
   return (
     <SafeAreaView style={Roles_styles.container}>
       <View style={Roles_styles.header}>
-        <Text style={Roles_styles.headTitle}>Roles (2/4)</Text>
+        <Text style={Roles_styles.headTitle}>Roles (2/5)</Text>
         <TouchableOpacity
           onPress={() => navigation.goBack()}
           style={Roles_styles.backButton}
@@ -188,6 +62,7 @@ const Roles = ({ navigation }) => {
             onPress={() => {
               //selectRoles("Flamingo")
               dispatch(dataActions.updateRole("Flamingo"))
+              dispatch(dataActions.updateIsHousing(true));
             }}
           >
             <Image
@@ -207,6 +82,7 @@ const Roles = ({ navigation }) => {
             onPress={() => {
               //selectRoles("Owl")
               dispatch(dataActions.updateRole("Owl"))
+              dispatch(dataActions.updateIsHousing(true));
             }}
           >
             <Image
@@ -226,6 +102,7 @@ const Roles = ({ navigation }) => {
             onPress={() => {
               //selectRoles("Parrot")
               dispatch(dataActions.updateRole("Parrot"))
+              dispatch(dataActions.updateIsHousing(false));
             }}
           >
             <Image
@@ -245,6 +122,7 @@ const Roles = ({ navigation }) => {
             onPress={() => {
               //selectRoles("Penguin")
               dispatch(dataActions.updateRole("Penguin"))
+              dispatch(dataActions.updateIsHousing(false));
             }}
           >
             <Image
@@ -264,6 +142,7 @@ const Roles = ({ navigation }) => {
             onPress={() => {
               //selectRoles("Duck")
               dispatch(dataActions.updateRole("Duck"))
+              dispatch(dataActions.updateIsHousing(false));
             }}
           >
             <Image
@@ -278,12 +157,26 @@ const Roles = ({ navigation }) => {
               </Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => navigation.navigate("BasicInfo")}
-            style={Roles_styles.nextButton}
-          >
-            <Text style={Roles_styles.nextText}>Next</Text>
-          </TouchableOpacity>
+          <View>
+            <Text style ={Roles_styles.invalidText}>
+              {formState}
+            </Text>
+          </View>
+        <TouchableOpacity
+          style={Roles_styles.nextButton}
+          onPress={() => {
+            if (!validate()) {
+              console.log("YOU SHALL NOT PASS");
+            }
+            else {
+              console.log("YOU SHALL PASS");
+              navigation.navigate("BasicInfo");
+            }
+          }}>
+          <Text style={Roles_styles.nextText}>
+            Next
+          </Text>
+        </TouchableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -320,7 +213,7 @@ const Roles_styles = StyleSheet.create({
   },
   headTitle: {
     color: "#FFF",
-    top: 55,
+    //top: 55,
     alignSelf: "center",
     fontSize: 20,
     fontWeight: "bold",
@@ -420,6 +313,13 @@ const Roles_styles = StyleSheet.create({
     flexShrink: 1,
     top: -6,
   },
+  invalidText: {
+    fontSize: 18,
+    color: "red",
+    alignSelf: "center",
+    alignItems: "center",
+    bottom: -10,
+  },
   nextButton: {
     flexDirection: "row",
     alignSelf: "center",
@@ -444,21 +344,21 @@ const Roles_styles = StyleSheet.create({
   },
   backButton: {
     flexDirection: "row",
-    top: 30,
+    //top: 60,
     bottom: 23,
     marginLeft: 12,
     alignItems: "center",
-  },
-  backText: {
+   },
+   backText: {
     color: "#FFF",
     fontSize: 15,
-  },
-  backIcon: {
+   },
+   backIcon: {
     height: 20,
     width: 20,
     tintColor: "#FFF",
     marginRight: -5,
-  },
+   },
 });
 
 export default Roles;
