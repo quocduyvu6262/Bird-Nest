@@ -393,21 +393,6 @@ const Profile = ({ navigation }) => {
           />
           
           <View style={styles.buttonContainer}>
-          <TouchableOpacity>
-              <Button
-                color={"black"}
-                onPress={openDelete}
-                style={
-                  {
-                    borderBottomWidth: 1,
-                  }
-                }
-              >
-                Edit
-              </Button>
-            </TouchableOpacity>
-
-
             <TouchableOpacity>
               <Button
                 color={"black"}

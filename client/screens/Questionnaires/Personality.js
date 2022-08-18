@@ -38,9 +38,11 @@ class Personality extends Component {
    storeData = async () => {
     const user = this.props.data.userInfo;
     const housing = this.props.data.housing;
+    const imageFileSystemUri = this.props.data.imageFileSystemUri;
     // Store into Secure Store
     SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify(user));
     SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING, JSON.stringify(housing));
+    SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_IMAGE_URI, JSON.stringify({avatar: imageFileSystemUri.avatar, album: imageFileSystemUri.album}));
 
     // Store user into database
     // TODO: Implement the method to store user data into database
