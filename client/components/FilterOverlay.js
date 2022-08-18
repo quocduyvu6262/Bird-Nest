@@ -63,9 +63,6 @@ const FilterOverlay = ({
 
   itemcount,
 
-  ageState,
-  setAgeState,
-
   setRentState,
   rentState,
 
@@ -93,6 +90,7 @@ const FilterOverlay = ({
   switchEnabledAC,
   toggleSwitchAC,
 }) => {
+
   DropDownPicker.setListMode("SCROLLVIEW");
   const SingleSwitch = (props) => {
     return (
@@ -120,20 +118,6 @@ const FilterOverlay = ({
           <Icon name="west" size={30} />
           <Text style={styles.filterText}>Filter</Text>
         </TouchableOpacity>
-
-        {/* <View style={styles.slider}>
-          <Text style = {styles.slideText}>
-            Age : {ageState}
-          </Text>
-          <Slider
-            value={ageState}
-            minimumValue={18}
-            maximumValue={99}
-            step={1}
-            onValueChange={value => setAgeState(value)}
-            thumbStyle={{height: 15, width: 15, backgroundColor:'#6736B6'}}
-          />
-        </View> */}
         <View style={styles.dropDown}>
           <Text style={styles.slideText}>Neighborhood: </Text>
           <DropDownPicker

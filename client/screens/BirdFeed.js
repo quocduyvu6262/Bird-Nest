@@ -40,6 +40,7 @@ import { useSelector } from "react-redux";
 const BirdFeed = ({ navigation }) => {
 
   const user = useSelector((state) => state.data.userInfo);
+  const housing = useSelector((state) => state.data.housing);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState([]);
   const [items, setItems] = useState([
@@ -73,7 +74,7 @@ const BirdFeed = ({ navigation }) => {
   };
   const [ageState, setAgeState] = useState(18);
 
-  const [rentState, setRentState] = useState(500);
+  const [rentState, setRentState] = useState(housing.rent);
 
   const [neighborhood, setNeighborhood] = useState("");
 
@@ -161,7 +162,6 @@ const BirdFeed = ({ navigation }) => {
     return <View></View>;
   } else {
     return (
-      // Header - Beginning
       <SafeAreaView style={styles.container}>
         <MainHeader screen="Bird Feed" navigation={navigation} />
         <View
@@ -195,8 +195,6 @@ const BirdFeed = ({ navigation }) => {
             items={items}
             setItems={setItems}
             itemcount={itemcount}
-            setAgeState={setAgeState}
-            ageState={ageState}
             setNeighborhood={setNeighborhood}
             neighborhood={neighborhood}
             setRentState={setRentState}
