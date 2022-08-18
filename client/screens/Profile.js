@@ -30,6 +30,7 @@ import { removePics } from "../redux/slices/data";
 import * as FileSystem from "expo-file-system";
 import { CONSTANTS } from "@firebase/util";
 
+import Tags from 'react-native-tags'
 const Profile = ({ navigation }) => {
   const user = useSelector((state) => state.data.userInfo);
   const imageFileSystem = useSelector((state) => state.data.imageFileSystemUri);
@@ -566,7 +567,9 @@ const Profile = ({ navigation }) => {
 
           {interestButtonClicked && (
             <InfoCard>
-              <InterestInfo></InterestInfo>
+              <InterestInfo
+                tags = {[data.anime, "Test1", "Test1", "Test1", "Test1", "Test1", "Test1", "Test1", "Test1"]}
+              ></InterestInfo>
             </InfoCard>
           )}
         </Background>
@@ -606,10 +609,10 @@ const RentInfo = (props) => {
 const InterestInfo = (props) => {
   return (
     <View style={styles.subContainer}>
-      <Text style={styles.text}>Ice cream</Text>
-      <Text style={styles.text}>Drink</Text>
-      <Text style={styles.text}>Boba</Text>
-      <Text style={styles.text}>Movie</Text>
+      <Tags
+        initialTags={props.tags}
+        readonly={true}
+        />
     </View>
   );
 };

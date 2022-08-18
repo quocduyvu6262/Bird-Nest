@@ -23,7 +23,8 @@ import {useSelector} from "react-redux"
 
 const History = ({ navigation }) => {
   const user = useSelector(state => state.data.userInfo);
-  const [userList, setUserList] = useState([]);
+  const [userListYes, setUserListYes] = useState([]);
+  const [userListNo, setUserListNo] = useState([]);
   const [listState, setListState] = useState(false);
  
   const [peckedClicked, setPeckedClicked] = useState(false);
@@ -40,9 +41,42 @@ const History = ({ navigation }) => {
     navigation.goBack();
   };
   // view history
-  const viewUsers = async () => {
-    setUserList([]);
-    Axios.post(`${await Constants.BASE_URL()}/api/matching/`, {
+  const viewUsersYes = async () => {
+    setUserListYes([]);
+    Axios.post(`${await Constants.BASE_URL()}/api/history/yes`, {
+      user_id: user.id,
+    })
+      .then((response) => {
+        console.log(response.data)
+        let userData = response.data;
+        // manually push all but last, then setUserList on last user to trigger FlatList rerender
+        // reason is that FlatList will not re-render unless setUserList is properly called
+        // but setUserList (setState) will only set state once
+        for (let i = 0; i < userData.length - 1; i++) {
+          userListYes.push({
+            name: userData[i].fullname,
+            city: userData[i].city,
+            src: barackObama,
+          });
+        }
+        setUserListYes((prevList) => [
+          ...userListYes,
+          {
+            name: userData[userData.length - 1].fullname,
+            city: userData[userData.length - 1].city,
+            src: barackObama,
+          },
+        ]);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    setListState(true);
+  };
+  const viewUsersNo = async () => {
+    setUserListNo([]);
+    Axios.post(`${await Constants.BASE_URL()}/api/history/no`, {
       user_id: user.id,
     })
       .then((response) => {
@@ -51,14 +85,14 @@ const History = ({ navigation }) => {
         // reason is that FlatList will not re-render unless setUserList is properly called
         // but setUserList (setState) will only set state once
         for (let i = 0; i < userData.length - 1; i++) {
-          userList.push({
+          userListNo.push({
             name: userData[i].fullname,
             city: userData[i].city,
             src: barackObama,
           });
         }
-        setUserList((prevList) => [
-          ...userList,
+        setUserListNo((prevList) => [
+          ...userListNo,
           {
             name: userData[userData.length - 1].fullname,
             city: userData[userData.length - 1].city,
@@ -74,7 +108,8 @@ const History = ({ navigation }) => {
   };
 
   useEffect(() => {
-    viewUsers();
+    viewUsersYes();
+    viewUsersNo();
   }, []);
 
   const PeckYes = (props) => {
@@ -141,12 +176,12 @@ const History = ({ navigation }) => {
       </View>
 
       {!peckedClicked && <PeckNo 
-      data={userList}
-      extraData={userList}
+      data={userListNo}
+      extraData={userListNo}
       />}
       {peckedClicked && <PeckYes
-      data={userList}
-      extraData={userList}
+      data={userListYes}
+      extraData={userListYes}
       />}
     </SafeAreaView>
   );
@@ -163,7 +198,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   flatlist: {
-    height: 670,
+    borderWidth: 1,
     borderColor: "black",
   },
   buttonContainer: {
