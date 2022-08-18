@@ -86,6 +86,56 @@ router.post('/no', (req, res) => {
         });
     });
 });
+router.post('/insertYes', (req, res) => {
+    var provided_id = req.body.user_id; 
+    var swiped_id = req.body.swiped_id;
+
+    const userQuery = `SELECT list_of_users_yes FROM BirdNest.History WHERE User_id = ${provided_id}`;
+    db(client => {
+        client.query(userQuery, (err, result) => { //query to find list of users of whom the provided_id user left AND right on
+            if(err) throw err;
+            var list_of_users = result[0].list_of_users_yes; //grabs result
+            if(list_of_users == null) {
+                list_of_users = [];
+            }
+            else {
+                list_of_users = JSON.parse(list_of_users); //converts result from string to an array
+            }
+            list_of_users.push(swiped_id);
+            let new_users = JSON.stringify(list_of_users);
+            const newQuery = `UPDATE BirdNest.History SET list_of_users_yes = '${new_users}' WHERE User_id = ${provided_id};`;
+            client.query(newQuery, (err, result) => {
+                if(err) throw err;
+                res.send('Inserted successfully into History table!')
+            });
+        });
+    });
+});
+router.post('/insertNo', (req, res) => {
+    var provided_id = req.body.user_id; 
+    var swiped_id = req.body.swiped_id;
+
+    const userQuery = `SELECT list_of_users_no FROM BirdNest.History WHERE User_id = ${provided_id}`;
+    db(client => {
+        client.query(userQuery, (err, result) => { //query to find list of users of whom the provided_id user left AND right on
+            if(err) throw err;
+            var list_of_users = result[0].list_of_users_no; //grabs result
+            if(list_of_users == null) {
+                list_of_users = [];
+            }
+            else {
+                list_of_users = JSON.parse(list_of_users); //converts result from string to an array
+            }
+            list_of_users.push(swiped_id);
+            let new_users = JSON.stringify(list_of_users);
+            const newQuery = `UPDATE BirdNest.History SET list_of_users_no = '${new_users}' WHERE User_id = ${provided_id};`;
+            client.query(newQuery, (err, result) => {
+                if(err) throw err;
+                res.send('Inserted successfully into History table!')
+            });
+        });
+    });
+});
 router.get('/test', (req, res) => {
     const query = "SELECT * FROM BirdNest.History"
     db(client => {
