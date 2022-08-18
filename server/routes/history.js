@@ -17,7 +17,7 @@ router.post('/all', (req, res) => {
             var history_list = []; //inital empty array that will contain all matches that were swiped
             var count = 0;
             list_of_users.forEach(ID => { //iterates through each ID that the user swiped on
-                var retrieveInfo = `(SELECT User.*, Housing.*, Matching.number FROM BirdNest.User JOIN BirdNest.Housing ON User.id = Housing.User_id JOIN BirdNest.Matching ON User.id = Matching.User_id WHERE (isHousing = 1 AND User.id = ${ID})) UNION (SELECT User.*, NoHousing.*, Matching.number FROM BirdNest.User JOIN BirdNest.NoHousing ON User.id = NoHousing.User_id JOIN BirdNest.Matching ON User.id = Matching.User_id WHERE (isHousing = 0 AND User.id = ${ID}))`;
+                var retrieveInfo = `(SELECT User.*, Housing.*, Matching.number FROM BirdNest.User JOIN BirdNest.Housing ON User.id = Housing.User_id JOIN BirdNest.Matching ON User.id = Matching.User_id WHERE (User.id = ${ID})) UNION (SELECT User.*, NoHousing.*, Matching.number FROM BirdNest.User JOIN BirdNest.NoHousing ON User.id = NoHousing.User_id JOIN BirdNest.Matching ON User.id = Matching.User_id WHERE (User.id = ${ID}))`;
                 client.query(retrieveInfo, (err, individualInfo) => {
                     if(err) throw err;
                     var temp_list = individualInfo[0]; //grabs current user's information
@@ -44,7 +44,7 @@ router.post('/yes', (req, res) => {
             var history_list = []; //inital empty array that will contain all matches that were swiped
             var count = 0;
             list_of_users.forEach(ID => { //iterates through each ID that the user swiped on
-                var retrieveInfo = `(SELECT User.*, Housing.*, Matching.number FROM BirdNest.User JOIN BirdNest.Housing ON User.id = Housing.User_id JOIN BirdNest.Matching ON User.id = Matching.User_id WHERE (isHousing = 1 AND User.id = ${ID})) UNION (SELECT User.*, NoHousing.*, Matching.number FROM BirdNest.User JOIN BirdNest.NoHousing ON User.id = NoHousing.User_id JOIN BirdNest.Matching ON User.id = Matching.User_id WHERE (isHousing = 0 AND User.id = ${ID}))`;
+                var retrieveInfo = `(SELECT User.*, Housing.*, Matching.number FROM BirdNest.User JOIN BirdNest.Housing ON User.id = Housing.User_id JOIN BirdNest.Matching ON User.id = Matching.User_id WHERE (User.id = ${ID})) UNION (SELECT User.*, NoHousing.*, Matching.number FROM BirdNest.User JOIN BirdNest.NoHousing ON User.id = NoHousing.User_id JOIN BirdNest.Matching ON User.id = Matching.User_id WHERE (User.id = ${ID}))`;
                 client.query(retrieveInfo, (err, individualInfo) => {
                     if(err) throw err;
                     var temp_list = individualInfo[0]; //grabs current user's information
@@ -71,7 +71,7 @@ router.post('/no', (req, res) => {
             var history_list = []; //inital empty array that will contain all matches that were swiped
             var count = 0;
             list_of_users.forEach(ID => { //iterates through each ID that the user swiped on
-                var retrieveInfo = `(SELECT User.*, Housing.*, Matching.number FROM BirdNest.User JOIN BirdNest.Housing ON User.id = Housing.User_id JOIN BirdNest.Matching ON User.id = Matching.User_id WHERE (isHousing = 1 AND User.id = ${ID})) UNION (SELECT User.*, NoHousing.*, Matching.number FROM BirdNest.User JOIN BirdNest.NoHousing ON User.id = NoHousing.User_id JOIN BirdNest.Matching ON User.id = Matching.User_id WHERE (isHousing = 0 AND User.id = ${ID}))`;
+                var retrieveInfo = `(SELECT User.*, Housing.*, Matching.number FROM BirdNest.User JOIN BirdNest.Housing ON User.id = Housing.User_id JOIN BirdNest.Matching ON User.id = Matching.User_id WHERE (User.id = ${ID})) UNION (SELECT User.*, NoHousing.*, Matching.number FROM BirdNest.User JOIN BirdNest.NoHousing ON User.id = NoHousing.User_id JOIN BirdNest.Matching ON User.id = Matching.User_id WHERE (User.id = ${ID}))`;
                 client.query(retrieveInfo, (err, individualInfo) => {
                     if(err) throw err;
                     var temp_list = individualInfo[0]; //grabs current user's information
