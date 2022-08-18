@@ -65,7 +65,7 @@ const FilterOverlay = ({overlayFilterButton}) => {
 
 
   /**
-   * Declare state
+   * Declare states
    */
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(housing.neighborhoodList);
@@ -122,7 +122,6 @@ const FilterOverlay = ({overlayFilterButton}) => {
    */
   const submit = () => {
     // update redux
-    console.log(lease);
     dispatch(dataActions.updateAllNeighborhoodList(value));
     dispatch(dataActions.updateRent(rent));
     dispatch(dataActions.updateLease(getLeaseFromInteger(lease)));
@@ -133,8 +132,12 @@ const FilterOverlay = ({overlayFilterButton}) => {
     dispatch(dataActions.updateAppliances(appliances));
     dispatch(dataActions.updateAC(AC));
     // update Secure Store
+
+    // TODO: call filtering algorithm
+    
     // back to birdfeed/peckview
     overlayFilterButton();
+
   }
 
   /**
