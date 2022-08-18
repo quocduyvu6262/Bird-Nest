@@ -1,4 +1,4 @@
-import {
+import { 
   SafeAreaView,
   StyleSheet,
   Platform,
@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Switch,
   TextInput,
+
 } from "react-native";
 import React, { useState } from "react";
 import { Icon } from "@rneui/themed";
@@ -117,50 +118,6 @@ const FilterOverlay = (
     })
   }
 
-const FilterOverlay = ({
-  navigation,
-  overlayFilterButton,
-
-  open,
-  setOpen,
-
-  value,
-  setValue,
-
-  items,
-  setItems,
-
-  itemcount,
-
-  setRentState,
-  rentState,
-
-  setLeaseState,
-  leaseState,
-
-  setSqFtState,
-  sqFtState,
-
-  switchEnabledPar,
-  toggleSwitchPar,
-
-  switchEnabledGym,
-  toggleSwitchGym,
-
-  switchEnabledPoo,
-  toggleSwitchPoo,
-
-  switchEnabledApp,
-  toggleSwitchApp,
-
-  switchEnabledFur,
-  toggleSwitchFur,
-
-  switchEnabledAC,
-  toggleSwitchAC,
-}) => {
-
-  DropDownPicker.setListMode("SCROLLVIEW");
   const SingleSwitch = (props) => {
     return (
       <View style={styles.switchView}>
