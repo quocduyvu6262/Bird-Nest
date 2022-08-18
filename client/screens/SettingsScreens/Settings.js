@@ -35,6 +35,9 @@ const Settings = ({ navigation }) => {
                 SecureStore.deleteItemAsync(
                   Constants.MY_SECURE_AUTH_STATE_KEY_REDUX
                 );
+                SecureStore.deleteItemAsync(
+                  Constants.MY_SECURE_AUTH_STATE_IMAGE_URI
+                );
                 navigation.navigate("LoginScreen");
                 await chatClient.disconnectUser();
                 DevSettings.reload();

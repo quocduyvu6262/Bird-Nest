@@ -55,7 +55,7 @@ router.get('/email/:email', (req, res) => {
                 res.send(result);
             } else {
                 console.log("Nohousing not found");
-                res.send("Nohousing not found");
+                res.status(404).send("Nohousing not found");
             }
         })
     });

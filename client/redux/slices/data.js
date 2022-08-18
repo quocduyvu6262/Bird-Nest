@@ -73,15 +73,21 @@ const housing = {
   drugs: null,
 };
 
+const imageFileSystemUri = {
+  avatar: "",
+  album: [],
+};
+
 export const dataSlice = createSlice({
   name: "data",
   initialState: {
     userInfo: userInfo,
     housing: housing,
+    imageFileSystemUri: imageFileSystemUri,
     channel: null,
   },
   reducers: {
-    // USER
+    // ALL
     updateUser: (state, action) => {
       let toAddUserInfoObj = action.payload;
       state.userInfo = { ...state.userInfo, ...toAddUserInfoObj };
@@ -90,6 +96,11 @@ export const dataSlice = createSlice({
       let toAddHousingObj = action.payload;
       state.housing = { ...state.housing, ...toAddHousingObj };
     },
+    updateAllAlbum: (state, action) => {
+      let toAddImagesObj = action.payload;
+      state.imageFileSystemUri.album = action.payload;
+    },
+    // USER
     updateID: (state, action) => {
       state.userInfo.id = action.payload;
     },
@@ -153,14 +164,35 @@ export const dataSlice = createSlice({
     },
     updatePicsList: (state, action) => {
       let pic = action.payload;
+      /**
+       * Helper function: unique filter
+       * @param value
+       * @param index
+       * @param self
+       * @returns
+       */
+      const unique = (value, index, self) => {
+        return self.indexOf(value) === index;
+      };
+      if (state.userInfo.picsList === null) {
+        state.userInfo.picsList = [];
+      }
+      state.userInfo.picsList.push(pic);
+      state.userInfo.picsList.filter(unique);
+    },
+    removePics: (state, action) => {
+      let pic = action.payload;
       if (state.userInfo.picsList === null) {
         state.userInfo.picsList = [];
       }
       let temp = state.userInfo.picsList;
-      temp.push(pic);
+      const index = temp.indexOf(pic);
+      if (index > -1) {
+        // only splice array when item is found
+        temp.splice(index, 1); // 2nd parameter means remove one item only
+      }
       state.userInfo.picsList = temp;
     },
-
     updateCook: (state, action) => {
       state.userInfo.cook = action.payload;
     },
@@ -193,6 +225,9 @@ export const dataSlice = createSlice({
     },
     updateTellRoommateIfBothered: (state, action) => {
       state.userInfo.tellRoommateIfBothered = action.payload;
+    },
+    updateIsHousing: (state, action) => {
+      state.userInfo.isHousing = action.payload;
     },
     // PERSONALITY
     updatePersonality: (state, action) => {
@@ -352,13 +387,50 @@ export const dataSlice = createSlice({
     updateAC: (state, action) => {
       state.housing.AC = action.payload;
     },
+    // IMAGE FILESYSTEM URI
+    updateAvatar: (state, action) => {
+      state.imageFileSystemUri.avatar = action.payload;
+    },
+    updateAlbum: (state, action) => {
+      let pic = action.payload;
+      /**
+       * Helper function: unique filter
+       * @param value
+       * @param index
+       * @param self
+       * @returns
+       */
+      const unique = (value, index, self) => {
+        return self.indexOf(value) === index;
+      };
+      if (state.imageFileSystemUri.album === null) {
+        state.imageFileSystemUri.album = [];
+      }
+      state.imageFileSystemUri.album.push(pic);
+      state.imageFileSystemUri.album.filter(unique);
+    },
+    deleteAlbumItem: (state, action) => {
+      let pic = action.payload;
+      if (state.imageFileSystemUri.album === null) {
+        state.imageFileSystemUri.album = [];
+      }
+      let temp = state.imageFileSystemUri.album;
+      const index = temp.indexOf(pic);
+      if (index > -1) {
+        // only splice array when item is found
+        temp.splice(index, 1); // 2nd parameter means remove one item only
+      }
+      state.imageFileSystemUri.album = temp;
+    },
   },
 });
 
 export const {
-  // UPDATE USER
+  // UPDATE ALL
   updateUser,
   updateHousing,
+  updateAllAlbum,
+  // UPDATE USER
   updateID,
   updateUID,
   updateFullname,
@@ -376,6 +448,7 @@ export const {
   updatePets,
   updateCook,
   updatePicsList,
+  removePics,
   updateAlcohol,
   updateSleep,
   updateGuess,
@@ -386,6 +459,7 @@ export const {
   updateCarWithRoommate,
   updateRoommateInteraction,
   updateTellRoommateIfBothered,
+  updateIsHousing,
   // UPDATE PERSONALITY
   updatePersonality,
   updateHogwartHouse,
@@ -413,5 +487,9 @@ export const {
   updateAppliances,
   updateFurniture,
   updateAC,
+  // IMAGE FILESYSTEM URI
+  updateAvatar,
+  updateAlbum,
+  deleteAlbumItem,
 } = dataSlice.actions;
 export default dataSlice.reducer;
