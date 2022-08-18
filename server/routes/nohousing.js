@@ -116,17 +116,16 @@ router.post('/create', (req, res) => {
 
 // Delete nohousings
 router.post('/delete', (req, res) => {
-    let nohousing = req.body;
+    let user_id = req.body.user_id;
     const query = `
-        DELETE FROM NoHousing WHERE User_id=${nohousing.User_id}`;
+        DELETE FROM NoHousing WHERE User_id=${user_id}`;
     db(client => {
         client.query(query,(err,result) => {
             if(err){
-                console.log(err);
-                res.status(400).send(`Bad Request.`)
+                console.log('Fail to delete nohousing')
                 return;
             }
-            res.send(`Insert successfully.`);
+            console.log('Delete nohousing successfully')
         });
     })   
 })

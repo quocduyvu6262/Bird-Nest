@@ -14,7 +14,6 @@ import {
 } from "react-native";
 import Svg, { Path } from "react-native-svg";
 import Bird_Drawing from "../assets/svg/Bird_Drawing.js";
-
 import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import Footer from "../components/Footer.js";
@@ -28,99 +27,49 @@ import Animated, {
   useAnimatedStyle,
 } from "react-native-reanimated";
 import Swipeable from "react-native-gesture-handler/Swipeable";
-
 import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
 import MainHeader from "../components/MainHeader.js";
 import Constants from "../constants/constants.js";
 import barackObama from "../assets/barackObama.jpeg";
 import { useChatClient } from "./ChatAPI/useChatClient.js";
 import FilterOverlay from "../components/FilterOverlay.js";
-// Old Imports for filter
-// import { Icon } from "@rneui/themed";
-// import Icon2 from "react-native-vector-icons/MaterialCommunityIcons";
 import Icon3 from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
-const BirdFeed = ({ navigation }) => {
-  const user = useSelector((state) => state.data.userInfo);
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState([]);
-  const [items, setItems] = useState([
-    { label: "Downtown SD", value: "downtownsd" },
-    { label: "La Jolla", value: "lajolla" },
-    { label: "Del Mar", value: "delmar" },
-    { label: "Mira Mesa", value: "mira" },
-    { label: "Pacific Beach", value: "pacificbeach" },
-    { label: "Clairemont", value: "clairemont" },
-    { label: "University City", value: "universitycity" },
-    { label: "UTC", value: "utc" },
-    { label: "Solana Beach", value: "solanabeach" },
-    { label: "Mission Valley", value: "missionvalley" },
-    { label: "Carmel Valley", value: "carmelvalley" },
-    { label: "Sorrento Valley", value: "sorrentovalley" },
-    { label: "Other", value: "other" },
-  ]);
-  const itemcount = items.length;
 
+
+const BirdFeed = ({ navigation }) => {
+
+  /**
+   * Redux Hook
+   */
+  const user = useSelector((state) => state.data.userInfo);
+  const housing = useSelector((state) => state.data.housing);
+
+  /**
+   * Declare State
+   */
   const [userList, setUserList] = useState([]);
   const [listState, setListState] = useState(false);
-  // This is the old filter function on birdfeed
+  const [overlayFilterClicked, setOverlayFilterClicked] = useState(false);
+  let [fontsLoaded] = useFonts( {Pacifico_400Regular} );
 
+  /**
+   * Check whether Filter Button is clicked
+   * @returns whether Filter Button is clicked
+   */
   const overlayFilterButton = () => {
-    overlayFilterClicked
-      ? setOverlayFilterClicked(false)
-      : setOverlayFilterClicked(true);
+    overlayFilterClicked ?
+      setOverlayFilterClicked(false) :
+      setOverlayFilterClicked(true);
   };
 
-  // const handlerAgeChange = (ageSlide) => {
-  //   setAgeState({ageState});
-  // }
-
-  // const handlerAgeChange = (ageSlide) => {
-  //   setAgeState({ageState});
-  // }
-  const [ageState, setAgeState] = useState(18);
-
-  const [rentState, setRentState] = useState(500);
-
-  const [neighborhood, setNeighborhood] = useState("");
-
-  const [leaseState, setLeaseState] = useState(1);
-
-  const [sqFtState, setSqFtState] = useState(100);
-
-  const [overlayFilterClicked, setOverlayFilterClicked] = useState(false);
-
-  const [switchEnabledPar, setSwitchEnabledPar] = useState(false);
-  const toggleSwitchPar = () =>
-    setSwitchEnabledPar((previousState) => !previousState);
-
-  const [switchEnabledGym, setSwitchEnabledGym] = useState(false);
-  const toggleSwitchGym = () =>
-    setSwitchEnabledGym((previousState) => !previousState);
-
-  const [switchEnabledPoo, setSwitchEnabledPoo] = useState(false);
-  const toggleSwitchPoo = () =>
-    setSwitchEnabledPoo((previousState) => !previousState);
-
-  const [switchEnabledApp, setSwitchEnabledApp] = useState(false);
-  const toggleSwitchApp = () =>
-    setSwitchEnabledApp((previousState) => !previousState);
-
-  const [switchEnabledFur, setSwitchEnabledFur] = useState(false);
-  const toggleSwitchFur = () =>
-    setSwitchEnabledFur((previousState) => !previousState);
-
-  const [switchEnabledAC, setSwitchEnabledAC] = useState(false);
-  const toggleSwitchAC = () =>
-    setSwitchEnabledAC((previousState) => !previousState);
-  let [fontsLoaded] = useFonts({
-    Pacifico_400Regular,
-  });
-  // ----- LOGIC FOR VIEW USER BUTTONS -----
-
+  /**
+   * Call the matching algorithm and display
+   * the list of users that match each criteria
+   */
   const viewUsers = async () => {
     setUserList([]);
-    Axios.post(`${await Constants.BASE_URL()}/api/matching/`, {
+    Axios.post(`${await Constants.BASE_URL()}/api/matching/lookingforhousing`, {
       user_id: user.id,
     })
       .then((response) => {
@@ -151,17 +100,20 @@ const BirdFeed = ({ navigation }) => {
     setListState(true);
   };
 
+  /**
+   * Use effect Hook
+   */
   useEffect(() => {
     viewUsers();
   }, []);
 
-  // ---------------------------------------
-
+  /**
+   * Render Logic
+   */
   if (!fontsLoaded) {
     return <View></View>;
   } else {
     return (
-      // Header - Beginning
       <SafeAreaView style={styles.container}>
         <MainHeader screen="Bird Feed" navigation={navigation} />
         <View
@@ -182,48 +134,10 @@ const BirdFeed = ({ navigation }) => {
             size={30}
             color="black"
           />
+
         </TouchableOpacity>
         {overlayFilterClicked && (
-          <FilterOverlay
-            setOverlayFilterClicked={setOverlayFilterClicked}
-            overlaFilterClicked={overlayFilterClicked}
-            overlayFilterButton={overlayFilterButton}
-            open={open}
-            setOpen={setOpen}
-            value={value}
-            setValue={setValue}
-            items={items}
-            setItems={setItems}
-            itemcount={itemcount}
-            setAgeState={setAgeState}
-            ageState={ageState}
-            setNeighborhood={setNeighborhood}
-            neighborhood={neighborhood}
-            setRentState={setRentState}
-            rentState={rentState}
-            setLeaseState={setLeaseState}
-            leaseState={leaseState}
-            setSqFtState={setSqFtState}
-            sqFtState={sqFtState}
-            switchEnabledPar={switchEnabledPar}
-            setSwitchEnabledPar={setSwitchEnabledPar}
-            toggleSwitchPar={toggleSwitchPar}
-            switchEnabledGym={switchEnabledGym}
-            setSwitchEnabledGym={setSwitchEnabledGym}
-            toggleSwitchGym={toggleSwitchGym}
-            switchEnabledPoo={switchEnabledPoo}
-            setSwitchEnabledPoo={setSwitchEnabledPoo}
-            toggleSwitchPoo={toggleSwitchPoo}
-            switchEnabledApp={switchEnabledApp}
-            setSwitchEnabledApp={setSwitchEnabledApp}
-            toggleSwitchApp={toggleSwitchApp}
-            switchEnabledFur={switchEnabledFur}
-            setSwitchEnabledFur={setSwitchEnabledFur}
-            toggleSwitchFur={toggleSwitchFur}
-            switchEnabledAC={switchEnabledAC}
-            setSwitchEnabledAC={setSwitchEnabledAC}
-            toggleSwitchAC={toggleSwitchAC}
-          />
+          <FilterOverlay overlayFilterButton={overlayFilterButton}/>
         )}
 
         {listState && (

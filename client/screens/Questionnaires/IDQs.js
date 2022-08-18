@@ -98,7 +98,6 @@ const IDQs = ({ navigation }) => {
         if(imageDownloadedUrl){
           dispatch(dataActions.updateProfilepic(uploadTask.snapshot.ref._location.path_));
           FileSystem.downloadAsync(imageDownloadedUrl, FileSystem.documentDirectory + 'avatar.jpg').then(({uri})=>{
-            console.log(uri);
             dispatch(dataActions.updateAvatar(uri));
           })
         }

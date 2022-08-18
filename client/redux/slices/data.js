@@ -97,8 +97,10 @@ export const dataSlice = createSlice({
       state.housing = { ...state.housing, ...toAddHousingObj };
     },
     updateAllAlbum: (state, action) => {
-      let toAddImagesObj = action.payload;
       state.imageFileSystemUri.album = action.payload;
+    },
+    updateAllNeighborhoodList: (state, action) => {
+      state.housing.neighborhoodList = action.payload;
     },
     // USER
     updateID: (state, action) => {
@@ -366,6 +368,9 @@ export const dataSlice = createSlice({
     updateLease: (state, action) => {
       state.housing.lease = action.payload;
     },
+    updateSquarefeet: (state, action) => {
+      state.housing.squarefeet = action.payload;
+    },
     updateGarage: (state, action) => {
       state.housing.garage = action.payload;
     },
@@ -430,6 +435,7 @@ export const {
   updateUser,
   updateHousing,
   updateAllAlbum,
+  updateAllNeighborhoodList,
   // UPDATE USER
   updateID,
   updateUID,
@@ -480,6 +486,7 @@ export const {
   updateCitylist,
   updateRent,
   updateLease,
+  updateSquarefeet,
   updateGarage,
   updateParking,
   updateGym,

@@ -27,348 +27,346 @@ import * as SecureStore from "expo-secure-store";
 import { useDispatch, useSelector, connect } from "react-redux";
 import * as dataActions from "../../redux/slices/data";
 
+
 class Personality extends Component {
+
+
   /**
    * Pull data from Redux Store and store into
    * Database and Secure Storage
    */
-  storeData = async () => {
+   storeData = async () => {
     const user = this.props.data.userInfo;
     const housing = this.props.data.housing;
+    const imageFileSystemUri = this.props.data.imageFileSystemUri;
     // Store into Secure Store
-    SecureStore.setItemAsync(
-      Constants.MY_SECURE_AUTH_STATE_KEY_USER,
-      JSON.stringify(user)
-    );
-    SecureStore.setItemAsync(
-      Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING,
-      JSON.stringify(housing)
-    );
+    SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify(user));
+    SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING, JSON.stringify(housing));
+    SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_IMAGE_URI, JSON.stringify({avatar: imageFileSystemUri.avatar, album: imageFileSystemUri.album}));
 
     // Store user into database
     // TODO: Implement the method to store user data into database
     Axios.post(`${await Constants.BASE_URL()}/api/users/questionnaire`, {
-      userInfo: user,
-    }).catch((err) => {
+      userInfo : user,
+    }).catch( err => {
       console.log("Fail to store user into database from questionnaire");
     });
     // Store housing into database
     // TODO: Implement the method to store housing data into database
-    if (user.role === "Flamingo" || user.role === "Owl") {
+    if(user.role === 'Flamingo' || user.role === 'Owl'){
+      // delete no housing
+      Axios.post(`${await Constants.BASE_URL()}/api/nohousing/delete`,{
+        user_id: user.id
+      })
       // Post to housing
       Axios.post(`${await Constants.BASE_URL()}/api/housings/create`, {
         user_id: user.id,
-        housing: housing,
+        housing: housing
+      }).then().catch( err => {
+        console.log('Fail to update/insert housing from questionnaire');
       })
-        .then()
-        .catch((err) => {
-          console.log(housing.squarefeet);
-          console.log("Fail to update/insert housing from questionnaire");
-        });
-    } else if (
-      user.role === "Parrot" ||
-      user.role === "Penguin" ||
-      user.role === "Duck"
-    ) {
+    } else if(user.role === 'Parrot' || user.role === 'Penguin' || user.role === 'Duck'){
+      // delete housing
+      Axios.post(`${await Constants.BASE_URL()}/api/housings/delete`,{
+        user_id: user.id
+      })
       // Post to nohousing
       Axios.post(`${await Constants.BASE_URL()}/api/nohousing/create`, {
         user_id: user.id,
-        housing: housing,
+        housing: housing
+      }).then().catch( err => {
+        console.log('Fail to update/insert nohousing from questionnaire');
       })
-        .then()
-        .catch((err) => {
-          console.log("Fail to update/insert nohousing from questionnaire");
-        });
     }
-  };
+    
+  }
 
-  slider_state = {
-    language: "English",
-    value: 500,
-  };
-  state1 = {
-    name: true,
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state2 = {
-    name: false,
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state3 = {
-    name: true,
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state4 = {
-    name: false,
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state5 = {
-    name: "Marvel",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state6 = {
-    name: "DC",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state7 = {
-    name: true,
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state8 = {
-    name: false,
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state9 = {
-    name: "Shop",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state10 = {
-    name: "Read",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state11 = {
-    name: "Coffee",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state12 = {
-    name: "Boba Tea",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state13 = {
-    name: "Boba",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state14 = {
-    name: "Bubble Tea",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state15 = {
-    name: "Extrovert",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state16 = {
-    name: "Amivert",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state17 = {
-    name: "Introvert",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state18 = {
-    name: "Go to theater",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state19 = {
-    name: "Eat out",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state20 = {
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state21 = {
-    name: "Get coffee/boba",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state22 = {
-    name: "Go to beach",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state23 = {
-    name: "Vanilla",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state24 = {
-    name: "Chocolate",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state25 = {
-    name: "Pastels",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state26 = {
-    name: "Minimalist",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state27 = {
-    name: "White & Black",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state28 = {
-    name: "Scandinavian",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state29 = {
-    name: "Gryffindor",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state30 = {
-    name: "Ravenclaw",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state31 = {
-    name: "Hufflepuff",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state32 = {
-    name: "Slytherin",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state41 = {
-    name: "Eclectic/messy",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state42 = {
-    name: "Bohemian",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state43 = {
-    name: "Anime/kpop",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state44 = {
-    name: "Glam",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state45 = {
-    name: "Football",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state46 = {
-    name: "Basketball",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state47 = {
-    name: "Baseball",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state48 = {
-    name: "Softball",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state49 = {
-    name: "Soccer",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state50 = {
-    name: "Volleyball",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state51 = {
-    name: "Swim/Waterpolo",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state52 = {
-    name: "Tennis",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state53 = {
-    name: "Track & Field",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state54 = {
-    name: "Golf",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state55 = {
-    name: "Hockey",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state56 = {
-    name: "Badminton",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state57 = {
-    name: "Lacrosse",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state58 = {
-    name: "Other",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state59 = {
-    name: "Michael Jordan",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  state60 = {
-    name: "Lebron James",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
-  };
-  changeColor(state_a, state_b) {
-    if (
-      state_a.pressed == false &&
-      state_b.pressed == true &&
-      state_b.backgroundColor == "#3B9CF1"
-    ) {
-      state_b.backgroundColor = "#D9D9D9";
-      state_a.backgroundColor = "#3B9CF1";
-      state_b.pressed = false;
-      state_a.pressed = true;
-      this.setState({ backgroundColor: state_a.backgroundColor });
-      this.setState({ backgroundColor: state_b.backgroundColor });
-      this.setState({ pressed: state_a.pressed });
-      this.setState({ pressed: state_b.pressed });
-    } else if (!state_a.pressed) {
-      state_a.backgroundColor = "#3B9CF1";
-      state_a.pressed = true;
-      this.setState({ backgroundColor: state_a.backgroundColor });
-      this.setState({ pressed: state_a.pressed });
-    } else {
-      state_a.backgroundColor = "#D9D9D9";
-      state_a.pressed = false;
-      this.setState({ backgroundColor: state_a.backgroundColor });
-      this.setState({ pressed: state_a.pressed });
+
+    slider_state = {
+      language: "English",
+      value: 500
+    };
+    state1 = {
+      name: true,
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state2 = {
+      name: false,
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state3 = {
+      name: true,
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state4 = {
+      name: false,
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state5 = {
+      name: "Marvel",
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state6 = {
+      name: "DC",
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state7 = {
+      name: true,
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state8 = {
+      name: false,
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state9 = {
+      name: "Shop",
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state10 = {
+      name: "Read",
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state11 = {
+      name: "Coffee",
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state12 = {
+      name: "Boba Tea",
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state13 = {
+      name: "Boba",
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state14 = {
+      name: "Bubble Tea",
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state15 = {
+      name: "Extrovert",
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state16 = {
+      name: "Amivert",
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state17 = {
+      name: "Introvert",
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state18 = {
+      name: "Go to theater",
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state19 = {
+      name: "Eat out",
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state20 = {
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state21 = {
+      name: "Get coffee/boba",
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state22 = {
+      name: "Go to beach",
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state23 = {
+      name: "Vanilla",
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state24 = {
+      name: "Chocolate",
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state25 = {
+      name: "Pastels",
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state26 = {
+      name: "Minimalist",
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state27 = {
+      name: "White & Black",
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state28 = {
+      name: "Scandinavian",
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state29 = {
+      name: "Gryffindor",
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state30 = {
+      name: "Ravenclaw",
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state31 = {
+      name: "Hufflepuff",
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state32 = {
+      name: "Slytherin",
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state41 = {
+      name: "Eclectic/messy",
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state42 = {
+      name: "Bohemian",
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state43 = {
+      name: "Anime/kpop",
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state44 = {
+      name: "Glam",
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state45 = {
+      name: "Football",
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state46 = {
+      name: "Basketball",
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state47 = {
+      name: "Baseball",
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state48 = {
+      name: "Softball",
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state49 = {
+      name: "Soccer",
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state50 = {
+      name: "Volleyball",
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state51 = {
+      name: "Swim/Waterpolo",
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state52 = {
+      name: "Tennis",
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state53 = {
+      name: "Track & Field",
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state54 = {
+      name: "Golf",
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state55 = {
+      name: "Hockey",
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state56 = {
+      name: "Badminton",
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state57 = {
+      name: "Lacrosse",
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state58 = {
+      name: "Other",
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state59 = {
+      name: "Michael Jordan",
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+    state60 = {
+      name: "Lebron James",
+      pressed: false,
+      backgroundColor: '#D9D9D9'
+    };
+  changeColor(state_a, state_b){
+    if(state_a.pressed == false && state_b.pressed == true && state_b.backgroundColor == '#3B9CF1') {
+      state_b.backgroundColor='#D9D9D9';
+      state_a.backgroundColor='#3B9CF1';
+      state_b.pressed=false;
+      state_a.pressed=true;
+      this.setState({backgroundColor: state_a.backgroundColor});
+      this.setState({backgroundColor: state_b.backgroundColor});
+      this.setState({pressed: state_a.pressed});
+      this.setState({pressed: state_b.pressed});
+    }
+    else if(!state_a.pressed){
+      state_a.backgroundColor='#3B9CF1';
+      state_a.pressed=true;
+      this.setState({backgroundColor: state_a.backgroundColor});
+      this.setState({pressed: state_a.pressed});
+    } 
+    else {
+      state_a.backgroundColor='#D9D9D9';
+      state_a.pressed=false;
+      this.setState({backgroundColor: state_a.backgroundColor});
+      this.setState({pressed: state_a.pressed});
     }
   }
   changeMultipleColor(state_a, state_b, state_c) {
@@ -1012,17 +1010,13 @@ class Personality extends Component {
           >
             <Text style={HousingQ_styles.buttonText}>Bubble tea</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            style={HousingQ_styles.nextButton}
-            onPress={() => {
-              //this.createHousingInfo()
-              this.storeData();
-              this.props.navigation.navigate("BirdFeed");
-            }}
-          >
-            <Text style={[HousingQ_styles.buttonText, { color: "#FFF" }]}>
-              Finish
-            </Text>
+          <TouchableOpacity style={HousingQ_styles.nextButton}
+          onPress={()=>{
+            //this.createHousingInfo()
+            this.storeData();
+            this.props.navigation.navigate('BirdFeed')
+          }}>
+            <Text style = {[HousingQ_styles.buttonText, {color:'#FFF'}]}>Finish</Text>
           </TouchableOpacity>
         </ScrollView>
       </SafeAreaView>
@@ -1367,5 +1361,7 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => ({
   data: state.data,
 });
+
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(Personality);

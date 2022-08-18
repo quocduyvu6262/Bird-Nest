@@ -17,15 +17,17 @@ import barackObama from "../assets/barackObama.jpeg";
 import MainHeader from "../components/MainHeader";
 import PeckViewCard from "../components/PeckViewCard";
 import StrokeAnimation from "../components/StrokeAnimation.js";
+import { useSelector } from "react-redux";
 
 const PeckView = ({ navigation }) => {
+  const user = useSelector(state => state.data.userInfo)
   const [userList, setUserList] = useState([]);
   const [listState, setListState] = useState(false);
 
   const viewUsers = async () => {
     setUserList([]);
-    Axios.post(`${await Constants.BASE_URL()}/api/matching/`, {
-      user_id: 78,
+    Axios.post(`${await Constants.BASE_URL()}/api/matching/lookingforhousing`, {
+      user_id: user.id,
     })
       .then((response) => {
         let userData = response.data;
