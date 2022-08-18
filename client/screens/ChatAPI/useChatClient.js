@@ -13,7 +13,6 @@ export const useChatClient = () => {
     const displayName = user.fullname;
     const trimName = displayName.replace(/\s/g, '');
     const userID = `${trimName}_${user.uid}`;
-
     useEffect(() => {
         const setupClient = async () => {
             try {

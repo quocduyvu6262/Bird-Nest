@@ -51,4 +51,47 @@ router.post('/', (req, res) => { // input
 		});
 	});
 });
+
+router.post('/filter', (req, res) => {
+    //neighborhoodList, rent, lease, square feet, parking, gym, pool, appliances, furniture, AC
+    //if booleans are false don't filter by them
+    //const filterMap = new Map([["gargage", 1], ["parking", 1], ["gym", 1], ["appliances", 1]]); 
+    const filterMap = req.body;
+    console.log(filterMap);
+    let housingQuery = "SELECT * FROM Housing WHERE ";
+	let nohousingQuery = "SELECT * FROM NoHousing WHERE ";
+    for (let key in filterMap) {
+		//skip unselected statements
+		if (filterMap[key] === "false") {
+			continue;
+		}
+		//rent has to be <= 
+		if (key === "rent"){
+			housingQuery += key + "<=" + filterMap[key].toString() + " AND ";
+			nohousingQuery += key + "<=" + filterMap[key].toString() + " AND ";
+		}
+		else {
+			housingQuery += key + "=" + filterMap[key].toString() + " AND ";
+			nohousingQuery += key + "=" + filterMap[key].toString() + " AND ";
+		}
+    }
+    housingQuery = housingQuery.slice(0, housingQuery.length -4);
+	nohousingQuery = nohousingQuery.slice(0, nohousingQuery.length -4);
+    //const query = "SELECT id, fullname, role, gender, age, graduationyear, major, pet FROM User WHERE id=5;";
+    let query = housingQuery + " UNION " + nohousingQuery + ";";
+    console.log(query);
+    db(client => {
+        client.query(query, (err, results) => {
+            if(!err){
+                res.send(results);
+            } else {
+                //res.status(401).send("No users matching those filters found");
+                console.log(err);
+                console.log(query);
+                console.log(filterMap);
+                res.status(401).send(results);
+            }
+        })
+    });
+})
 module.exports = router;

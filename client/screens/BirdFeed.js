@@ -11,7 +11,6 @@ import {
   Platform,
   StatusBar,
   ScrollView,
-  Switch,
 } from "react-native";
 import Svg, { Path } from "react-native-svg";
 import Bird_Drawing from "../assets/svg/Bird_Drawing.js";
@@ -40,78 +39,86 @@ import FilterOverlay from "../components/FilterOverlay.js";
 // import { Icon } from "@rneui/themed";
 // import Icon2 from "react-native-vector-icons/MaterialCommunityIcons";
 import Icon3 from "react-native-vector-icons/Ionicons";
-import { useSelector } from "react-redux";
+import {useSelector} from "react-redux"
 const BirdFeed = ({ navigation }) => {
   const user = useSelector(state => state.data.userInfo);
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState([]);
+  const [items, setItems] = useState([
+    {label: 'Downtown SD', value: 'Downtown SD'},
+    {label: 'La Jolla', value: 'La Jolla'},
+    {label: 'Del Mar', value: 'Del Mar'},
+    {label: 'Mira Mesa', value: 'Mira Mesa'},
+    {label: 'Pacific Beach', value: 'Pacific Beach'},
+    {label: 'Clairemont', value: 'Clairemont'},
+    {label: 'University City', value: 'University City'},
+    {label: 'UTC', value: 'UTC'},
+    {label: 'Solana Beach', value: 'Solana Beach'},
+    {label: 'Mission Valley', value: 'Mission Valley'},
+    {label: 'Carmel Valley', value: 'Carmel Valley'},
+    {label: 'Sorrento Valley', value: 'Sorrento Valley'},
+    {label: 'Other', value: 'Other'},
+
+  ]);
+  const itemcount = items.length;
 
   const [userList, setUserList] = useState([]);
   const [listState, setListState] = useState(false);
-
   // This is the old filter function on birdfeed
 
-  const overlayButton = () => {
-    overlayClicked ? setOverlayClicked(false) : setOverlayClicked(true);
+  const overlayFilterButton = () => {
+    overlayFilterClicked ? setOverlayFilterClicked(false) : setOverlayFilterClicked(true);
   };
+  
+  const overlayDropDownButton = () => {
+    overlayDropDownClicked ? setOverlayDropDownClicked(false) : setOverlayDropDownClicked(true);
+  };
+  // const handlerAgeChange = (ageSlide) => {
+  //   setAgeState({ageState});
+  // }
+  const [ageState, setAgeState] = useState(18);
 
-  const [overlayClicked, setOverlayClicked] = useState(false);
+  const [rentState, setRentState] = useState(500);
+  
+  const [neighborhood, setNeighborhood] = useState("");
 
-  const [switchEnabledNeigh, setSwitchEnabledNeigh] = useState(false);
-  const toggleSwitchNeigh = () =>
-    setSwitchEnabledNeigh((previousState) => !previousState);
+  const [leaseState, setLeaseState] = useState(1);
 
-  const [switchEnabledSqua, setSwitchEnabledSqua] = useState(false);
-  const toggleSwitchSqua = () =>
-    setSwitchEnabledSqua((previousState) => !previousState);
+  const [sqFtState, setSqFtState] = useState(100);
 
-  const [switchEnabledPri, setSwitchEnabledPri] = useState(false);
-  const toggleSwitchPri = () =>
-    setSwitchEnabledPri((previousState) => !previousState);
 
-  const [switchEnabledIn, setSwitchEnabledIn] = useState(false);
-  const toggleSwitchIn = () =>
-    setSwitchEnabledIn((previousState) => !previousState);
 
-  const [switchEnabledPer, setSwitchEnabledPer] = useState(false);
-  const toggleSwitchPer = () =>
-    setSwitchEnabledPer((previousState) => !previousState);
+  const [overlayFilterClicked, setOverlayFilterClicked] = useState(false);
 
-  const [switchEnabledRoo, setSwitchEnabledRoo] = useState(false);
-  const toggleSwitchRoo = () =>
-    setSwitchEnabledRoo((previousState) => !previousState);
 
-  const [switchEnabledYes, setSwitchEnabledYes] = useState(false);
-  const toggleSwitchYes = () =>
-    setSwitchEnabledYes((previousState) => !previousState);
+  const [switchEnabledPar, setSwitchEnabledPar] = useState(false);
+  const toggleSwitchPar = () =>
+    setSwitchEnabledPar((previousState) => !previousState);
 
-  const [switchEnabledNo, setSwitchEnabledNo] = useState(false);
-  const toggleSwitchNo = () =>
-    setSwitchEnabledNo((previousState) => !previousState);
 
-  const [switchEnabledRec, setSwitchEnabledRec] = useState(false);
-  const toggleSwitchRec = () =>
-    setSwitchEnabledRec((previousState) => !previousState);
+  const [switchEnabledGym, setSwitchEnabledGym] = useState(false);
+  const toggleSwitchGym = () =>
+    setSwitchEnabledGym((previousState) => !previousState);
 
-  const [switchEnabledApt, setSwitchEnabledApt] = useState(false);
-  const toggleSwitchApt = () =>
-    setSwitchEnabledApt((previousState) => !previousState);
+  
+  const [switchEnabledPoo, setSwitchEnabledPoo] = useState(false);
+  const toggleSwitchPoo = () =>
+    setSwitchEnabledPoo((previousState) => !previousState);
 
-  // const SingleSwitch = (props) => {
-  //   return (
-  //     <View style={styles.switchView}>
-  //       <Switch
-  //         trackColor={{ false: "%767577", true: "green" }}
-  //         thumbColor={props.enabled ? "#white" : "white"}
-  //         onValueChange={props.toggle}
-  //         value={props.enabled}
-  //       />
-  //       <Text style={styles.switchText}>
-  //         <Text></Text>
-  //           {props.variable}
-  //       </Text>
-  //     </View>
-  //   );
-  // };
+  const [switchEnabledApp, setSwitchEnabledApp] = useState(false);
+  const toggleSwitchApp = () =>
+    setSwitchEnabledApp((previousState) => !previousState);
+  
 
+  const [switchEnabledFur, setSwitchEnabledFur] = useState(false);
+  const toggleSwitchFur = () =>
+    setSwitchEnabledFur((previousState) => !previousState);
+  
+  
+    const [switchEnabledAC, setSwitchEnabledAC] = useState(false);
+    const toggleSwitchAC = () =>
+      setSwitchEnabledAC((previousState) => !previousState);
+      console.log(neighborhood);
   let [fontsLoaded] = useFonts({
     Pacifico_400Regular,
   });
@@ -148,6 +155,7 @@ const BirdFeed = ({ navigation }) => {
       });
 
     setListState(true);
+    console.log(userList);
   };
 
   useEffect(() => {
@@ -163,12 +171,12 @@ const BirdFeed = ({ navigation }) => {
       // Header - Beginning
       <SafeAreaView style={styles.container}>
         <MainHeader screen="Bird Feed" navigation={navigation} />
-        <View style={[styles.svg, { transform: [{ translateY: 100 }] }]}>
+        <View style={[styles.svg, { transform: [{ translateY: 20 }, {translateX: 100}] }]}>
           <Bird_Drawing />
         </View>
         <TouchableOpacity
           style={[styles.input, { marginVertical: 7 }]}
-          onPress={overlayButton}
+          onPress={overlayFilterButton}
         >
           <Icon3
             style={styles.input}
@@ -177,107 +185,63 @@ const BirdFeed = ({ navigation }) => {
             color="black"
           />
         </TouchableOpacity>
-        {overlayClicked && (
-          <FilterOverlay
-            setOverlayClicked={setOverlayClicked}
-            overlayClicked={overlayClicked}
-            overlayButton={overlayButton}
-            switchEnabledNeigh={switchEnabledNeigh}
-            toggleSwitchNeigh={toggleSwitchNeigh}
-            switchEnabledSqua={switchEnabledSqua}
-            toggleSwitchSqua={toggleSwitchSqua}
-            switchEnabledPri={switchEnabledPri}
-            toggleSwitchPri={toggleSwitchPri}
-            switchEnabledIn={switchEnabledIn}
-            toggleSwitchIn={toggleSwitchIn}
-            switchEnabledPer={switchEnabledPer}
-            toggleSwitchPer={toggleSwitchPer}
-            switchEnabledRoo={switchEnabledRoo}
-            toggleSwitchRoo={toggleSwitchRoo}
-            switchEnabledYes={switchEnabledYes}
-            toggleSwitchYes={toggleSwitchYes}
-            switchEnabledNo={switchEnabledNo}
-            toggleSwitchNo={toggleSwitchNo}
-            switchEnabledRec={switchEnabledRec}
-            toggleSwitchRec={toggleSwitchRec}
-            switchEnabledApt={switchEnabledApt}
-            toggleSwitchApt={toggleSwitchApt}
+        {overlayFilterClicked && (
+          <FilterOverlay 
+          setOverlayFilterClicked={setOverlayFilterClicked} 
+          overlaFilterClicked={overlayFilterClicked}
+          overlayFilterButton={overlayFilterButton} 
+
+          open={open}
+          setOpen={setOpen}
+
+          value={value}
+          setValue={setValue}
+
+          items={items}
+          setItems={setItems}
+
+          itemcount={itemcount}
+
+          setAgeState={setAgeState}
+          ageState={ageState}
+
+          setNeighborhood={setNeighborhood}
+          neighborhood={neighborhood}
+
+          setRentState={setRentState}
+          rentState={rentState}
+
+          setLeaseState={setLeaseState}
+          leaseState={leaseState}
+
+          setSqFtState={setSqFtState}
+          sqFtState={sqFtState}
+
+          switchEnabledPar={switchEnabledPar}
+          setSwitchEnabledPar={setSwitchEnabledPar}
+          toggleSwitchPar={toggleSwitchPar}
+
+          switchEnabledGym={switchEnabledGym}
+          setSwitchEnabledGym={setSwitchEnabledGym}
+          toggleSwitchGym={toggleSwitchGym}
+
+          switchEnabledPoo={switchEnabledPoo}
+          setSwitchEnabledPoo={setSwitchEnabledPoo}
+          toggleSwitchPoo={toggleSwitchPoo}
+
+          switchEnabledApp={switchEnabledApp}
+          setSwitchEnabledApp={setSwitchEnabledApp}
+          toggleSwitchApp={toggleSwitchApp}
+
+          switchEnabledFur={switchEnabledFur}
+          setSwitchEnabledFur={setSwitchEnabledFur}
+          toggleSwitchFur={toggleSwitchFur}
+
+          switchEnabledAC={switchEnabledAC}
+          setSwitchEnabledAC={setSwitchEnabledAC}
+          toggleSwitchAC={toggleSwitchAC}
           />
         )}
-
-        {/* Old filter on birdfeed
-        {overlayClicked && (
-          <View style={styles.subContainer}>
-            <ScrollView style={styles.filterCard}>
-              <TouchableOpacity
-                style={styles.filterHeader}
-                onPress={overlayButton}
-              >
-                <Icon name="west" size={30} />
-                <Text style={styles.filterText}>Filter</Text>
-              </TouchableOpacity>
-
-              <SingleSwitch
-                variable="Neighborhood"
-                enabled={switchEnabledNeigh}
-                toggle={toggleSwitchNeigh}
-              />
-
-              <SingleSwitch
-                variable="Square Footage"
-                enabled={switchEnabledSqua}
-                toggle={toggleSwitchSqua}
-              />
-
-              <SingleSwitch
-                variable="Price Range"
-                enabled={switchEnabledPri}
-                toggle={toggleSwitchPri}
-              />
-
-              <SingleSwitch
-                variable="Indoor Parking"
-                enabled={switchEnabledIn}
-                toggle={toggleSwitchIn}
-              />
-
-              <SingleSwitch
-                variable="Percent Matched"
-                enabled={switchEnabledPer}
-                toggle={toggleSwitchPer}
-              />
-
-              <SingleSwitch
-                variable="# of Roommates"
-                enabled={switchEnabledRoo}
-                toggle={toggleSwitchRoo}
-              />
-
-              <SingleSwitch
-                variable="Pecked Yes"
-                enabled={switchEnabledYes}
-                toggle={toggleSwitchYes}
-              />
-
-              <SingleSwitch
-                variable="Pecked No"
-                enabled={switchEnabledNo}
-                toggle={toggleSwitchNo}
-              />
-
-              <SingleSwitch
-                variable="Most Recent"
-                enabled={switchEnabledRec}
-                toggle={toggleSwitchRec}
-              />
-              <SingleSwitch
-                variable="Apartment"
-                enabled={switchEnabledApt}
-                toggle={toggleSwitchApt}
-              />
-            </ScrollView>
-          </View>
-        )} */}
 
         {listState && (
           <View styles={styles.flatlist}>

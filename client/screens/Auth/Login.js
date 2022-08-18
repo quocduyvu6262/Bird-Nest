@@ -21,8 +21,6 @@ import * as dataActions from '../../redux/slices/data';
 import { useDispatch } from "react-redux";
 // AXIOS
 import Axios from "axios";
-
-
 WebBrowser.maybeCompleteAuthSession();
 
 const LoginScreen = ({ navigation }) => {
@@ -83,6 +81,7 @@ const LoginScreen = ({ navigation }) => {
     // Get and store user
     Axios.get(`${await Constants.BASE_URL()}/api/users/${email}`).then(async({data}) => {
       const user = data[0];
+      console.log(user)
       // push into secure store
       SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify(user));
       // push into redux store
@@ -159,7 +158,8 @@ const LoginScreen = ({ navigation }) => {
                 navigation.navigate("IDQs");
               }
             })
-            .catch((err) => console.log("Login/Register Fail"));
+            .catch((err) => 
+              console.log("Login/Register Fail"));
         });
       }
     }
@@ -170,7 +170,7 @@ const LoginScreen = ({ navigation }) => {
    */
   return (
     <Background>
-      <View style={styles.background}>
+      <View style={styles.background}>      
         <Logo />
         <Header>Bird Nest</Header>
         <Paragraph>
