@@ -74,14 +74,21 @@ const Settings = ({ navigation }) => {
       >
         <Text style={styles.textButton}>Terms of service</Text>
       </TouchableOpacity>
-
+      
+      <TouchableOpacity
+        style={styles.regularButton}
+        onPress={() => navigation.navigate("AboutUs")}
+      >
+        <Text style={styles.textButton}>About Us</Text>
+      </TouchableOpacity>
+      
       <Buttons
         style={{flex: 1}}
         onPress={() => {
           logout();
         }}
-      >
-        Logout
+      ><Text>Logout</Text>
+        
       </Buttons>
 
       <TouchableOpacity style={styles.deleteButton}>
@@ -111,6 +118,8 @@ const styles = StyleSheet.create({
   },
   textButton: {
     color: "white",
+    fontWeight: "bold",
+    fontSize: 15,
   },
   deleteButton: {
     marginBottom: 40,

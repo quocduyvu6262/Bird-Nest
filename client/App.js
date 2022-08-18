@@ -27,6 +27,7 @@ import Settings from "./screens/SettingsScreens/Settings";
 import ChirpNotificationEdit from "./screens/SettingsScreens/ChirpNotificationEdit.js";
 import HelpSupport from "./screens/SettingsScreens/HelpSupport.js";
 import TermsOfService from "./screens/SettingsScreens/TermsOfService.js";
+import AboutUs from "./screens/SettingsScreens/AboutUs.js"
 import NoHousingQ from "./screens/Questionnaires/NoHousingQ.js";
 import HasHousingQ from "./screens/Questionnaires/HasHousingQ.js";
 import Personality from "./screens/Questionnaires/Personality.js";
@@ -116,6 +117,7 @@ export default function App() {
             />
             <Stack.Screen name="HelpSupport" component={HelpSupport} />
             <Stack.Screen name="TermsOfService" component={TermsOfService} />
+            <Stack.Screen name="AboutUs" component={AboutUs} />
             <Stack.Screen
               name="ChirpNotification"
               component={ChirpNotification}
