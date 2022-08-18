@@ -58,10 +58,6 @@ const Profile = ({ navigation }) => {
   let selectedPics = [];
   const data = useSelector(state => state.data);
   const [index, setIndex] = useState(0);
-  const [name, setName] = useState();
-  const [rent, setRent] = useState();
-  const [lease, setLease] = useState();
-  const [city, setCity] = useState();
   const [buttonClicked, setButtonClicked] = useState(false);
   const [interestButtonClicked, setInterestButtonClicked] = useState(false);
   const [deleteImage, setDeleteImage] = useState(false);

@@ -39,77 +39,29 @@ import { useSelector } from "react-redux";
 
 const BirdFeed = ({ navigation }) => {
 
+  /**
+   * Redux Hook
+   */
   const user = useSelector((state) => state.data.userInfo);
   const housing = useSelector((state) => state.data.housing);
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState([]);
-  const [items, setItems] = useState([
-    { label: "Downtown SD", value: "downtownsd" },
-    { label: "La Jolla", value: "lajolla" },
-    { label: "Del Mar", value: "delmar" },
-    { label: "Mira Mesa", value: "mira" },
-    { label: "Pacific Beach", value: "pacificbeach" },
-    { label: "Clairemont", value: "clairemont" },
-    { label: "University City", value: "universitycity" },
-    { label: "UTC", value: "utc" },
-    { label: "Solana Beach", value: "solanabeach" },
-    { label: "Mission Valley", value: "missionvalley" },
-    { label: "Carmel Valley", value: "carmelvalley" },
-    { label: "Sorrento Valley", value: "sorrentovalley" },
-    { label: "Other", value: "other" },
-  ]);
-  const itemcount = items.length;
+
+  /**
+   * Declare State
+   */
   const [userList, setUserList] = useState([]);
   const [listState, setListState] = useState(false);
-  // This is the old filter function on birdfeed
-  const overlayFilterButton = () => {
-    overlayFilterClicked
-      ? setOverlayFilterClicked(false)
-      : setOverlayFilterClicked(true);
-  };
-  const overlayDropDownButton = () => {
-    overlayDropDownClicked
-      ? setOverlayDropDownClicked(false)
-      : setOverlayDropDownClicked(true);
-  };
-  const [ageState, setAgeState] = useState(18);
-
-  const [rentState, setRentState] = useState(housing.rent);
-
-  const [neighborhood, setNeighborhood] = useState("");
-
-  const [leaseState, setLeaseState] = useState(1);
-
-  const [sqFtState, setSqFtState] = useState(100);
-
   const [overlayFilterClicked, setOverlayFilterClicked] = useState(false);
+  let [fontsLoaded] = useFonts( {Pacifico_400Regular} );
 
-  const [switchEnabledPar, setSwitchEnabledPar] = useState(false);
-  const toggleSwitchPar = () =>
-    setSwitchEnabledPar((previousState) => !previousState);
-
-  const [switchEnabledGym, setSwitchEnabledGym] = useState(false);
-  const toggleSwitchGym = () =>
-    setSwitchEnabledGym((previousState) => !previousState);
-
-  const [switchEnabledPoo, setSwitchEnabledPoo] = useState(false);
-  const toggleSwitchPoo = () =>
-    setSwitchEnabledPoo((previousState) => !previousState);
-
-  const [switchEnabledApp, setSwitchEnabledApp] = useState(false);
-  const toggleSwitchApp = () =>
-    setSwitchEnabledApp((previousState) => !previousState);
-
-  const [switchEnabledFur, setSwitchEnabledFur] = useState(false);
-  const toggleSwitchFur = () =>
-    setSwitchEnabledFur((previousState) => !previousState);
-
-  const [switchEnabledAC, setSwitchEnabledAC] = useState(false);
-  const toggleSwitchAC = () =>
-    setSwitchEnabledAC((previousState) => !previousState);
-  let [fontsLoaded] = useFonts({
-    Pacifico_400Regular,
-  });
+  /**
+   * Check whether Filter Button is clicked
+   * @returns whether Filter Button is clicked
+   */
+  const overlayFilterButton = () => {
+    overlayFilterClicked ?
+      setOverlayFilterClicked(false) :
+      setOverlayFilterClicked(true);
+  };
 
   /**
    * Call the matching algorithm and display
@@ -149,7 +101,7 @@ const BirdFeed = ({ navigation }) => {
   };
 
   /**
-   * use effect
+   * Use effect Hook
    */
   useEffect(() => {
     viewUsers();
@@ -182,46 +134,10 @@ const BirdFeed = ({ navigation }) => {
             size={30}
             color="black"
           />
+
         </TouchableOpacity>
         {overlayFilterClicked && (
-          <FilterOverlay
-            setOverlayFilterClicked={setOverlayFilterClicked}
-            overlaFilterClicked={overlayFilterClicked}
-            overlayFilterButton={overlayFilterButton}
-            open={open}
-            setOpen={setOpen}
-            value={value}
-            setValue={setValue}
-            items={items}
-            setItems={setItems}
-            itemcount={itemcount}
-            setNeighborhood={setNeighborhood}
-            neighborhood={neighborhood}
-            setRentState={setRentState}
-            rentState={rentState}
-            setLeaseState={setLeaseState}
-            leaseState={leaseState}
-            setSqFtState={setSqFtState}
-            sqFtState={sqFtState}
-            switchEnabledPar={switchEnabledPar}
-            setSwitchEnabledPar={setSwitchEnabledPar}
-            toggleSwitchPar={toggleSwitchPar}
-            switchEnabledGym={switchEnabledGym}
-            setSwitchEnabledGym={setSwitchEnabledGym}
-            toggleSwitchGym={toggleSwitchGym}
-            switchEnabledPoo={switchEnabledPoo}
-            setSwitchEnabledPoo={setSwitchEnabledPoo}
-            toggleSwitchPoo={toggleSwitchPoo}
-            switchEnabledApp={switchEnabledApp}
-            setSwitchEnabledApp={setSwitchEnabledApp}
-            toggleSwitchApp={toggleSwitchApp}
-            switchEnabledFur={switchEnabledFur}
-            setSwitchEnabledFur={setSwitchEnabledFur}
-            toggleSwitchFur={toggleSwitchFur}
-            switchEnabledAC={switchEnabledAC}
-            setSwitchEnabledAC={setSwitchEnabledAC}
-            toggleSwitchAC={toggleSwitchAC}
-          />
+          <FilterOverlay overlayFilterButton={overlayFilterButton}/>
         )}
 
         {listState && (
