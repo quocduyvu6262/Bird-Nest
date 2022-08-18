@@ -32,6 +32,10 @@ router.post('/lookingforhousing', (req, res) => { // input
 					if (key == "rent") { //evaluates the lease and rent for a range
 						var matchingQuery = `UPDATE BirdNest.Matching JOIN BirdNest.Housing ON Matching.User_id = Housing.User_id SET number = number + 1 WHERE ${key} <= ${value}`;
 					} 
+					else if (key == "neighborhood"){
+						const inClause = value.map(el => "'" + el + "'").join();
+						var matchingQuery = `UPDATE BirdNest.Matching JOIN BirdNest.Housing ON Matching.User_id = Housing.User_id SET number = number + 1 WHERE ${key} in (${inClause})`;
+					}
 					else { //evaluates for values that are strings
 						var matchingQuery = `UPDATE BirdNest.Matching JOIN BirdNest.Housing ON Matching.User_id = Housing.User_id SET number = number + 1 WHERE ${key} = '${value}'`;	
 					}
