@@ -5,8 +5,8 @@ const express = require("express");
 const db = require("../utils/database");
 const router = express.Router();
 
-router.post('/', (req, res) => { // input
-	var provided_id = req.body.user_id; //temporary until ID is provided by front-end
+router.post('/lookingforhousing', (req, res) => { // input
+	let provided_id = req.body.user_id; //temporary until ID is provided by front-end
 	//var provided_id = req.body.id:
 	console.log(provided_id)
 	//query for sending every user's variables to the front-end 
@@ -17,7 +17,7 @@ router.post('/', (req, res) => { // input
 			(err, result) => {
 				const provided_values = result;
 				//add the following matching variables to the map
-				//must_have_map.set("neighborhood", provided_values[0].neighborhood);
+				must_have_map.set("neighborhood", provided_values[0].neighborhood); // array of string
 				must_have_map.set("lease", provided_values[0].lease);
 				must_have_map.set("rent", provided_values[0].rent);
 				must_have_map.set("squarefeet", provided_values[0].squarefeet);
@@ -53,5 +53,10 @@ router.post('/', (req, res) => { // input
 		});
 	});
 });
+
+router.post('/lookingfornohousing', (req, res) => {
+	let provided_id = req.body.user_id;
+});
+
 module.exports = router;
 

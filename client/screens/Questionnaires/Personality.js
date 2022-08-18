@@ -54,6 +54,10 @@ class Personality extends Component {
     // Store housing into database
     // TODO: Implement the method to store housing data into database
     if(user.role === 'Flamingo' || user.role === 'Owl'){
+      // delete no housing
+      Axios.post(`${await Constants.BASE_URL()}/api/nohousing/delete`,{
+        user_id: user.id
+      })
       // Post to housing
       Axios.post(`${await Constants.BASE_URL()}/api/housings/create`, {
         user_id: user.id,
@@ -62,6 +66,10 @@ class Personality extends Component {
         console.log('Fail to update/insert housing from questionnaire');
       })
     } else if(user.role === 'Parrot' || user.role === 'Penguin' || user.role === 'Duck'){
+      // delete housing
+      Axios.post(`${await Constants.BASE_URL()}/api/housings/delete`,{
+        user_id: user.id
+      })
       // Post to nohousing
       Axios.post(`${await Constants.BASE_URL()}/api/nohousing/create`, {
         user_id: user.id,

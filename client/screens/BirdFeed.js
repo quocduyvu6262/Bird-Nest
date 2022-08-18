@@ -14,7 +14,6 @@ import {
 } from "react-native";
 import Svg, { Path } from "react-native-svg";
 import Bird_Drawing from "../assets/svg/Bird_Drawing.js";
-
 import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import Footer from "../components/Footer.js";
@@ -28,19 +27,18 @@ import Animated, {
   useAnimatedStyle,
 } from "react-native-reanimated";
 import Swipeable from "react-native-gesture-handler/Swipeable";
-
 import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
 import MainHeader from "../components/MainHeader.js";
 import Constants from "../constants/constants.js";
 import barackObama from "../assets/barackObama.jpeg";
 import { useChatClient } from "./ChatAPI/useChatClient.js";
 import FilterOverlay from "../components/FilterOverlay.js";
-// Old Imports for filter
-// import { Icon } from "@rneui/themed";
-// import Icon2 from "react-native-vector-icons/MaterialCommunityIcons";
 import Icon3 from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
+
+
 const BirdFeed = ({ navigation }) => {
+
   const user = useSelector((state) => state.data.userInfo);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState([]);
@@ -60,25 +58,19 @@ const BirdFeed = ({ navigation }) => {
     { label: "Other", value: "other" },
   ]);
   const itemcount = items.length;
-
   const [userList, setUserList] = useState([]);
   const [listState, setListState] = useState(false);
   // This is the old filter function on birdfeed
-
   const overlayFilterButton = () => {
     overlayFilterClicked
       ? setOverlayFilterClicked(false)
       : setOverlayFilterClicked(true);
   };
-
   const overlayDropDownButton = () => {
     overlayDropDownClicked
       ? setOverlayDropDownClicked(false)
       : setOverlayDropDownClicked(true);
   };
-  // const handlerAgeChange = (ageSlide) => {
-  //   setAgeState({ageState});
-  // }
   const [ageState, setAgeState] = useState(18);
 
   const [rentState, setRentState] = useState(500);
@@ -117,11 +109,14 @@ const BirdFeed = ({ navigation }) => {
   let [fontsLoaded] = useFonts({
     Pacifico_400Regular,
   });
-  // ----- LOGIC FOR VIEW USER BUTTONS -----
 
+  /**
+   * Call the matching algorithm and display
+   * the list of users that match each criteria
+   */
   const viewUsers = async () => {
     setUserList([]);
-    Axios.post(`${await Constants.BASE_URL()}/api/matching/`, {
+    Axios.post(`${await Constants.BASE_URL()}/api/matching/lookingforhousing`, {
       user_id: user.id,
     })
       .then((response) => {
@@ -152,12 +147,16 @@ const BirdFeed = ({ navigation }) => {
     setListState(true);
   };
 
+  /**
+   * use effect
+   */
   useEffect(() => {
     viewUsers();
   }, []);
 
-  // ---------------------------------------
-
+  /**
+   * Render Logic
+   */
   if (!fontsLoaded) {
     return <View></View>;
   } else {
