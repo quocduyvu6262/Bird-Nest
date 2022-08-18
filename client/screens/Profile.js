@@ -410,6 +410,18 @@ const Profile = ({ navigation }) => {
 
             <TouchableOpacity>
               <Button
+                color={"black"}
+                onPress={openDelete}
+                style={{
+                  borderBottomWidth: 1,
+                }}
+              >
+                Edit
+              </Button>
+            </TouchableOpacity>
+
+            <TouchableOpacity>
+              <Button
                 color={!buttonClicked ? "#560CCE" : "black"}
                 onPress={bioButton}
                 style={
@@ -443,7 +455,11 @@ const Profile = ({ navigation }) => {
             {!buttonClicked && <BioInfo bio={data.userInfo.bio}></BioInfo>}
 
             {buttonClicked && (
-              <RentInfo rent={data.housing.rent} lease={data.housing.lease} neighborhood={data.housing.neighborhood} />
+              <RentInfo
+                rent={data.housing.rent}
+                lease={data.housing.lease}
+                neighborhood={data.housing.neighborhood}
+              />
             )}
           </InfoCard>
 
@@ -475,9 +491,7 @@ const Profile = ({ navigation }) => {
 const BioInfo = (props) => {
   return (
     <View style={styles.subContainer}>
-      <Text style={styles.text}>
-        {props.bio}
-      </Text>
+      <Text style={styles.text}>{props.bio}</Text>
     </View>
   );
 };
@@ -494,7 +508,8 @@ const RentInfo = (props) => {
         months
       </Text>
       <Text style={styles.text}>
-        <Text style={{ fontWeight: "bold" }}> Neighborhood:</Text> {props.neighborhood}
+        <Text style={{ fontWeight: "bold" }}> Neighborhood:</Text>{" "}
+        {props.neighborhood}
       </Text>
     </View>
   );

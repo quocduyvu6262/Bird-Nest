@@ -13,13 +13,27 @@ import {
 import { StreamChat } from 'stream-chat';
 import Constants from '../../constants/constants';
 import { useSelector } from 'react-redux';
+import MainHeader from '../../components/MainHeader';''
 //CHAT SCREEN
 import ChannelListScreen from './ChannelList';
 import ChannelScreen from './Channel';
 
+LogBox.ignoreLogs([
+  'Non-serializable values were found in the navigation state',
+  'Sending `onAnimatedValueUpdate` with no listeners registered.'
+]);
 const Stack = createStackNavigator();
 const chatClient = StreamChat.getInstance(Constants.CHAT_API_KEY);
 
+
+const getChannelName = (members) => {
+  const defaultName = 'Johnny Blaze';
+
+  if (!members.length || members.length === 1) {
+    return members[0]?.user.name || defaultName;
+  }
+  return `${members[0]?.user.name || defaultName}, ${members[1]?.user.name || defaultName}`;
+}
 
 export default ChatNavigator = ({navigation, route}) => {
   useLayoutEffect(() => {
@@ -42,7 +56,11 @@ export default ChatNavigator = ({navigation, route}) => {
     <OverlayProvider>
       <Chat client={chatClient}>
         <Stack.Navigator>
-          <Stack.Screen name="ChannelListScreen" component={ChannelListScreen} />
+          <Stack.Screen 
+            name="Messenger" 
+            component={ChannelListScreen} 
+            options= {{headerShown: false}}
+            />
           <Stack.Screen 
             name="ChannelScreen" 
             component={ChannelScreen} 

@@ -1,9 +1,5 @@
 import React, { useEffect } from "react";
-import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 import Background from "../../components/Background";
 import Logo from "../../components/Logo";
 import Header from "../../components/Header";
@@ -24,7 +20,6 @@ import * as FileSystem from 'expo-file-system';
 WebBrowser.maybeCompleteAuthSession();
 
 const LoginScreen = ({ navigation }) => {
-
   /**
    * @returns the dispatch instance
    */
@@ -42,7 +37,7 @@ const LoginScreen = ({ navigation }) => {
 
   /**
    * Fetch the user data from Google access token
-   * @param accessToken the Google access token 
+   * @param accessToken the Google access token
    * @returns the Google User's data
    */
   const fetchGoogleUser = async (accessToken) => {
@@ -57,7 +52,7 @@ const LoginScreen = ({ navigation }) => {
 
   /**
    * Perform the login in the backend
-   * @param data the object containing user's email and fullname 
+   * @param data the object containing user's email and fullname
    * @returns the promise that contains either LOGIN or REGISTER status
    */
   const login = async (data) => {
@@ -76,7 +71,7 @@ const LoginScreen = ({ navigation }) => {
    * Function that receives the user email and perform
    * the GET request on the database in order to retrieve
    * the user info, then pushing into SecureStore and Redux Store
-   * @param emai the current user's email
+   * @param email the current user's email
    */
   const storeData = async (email) => {
     // Get and store user
@@ -172,7 +167,7 @@ const LoginScreen = ({ navigation }) => {
               console.log(res);
               // TWO CASES: LOGIN or REGISTER
               if (res.status === "login") {
-                console.log("Login Successfully")
+                console.log("Login Successfully");
                 // PULL FROM DATABASE -> STORE INTO SECURE STORAGE -> STORE INTO REDUX STORAGE
                 await storeData(res.email);
                 navigation.navigate("BirdFeed");
@@ -199,13 +194,11 @@ const LoginScreen = ({ navigation }) => {
       <View style={styles.background}>
         <Logo />
         <Header>Bird Nest</Header>
-        <Paragraph>
-          Homes that Match
-        </Paragraph>
+        <Paragraph>Homes that Match</Paragraph>
         <TouchableOpacity>
           <Button
             mode="contained"
-            onPress={() => promptAsync({showInRecents: true})}
+            onPress={() => promptAsync({ showInRecents: true })}
           >
             Sign in with Google
           </Button>
@@ -216,10 +209,10 @@ const LoginScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  background:{
-    alignItems: 'center',
-    alignSelf: 'center',
-    marginTop: '80%'
-  }
+  background: {
+    alignItems: "center",
+    alignSelf: "center",
+    marginTop: "80%",
+  },
 });
 export default LoginScreen;

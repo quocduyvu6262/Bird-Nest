@@ -1,10 +1,11 @@
 import { View, Text, StyleSheet, Dimensions, Image } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   GestureDetector,
   PanGestureHandler,
   State,
   Gesture,
+  GestureHandlerRootView,
 } from "react-native-gesture-handler";
 import Animated, {
   useAnimatedGestureHandler,
@@ -34,105 +35,105 @@ const snapPoint = (value, velocity, points) => {
 };
 
 const PeckViewCard = ({ user, index, listState }) => {
-  const offset = useSharedValue({ x: 0, y: 0 });
-  // const x = useSharedValue(0);
-  // const y = useSharedValue(-height);
-  const translateX = useSharedValue(0);
-  const translateY = useSharedValue(-height);
+  const x = useSharedValue(0);
+  const y = useSharedValue(-height - 200);
   const theta = Math.random() * 20 - 10;
   const rotateZ = useSharedValue(Math.random() * 20 - 10);
   const scale = useSharedValue(1);
+  const opacity = useSharedValue(1);
+  const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
-    const delay = 1000 + index * DURATION;
-    translateY.value = withDelay(
-      delay,
-      withTiming(0, {
-        duration: DURATION,
-        easing: Easing.inOut(Easing.ease),
-      })
-    );
-    rotateZ.value = withDelay(
-      delay,
-      withTiming(theta, {
-        duration: DURATION,
-        easing: Easing.inOut(Easing.ease),
-      })
-    );
+    if (listState) {
+      const delay = 1000 + index * DURATION;
+      y.value = withDelay(
+        delay,
+        withTiming(0, {
+          duration: DURATION,
+          easing: Easing.inOut(Easing.ease),
+        })
+      );
+      rotateZ.value = withDelay(
+        delay,
+        withTiming(theta, {
+          duration: DURATION,
+          easing: Easing.inOut(Easing.ease),
+        })
+      );
+    }
   }, [listState]);
 
-  // const onGestureEvent = useAnimatedGestureHandler({
-  //   // get context info of object so card remembers position
-  //   onStart: (_, ctx) => {
-  //     ctx.x = x.value;
-  //     ctx.y = y.value;
-  //     scale.value = withTiming(1.1, { easing: Easing.inOut(Easing.ease) });
-  //     rotateZ.value = withTiming(0, { easing: Easing.inOut(Easing.ease) });
-  //   },
-  //   onActive: ({ translationX, translationY }, ctx) => {
-  //     x.value = ctx.x + translationX;
-  //     y.value = ctx.y + translationY;
-  //   },
-  //   onEnd: ({ velocityX, velocityY }) => {
-  //     const dest = snapPoint(x.value, velocityX, SNAP_POINTS);
-  //     x.value = withSpring(dest, { velocity: velocityX });
-  //     y.value = withSpring(0, { velocity: velocityY });
-  //     scale.value = withTiming(1, {
-  //       duration: DURATION,
-  //       easing: Easing.inOut(Easing.ease),
-  //     });
-  //   },
-  // });
-
-  const gesture = Gesture.Pan()
-    .onBegin(() => {
-      offset.value.x = translateX.value;
-      offset.value.y = translateY.value;
-      rotateZ.value = withTiming(0);
-      scale.value = withTiming(1.1);
-    })
-    .onUpdate(({ translationX, translationY }) => {
-      translateX.value = offset.value.x + translationX;
-      translateY.value = offset.value.y + translationY;
-    })
-    .onEnd(({ velocityX, velocityY }) => {
-      const dest = snapPoint(translateX.value, velocityX, SNAP_POINTS);
-      translateX.value = withSpring(dest, { velocity: velocityX });
-      translateY.value = withSpring(0, { velocity: velocityY });
+  const onGestureEvent = useAnimatedGestureHandler({
+    // get context info of object so card remembers position
+    onStart: (_, ctx) => {
+      ctx.x = x.value;
+      ctx.y = y.value;
+      scale.value = withTiming(1.1, { easing: Easing.inOut(Easing.ease) });
+      rotateZ.value = withTiming(0, { easing: Easing.inOut(Easing.ease) });
+    },
+    onActive: ({ translationX, translationY }, ctx) => {
+      x.value = ctx.x + translationX;
+      y.value = ctx.y + translationY;
+    },
+    onEnd: ({ velocityX, velocityY }) => {
+      const dest = snapPoint(x.value, velocityX, SNAP_POINTS);
+      opacity.value = withTiming(0, {
+        duration: DURATION,
+        easing: Easing.inOut(Easing.ease),
+      });
+      x.value = withSpring(dest, { velocity: velocityX });
+      y.value = withSpring(0, { velocity: velocityY });
       scale.value = withTiming(1, {
         duration: DURATION,
         easing: Easing.inOut(Easing.ease),
       });
-    });
+    },
+  });
 
   const Animated_Style = useAnimatedStyle(() => ({
     transform: [
       { perspective: 3000 },
       { rotateX: "30deg" },
       { rotateZ: `${rotateZ.value}deg` },
-      // { translateX: x.value },
-      // { translateY: y.value },
-      { translateX: translateX.value },
-      { translateY: translateY.value },
+      { translateX: x.value },
+      { translateY: y.value },
       { scale: scale.value },
     ],
   }));
 
+  const Animated_Opacity = useAnimatedStyle(() => ({
+    opacity: opacity.value,
+  }));
+
   const handleStateChange = ({ nativeEvent }) => {
-    console.log(nativeEvent.state);
-    if (nativeEvent.state === State.END) {
-      console.log(x.value);
-      console.log("ended");
+    const dest = snapPoint(x.value, nativeEvent.velocityX, SNAP_POINTS);
+    if (nativeEvent.state === State.END && dest === SNAP_POINTS[2]) {
+      console.log("Yes");
+      // setHidden(true);
+      opacity.value = withTiming(0, {
+        duration: DURATION,
+        easing: Easing.inOut(Easing.ease),
+      });
+    } else if (nativeEvent.state === State.END && dest === SNAP_POINTS[1]) {
+      console.log("No");
+      // setHidden(true);
+      opacity.value = withTiming(0, {
+        duration: DURATION,
+        easing: Easing.inOut(Easing.ease),
+      });
     }
   };
 
   return (
-    <View style={Peck_View_Styles.container}>
-      {/* <PanGestureHandler
+    <View
+      style={Peck_View_Styles.container}
+      // { display: hidden ? "none" : "flex" },
+      pointerEvents="box-none"
+    >
+      <PanGestureHandler
         onGestureEvent={onGestureEvent}
         onHandlerStateChange={handleStateChange}
-      > */}
-      <GestureDetector gesture={gesture}>
+      >
         <Animated.View style={[Peck_View_Styles.card, Animated_Style]}>
           <View style={Peck_View_Styles.cardFlourish}>
             <View style={Peck_View_Styles.cardFlourish2}>
@@ -147,8 +148,7 @@ const PeckViewCard = ({ user, index, listState }) => {
             </View>
           </View>
         </Animated.View>
-      </GestureDetector>
-      {/* </PanGestureHandler> */}
+      </PanGestureHandler>
     </View>
   );
 };
@@ -156,19 +156,22 @@ const PeckViewCard = ({ user, index, listState }) => {
 const Peck_View_Styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
+    // position: "absolute",
     // ------ CLEAN UP THIS POSITIONING ---------
-    top: "25%",
-    left: "15%",
+    // top: "25%",
+    // left: "15%",
     justifyContent: "center",
     alignItems: "center",
-    height: 500,
-    width: 300,
+    // height: 500,
+    // width: 300,
   },
   card: {
     backgroundColor: "#560CCE",
     borderRadius: 10,
-    width: "100%",
-    height: "100%",
+    // width: 300,
+    // height: 500,
+    width: CARD_WIDTH,
+    height: CARD_HEIGHT,
     justifyContent: "center",
     alignItems: "center",
     shadowColor: "#000",

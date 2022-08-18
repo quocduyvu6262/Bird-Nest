@@ -79,7 +79,7 @@ const Settings = ({ navigation }) => {
       </TouchableOpacity>
 
       <Buttons
-        style={styles.logoutButton}
+        style={{flex: 1}}
         onPress={() => {
           logout();
         }}
@@ -114,9 +114,6 @@ const styles = StyleSheet.create({
   },
   textButton: {
     color: "white",
-  },
-  logoutButton: {
-    flex: 1,
   },
   deleteButton: {
     marginBottom: 40,

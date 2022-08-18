@@ -8,6 +8,7 @@ import Constants from '../../constants/constants';
 // Redux
 import * as dataActions from '../../redux/slices/data';
 import { useDispatch } from "react-redux";
+
 export default function SplashScreen({navigation}) {
 
     const edges = useSafeAreaInsets();
