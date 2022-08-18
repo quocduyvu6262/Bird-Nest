@@ -1,6 +1,13 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp, getApps } from "firebase/app";
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { 
+  getStorage, 
+  ref, 
+  uploadBytes, 
+  getDownloadURL,
+  uploadBytesResumable,
+  deleteObject
+} from 'firebase/storage';
 
 
 
@@ -28,7 +35,9 @@ export {
     getStorage,
     ref,
     uploadBytes,
-    getDownloadURL
+    uploadBytesResumable,
+    getDownloadURL,
+    deleteObject
 }
 
 

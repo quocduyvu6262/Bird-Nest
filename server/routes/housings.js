@@ -1,21 +1,21 @@
 // require express
-const express = require('express');
+const express = require("express");
 // require db connection
-const db = require('../utils/database');
+const db = require("../utils/database");
 const router = express.Router();
 // get all housing
-router.get('/', (req, res) => {
-    const query = `SELECT * FROM Housing`;
-    db(client => {
-        client.query(query, (err, results) => {
-            if(!err){
-                res.send(results);
-            } else {
-                res.status(401).send();
-            }
-        })
+router.get("/", (req, res) => {
+  const query = `SELECT * FROM Housing`;
+  db((client) => {
+    client.query(query, (err, results) => {
+      if (!err) {
+        res.send(results);
+      } else {
+        res.status(401).send();
+      }
     });
-})
+  });
+});
 
 // Get housing by Email
 router.get('/email/:email', (req, res) => {
@@ -53,19 +53,18 @@ router.post('/id', (req, res) => {
 })
 
 //Get housing by ID
-router.get('/:id', (req, res) => {
-    const query = `SELECT * FROM Housing WHERE id=${req.params.id}`;
-    db(client => {
-        client.query(query, (err, result) => {
-            if(!err && result.length) {
-                res.send(result);
-            } else {
-                res.status(404).send('Housing not found.');
-            }
-        })
+router.get("/:id", (req, res) => {
+  const query = `SELECT * FROM Housing WHERE id=${req.params.id}`;
+  db((client) => {
+    client.query(query, (err, result) => {
+      if (!err && result.length) {
+        res.send(result);
+      } else {
+        res.status(404).send("Housing not found.");
+      }
     });
-})
-
+  });
+});
 
 // Post housings
 router.post('/create', (req, res) => {
@@ -136,40 +135,9 @@ router.post('/delete', (req, res) => {
                 res.status(400).send(`Bad Request.`)
                 return;
             }
-            res.send(`Delete successfully.`);
+            console.log('Delete housing successfully')
         });
     })   
 })
-
-//Store the buttons (Correspond to variables) a user clicked in an array (each button adds an element to the array)
-//Insert the strings into queries. Where 'variable' = 'variable_value
-
-router.get('/filtered', (req, res) => {
-    const filterVars = ["id", "fullname", "role", "gender", "age", "graduationyear", "major", "pet"];
-    //const filterVars = [];
-    //filterVars.push(var);
-    incompleteQuery = "SELECT ";
-    for (let i = 0; i < filterVars.length -1; i++) {    //skip last element because last doesnt have comma
-        incompleteQuery += filterVars[i] + ", ";
-    }
-    incompleteQuery += filterVars[filterVars.length -1] + " FROM User;";
-    //const query = "SELECT id, fullname, role, gender, age, graduationyear, major, pet FROM User;";
-    const query = incompleteQuery;
-    db(client => {
-        client.query(query, (err, results) => {
-            if(!err){
-                res.send(results);
-            } else {
-                //res.status(401).send("No users matching those filters found");
-                console.log(err);
-                res.status(401).send(results);
-            }
-        })
-    });
-})
-
-
-
-
 
 module.exports = router;

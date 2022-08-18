@@ -68,7 +68,6 @@ router.get('/:id', (req, res) => {
 })
 
 
-
 // Post housings
 router.post('/create', (req, res) => {
     let housing = req.body.housing;

@@ -5,8 +5,8 @@ const express = require("express");
 const db = require("../utils/database");
 const router = express.Router();
 
-router.post('/', (req, res) => { // input
-	var provided_id = req.body.user_id; //temporary until ID is provided by front-end
+router.post('/lookingforhousing', (req, res) => { // input
+	let provided_id = req.body.user_id; //temporary until ID is provided by front-end
 	//var provided_id = req.body.id:
 	console.log(provided_id)
 	//query for sending every user's variables to the front-end 
@@ -17,7 +17,7 @@ router.post('/', (req, res) => { // input
 			(err, result) => {
 				const provided_values = result;
 				//add the following matching variables to the map
-				//must_have_map.set("neighborhood", provided_values[0].neighborhood);
+				must_have_map.set("neighborhood", provided_values[0].neighborhood); // array of string
 				must_have_map.set("lease", provided_values[0].lease);
 				must_have_map.set("rent", provided_values[0].rent);
 				must_have_map.set("squarefeet", provided_values[0].squarefeet);
@@ -28,15 +28,21 @@ router.post('/', (req, res) => { // input
 				must_have_map.set("furniture", provided_values[0].furniture);
 				must_have_map.set("AC", provided_values[0].AC);
 				for(const [key, value] of must_have_map) { //updates matches count for each user
+					// 1ST RENT LEASE NEIGHBOTHOOD
 					if (key == "rent") { //evaluates the lease and rent for a range
 						var matchingQuery = `UPDATE BirdNest.Matching JOIN BirdNest.Housing ON Matching.User_id = Housing.User_id SET number = number + 1 WHERE ${key} <= ${value}`;
 					} 
+					else if (key == "neighborhood"){
+						const inClause = value.map(el => "'" + el + "'").join();
+						var matchingQuery = `UPDATE BirdNest.Matching JOIN BirdNest.Housing ON Matching.User_id = Housing.User_id SET number = number + 1 WHERE ${key} in (${inClause})`;
+					}
 					else { //evaluates for values that are strings
 						var matchingQuery = `UPDATE BirdNest.Matching JOIN BirdNest.Housing ON Matching.User_id = Housing.User_id SET number = number + 1 WHERE ${key} = '${value}'`;	
 					}
 					client.query(matchingQuery, [],(err) => {
 						if (err) console.log("Fail to match");
 					});
+
 				}
 				client.query(resultQuery, function (err, result) { //orders Matches table from most to least matches
 					if (err) console.log("Fail to show result");
@@ -61,7 +67,7 @@ router.post('/filter', (req, res) => {
     let housingQuery = "SELECT * FROM Housing WHERE ";
 	let nohousingQuery = "SELECT * FROM NoHousing WHERE ";
     for (let key in filterMap) {
-		//skip unselected statements
+		//skip unselected switches
 		if (filterMap[key] === "false") {
 			continue;
 		}
@@ -95,3 +101,4 @@ router.post('/filter', (req, res) => {
     });
 })
 module.exports = router;
+

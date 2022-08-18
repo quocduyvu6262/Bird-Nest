@@ -1,12 +1,13 @@
+import React from "react";
 import { View, Text, StyleSheet, Image, StatusBar } from "react-native";
 import Header from "./Header";
 import { theme } from "../core/theme";
-import React from "react";
+import CarouselCards from "./ProfileCarousel/CarouselCards";
 
 const UserCard = (props) => {
   return (
     <View style={styles.card}>
-      <Image style={styles.userImage} source={{uri: props.image}} />
+      <CarouselCards/>
       <Header>{props.name}</Header>
     </View>
   );

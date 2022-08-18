@@ -14,7 +14,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import * as dataActions from '../../redux/slices/data'; 
 import { validatePathConfig } from "@react-navigation/native";
 import * as ImagePicker from 'expo-image-picker';
-import { getStorage, ref, uploadBytes, storage } from '../../firebaseConfig';
+import { getStorage, ref, uploadBytes, storage, getDownloadURL, uploadBytesResumable } from '../../firebaseConfig';
+import * as FileSystem from 'expo-file-system';
 
 const IDQs = ({ navigation }) => {
   
@@ -59,6 +60,7 @@ const IDQs = ({ navigation }) => {
       return;
     }
     
+
     // Pick image from device library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -76,18 +78,34 @@ const IDQs = ({ navigation }) => {
   /**
    * Upload image data to firebase cloudstore
    */
-  const uploadImage = async () => {
+  const uploadImage = async (currentUri) => {
     const refPath = `images/${userInfo.uid}/avatar.jpg`;
     const reference = ref(storage, refPath);
-    // store ref path into redux 
-    dispatch(dataActions.updateProfilepic(`images/${userInfo.uid}/avatar.jpg`));
     // convert image to array of bytes
     const img = await fetch(currentUri);
     const bytes = await img.blob();
     // upload to firebase cloud storage
-    await uploadBytes(reference, bytes);
+    const uploadTask = uploadBytesResumable(reference, bytes);
+    // store image downloaded URL into redux 
+    uploadTask.on('state_changed',
+      (snapshot) => {
+        
+      },
+      (err) => {
+        
+      },
+      async () => { // handle successfull case
+        const imageDownloadedUrl = await getDownloadURL(uploadTask.snapshot.ref);
+        if(imageDownloadedUrl){
+          dispatch(dataActions.updateProfilepic(uploadTask.snapshot.ref._location.path_));
+          FileSystem.downloadAsync(imageDownloadedUrl, FileSystem.documentDirectory + 'avatar.jpg').then(({uri})=>{
+            dispatch(dataActions.updateAvatar(uri));
+          })
+        }
+      }
+    )
   }
-  
+
 
 
   return (
@@ -177,7 +195,7 @@ const IDQs = ({ navigation }) => {
           }
           else {
             if(currentUri){
-              uploadImage();
+              uploadImage(currentUri);
             }
             navigation.navigate("Roles");
           }
