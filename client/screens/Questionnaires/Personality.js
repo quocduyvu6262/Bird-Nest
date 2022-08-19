@@ -34,25 +34,26 @@ class Personality extends Component {
   /**
    * Pull data from Redux Store and store into
    * Database and Secure Storage
+   * @returns true if storing data successfully.
+   * False otherwise
    */
-   storeData = async () => {
+  storeData = async () => {
     const user = this.props.data.userInfo;
     const housing = this.props.data.housing;
     const imageFileSystemUri = this.props.data.imageFileSystemUri;
+
     // Store into Secure Store
-    SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify(user));
-    SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING, JSON.stringify(housing));
-    SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_IMAGE_URI, JSON.stringify({avatar: imageFileSystemUri.avatar, album: imageFileSystemUri.album}));
+    SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify(user)).then().catch(err => {console.log("Fail to store user in Secure Store"); return false});
+    SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING, JSON.stringify(housing)).then().catch(err => {console.log("Fail to store housing in Secure Store"); return false});
+    SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_IMAGE_URI, JSON.stringify({avatar: imageFileSystemUri.avatar, album: imageFileSystemUri.album})).then().catch(err => {console.log("Fail to store images in Secure Store"); return false});
 
     // Store user into database
-    // TODO: Implement the method to store user data into database
     Axios.post(`${await Constants.BASE_URL()}/api/users/questionnaire`, {
       userInfo : user,
     }).catch( err => {
       console.log("Fail to store user into database from questionnaire");
     });
     // Store housing into database
-    // TODO: Implement the method to store housing data into database
     if(user.role === 'Flamingo' || user.role === 'Owl'){
       // delete no housing
       Axios.post(`${await Constants.BASE_URL()}/api/nohousing/delete`,{
@@ -62,8 +63,9 @@ class Personality extends Component {
       Axios.post(`${await Constants.BASE_URL()}/api/housings/create`, {
         user_id: user.id,
         housing: housing
-      }).then().catch( err => {
+      }).then(() => true).catch( err => {
         console.log('Fail to update/insert housing from questionnaire');
+        return false;
       })
     } else if(user.role === 'Parrot' || user.role === 'Penguin' || user.role === 'Duck'){
       // delete housing
@@ -74,8 +76,9 @@ class Personality extends Component {
       Axios.post(`${await Constants.BASE_URL()}/api/nohousing/create`, {
         user_id: user.id,
         housing: housing
-      }).then().catch( err => {
+      }).then(() => true).catch( err => {
         console.log('Fail to update/insert nohousing from questionnaire');
+        return false;
       })
     }
     
@@ -1013,8 +1016,9 @@ class Personality extends Component {
           <TouchableOpacity style={HousingQ_styles.nextButton}
           onPress={()=>{
             //this.createHousingInfo()
-            this.storeData();
-            this.props.navigation.navigate('BirdFeed')
+            if(this.storeData()){
+              this.props.navigation.navigate('BirdFeed');
+            }
           }}>
             <Text style = {[HousingQ_styles.buttonText, {color:'#FFF'}]}>Finish</Text>
           </TouchableOpacity>

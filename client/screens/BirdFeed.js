@@ -69,7 +69,13 @@ const BirdFeed = ({ navigation }) => {
    */
   const viewUsers = async () => {
     setUserList([]);
-    Axios.post(`${await Constants.BASE_URL()}/api/matching/lookingforhousing`, {
+    let apiEndpoint;
+    if(user.role === 'Flamingo' || user.role === 'Owl'){
+      apiEndpoint = '/api/matching/lookingfornohousing';
+    } else {
+      apiEndpoint = '/api/matching/lookingforhousing'
+    }
+    Axios.post(`${await Constants.BASE_URL()}${apiEndpoint}`, {
       user_id: user.id,
     })
       .then((response) => {
@@ -144,10 +150,8 @@ const BirdFeed = ({ navigation }) => {
           <View styles={styles.flatlist}>
             <FlatList
               data={userList}
-              // data={UserData}
               renderItem={(item) => <ProfileCard item={item} />}
               extraData={userList}
-              // extraData={UserData}
             />
           </View>
         )}
