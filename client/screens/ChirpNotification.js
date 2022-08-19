@@ -33,15 +33,18 @@ const ChirpNotification = ({ navigation }) => {
   const user = useSelector(state => state.data.userInfo);
   const [expoPushToken, setExpoPushToken] = useState('');
   const [notification, setNotification] = useState(false);
+  const [test, setTest] = useState(false);
   const notificationListener = useRef();
   const responseListener = useRef();
-  const names = ['Jack Multani', 'Michael Jordan', 'Lebron James', 'Steph Curry'];
-  const pics = ['file:///var/mobile/Containers/Data/Application/6525879C-DFA1-4D73-BC39-9EA131D452A5/Library/Caches/ExponentExperienceData/%2540quocduyvu6262%252FBirdNest/ImagePicker/3A9B8F43-006A-47CF-AE34-990959BC590D.jpg', 'file:///var/mobile/Containers/Data/Application/6525879C-DFA1-4D73-BC39-9EA131D452A5/Library/Caches/ExponentExperienceData/%2540quocduyvu6262%252FBirdNest/ImagePicker/0A6C8202-8AE8-4A7B-8460-6A113F1CA43E.jpg', 'file:///var/mobile/Containers/Data/Application/6525879C-DFA1-4D73-BC39-9EA131D452A5/Library/Caches/ExponentExperienceData/%2540quocduyvu6262%252FBirdNest/ImagePicker/EEFD7E73-1A06-4B90-9280-DAAB6B26521F.jpg', 'file:///var/mobile/Containers/Data/Application/6525879C-DFA1-4D73-BC39-9EA131D452A5/Library/Caches/ExponentExperienceData/%2540quocduyvu6262%252FBirdNest/ImagePicker/6B96B2F8-6044-4C3C-A2A5-38201C32480D.jpg']
+  let names = ['Jack Multani', 'Michael Jordan', 'Lebron James', 'Steph Curry'];
+  let pics = ['file:///var/mobile/Containers/Data/Application/6525879C-DFA1-4D73-BC39-9EA131D452A5/Library/Caches/ExponentExperienceData/%2540quocduyvu6262%252FBirdNest/ImagePicker/3A9B8F43-006A-47CF-AE34-990959BC590D.jpg', 'file:///var/mobile/Containers/Data/Application/6525879C-DFA1-4D73-BC39-9EA131D452A5/Library/Caches/ExponentExperienceData/%2540quocduyvu6262%252FBirdNest/ImagePicker/0A6C8202-8AE8-4A7B-8460-6A113F1CA43E.jpg', 'file:///var/mobile/Containers/Data/Application/6525879C-DFA1-4D73-BC39-9EA131D452A5/Library/Caches/ExponentExperienceData/%2540quocduyvu6262%252FBirdNest/ImagePicker/EEFD7E73-1A06-4B90-9280-DAAB6B26521F.jpg', 'file:///var/mobile/Containers/Data/Application/6525879C-DFA1-4D73-BC39-9EA131D452A5/Library/Caches/ExponentExperienceData/%2540quocduyvu6262%252FBirdNest/ImagePicker/6B96B2F8-6044-4C3C-A2A5-38201C32480D.jpg']
 
   useEffect(() => {
     registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
 
     notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+      names.push("Bird");
+      pics.push("file:///var/mobile/Containers/Data/Application/6525879C-DFA1-4D73-BC39-9EA131D452A5/Library/Caches/ExponentExperienceData/%2540quocduyvu6262%252FBirdNest/ImagePicker/7B3C18C3-9ED8-4DBE-B65A-9D7BE3FD3D93.jpg");
       setNotification(notification);
     });
 
@@ -85,20 +88,10 @@ const ChirpNotification = ({ navigation }) => {
   
     return token;
   }
-  
-  async function schedulePushNotification(name) {
-    await Notifications.scheduleNotificationAsync({
-      content: {
-        title: "Match found! 🙌",
-        body: name + ' is a potential roommate.',
-        data: { data: 'goes here' },
-      },
-      trigger: { seconds: 2 },
-    });
-  }
   let count = -1;
   var notis = pics.map(function(image) {
     count = count + 1;
+    console.log(names);
       return (
         <View key={image} style = {{alignItems: 'center',justifyContent: 'flex-start', flexDirection: 'row', borderBottomColor: "lightgray", padding: 10, borderBottomWidth: 0.8,}}>
           <Image 
@@ -111,8 +104,6 @@ const ChirpNotification = ({ navigation }) => {
           <Text style = {{fontSize: 14, fontWeight: 'bold', marginLeft: 15}}>{names[count]}</Text>
           <Text style = {{fontSize: 14}}> is a match!</Text>
         </View>
-        
-        
       )
    });
 
@@ -121,9 +112,6 @@ const ChirpNotification = ({ navigation }) => {
       <MainHeader screen="Chirp Notifications" navigation={navigation} />
       <ScrollView>
       {notis}
-      <Button title={"Open Notification"} onPress={async () => {
-          await schedulePushNotification('Jack Multani');
-        }} />
         </ScrollView>
     </SafeAreaView>
   );

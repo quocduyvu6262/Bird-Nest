@@ -10,6 +10,9 @@ const router = express.Router();
 let expo = new Expo();
 router.post('/',(req, res) => {
     const somePushTokens = req.body.pushTokens;
+    const phone_user = req.body.phone_user;
+    const swiped_user = req.body.swiped_user;
+    let count = 0;
     // Create the messages that you want to send to clients
     let messages = [];
     for (let pushToken of somePushTokens) {
@@ -22,13 +25,25 @@ router.post('/',(req, res) => {
       }
     
       // Construct a message (see https://docs.expo.io/push-notifications/sending-notifications/)
-      messages.push({
-        to: pushToken,
-        sound: 'default',
-        title: "Match found! 🙌",
-        body: 'Jack Multani is a potential roommate.',
-        data: { withSome: 'data' },
-      })
+      if(count == 0) {
+        messages.push({
+            to: pushToken,
+            sound: 'default',
+            title: "Match found! 🙌",
+            body: swiped_user + ' is a potential roommate.',
+            data: { withSome: 'data' },
+          }) 
+      }
+      else {
+        messages.push({
+            to: pushToken,
+            sound: 'default',
+            title: "Match found! 🙌",
+            body: phone_user + ' is a potential roommate.',
+            data: { withSome: 'data' },
+          }) 
+      }
+      count = count + 1;
     }
     // The Expo push notification service accepts batches of notifications so
     // that you don't need to send 1000 requests to send 1000 notifications. We
