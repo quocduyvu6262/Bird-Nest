@@ -22,20 +22,10 @@ const HelpSupport = ({ navigation }) => {
   return (
     <SafeAreaView style={HelpSupport_Styles.container}>
       <MainHeader screen="Help & Support" navigation={navigation} />
-        <Text style={[HelpSupport_Styles.textStyle, {fontWeight: "bold"}]}>Frequently Asked Questions</Text>
-        {/* <MyAccordion/> */}
-        <Text style={HelpSupport_Styles.textStyle}>
-          1. How do I upload images to my profile?
-        </Text>
-        <Text style={HelpSupport_Styles.textStyle}>Answer: Click on the photos icon in the top right of the profile page. Allow Bird Nest to access your photo library if you haven't already. Then select up to 9 images to add to your profile.</Text>
-        <Text style={HelpSupport_Styles.textStyle}>
-          2. Can I find roommates even if I don't have housing?
-        </Text>
-        <Text style={HelpSupport_Styles.textStyle}>Answer: Of course! Whether you have a home or are a bird without a nest, we can help.</Text>
-        <Text style={HelpSupport_Styles.textStyle}>
-          3. How do fix this axios error?
-        </Text>
-        <Text style={HelpSupport_Styles.textStyle}>Answer: Ask Tony.</Text>
+        <ScrollView>
+          <Text style={[HelpSupport_Styles.textStyle, {fontWeight: "bold"}]}>Frequently Asked Questions</Text>
+          <MyAccordion/>
+        </ScrollView>
 {/* 
       <TouchableOpacity
         style={HelpSupport_Styles.regularButton}

@@ -90,8 +90,8 @@ const Settings = ({ navigation }) => {
         onPress={() => {
           logout();
         }}
-      ><Text>Logout</Text>
-        
+      >
+        Logout
       </Buttons>
 
       <TouchableOpacity style={styles.deleteButton}>

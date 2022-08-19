@@ -6,7 +6,13 @@ const AboutUs = ({navigation}) => {
   return (
     <SafeAreaView style={About_styles.container}>
         <MainHeader screen="About Us!" navigation={navigation} />
-      <Text style={About_styles.text}>We like Kruker.io</Text>
+      <Text style={About_styles.text}>Bird Nest is a mobile app which, 
+      based on questionnaire answers and preferences, 
+      connects users looking for housing and/or roommates. 
+      As a response to UCSD’s housing crisis and the lack of straightforward and comprehensive social platforms,
+       we decided to develop a platform inspired by dating apps and exclusively for university students. 
+       Bird Nest provides personable and straightforward ways to meet and connect with likeminded people as well as 
+       features that allow students to easily filter variables and compare personality and lifestyle compatibility.</Text>
     </SafeAreaView>
   );
 };
@@ -19,7 +25,7 @@ const About_styles = StyleSheet.create({
       alignItems: "center",
     },
     text: {
-      fontSize: 30,
+      fontSize: 25,
       marginHorizontal: 10,
       marginTop: 10,
     },
