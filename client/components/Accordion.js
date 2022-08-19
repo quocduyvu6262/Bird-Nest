@@ -4,7 +4,7 @@ import { Divider } from 'react-native-paper/lib/commonjs';
 
 const MyComponent = () => {
   return (
-    <List.Section title="Tap to show/hide answers">
+    <List.Section>
       <List.Accordion
         title="How do I upload images to my profile?" 
         theme={{ colors: { primary: '#560CCE' }}}>
@@ -68,6 +68,19 @@ const MyComponent = () => {
         titleNumberOfLines={5}/>
       </List.Accordion>
       <Divider/>
+      <Divider/>
+      <List.Accordion
+        title="What do the user roles mean?"
+        theme={{ colors: { primary: '#560CCE' }}} 
+        titleNumberOfLines={5}>
+        <List.Item title="Flamingo: I have housing that I will live in & need another roommate or
+                roommates. Owl: I have housing, am not living there, and need people to live in
+                the space (sublease). Parrot: I do not have housing, and I am looking for housing that has
+                people living there with whom I want to be roommates. Penguin: I do not have housing, and
+                I am looking for roommates to look for housing with. Duck: I do not have housing, and I
+                already have friends who I want to room with (who are also looking for housing with me)."
+        titleNumberOfLines={15}/>
+      </List.Accordion>
       <List.Accordion
         title="Can anyone join Bird Nest?"
         theme={{ colors: { primary: '#560CCE' }}} 

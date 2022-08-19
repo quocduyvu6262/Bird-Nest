@@ -14,7 +14,7 @@ import MainHeader from "../../components/MainHeader";
 const TermsOfService = ({ navigation }) => {
   return (
     <SafeAreaView style={TermsOfService_Styles.container}>
-     <MainHeader screen="Terms Of Service" navigation={navigation} />
+     <MainHeader screen="Terms of Service" navigation={navigation} />
      <ScrollView>
        {/* terms of service text */}
         <Text style={TermsOfService_Styles.termsText}>

@@ -75,7 +75,7 @@ const Settings = ({ navigation }) => {
         style={styles.regularButton}
         onPress={() => navigation.navigate("TermsOfService")}
       >
-        <Text style={styles.textButton}>Terms of service</Text>
+        <Text style={styles.textButton}>Terms of Service</Text>
       </TouchableOpacity>
       
       <TouchableOpacity

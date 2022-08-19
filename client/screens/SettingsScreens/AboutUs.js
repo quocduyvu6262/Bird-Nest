@@ -6,13 +6,19 @@ const AboutUs = ({navigation}) => {
   return (
     <SafeAreaView style={About_styles.container}>
         <MainHeader screen="About Us!" navigation={navigation} />
-      <Text style={About_styles.text}>Bird Nest is a mobile app which, 
+      <Text style={About_styles.text}>Hi! We're Team Vulcan and
+      we develop cool apps to make people's lives easier.
+      In response to UCSD’s housing crisis and the lack of intuitive housing resources,
+      we decided to develop a platform inspired by dating apps, exclusively for university students.
+      Bird Nest is a mobile platform which, 
       based on questionnaire answers and preferences, 
-      connects users looking for housing and/or roommates. 
-      As a response to UCSD’s housing crisis and the lack of straightforward and comprehensive social platforms,
-       we decided to develop a platform inspired by dating apps and exclusively for university students. 
-       Bird Nest provides personable and straightforward ways to meet and connect with likeminded people as well as 
-       features that allow students to easily filter variables and compare personality and lifestyle compatibility.</Text>
+      connects users looking for housing and/or roommates.
+      Through user-chosen variables, Bird Nest provides a fresh and 
+      straightforward experience for connecting with likeminded 
+      individuals based on their personality and lifestyle compatibility.
+      We've done our best to make housing and roommate finding easier on students;
+      we hope you enjoy using Bird Nest! 
+      </Text>
     </SafeAreaView>
   );
 };
@@ -22,10 +28,10 @@ const About_styles = StyleSheet.create({
       flex: 1,
       paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
       backgroundColor: "white",
-      alignItems: "center",
+      alignItems: "center"
     },
     text: {
-      fontSize: 25,
+      fontSize: 23,
       marginHorizontal: 10,
       marginTop: 10,
     },
