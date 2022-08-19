@@ -287,11 +287,11 @@ import {
         state.pressed=false;
         this.setState({backgroundColor: state.backgroundColor});
         this.setState({pressed: state.pressed});
+        this.props.dispatch(dataActions.updateNeighborhoodList({
+          activity: state.name,
+          add: false
+        }));
       }
-      this.props.dispatch(dataActions.updateNeighborhoodList({
-        activity: state.name,
-        add: false
-      }));
     }
     handleSliderChange = (value1) => {
       this.slider_state.value = value1;

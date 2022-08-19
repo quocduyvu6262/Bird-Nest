@@ -440,7 +440,7 @@ const Profile = ({ navigation }) => {
               <RentInfo
                 rent={data.housing.rent}
                 lease={data.housing.lease}
-                neighborhood={data.housing.neighborhood}
+                neighborhood={data.userInfo.isHousing ? data.housing.neighborhood : data.housing.neighborhoodList.join(", ")}
                 garage={data.housing.garage}
                 parking={data.housing.parking}
                 gym={data.housing.gym}
