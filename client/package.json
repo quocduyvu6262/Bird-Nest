@@ -33,6 +33,8 @@
     "expo-auth-session": "~3.7.1",
     "expo-av": "~12.0.4",
     "expo-cli": "^4.3.0",
+    "expo-constants": "~13.2.3",
+    "expo-device": "~4.3.0",
     "expo-document-picker": "~10.3.0",
     "expo-file-system": "~14.1.0",
     "expo-google-fonts": "^0.0.0",
@@ -96,9 +98,7 @@
     "stream-chat-expo": "^4.13.0",
     "stream-chat-react-native": "^4.13.0",
     "yarn": "^1.22.19",
-    "yup": "^0.32.11",
-    "expo-constants": "~13.2.3",
-    "expo-device": "~4.3.0"
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@babel/core": "^7.18.6",
