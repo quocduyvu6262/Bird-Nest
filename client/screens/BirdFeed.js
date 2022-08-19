@@ -14,7 +14,6 @@ import {
 } from "react-native";
 import Svg, { Path } from "react-native-svg";
 import Bird_Drawing from "../assets/svg/Bird_Drawing.js";
-
 import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import Footer from "../components/Footer.js";
@@ -41,88 +40,30 @@ import FilterOverlay from "../components/FilterOverlay.js";
 import Icon3 from "react-native-vector-icons/Ionicons";
 import {useSelector} from "react-redux"
 const BirdFeed = ({ navigation }) => {
-  const user = useSelector(state => state.data.userInfo);
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState([]);
-  const [items, setItems] = useState([
-    {label: 'Downtown SD', value: 'Downtown SD'},
-    {label: 'La Jolla', value: 'La Jolla'},
-    {label: 'Del Mar', value: 'Del Mar'},
-    {label: 'Mira Mesa', value: 'Mira Mesa'},
-    {label: 'Pacific Beach', value: 'Pacific Beach'},
-    {label: 'Clairemont', value: 'Clairemont'},
-    {label: 'University City', value: 'University City'},
-    {label: 'UTC', value: 'UTC'},
-    {label: 'Solana Beach', value: 'Solana Beach'},
-    {label: 'Mission Valley', value: 'Mission Valley'},
-    {label: 'Carmel Valley', value: 'Carmel Valley'},
-    {label: 'Sorrento Valley', value: 'Sorrento Valley'},
-    {label: 'Other', value: 'Other'},
 
-  ]);
-  const itemcount = items.length;
+  /**
+   * Redux Hook
+   */
+  const user = useSelector((state) => state.data.userInfo);
+  const housing = useSelector((state) => state.data.housing);
 
+  /**
+   * Declare State
+   */
   const [userList, setUserList] = useState([]);
   const [listState, setListState] = useState(false);
-  // This is the old filter function on birdfeed
-
-  const overlayFilterButton = () => {
-    overlayFilterClicked ? setOverlayFilterClicked(false) : setOverlayFilterClicked(true);
-  };
-  
-  const overlayDropDownButton = () => {
-    overlayDropDownClicked ? setOverlayDropDownClicked(false) : setOverlayDropDownClicked(true);
-  };
-  // const handlerAgeChange = (ageSlide) => {
-  //   setAgeState({ageState});
-  // }
-  const [ageState, setAgeState] = useState(18);
-
-  const [rentState, setRentState] = useState(500);
-  
-  const [neighborhood, setNeighborhood] = useState("");
-
-  const [leaseState, setLeaseState] = useState(1);
-
-  const [sqFtState, setSqFtState] = useState(100);
-
-
-
   const [overlayFilterClicked, setOverlayFilterClicked] = useState(false);
+  let [fontsLoaded] = useFonts( {Pacifico_400Regular} );
 
-
-  const [switchEnabledPar, setSwitchEnabledPar] = useState(false);
-  const toggleSwitchPar = () =>
-    setSwitchEnabledPar((previousState) => !previousState);
-
-
-  const [switchEnabledGym, setSwitchEnabledGym] = useState(false);
-  const toggleSwitchGym = () =>
-    setSwitchEnabledGym((previousState) => !previousState);
-
-  
-  const [switchEnabledPoo, setSwitchEnabledPoo] = useState(false);
-  const toggleSwitchPoo = () =>
-    setSwitchEnabledPoo((previousState) => !previousState);
-
-  const [switchEnabledApp, setSwitchEnabledApp] = useState(false);
-  const toggleSwitchApp = () =>
-    setSwitchEnabledApp((previousState) => !previousState);
-  
-
-  const [switchEnabledFur, setSwitchEnabledFur] = useState(false);
-  const toggleSwitchFur = () =>
-    setSwitchEnabledFur((previousState) => !previousState);
-  
-  
-    const [switchEnabledAC, setSwitchEnabledAC] = useState(false);
-    const toggleSwitchAC = () =>
-      setSwitchEnabledAC((previousState) => !previousState);
-      console.log(neighborhood);
-  let [fontsLoaded] = useFonts({
-    Pacifico_400Regular,
-  });
-  // ----- LOGIC FOR VIEW USER BUTTONS -----
+  /**
+   * Check whether Filter Button is clicked
+   * @returns whether Filter Button is clicked
+   */
+  const overlayFilterButton = () => {
+    overlayFilterClicked ?
+      setOverlayFilterClicked(false) :
+      setOverlayFilterClicked(true);
+  };
 
   const viewUsers = async () => {
     setUserList([]);
@@ -158,6 +99,9 @@ const BirdFeed = ({ navigation }) => {
     console.log(userList);
   };
 
+  /**
+   * Use effect Hook
+   */
   useEffect(() => {
     viewUsers();
   }, []);
@@ -184,63 +128,10 @@ const BirdFeed = ({ navigation }) => {
             size={30}
             color="black"
           />
+
         </TouchableOpacity>
         {overlayFilterClicked && (
-          <FilterOverlay 
-          setOverlayFilterClicked={setOverlayFilterClicked} 
-          overlaFilterClicked={overlayFilterClicked}
-          overlayFilterButton={overlayFilterButton} 
-
-          open={open}
-          setOpen={setOpen}
-
-          value={value}
-          setValue={setValue}
-
-          items={items}
-          setItems={setItems}
-
-          itemcount={itemcount}
-
-          setAgeState={setAgeState}
-          ageState={ageState}
-
-          setNeighborhood={setNeighborhood}
-          neighborhood={neighborhood}
-
-          setRentState={setRentState}
-          rentState={rentState}
-
-          setLeaseState={setLeaseState}
-          leaseState={leaseState}
-
-          setSqFtState={setSqFtState}
-          sqFtState={sqFtState}
-
-          switchEnabledPar={switchEnabledPar}
-          setSwitchEnabledPar={setSwitchEnabledPar}
-          toggleSwitchPar={toggleSwitchPar}
-
-          switchEnabledGym={switchEnabledGym}
-          setSwitchEnabledGym={setSwitchEnabledGym}
-          toggleSwitchGym={toggleSwitchGym}
-
-          switchEnabledPoo={switchEnabledPoo}
-          setSwitchEnabledPoo={setSwitchEnabledPoo}
-          toggleSwitchPoo={toggleSwitchPoo}
-
-          switchEnabledApp={switchEnabledApp}
-          setSwitchEnabledApp={setSwitchEnabledApp}
-          toggleSwitchApp={toggleSwitchApp}
-
-          switchEnabledFur={switchEnabledFur}
-          setSwitchEnabledFur={setSwitchEnabledFur}
-          toggleSwitchFur={toggleSwitchFur}
-
-          switchEnabledAC={switchEnabledAC}
-          setSwitchEnabledAC={setSwitchEnabledAC}
-          toggleSwitchAC={toggleSwitchAC}
-          />
+          <FilterOverlay overlayFilterButton={overlayFilterButton}/>
         )}
 
         {listState && (

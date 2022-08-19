@@ -62,25 +62,45 @@ router.post('/filter', (req, res) => {
     //neighborhoodList, rent, lease, square feet, parking, gym, pool, appliances, furniture, AC
     //if booleans are false don't filter by them
     //const filterMap = new Map([["gargage", 1], ["parking", 1], ["gym", 1], ["appliances", 1]]); 
-    const filterMap = req.body;
+    const filterMap = new Map(JSON.parse(req.body.filterMap));
     console.log(filterMap);
+	//console.log(filterMap.keys());
+	//console.log(filterMap.values());
+	//console.log(filterMap.length);
     let housingQuery = "SELECT * FROM Housing WHERE ";
 	let nohousingQuery = "SELECT * FROM NoHousing WHERE ";
-    for (let key in filterMap) {
+    for (var [key, value] of filterMap.entries()) {
+		//console.log(key);
+		//console.log(value);
+		//console.log("AAAAAAAAAAAAAAAAAAA");
 		//skip unselected switches
-		if (filterMap[key] === "false") {
+		if (value === false) {
 			continue;
 		}
 		//rent has to be <= 
-		if (key === "rent"){
-			housingQuery += key + "<=" + filterMap[key].toString() + " AND ";
-			nohousingQuery += key + "<=" + filterMap[key].toString() + " AND ";
+		else if (key === "rent"){
+			housingQuery += key + "<=" + value.toString() + " AND ";
+			nohousingQuery += key + "<=" + value.toString() + " AND ";
+		}
+		else if (key === "neighborhood") {
+			console.log(value);
+			//let neighborhoodList = value;
+			for (let i = 0; i < value.length; i++) {
+				housingQuery += key + " LIKE " + `"${value[i].toString()}"` + " OR ";
+				nohousingQuery += key + " LIKE " + `"${value[i].toString()}"` + " OR ";
+			}
+			//remove extra OR
+			housingQuery = housingQuery.slice(0, housingQuery.length -3);
+			nohousingQuery = nohousingQuery.slice(0, nohousingQuery.length -3);
+			housingQuery += "AND ";
+			nohousingQuery += "AND "
 		}
 		else {
-			housingQuery += key + "=" + filterMap[key].toString() + " AND ";
-			nohousingQuery += key + "=" + filterMap[key].toString() + " AND ";
+			housingQuery += key + "=" + `"${value.toString()}"` + " AND ";
+			nohousingQuery += key + "=" + `"${value.toString()}"` + " AND ";
 		}
     }
+	//remove extra AND
     housingQuery = housingQuery.slice(0, housingQuery.length -4);
 	nohousingQuery = nohousingQuery.slice(0, nohousingQuery.length -4);
     //const query = "SELECT id, fullname, role, gender, age, graduationyear, major, pet FROM User WHERE id=5;";
@@ -94,7 +114,7 @@ router.post('/filter', (req, res) => {
                 //res.status(401).send("No users matching those filters found");
                 console.log(err);
                 console.log(query);
-                console.log(filterMap);
+                //console.log(filterMap);
                 res.status(401).send(results);
             }
         })

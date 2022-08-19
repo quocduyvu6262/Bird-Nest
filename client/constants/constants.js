@@ -14,7 +14,7 @@ const Constants = {
   BASE_URL: async () => {
     let id = await Network.getIpAddressAsync();
     //console.log(id);
-    return `http:192.168.1.13:3000`
+    return `http:192.168.1.26:3000`
   }
 };
 

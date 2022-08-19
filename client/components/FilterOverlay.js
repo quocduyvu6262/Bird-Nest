@@ -14,110 +14,95 @@ import {
 import React, { useState } from "react";
 import { Icon } from "@rneui/themed";
 import Icon2 from "react-native-vector-icons/Ionicons";
-import { Slider } from '@rneui/themed';
-import DropDownPicker from 'react-native-dropdown-picker';
-import Buttons from './Button.js';
-// IMPORT REDUX
+import { Slider } from "@rneui/themed";
+import DropDownPicker from "react-native-dropdown-picker";
+import Buttons from "./Button.js";
 import { useDispatch, useSelector } from "react-redux";
-import * as dataActions from "../redux/slices/data";
+import * as dataActions from '../redux/slices/data';
 import Axios from "axios";
-import Constants from "../constants/constants";
-// List of variables
+import Constants from "../constants/constants.js";
 
-// 10 buttons yes/no type questions
-// 2 buttons cities/neighborhoods
-// 1 string
-// 3 sliders
 
-// Important ones to do for week 1
-// - neighborhood /buttons/ *DONE*
-// - lease /slider/ *DONE*
-// - rent /slider/ *DONE*
-// - parking /switch/ *DONE*
-// - gym /switch/ *DONE*
-// - pool /switch/ *DONE*
-// - appliances /switch/ *DONE*
-// - furniture /switch/ *DONE*
-// - AC /switch/ *DONE*
-
-// Second priority ones to do for week 2
-// - age /slider/  *DONE* 
-// - gender /buttons/
-// - pet *buttons*
-// - alcohol/420 friendly *buttons*
-// - sleep habits *buttons*
-// - guest over *buttons*
-// - cleaniness *buttons*
-// - temperature *buttons*
-// - sound *buttons*
-// - awake *buttons*
-// - sharing *buttons*
-// - interaction with roommates *buttons*
-// - role
-
-const FilterOverlay = (
-  
-  {navigation, 
-  overlayFilterButton,
-
-  open,
-  setOpen,
-
-  value,
-  setValue,
-
-  items,
-  setItems,
-
-  itemcount,
-
-  ageState,
-  setAgeState,
-
-  setRentState,
-  rentState,
-
-  setLeaseState,
-  leaseState,
-
-  setSqFtState,
-  sqFtState,
-
-  switchEnabledPar,
-  toggleSwitchPar,
-
-  switchEnabledGym,
-  toggleSwitchGym,
-
-  switchEnabledPoo,
-  toggleSwitchPoo,
-
-  switchEnabledApp,
-  toggleSwitchApp,
-
-  switchEnabledFur,
-  toggleSwitchFur,
-
-  switchEnabledAC,
-  toggleSwitchAC,
-  
-}) => {
+const FilterOverlay = ({overlayFilterButton}) => {
   DropDownPicker.setListMode("SCROLLVIEW");
-  const userInfo = useSelector((state) => state.data.userInfo); //added in
+  /**
+   * Redux Hoook
+   */
+  const user = useSelector(state => state.data.userInfo);
+  const housing = useSelector(state => state.data.housing);
   const dispatch = useDispatch();
 
-  const Filter = async(filterMap) => {
-    Axios.post(`${await Constants.BASE_URL()}/api/matching/filter`, {
-      filterMap : filterMap
-    })
-    .then(async(filteredUsers) => {
-      //set userlist from birdfeed to empty array then set it to the filteredUsers
-    })
-    .catch(err => {
-
-    })
+  /**
+   * Transform string value into integer value
+   * @returns lease base on string range value
+   */
+   const getLeaseFromString = () => {
+    if(housing.lease === '1 to 3'){
+      return 1;
+    }  
+    if (housing.lease === '4 to 7'){
+      return 4;
+    } 
+    if (housing.lease === '8 - 11'){
+      return 8;
+    } 
+    return 12;
   }
 
+  /**
+   * Transform int value into string value
+   * @returns string range value based on integer value
+   */
+  const getLeaseFromInteger = (lease) => {
+    if(lease >=1 && lease <= 3){
+      return '1 to 3';
+    }
+    if(lease >= 4 && lease <= 7){
+      return '4 to 7';
+    }
+    if(lease >= 8 && lease <= 11){
+      return '8 - 11';
+    }
+    return '12+'
+  }
+
+
+  /**
+   * Declare state
+   */
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(housing.neighborhoodList);
+  const [rent, setRent] = useState(housing.rent);
+  const [lease, setLease] = useState(getLeaseFromString());
+  const [squarefeet, setSquarefeet] = useState(housing.squarefeet);
+  const [parking, setParking] = useState(housing.parking);
+  const [gym, setGym] = useState(housing.gym);
+  const [pool, setPool] = useState(housing.pool);
+  const [appliances, setAppliances] = useState(housing.appliances);
+  const [furniture, setFurniture] = useState(housing.furniture);
+  const [AC, setAC] = useState(housing.AC);
+  const [items, setItems] = useState([
+    { label: "Downtown SD", value: "Downtown SD" },
+    { label: "La Jolla", value: "La Jolla" },
+    { label: "Del Mar", value: "Del Mar" },
+    { label: "Mira Mesa", value: "Mira Mesa" },
+    { label: "Pacific Beach", value: "Pacific Beach" },
+    { label: "Clairemont", value: "Clairemont" },
+    { label: "University City", value: "University City" },
+    { label: "UTC", value: "UTC" },
+    { label: "Solana Beach", value: "Solana Beach" },
+    { label: "Mission Valley", value: "Mission Valley" },
+    { label: "Carmel Valley", value: "Carmel Valley" },
+    { label: "Sorrento Valley", value: "Sorrento Valley" },
+    { label: "Other", value: "Other" },
+  ]);
+  const itemcount = items.length;
+
+  /**
+   * Single switch function 
+   * @param props 
+   * @returns view
+   */
   const SingleSwitch = (props) => {
     return (
       <View style={styles.switchView}>
@@ -134,6 +119,87 @@ const FilterOverlay = (
       </View>
     );
   };
+
+  /**
+   * Filter post request
+   */
+  //let filteredUserList;
+  const [userList, setUserList] = useState([]);
+  const [listState, setListState] = useState(false);
+  const Filter = async(filterMap) => {
+    console.log(filterMap);
+    Axios.post(`${await Constants.BASE_URL()}/api/matching/filter`, {
+      filterMap : JSON.stringify(Array.from(filterMap.entries())),
+    })
+    .then(async(filteredUsers) => {
+      filterUserData = filteredUsers.data;
+      console.log(filterUserData);
+      //filteredUserList = filteredUsers.data;
+
+      //set userlist from birdfeed to empty array then set it to the filteredUsers
+      //setUserList(filteredUsers);
+      for (let i = 0; i < filterUserData.length - 1; i++) {
+        userList.push({
+          name: filterUserData[i].fullname,
+          city: filterUserData[i].city,
+        });
+      }
+      setUserList((prevList) => [
+        ...userList,
+        {
+          name: filterUserData[filterUserData.length - 1].fullname,
+          city: filterUserData[filterUserData.length - 1].city,
+        },
+      ]);
+    })
+    .catch(err => {
+      console.log(err);
+      console.log("Failed to filter users");
+    })
+    setListState(true);
+    console.log(userList);
+  }
+
+  /**
+   * Perform the filter submission
+   */
+  const submit = () => {
+    // update redux
+    //console.log(lease);
+    dispatch(dataActions.updateAllNeighborhoodList(value));
+    dispatch(dataActions.updateRent(rent));
+    dispatch(dataActions.updateLease(getLeaseFromInteger(lease)));
+    dispatch(dataActions.updateSquarefeet(squarefeet));
+    dispatch(dataActions.updateParking(parking));
+    dispatch(dataActions.updateGym(gym));
+    dispatch(dataActions.updatePool(pool));
+    dispatch(dataActions.updateAppliances(appliances));
+    dispatch(dataActions.updateAC(AC));
+    // update Secure Store
+
+    //call filtering algorithm
+    let filterMap = new Map();
+    filterMap.set("neighborhood", value); //!!!Array
+    filterMap.set("rent", rent);
+    filterMap.set("lease", getLeaseFromInteger(lease));
+    filterMap.set("squarefeet", squarefeet);
+    filterMap.set("parking", parking);
+    filterMap.set("gym", gym);
+    filterMap.set("pool", pool);
+    filterMap.set("appliances", appliances);
+    filterMap.set("furniture", furniture);
+    filterMap.set("AC", AC);
+    //console.log(value);
+   // console.log(filterMap);
+    //console.log(filterMap.get("neighborhood"));
+    Filter(filterMap);
+    // back to birdfeed/peckview
+    overlayFilterButton();
+  }
+
+  /**
+   * Render Logic
+   */
   return (
     <View style={styles.subContainer}>
       <ScrollView style={styles.filterCard}>
@@ -181,101 +247,79 @@ const FilterOverlay = (
         </View>
 
         <View style={styles.slider}>
-          <Text style = {styles.slideText}>
-            Rent : ${rentState}
-          </Text>
+          <Text style={styles.slideText}>Rent : ${rent}</Text>
           <Slider
-            value={rentState}
+            value={rent}
             minimumValue={500}
             maximumValue={5000}
             step={25}
-            onValueChange={value => setRentState(value)}
-            thumbStyle={{height: 15, width: 15, backgroundColor:'#6736B6'}}
+            onValueChange={(value) => setRent(value)}
+            thumbStyle={{ height: 15, width: 15, backgroundColor: "#6736B6" }}
           />
         </View>
 
         <View style={styles.slider}>
-          <Text style = {styles.slideText}>
-            Lease Month Term: {leaseState}
-          </Text>
+          <Text style={styles.slideText}>Lease Month Term: {lease}</Text>
           <Slider
-            value={leaseState}
+            value={lease}
             minimumValue={1}
             maximumValue={12}
             step={1}
-            onValueChange={value => setLeaseState(value)}
-            thumbStyle={{height: 15, width: 15, backgroundColor:'#6736B6'}}
+            onValueChange={(value) => setLease(value)}
+            thumbStyle={{ height: 15, width: 15, backgroundColor: "#6736B6" }}
           />
         </View>
 
         <View style={styles.slider}>
-          <Text style = {styles.slideText}>
-            Square Feet : {sqFtState} 
-          </Text>
+          <Text style={styles.slideText}>Square Feet : {squarefeet}</Text>
           <Slider
-            value={sqFtState}
+            value={squarefeet}
             minimumValue={100}
             maximumValue={6000}
             step={50}
-            onValueChange={value => setSqFtState(value)}
-            thumbStyle={{height: 15, width: 15, backgroundColor:'#6736B6'}}
+            onValueChange={(value) => setSquarefeet(value)}
+            thumbStyle={{ height: 15, width: 15, backgroundColor: "#6736B6" }}
           />
         </View>
 
         <SingleSwitch
           variable="Parking"
-          enabled={switchEnabledPar}
-          toggle={toggleSwitchPar}
+          enabled={parking}
+          toggle={() => setParking(state => !state)}
         />
 
         <SingleSwitch
           variable="Gym"
-          enabled={switchEnabledGym}
-          toggle={toggleSwitchGym}
+          enabled={gym}
+          toggle={() => setGym(state => !state)}
         />
         <SingleSwitch
           variable="Pool"
-          enabled={switchEnabledPoo}
-          toggle={toggleSwitchPoo}
+          enabled={pool}
+          toggle={() => setPool(state => !state)}
         />
 
         <SingleSwitch
           variable="Appliances"
-          enabled={switchEnabledApp}
-          toggle={toggleSwitchApp}
+          enabled={appliances}
+          toggle={() => setAppliances(state => !state)}
         />
 
       <SingleSwitch
           variable="Furniture"
-          enabled={switchEnabledFur}
-          toggle={toggleSwitchFur}
+          enabled={furniture}
+          toggle={() => setFurniture(state => !state)}
         />
 
       <SingleSwitch
           variable="AC"
-          enabled={switchEnabledAC}
-          toggle={toggleSwitchAC}
+          enabled={AC}
+          toggle={() => setAC(state => !state)}
         />
 
-        <Buttons
-          style={{flex: 1}}
-          onPress={() => {
-          //console.log(value);
-          //console.log(userInfo);
-          let filterMap = new Map();
-          filterMap.set("neighborhood", value); //!!!Array
-          filterMap.set("rent", rentState);
-          filterMap.set("lease", leaseState);
-          filterMap.set("squarefeet", sqFtState);
-          filterMap.set("parking", switchEnabledPar);
-          filterMap.set("gym", switchEnabledGym);
-          filterMap.set("pool", switchEnabledPoo);
-          filterMap.set("appliances", switchEnabledApp);
-          filterMap.set("furniture", switchEnabledFur);
-          filterMap.set("AC", switchEnabledAC);
-          Filter(filterMap);
-        }}> Submit
-         </Buttons>
+        <Buttons style={{ flex: 1 }} onPress={submit}>
+          Submit
+        </Buttons>
       </ScrollView>
     </View>
   );
