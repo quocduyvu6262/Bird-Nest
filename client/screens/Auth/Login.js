@@ -180,7 +180,8 @@ const LoginScreen = ({ navigation }) => {
                 navigation.navigate("IDQs");
               }
             })
-            .catch((err) => console.log("Login/Register Fail"));
+            .catch((err) => 
+              console.log("Login/Register Fail"));
         });
       }
     }
@@ -191,7 +192,7 @@ const LoginScreen = ({ navigation }) => {
    */
   return (
     <Background>
-      <View style={styles.background}>
+      <View style={styles.background}>      
         <Logo />
         <Header>Bird Nest</Header>
         <Paragraph>Homes that Match</Paragraph>

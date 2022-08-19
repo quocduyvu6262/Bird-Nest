@@ -149,14 +149,14 @@ const FilterOverlay = ({overlayFilterButton}) => {
         <TouchableOpacity
           style={styles.filterHeader}
           onPress={overlayFilterButton}
-        >
+          >
           <Icon name="west" size={30} />
-          <Text style={styles.filterText}>Filter</Text>
+            <Text style={styles.filterText}>Filter</Text>
         </TouchableOpacity>
         <View style={styles.dropDown}>
           <Text style={styles.slideText}>Neighborhood: </Text>
           <DropDownPicker
-            style={{ width: 175 }}
+            style = {{width: 175}}
             dropDownContainerStyle={{
               backgroundColor: "#dfdfdf",
               width: 175,
@@ -172,7 +172,7 @@ const FilterOverlay = ({overlayFilterButton}) => {
             setOpen={setOpen}
             setValue={setValue}
             setItems={setItems}
-          />
+            />
         </View>
 
         <View style={styles.slider}>
@@ -234,13 +234,13 @@ const FilterOverlay = ({overlayFilterButton}) => {
           toggle={() => setAppliances(state => !state)}
         />
 
-        <SingleSwitch
+      <SingleSwitch
           variable="Furniture"
           enabled={furniture}
           toggle={() => setFurniture(state => !state)}
         />
 
-        <SingleSwitch
+      <SingleSwitch
           variable="AC"
           enabled={AC}
           toggle={() => setAC(state => !state)}
@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
   },
   dropDown: {
     marginLeft: 10,
-    zIndex: 2,
+    zIndex:2,
     flexDirection: "row",
   },
   filterCard: {
@@ -295,11 +295,11 @@ const styles = StyleSheet.create({
   },
   slider: {
     flex: 1,
-    alignSelf: "flex-start",
+    alignSelf: 'flex-start',
     marginLeft: 10,
   },
   slideText: {
-    alignSelf: "center",
+    alignSelf:'center',
     marginLeft: 5,
     fontSize: 20,
   },

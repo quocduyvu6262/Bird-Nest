@@ -23,13 +23,14 @@ import * as SecureStore from "expo-secure-store";
 import Axios from "axios";
 import MainHeader from "../components/MainHeader";
 import Deondre from "../assets/deondre.jpg";
-import * as dataActions from '../redux/slices/data';
+import data, * as dataActions from '../redux/slices/data';
 import { storage, ref, deleteObject } from "../firebaseConfig";
 import Constants from "../constants/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { removePics } from "../redux/slices/data";
 import * as FileSystem from 'expo-file-system'
 import { CONSTANTS } from "@firebase/util";
+import Tags from 'react-native-tags'
 
 const Profile = ({ navigation }) => {
   const user = useSelector(state => state.data.userInfo);
@@ -385,9 +386,8 @@ const Profile = ({ navigation }) => {
           </View>
           </Modal>
           <UserCard
-            name={data.userInfo.firstname + " " + data.userInfo.lastname}
+            name={data.userInfo.firstname + " " + data.userInfo.lastname} 
           />
-          
           <View style={styles.buttonContainer}>
             <TouchableOpacity>
               <Button
@@ -409,9 +409,7 @@ const Profile = ({ navigation }) => {
                   !buttonClicked && {
                     borderBottomColor: "#560CCE",
                     borderBottomWidth: 1,
-                  }
-                }
-              >
+                  }}>
                 Bio
               </Button>
             </TouchableOpacity>
@@ -423,23 +421,33 @@ const Profile = ({ navigation }) => {
                 style={
                   buttonClicked && {
                     borderBottomColor: "#560CCE",
-                    borderBottomWidth: 1,
-                  }
-                }
-              >
+                    borderBottomWidth: 1,}}>
                 Room Info
               </Button>
             </TouchableOpacity>
           </View>
 
           <InfoCard>
-            {!buttonClicked && <BioInfo bio={data.userInfo.bio}></BioInfo>}
+            {!buttonClicked && <BioInfo bio={
+              data.userInfo.pronouns 
+              + `\n` 
+              + data.userInfo.gender 
+              + ", " 
+              + data.userInfo.age 
+              + `\n\n` + data.userInfo.bio}></BioInfo>}
 
             {buttonClicked && (
               <RentInfo
                 rent={data.housing.rent}
                 lease={data.housing.lease}
                 neighborhood={data.housing.neighborhood}
+                garage={data.housing.garage}
+                parking={data.housing.parking}
+                gym={data.housing.gym}
+                pool={data.housing.pool}
+                appliances={data.housing.appliances}
+                furnished={data.housing.furnished}
+                ac={data.housing.ac}
               />
             )}
           </InfoCard>
@@ -448,18 +456,17 @@ const Profile = ({ navigation }) => {
             color={interestButtonClicked ? "#560CCE" : "black"}
             onPress={interestButton}
             style={
-              interestButtonClicked && {
+              interestButtonClicked ? {
                 borderBottomColor: "#560CCE",
                 borderBottomWidth: 1,
-              }
-            }
-          >
-            See Interests/Personality
+                width: "auto"} : {width: "auto"}}>
+            About me as a roommate!
           </Button>
 
           {interestButtonClicked && (
             <InfoCard>
-              <InterestInfo></InterestInfo>
+              <InterestInfo
+              ></InterestInfo>
             </InfoCard>
           )}
         </Background>
@@ -492,17 +499,45 @@ const RentInfo = (props) => {
         <Text style={{ fontWeight: "bold" }}> Neighborhood:</Text>{" "}
         {props.neighborhood}
       </Text>
+      <Text style={styles.text}>
+        Housing Preferences:
+      </Text>
+      <Tags
+        initialTags={[
+          props.garage ? `Garage` : null,
+          props.parking ? `Parking` : null,
+          props.gym ? `Gym` : null,
+          props.pool ? `Pool` : null,
+          props.appliances ? `Appliances` : null,
+          props.furnished ? `Furnished` : null,
+          props.ac ? `AC` : null,
+        ].filter(n => n)}
+        readonly={true}
+      />
     </View>
   );
 };
 // Interest Info
 const InterestInfo = (props) => {
   return (
-    <View style={styles.subContainer}>
-      <Text style={styles.text}>Ice cream</Text>
-      <Text style={styles.text}>Drink</Text>
-      <Text style={styles.text}>Boba</Text>
-      <Text style={styles.text}>Movie</Text>
+    <View style={styles.interestContainer}>
+      <Tags
+        initialTags={[
+          "Pets: Dog", 
+          "Cook: Never", 
+          "Alc/420 Friendly: Yes", 
+          "Sleep Habits: Night Owl",
+          "Guests: Yes",
+          "Go outside: Yes",
+          "Silent studying: Yes",
+          "Late night working: Yes",
+          "Open to sharing: Yes",
+          "Drive roommates: Yes",
+          "Keep to self: Yes",
+          "Open communication: Yes",
+          ]}
+        readonly={true}
+        />
     </View>
   );
 };
@@ -523,6 +558,11 @@ const styles = StyleSheet.create({
   },
   subContainer: {
     padding: 10,
+  },
+  interestContainer: {
+    padding: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   text: {
     padding: 10,

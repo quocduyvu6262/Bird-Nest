@@ -8,7 +8,9 @@ const UserCard = (props) => {
   return (
     <View style={styles.card}>
       <CarouselCards/>
-      <Header>{props.name}</Header>
+        <Header>
+          {props.name} 
+        </Header>
     </View>
   );
 };
@@ -17,7 +19,7 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: theme.colors.surface,
     alignItems: "center",
-  },
+  }, 
   userImage: {
     borderColor: "#D3D3D3",
     borderRadius: 15,

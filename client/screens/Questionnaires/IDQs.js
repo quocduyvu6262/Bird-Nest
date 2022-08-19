@@ -60,7 +60,6 @@ const IDQs = ({ navigation }) => {
       return;
     }
     
-
     // Pick image from device library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
