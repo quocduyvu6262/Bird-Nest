@@ -72,6 +72,7 @@ const IDQs = ({ navigation }) => {
       // store current uri
       setCurrentUri(result.uri);
       setIsuploaded(true);
+      console.log(result.uri);
     }
   }
   
@@ -99,7 +100,6 @@ const IDQs = ({ navigation }) => {
         if(imageDownloadedUrl){
           dispatch(dataActions.updateProfilepic(uploadTask.snapshot.ref._location.path_));
           FileSystem.downloadAsync(imageDownloadedUrl, FileSystem.documentDirectory + 'avatar.jpg').then(({uri})=>{
-            console.log(uri);
             dispatch(dataActions.updateAvatar(uri));
           })
         }
