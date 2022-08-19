@@ -99,17 +99,18 @@ const MainHeader = ({ screen, navigation }) => {
               Axios.post(`${await Constants.BASE_URL()}/api/images/multiple`,{
                 id: user.id,
                 pics: newListUrl
+              }).then(() => {
+                // file system
+                let newFileSystemList;
+                if(imageFileSystemUri.album.length){
+                  newFileSystemList = [...imageFileSystemUri.album, ...fileSystemList];
+                }else {
+                  newFileSystemList = fileSystemList;
+                }
+                // upload to secure store
+                SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify({...user, picsList: newListUrl}));
+                SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_IMAGE_URI, JSON.stringify({avatar: imageFileSystemUri.avatar, album: newFileSystemList}));
               })
-              // file system
-              let newFileSystemList;
-              if(imageFileSystemUri.album.length){
-                newFileSystemList = [...imageFileSystemUri.album, ...fileSystemList];
-              }else {
-                newFileSystemList = fileSystemList;
-              }
-              // upload to secure store
-              SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify({...user, picsList: newListUrl}));
-              SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_IMAGE_URI, JSON.stringify({avatar: imageFileSystemUri.avatar, album: newFileSystemList}));
             }
           }
         )

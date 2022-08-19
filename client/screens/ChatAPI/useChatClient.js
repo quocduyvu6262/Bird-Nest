@@ -5,7 +5,6 @@ import * as SecureStore from 'expo-secure-store';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 
-
 const chatClient = StreamChat.getInstance(Constants.CHAT_API_KEY);
 export const useChatClient = () => {
     const user = useSelector(state => state.data.userInfo);

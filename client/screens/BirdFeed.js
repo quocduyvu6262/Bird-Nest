@@ -38,7 +38,9 @@ import FilterOverlay from "../components/FilterOverlay.js";
 // import { Icon } from "@rneui/themed";
 // import Icon2 from "react-native-vector-icons/MaterialCommunityIcons";
 import Icon3 from "react-native-vector-icons/Ionicons";
-import {useSelector} from "react-redux"
+import { useSelector } from "react-redux";
+
+
 const BirdFeed = ({ navigation }) => {
 
   /**
@@ -65,9 +67,19 @@ const BirdFeed = ({ navigation }) => {
       setOverlayFilterClicked(true);
   };
 
+  /**
+   * Call the matching algorithm and display
+   * the list of users that match each criteria
+   */
   const viewUsers = async () => {
     setUserList([]);
-    Axios.post(`${await Constants.BASE_URL()}/api/matching/`, {
+    let apiEndpoint;
+    if(user.role === 'Flamingo' || user.role === 'Owl'){
+      apiEndpoint = '/api/matching/lookingfornohousing';
+    } else {
+      apiEndpoint = '/api/matching/lookingforhousing'
+    }
+    Axios.post(`${await Constants.BASE_URL()}${apiEndpoint}`, {
       user_id: user.id,
     })
       .then((response) => {
@@ -115,7 +127,12 @@ const BirdFeed = ({ navigation }) => {
       // Header - Beginning
       <SafeAreaView style={styles.container}>
         <MainHeader screen="Bird Feed" navigation={navigation} />
-        <View style={[styles.svg, { transform: [{ translateY: 20 }, {translateX: 100}] }]}>
+        <View
+          style={[
+            styles.svg,
+            { transform: [{ translateY: 20 }, { translateX: 100 }] },
+          ]}
+        >
           <Bird_Drawing />
         </View>
         <TouchableOpacity
@@ -138,10 +155,8 @@ const BirdFeed = ({ navigation }) => {
           <View styles={styles.flatlist}>
             <FlatList
               data={userList}
-              // data={UserData}
               renderItem={(item) => <ProfileCard item={item} />}
               extraData={userList}
-              // extraData={UserData}
             />
           </View>
         )}

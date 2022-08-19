@@ -9,7 +9,6 @@ import {
   TouchableOpacity,
   Switch,
   TextInput,
-
 } from "react-native";
 import React, { useState } from "react";
 import { Icon } from "@rneui/themed";
@@ -68,7 +67,7 @@ const FilterOverlay = ({overlayFilterButton}) => {
 
 
   /**
-   * Declare state
+   * Declare states
    */
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(housing.neighborhoodList);
@@ -195,6 +194,7 @@ const FilterOverlay = ({overlayFilterButton}) => {
     Filter(filterMap);
     // back to birdfeed/peckview
     overlayFilterButton();
+
   }
 
   /**
@@ -210,22 +210,8 @@ const FilterOverlay = ({overlayFilterButton}) => {
           <Icon name="west" size={30} />
             <Text style={styles.filterText}>Filter</Text>
         </TouchableOpacity>
-
-        {/* <View style={styles.slider}>
-          <Text style = {styles.slideText}>
-            Age : {ageState}
-          </Text>
-          <Slider
-            value={ageState}
-            minimumValue={18}
-            maximumValue={99}
-            step={1}
-            onValueChange={value => setAgeState(value)}
-            thumbStyle={{height: 15, width: 15, backgroundColor:'#6736B6'}}
-          />
-        </View> */}
-        <View style = {styles.dropDown}>
-          <Text style = {styles.slideText }>Neighborhood: </Text>
+        <View style={styles.dropDown}>
+          <Text style={styles.slideText}>Neighborhood: </Text>
           <DropDownPicker
             style = {{width: 175}}
             dropDownContainerStyle={{

@@ -77,7 +77,6 @@ const LoginScreen = ({ navigation }) => {
     // Get and store user
     Axios.get(`${await Constants.BASE_URL()}/api/users/${email}`).then(async ({data}) => {
       const user = data[0];
-      console.log(user)
       // push into secure store
       SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify(user));
       // push into redux store
