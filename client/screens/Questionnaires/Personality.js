@@ -43,9 +43,9 @@ class Personality extends Component {
     const imageFileSystemUri = this.props.data.imageFileSystemUri;
 
     // Store into Secure Store
-    SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify(user)).then().catch(err => {console.log("Fail to store user in Secure Store"); return false});
-    SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING, JSON.stringify(housing)).then().catch(err => {console.log("Fail to store housing in Secure Store"); return false});
-    SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_IMAGE_URI, JSON.stringify({avatar: imageFileSystemUri.avatar, album: imageFileSystemUri.album})).then().catch(err => {console.log("Fail to store images in Secure Store"); return false});
+    await SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify(user)).then().catch(err => {console.log("Fail to store user in Secure Store"); return false});
+    await SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING, JSON.stringify(housing)).then().catch(err => {console.log("Fail to store housing in Secure Store"); return false});
+    await SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_IMAGE_URI, JSON.stringify({avatar: imageFileSystemUri.avatar, album: imageFileSystemUri.album})).then().catch(err => {console.log("Fail to store images in Secure Store"); return false});
 
     // Store user into database
     Axios.post(`${await Constants.BASE_URL()}/api/users/questionnaire`, {

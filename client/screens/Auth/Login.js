@@ -78,7 +78,7 @@ const LoginScreen = ({ navigation }) => {
     Axios.get(`${await Constants.BASE_URL()}/api/users/${email}`).then(async ({data}) => {
       const user = data[0];
       // push into secure store
-      SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify(user));
+      await SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify(user));
       // push into redux store
       dispatch(dataActions.updateUser(user));
       // download and store image(avatar)
@@ -92,7 +92,7 @@ const LoginScreen = ({ navigation }) => {
         avatarUri = result.uri;
         dispatch(dataActions.updateAvatar(avatarUri));
       }
-      SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_IMAGE_URI, JSON.stringify({avatar: avatarUri, album: listFileSystem}));
+      await SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_IMAGE_URI, JSON.stringify({avatar: avatarUri, album: listFileSystem}));
       if(user.picsList){
         user.picsList.map(async path => {
           const downloadedUrl = await retrieveImage(path);
@@ -103,15 +103,15 @@ const LoginScreen = ({ navigation }) => {
           const uri = result.uri;
           listFileSystem.push(uri);
           dispatch(dataActions.updateAlbum(uri));
-          SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_IMAGE_URI, JSON.stringify({avatar: avatarUri, album: listFileSystem}));
+          await SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_IMAGE_URI, JSON.stringify({avatar: avatarUri, album: listFileSystem}));
         })
       }
       // Get and store housing
       if(user.isHousing){
-        Axios.get(`${await Constants.BASE_URL()}/api/housings/email/${email}`).then(({data}) => {
+        Axios.get(`${await Constants.BASE_URL()}/api/housings/email/${email}`).then( async ({data}) => {
           const housing = data[0];
           // push into secure store
-          SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING, JSON.stringify(housing));
+          await SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING, JSON.stringify(housing));
           // push into redux store
           dispatch(dataActions.updateHousing(housing));
         }).catch( err => {
@@ -120,10 +120,10 @@ const LoginScreen = ({ navigation }) => {
       }
       // Get and store no housing
       else {
-        Axios.get(`${await Constants.BASE_URL()}/api/nohousing/email/${email}`).then(({data}) => {
+        Axios.get(`${await Constants.BASE_URL()}/api/nohousing/email/${email}`).then(async ({data}) => {
           const housing = data[0];
           // push into secure store
-          SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING, JSON.stringify(housing));
+          await SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING, JSON.stringify(housing));
           // push into redux store
           dispatch(dataActions.updateHousing(housing));
         }).catch( err => {

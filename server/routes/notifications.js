@@ -1,13 +1,11 @@
 const { Expo } = require('expo-server-sdk')
-// require express
 const express = require('express');
-
-// require db connection
-const db = require('../utils/database');
 const router = express.Router();
+
 // Create a new Expo SDK client
 // optionally providing an access token if you have enabled push security
 let expo = new Expo();
+
 router.post('/',(req, res) => {
     const somePushTokens = req.body.pushTokens;
     const phone_user = req.body.phone_user;

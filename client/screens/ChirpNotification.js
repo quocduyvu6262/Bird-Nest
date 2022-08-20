@@ -22,7 +22,6 @@ import * as Notifications from 'expo-notifications';
 import * as Permissions from 'expo-permissions';
 import * as dataActions from '../redux/slices/data';
 import Axios from "axios";
-import Constants from "../constants/constants.js";
 
 const ChirpNotification = ({ navigation }) => {
   Notifications.setNotificationHandler({
@@ -33,7 +32,6 @@ const ChirpNotification = ({ navigation }) => {
     }),
   });
 
-  
   const [expoPushToken, setExpoPushToken] = useState('');
   const [notification, setNotification] = useState(false);
   const [test, setTest] = useState(false);
