@@ -12,6 +12,7 @@ router.post('/all', (req, res) => {
     db(client => {
         client.query(userQuery, (err, result) => { //query to find list of users of whom the provided_id user left AND right on
             if(err) throw err;
+            if(!result[0]) return;
             var list_of_users = result[0].list_of_users_all; //grabs result
             list_of_users = JSON.parse(list_of_users); //converts result from string to an array
             var history_list = []; //inital empty array that will contain all matches that were swiped
@@ -39,6 +40,7 @@ router.post('/yes', (req, res) => {
     db(client => {
         client.query(userQuery, (err, result) => { //query to find list of users of whom the provided_id user left AND right on
             if(err) throw err;
+            if(!result[0]) return;
             var list_of_users = result[0].list_of_users_yes; //grabs result
             list_of_users = JSON.parse(list_of_users); //converts result from string to an array
             var history_list = []; //inital empty array that will contain all matches that were swiped
@@ -66,6 +68,7 @@ router.post('/no', (req, res) => {
     db(client => {
         client.query(userQuery, (err, result) => { //query to find list of users of whom the provided_id user left AND right on
             if(err) throw err;
+            if(!result[0]) return;
             var list_of_users = result[0].list_of_users_no; //grabs result
             list_of_users = JSON.parse(list_of_users); //converts result from string to an array
             var history_list = []; //inital empty array that will contain all matches that were swiped
