@@ -20,6 +20,8 @@ const userInfo = {
     major: null,
     profilepic: null,
     picsList: [], // array
+    notiNames: ['Jack Multani', 'Michael Jordan', 'Lebron James', 'Steph Curry'], //array
+    notiPics: ['file:///var/mobile/Containers/Data/Application/6525879C-DFA1-4D73-BC39-9EA131D452A5/Library/Caches/ExponentExperienceData/%2540quocduyvu6262%252FBirdNest/ImagePicker/3A9B8F43-006A-47CF-AE34-990959BC590D.jpg', 'file:///var/mobile/Containers/Data/Application/6525879C-DFA1-4D73-BC39-9EA131D452A5/Library/Caches/ExponentExperienceData/%2540quocduyvu6262%252FBirdNest/ImagePicker/0A6C8202-8AE8-4A7B-8460-6A113F1CA43E.jpg', 'file:///var/mobile/Containers/Data/Application/6525879C-DFA1-4D73-BC39-9EA131D452A5/Library/Caches/ExponentExperienceData/%2540quocduyvu6262%252FBirdNest/ImagePicker/EEFD7E73-1A06-4B90-9280-DAAB6B26521F.jpg', 'file:///var/mobile/Containers/Data/Application/6525879C-DFA1-4D73-BC39-9EA131D452A5/Library/Caches/ExponentExperienceData/%2540quocduyvu6262%252FBirdNest/ImagePicker/6B96B2F8-6044-4C3C-A2A5-38201C32480D.jpg'], //array
 
     // BASIC INFO
     pets: [], // array
@@ -182,6 +184,14 @@ export const dataSlice = createSlice({
             }
             state.userInfo.picsList.push(pic);
             state.userInfo.picsList.filter(unique);
+        },
+        updateNotiNames: (state, action) => {
+            let name = action.payload;
+            state.userInfo.notiNames.push(name);
+        },
+        updateNotiPics: (state, action) => {
+            let pic = action.payload;
+            state.userInfo.notiPics.push(pic);
         },
         removePics: (state, action) => {
             let pic = action.payload;
@@ -449,6 +459,8 @@ export const {
     updatePets, 
     updateCook, 
     updatePicsList,
+    updateNotiNames,
+    updateNotiPics,
     removePics,
     updateAlcohol, 
     updateSleep, 
