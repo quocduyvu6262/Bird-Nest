@@ -9,6 +9,8 @@ const questionaireRoutes = require('./routes/questionaire');
 const chatRoutes = require('./routes/chat')
 const imagesRoutes = require('./routes/images');
 const notificationsRoutes = require('./routes/notifications');
+const secretKeysRoutes = require('./routes/secretKeys');
+
 
 require('dotenv').config();
 
@@ -28,6 +30,8 @@ app.use('/api/questionaire', questionaireRoutes);
 app.use('/api/chat',chatRoutes);
 app.use('/api/images', imagesRoutes);
 app.use('/api/notifications', notificationsRoutes);
+app.use('/api/secretKeys', secretKeysRoutes);
+
 
 
 
