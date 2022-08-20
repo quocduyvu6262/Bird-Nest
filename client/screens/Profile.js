@@ -57,6 +57,7 @@ const Profile = ({ navigation }) => {
   let count2 = 0;
   let count3 = 0;
   let selectedPics = [];
+  let keptPics = [];
   const data = useSelector(state => state.data);
   const [index, setIndex] = useState(0);
   const [buttonClicked, setButtonClicked] = useState(false);
