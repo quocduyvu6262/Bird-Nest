@@ -16,13 +16,13 @@ import Constants from "./constants/constants";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyAwOoez09kZxAG4YDyhFJBR2f7swXsJau4",
-  authDomain: "birdnest-356723.firebaseapp.com",
-  projectId: "birdnest-356723",
-  storageBucket: "birdnest-356723.appspot.com",
-  messagingSenderId: "314578595226",
-  appId: "1:314578595226:web:822d360fc83e8c94ce5e23",
-  measurementId: "G-9QCH132BZE"
+  apiKey: Constants.FIREBASE_API_KEY,
+  authDomain: Constants.FIREBASE_AUTH_DOMAIN,
+  projectId: Constants.FIREBASE_PROJECT_ID,
+  storageBucket: Constants.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: Constants.FIREBASE_MESSAGING_SENDER_ID,
+  appId: Constants.FIREBASE_APP_ID,
+  measurementId: Constants.FIREBASE_MEASUREMENT_ID
 };
 
 // Initialize Firebase
