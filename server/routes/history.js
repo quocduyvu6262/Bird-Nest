@@ -248,13 +248,18 @@ router.post('/insertNo', (req, res) => {
 });
 router.get('/picName', (req, res) => {
     var matched_user = req.body.matched_user; 
-    const query = `SELECT fullname, profilepic FROM BirdNest.User WHERE id = ${matched_user}`;
+    const query = `SELECT matches FROM BirdNest.User WHERE id = ${matched_user}`;
     db(client => {
         client.query(query, (err, result) => {
             if(err) throw err;
-            res.send(result);
-        })
-    })
-})
+            let matches = JSON.parse(result[0].matches);
+            let match_id = matches[matches.length-1];
+            const infoQuery = `SELECT fullname, profilepic FROM BirdNest.User WHERE id = ${match_id}`;
+            client.query(infoQuery, (err, result) => {
+                res.send(result);
+            });
+        });
+    });
+});
 
 module.exports = router;
