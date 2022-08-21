@@ -19,7 +19,7 @@ import * as FileSystem from 'expo-file-system';
 
 WebBrowser.maybeCompleteAuthSession();
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = ({ navigation, setIsAuth }) => {
   /**
    * @returns the dispatch instance
    */
@@ -170,7 +170,7 @@ const LoginScreen = ({ navigation }) => {
                 console.log("Login Successfully");
                 // PULL FROM DATABASE -> STORE INTO SECURE STORAGE -> STORE INTO REDUX STORAGE
                 await storeData(res.email);
-                navigation.navigate("BirdFeed");
+                setIsAuth(true);
               } else if (res.status === "register") {
                 dispatch(dataActions.updateID(res.id));
                 dispatch(dataActions.updateEmail(res.email));
