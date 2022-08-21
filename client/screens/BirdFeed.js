@@ -72,7 +72,8 @@ const BirdFeed = ({ navigation }) => {
    * the list of users that match each criteria
    */
   const viewUsers = async () => {
-    setUserList([]);
+    //setUserList([]);
+    let userList = [];
     let apiEndpoint;
     if(user.role === 'Flamingo' || user.role === 'Owl'){
       apiEndpoint = '/api/matching/lookingfornohousing';
@@ -148,8 +149,9 @@ const BirdFeed = ({ navigation }) => {
 
         </TouchableOpacity>
         {overlayFilterClicked && (
-          <FilterOverlay overlayFilterButton={overlayFilterButton}/>
+          <FilterOverlay setUserList={setUserList} setListState={setListState} overlayFilterButton={overlayFilterButton}/>
         )}
+
 
         {listState && (
           <View styles={styles.flatlist}>

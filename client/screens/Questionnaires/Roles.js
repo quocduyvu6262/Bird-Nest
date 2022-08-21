@@ -1,3 +1,9 @@
+//TODO: Make text in roles white
+//TODO: Make header choose your role match the first screens text
+//Fix the red text
+//Make owl smaller 
+//Change colors of buttons
+//Find new icons (possibly only for flamingo)
 import {
   Image,
   View,

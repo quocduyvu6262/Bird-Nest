@@ -22,7 +22,7 @@ import Axios from "axios";
 import Constants from "../constants/constants.js";
 
 
-const FilterOverlay = ({overlayFilterButton}) => {
+const FilterOverlay = ({overlayFilterButton, setUserList, setListState}) => {
   DropDownPicker.setListMode("SCROLLVIEW");
   /**
    * Redux Hoook
@@ -123,9 +123,9 @@ const FilterOverlay = ({overlayFilterButton}) => {
    * Filter post request
    */
   //let filteredUserList;
-  const [userList, setUserList] = useState([]);
-  const [listState, setListState] = useState(false);
+
   const Filter = async(filterMap) => {
+    let userList = [];
     console.log(filterMap);
     Axios.post(`${await Constants.BASE_URL()}/api/matching/filter`, {
       filterMap : JSON.stringify(Array.from(filterMap.entries())),
@@ -154,6 +154,7 @@ const FilterOverlay = ({overlayFilterButton}) => {
     .catch(err => {
       console.log(err);
       console.log("Failed to filter users");
+
     })
     setListState(true);
     console.log(userList);
@@ -174,6 +175,8 @@ const FilterOverlay = ({overlayFilterButton}) => {
     dispatch(dataActions.updatePool(pool));
     dispatch(dataActions.updateAppliances(appliances));
     dispatch(dataActions.updateAC(AC));
+    console.log(gym);
+    console.log(AC);
     // update Secure Store
 
     //call filtering algorithm
