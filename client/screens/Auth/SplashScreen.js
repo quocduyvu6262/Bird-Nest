@@ -9,7 +9,7 @@ import Constants from '../../constants/constants';
 import * as dataActions from '../../redux/slices/data';
 import { useDispatch } from "react-redux";
 
-export default function SplashScreen({navigation, setIsAuth}) {
+export default function SplashScreen({navigation}) {
 
     const edges = useSafeAreaInsets();
     // dispatch instance
@@ -68,12 +68,12 @@ export default function SplashScreen({navigation, setIsAuth}) {
         const userToken = await SecureStore.getItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_TOKEN);
         // navigate to the app screen if a token is present
         // else navigate to the auth screen
-        setTimeout( async () => {
+        setTimeout( () => {
             if(userToken){
-                await storeData();
-                setIsAuth(true);
+                storeData();
+                navigation.navigate('BirdFeed');
             } else {
-                setIsAuth(false);
+                navigation.navigate('LoginScreen');
             }
         })
     }

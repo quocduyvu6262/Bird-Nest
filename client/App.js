@@ -6,7 +6,6 @@ import {
   InteractionManager,
   ActivityIndicator,
   Pressable,
-  Text
 } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Logo from "./assets/bird.png";
@@ -56,7 +55,6 @@ const Tab = createBottomTabNavigator();
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 const TabNavigator = () => {
   const DisabledTabBarButton = ({ style, ...props }) => (
@@ -98,31 +96,37 @@ const TabNavigator = () => {
 };
 <ion-icon name="eye-outline"></ion-icon>;
 export default function App() {
-  const [isAuth, setIsAuth] = useState(false);
   return (
     <Provider store={store}>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <NavigationContainer>
-          <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="SplashScreen" component={SplashScreen} props={setIsAuth}/>
-            {/* {true ? <Stack.Screen name="LoginScreen" component={LoginScreen} setIsAuth={setIsAuth}/> : 
-              <Stack.Group>
-                <Stack.Screen name="BirdFeed" component={TabNavigator} />
-                <Stack.Screen name="PeckView" component={PeckView} />
-                <Stack.Screen name="Settings" component={Settings} setIsAuth={setIsAuth} />
-                <Stack.Screen name="ChirpNotificationEdit" component={ChirpNotificationEdit}/>
-                <Stack.Screen name="HelpSupport" component={HelpSupport} />
-                <Stack.Screen name="TermsOfService" component={TermsOfService} />
-                <Stack.Screen name="ChirpNotification"component={ChirpNotification} />
-                <Stack.Screen name="IDQs" component={IDQs} />
-                <Stack.Screen name="BasicInfo" component={BasicInfo} />
-                <Stack.Screen name="NoHousingQ" component={NoHousingQ} />
-                <Stack.Screen name="HasHousingQ" component={HasHousingQ} />
-                <Stack.Screen name="Personality" component={Personality} />
-                <Stack.Screen name="Roles" component={Roles} />
-                <Stack.Screen name="History" component={History} />
-              </Stack.Group>
-            } */}
+          <Stack.Navigator
+            //change back default to "Splashcreen" after testing
+            initialRouteName="SplashScreen"
+            screenOptions={{ headerShown: false }}
+          >
+            <Stack.Screen name="SplashScreen" component={SplashScreen} />
+            <Stack.Screen name="LoginScreen" component={LoginScreen} />
+            <Stack.Screen name="BirdFeed" component={TabNavigator} />
+            <Stack.Screen name="PeckView" component={PeckView} />
+            <Stack.Screen name="Settings" component={Settings} />
+            <Stack.Screen
+              name="ChirpNotificationEdit"
+              component={ChirpNotificationEdit}
+            />
+            <Stack.Screen name="HelpSupport" component={HelpSupport} />
+            <Stack.Screen name="TermsOfService" component={TermsOfService} />
+            <Stack.Screen
+              name="ChirpNotification"
+              component={ChirpNotification}
+            />
+            <Stack.Screen name="IDQs" component={IDQs} />
+            <Stack.Screen name="BasicInfo" component={BasicInfo} />
+            <Stack.Screen name="NoHousingQ" component={NoHousingQ} />
+            <Stack.Screen name="HasHousingQ" component={HasHousingQ} />
+            <Stack.Screen name="Personality" component={Personality} />
+            <Stack.Screen name="Roles" component={Roles} />
+            <Stack.Screen name="History" component={History} />
           </Stack.Navigator>
         </NavigationContainer>
       </GestureHandlerRootView>
