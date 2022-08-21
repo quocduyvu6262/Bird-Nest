@@ -471,18 +471,16 @@ class Personality extends Component {
     return (
       <SafeAreaView style={HousingQ_styles.container}>
         <View style={HousingHeader_styles.header}>
-          <Text style={HousingHeader_styles.headerText}>Personality (5/5)</Text>
           <TouchableOpacity
-            style={{ alignSelf: "flex-start" }}
-            onPress={() => {
-              this.props.navigation.goBack();
-            }}
-          >
-            <Text style={HousingHeader_styles.returnToProfileArrow}>
-              {"< "}
-            </Text>
-            <Text style={HousingHeader_styles.returnToProfile}>Housing</Text>
+            onPress={() => this.props.navigation.goBack()}
+            style={HousingHeader_styles.returnToProfileArrow}>
+            <Image
+              source={require("../../assets/backArrow.png")}
+              style={HousingHeader_styles.backIcon}
+            />
+            <Text style={HousingHeader_styles.backText}>Housing</Text>
           </TouchableOpacity>
+          <Text style={HousingHeader_styles.headerText}>Personality (5/5)</Text>
         </View>
         <ScrollView>
           <Text style={[HousingQ_styles.question1, { marginTop: 120 }]}>
@@ -1026,30 +1024,38 @@ class Personality extends Component {
 const HousingHeader_styles = StyleSheet.create({
   header: {
     backgroundColor: "#6736B6",
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: "100%",
     height: 90,
-    bottom: 45,
+    bottom: 50,
     marginBottom: -45,
   },
   headerText: {
-    fontWeight: "bold",
+    flex: 2,
+    top: 20,
     color: "#FFF",
     fontSize: 20,
-    top: 53,
-    textAlign: "center",
-  },
-  returnToProfile: {
-    color: "#FFF",
-    fontSize: 17,
-    bottom: 4,
-    left: 27,
+    fontWeight: "bold",
   },
   returnToProfileArrow: {
-    fontWeight: "600",
-    color: "#FFF",
-    fontSize: 30,
-    top: 22,
     left: 5,
+    top: 20,
+    flex: 0.85,
+    alignItems: 'center',
+    flexDirection: "row",
   },
+  backIcon: {
+    height: 20,
+    width: 20,
+    tintColor: "#FFF",
+    marginRight: -5,
+   },
+   backText: {
+    color: "#FFF",
+    fontSize: 15,
+    fontWeight: 'bold',
+   },
 });
 
 const HousingQ_styles = StyleSheet.create({
