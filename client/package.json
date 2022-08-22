@@ -60,6 +60,7 @@
     "getstream": "^8.0.2",
     "ionicons": "^6.0.2",
     "jwt-decode": "^3.1.2",
+    "moment": "^2.29.4",
     "patch-package": "^6.4.7",
     "pkg": "^5.4.1",
     "react": "^18.0.0",

@@ -154,7 +154,7 @@ const MainHeader = ({ screen, navigation }) => {
           screen === "Peck View"
         ) && (
           <TouchableOpacity
-            onPress={() => navigation.goBack()}
+            onPress={() => {navigation.goBack(); dispatch(dataActions.updateNotiSeen())}}
             style={styles.backButton}
           >
             <Icon name="west" size={30} />

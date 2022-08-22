@@ -189,8 +189,8 @@ router.post('/insertNo', (req, res) => {
         });
     });
 });
-router.get('/picName', (req, res) => {
-    var matched_user = req.body.matched_user; 
+router.post('/picName', (req, res) => {
+    var matched_user = req.body.user_id;
     const query = `SELECT matches FROM BirdNest.User WHERE id = ${matched_user}`;
     db(client => {
         client.query(query, (err, result) => {
@@ -204,5 +204,25 @@ router.get('/picName', (req, res) => {
         });
     });
 });
-
+router.post('/token', (req, res) => {
+    var user_id = req.body.user_id;
+    var token = req.body.token;
+    const query = `UPDATE BirdNest.User SET token = '${token}' WHERE id = ${user_id}`;
+    db(client => {
+        client.query(query, (err, result) => {
+            if(err) throw err;
+            res.send("Token inserted!");
+        });
+    });
+});
+router.post('/matches', (req, res) => {
+    var user_id = req.body.user_id;
+    const query = `SELECT matches FROM BirdNest.User WHERE id = ${user_id}`;
+    db(client => {
+        client.query(query, (err, result) => {
+            if(err) throw err;
+            res.send(result);
+        });
+    });
+});
 module.exports = router;
