@@ -29,7 +29,10 @@ const MyComponent = () => {
         title="How do I know if someone has swiped right on me?"
         theme={{ colors: { primary: '#560CCE' }}} 
         titleNumberOfLines={5}>
-        <List.Item title="Temporary Answer" 
+        <List.Item title="Simple! Bird Nest alerts users through push notifications
+        when their profile has been swiped right on. These notification can also be
+        viewed on the Chirp Notifications screen (accessed through the
+        Bird Feed screen)." 
         titleNumberOfLines={5}/>
       </List.Accordion>
       <Divider/>
@@ -37,7 +40,19 @@ const MyComponent = () => {
         title="How do I filter by variables on the Bird Feed?"
         theme={{ colors: { primary: '#560CCE' }}} 
         titleNumberOfLines={5}>
-        <List.Item title="Temporary Answer" 
+        <List.Item title="Tap on the filters button below the header on
+        the Bird Feed screen. Then, adjust as many of the variables as you would
+        like, to refine your search." 
+        titleNumberOfLines={5}/>
+      </List.Accordion>
+      <Divider/>
+      <List.Accordion
+        title="What are List View and Peck View?"
+        theme={{ colors: { primary: '#560CCE' }}} 
+        titleNumberOfLines={5}>
+        <List.Item title="Bird Nest provides two methods for viewing user profiles:
+        (1) List View: a top-to-bottom list of user profiles. Or
+        (2) Peck View: a swipeable, dating app inspired card view of user profiles." 
         titleNumberOfLines={5}/>
       </List.Accordion>
       <Divider/>
@@ -53,14 +68,6 @@ const MyComponent = () => {
       </List.Accordion>
       <Divider/>
       <List.Accordion
-        title="What are List View and Peck View?"
-        theme={{ colors: { primary: '#560CCE' }}} 
-        titleNumberOfLines={5}>
-        <List.Item title="Temporary Answer" 
-        titleNumberOfLines={5}/>
-      </List.Accordion>
-      <Divider/>
-      <List.Accordion
         title="How do I edit variables and questionnaire answers?"
         theme={{ colors: { primary: '#560CCE' }}} 
         titleNumberOfLines={5}>
@@ -68,6 +75,30 @@ const MyComponent = () => {
         titleNumberOfLines={5}/>
       </List.Accordion>
       <Divider/>
+      <List.Accordion
+        title="How will I know when I've matched with another user?"
+        theme={{ colors: { primary: '#560CCE' }}} 
+        titleNumberOfLines={5}>
+        <List.Item title="Bird Nest will notify users via push notifications
+        when they have matched with others. Additionally, these notifications
+        will also appear within the Chirp Notifications page (accessed through the
+        Bird Feed screen)." 
+        titleNumberOfLines={10}/>
+      </List.Accordion>
+      <Divider/>
+      <List.Accordion
+        title="When will I get notifications?"
+        theme={{ colors: { primary: '#560CCE' }}} 
+        titleNumberOfLines={5}>
+        <List.Item title="Bird Nest will send Chirp Notifications if:
+        (1) You and another user match.
+        (2) Another user pecks yes on your profile. Or
+        (3) You receive a new message in the Messenger Pigeon.
+        These notifications will appear organized under the
+        Chirp Notifications screen, which can be accessed by tapping the
+        bird icon on the top right of the Bird Feed screen." 
+        titleNumberOfLines={10}/>
+      </List.Accordion>
       <Divider/>
       <List.Accordion
         title="What do the user roles mean?"
@@ -81,6 +112,7 @@ const MyComponent = () => {
                 already have friends who I want to room with (who are also looking for housing with me)."
         titleNumberOfLines={15}/>
       </List.Accordion>
+      <Divider/>
       <List.Accordion
         title="Can anyone join Bird Nest?"
         theme={{ colors: { primary: '#560CCE' }}} 
