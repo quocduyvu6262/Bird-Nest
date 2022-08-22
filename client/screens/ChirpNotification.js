@@ -16,7 +16,6 @@ import Footer from "../components/Footer.js";
 import MainHeader from "../components/MainHeader.js";
 import Bird_Drawing from "../assets/svg/Bird_Drawing";
 //import Constants from "../constants/constants.js";
-import Constants from 'expo-constants';
 import { useDispatch, useSelector } from "react-redux";
 import * as Notifications from 'expo-notifications';
 import * as Permissions from 'expo-permissions';
