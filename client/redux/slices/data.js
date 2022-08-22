@@ -344,24 +344,9 @@ export const dataSlice = createSlice({
       // assign temp to pets
       state.housing.neighborhoodList = temp;
     },
-    updateCitylist: (state, action) => {
-      let { activity, add } = action.payload;
-      if (state.housing.neighborhoodList === null) {
-        state.housing.neighborhoodList = [];
-      }
-      let temp = state.housing.neighborhoodList;
-      if (add) {
-        if (temp.indexOf(activity) === -1) {
-          temp.push(activity);
-        }
-      } else {
-        let toRemoveIndex = temp.indexOf(activity);
-        if (toRemoveIndex > -1) {
-          temp.splice(toRemoveIndex, 1);
-        }
-      }
-      // assign temp to pets
-      state.housing.neighborhoodList = temp;
+    
+    updateAddress: (state, action) => {
+      state.housing.address = action.payload;
     },
     updateNeighborhood: (state, action) => {
       state.housing.neighborhood = action.payload;
@@ -486,8 +471,8 @@ export const {
   updateBobaBubble,
   // UPDATE HOUSING
   updateNeighborhoodList,
+  updateAddress,
   updateNeighborhood,
-  updateCitylist,
   updateRent,
   updateLease,
   updateSquarefeet,

@@ -15,7 +15,6 @@ const Constants = {
     let id = await Network.getIpAddressAsync();
     return `http:${id}:3000`
   },
-  GEOCODING_KEY: 'AIzaSyAJANOsLDrPR71PtwIVgURRhZGKGZSPSCY'
 };
 
 export default Constants;
