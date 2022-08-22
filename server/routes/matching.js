@@ -4,18 +4,21 @@ const express = require("express");
 // require db connection
 const db = require("../utils/database");
 const router = express.Router();
+//const queue = require("../utils/priorityQueue");
 
-//Does this consider that neighborhoods are 
+//let priorityCount;
 router.post('/lookingforhousing', (req, res) => { // input
+	
 	let provided_id = req.body.user_id; //temporary until ID is provided by front-end
-	//query for sending every user's variables to the front-end 
-	const resultQuery = "SELECT User.*, Matching.number FROM BirdNest.User JOIN BirdNest.Housing ON User.id = Housing.User_id JOIN BirdNest.Matching ON User.id = Matching.User_id ORDER BY prioritycount desc, number desc";
+	//Get all other housing users 
+	const resultQuery = "SELECT User.*, Housing.* FROM BirdNest.User JOIN BirdNest.Housing ON User.id = Housing.User_id";
 	db(client => {
 		var must_have_map = new Map();
-		client.query(`SELECT * FROM BirdNest.Housing WHERE User_id = ${provided_id}`, //replaced NoHousing with MustHave //TODO: Why NoHousing originally (I changed it frmo Nohousing)?
+		client.query(`SELECT * FROM BirdNest.NoHousing WHERE User_id = ${provided_id}`, //If you're looking for housing you are in NoHousing table
 			(err, result) => {
 				const provided_values = result;
-				//add the following matching variables to the map
+				//console.log(provided_values);
+				//add the following matching variables to the map (Current user's info)
 				must_have_map.set("neighborhood", provided_values[0].neighborhood); // array of string
 				must_have_map.set("lease", provided_values[0].lease);
 				must_have_map.set("rent", provided_values[0].rent);
@@ -26,45 +29,74 @@ router.post('/lookingforhousing', (req, res) => { // input
 				must_have_map.set("appliances", provided_values[0].appliances);
 				must_have_map.set("furniture", provided_values[0].furniture);
 				must_have_map.set("AC", provided_values[0].AC);
-				for(const [key, value] of must_have_map) { //updates matches count for each user
-					// 1ST RENT LEASE NEIGHBOTHOOD
-					if (key == "rent") { //evaluates the lease and rent for a range
-						var matchingQuery = `UPDATE BirdNest.Matching JOIN BirdNest.Housing ON Matching.User_id = Housing.User_id SET prioritycount = prioritycount + 1 WHERE ${key} <= ${value}`;
-					} 
-					else if (key == "neighborhood"){
-						const inClause = value.map(el => "'" + el + "'").join();
-						var matchingQuery = `UPDATE BirdNest.Matching JOIN BirdNest.Housing ON Matching.User_id = Housing.User_id SET number = number + 1 WHERE ${key} in (${inClause})`;
-					}
-					else { //evaluates for values that are strings
-						var matchingQuery = `UPDATE BirdNest.Matching JOIN BirdNest.Housing ON Matching.User_id = Housing.User_id SET number = number + 1 WHERE ${key} = '${value}'`;	
-					}
-					client.query(matchingQuery, [],(err) => {
-						if (err) console.log("Fail to match");
-					});
-				}
-				client.query(resultQuery, function (err, result) { //orders Matches table from most to least matches
+				//let priorityQueue = new priorityQueue();
+				client.query(resultQuery, function (err, result) { 
+					let housingList = result;
+					
+					//console.log(housingList);
+					housingList.forEach(housingList => {
+						let priorityCount = 0;
+						let count = 0;
+						for (var [key, value] of must_have_map) {
+							console.log(housingList);
+							console.log(housingList.key);
+							const iterator = housingList.keys();
+							console.log(iterator.next());
+							console.log(iterator.next().key);
+							console.log(iterator.next().value);
+							if (key == "rent" && value <= housingList.rent) {
+								priorityCount++;
+								console.log(priorityCount);
+							}
+							else if (key == "neighborhood") {
+
+							}
+						}
+						//priorityQueue.enqueue(housingList[i], {priorityCount, count})
+						priorityCount = 0;
+						count = 0;
+					}) //updates matches count for each user
+						// 1ST RENT LEASE NEIGHBOTHOOD
+
+
+						/*
+						if (key == "rent") { //evaluates the lease and rent for a range
+							var matchingQuery = `UPDATE BirdNest.Matching JOIN BirdNest.Housing ON Matching.User_id = Housing.User_id SET prioritycount = prioritycount + 1 WHERE ${key} >= ${value}`; //Greater than for housing?
+						} 
+						else if (key == "neighborhood"){
+							const inClause = value.map(el => "'" + el + "'").join();
+							var matchingQuery = `UPDATE BirdNest.Matching JOIN BirdNest.Housing ON Matching.User_id = Housing.User_id SET number = number + 1 WHERE ${key} in (${inClause})`;
+						}
+						else { //evaluates for values that are strings
+							var matchingQuery = `UPDATE BirdNest.Matching JOIN BirdNest.Housing ON Matching.User_id = Housing.User_id SET number = number + 1 WHERE ${key} = '${value}'`;	
+						}
+						
+						
+						client.query(matchingQuery, [],(err) => {
+							if (err) console.log("Fail to match");
+						});
+						*/
+					
+					
+
 					if (err) console.log("Fail to show result");
 					// Output result
-					res.send(result);
-					// Reset matching table
-					const reset = 'UPDATE BirdNest.Matching SET number = 0, prioritycount = 0';
-					client.query(reset, (err) => { //resets matches to 0 for all users
-						if(err) console.log("Reset fail");
-					});
+					//res.send(priorityQueue);
+					res.send(housingList);
 				});
 		});
 	});
 });
 
 //lookingforroommate?
-/*
+
 router.post('/lookingfornohousing', (req, res) => { // input
 	let provided_id = req.body.user_id; //temporary until ID is provided by front-end
 	//query for sending every user's variables to the front-end 
 	const resultQuery = "SELECT User.*, Matching.number FROM BirdNest.User JOIN BirdNest.NoHousing ON User.id = NoHousing.User_id JOIN BirdNest.Matching ON User.id = Matching.User_id ORDER BY prioritycount desc, number desc";
 	db(client => {
 		var must_have_map = new Map();
-		client.query(`SELECT * FROM BirdNest.NoHousing WHERE User_id = ${provided_id}`, //replaced NoHousing with MustHave //TODO: Why NoHousing?
+		client.query(`SELECT * FROM BirdNest.Housing WHERE User_id = ${provided_id}`, //replaced NoHousing with MustHave //TODO: Why NoHousing?
 			(err, result) => {
 				const provided_values = result;
 				//add the following matching variables to the map
@@ -81,7 +113,7 @@ router.post('/lookingfornohousing', (req, res) => { // input
 				for(const [key, value] of must_have_map) { //updates matches count for each user
 					// 1ST RENT LEASE NEIGHBOTHOOD
 					if (key == "rent") { //evaluates the lease and rent for a range
-						var matchingQuery = `UPDATE BirdNest.Matching JOIN BirdNest.NoHousing ON Matching.User_id = NoHousing.User_id SET prioritycount = prioritycount + 1 WHERE ${key} <= ${value}`;
+						var matchingQuery = `UPDATE BirdNest.Matching JOIN BirdNest.NoHousing ON Matching.User_id = NoHousing.User_id SET prioritycount = prioritycount + 1 WHERE ${key} <= ${value}`; //Less than for housing?
 					} 
 					else if (key == "neighborhood"){ 
 						const inClause = value.map(el => "'" + el + "'").join();
@@ -107,21 +139,22 @@ router.post('/lookingfornohousing', (req, res) => { // input
 		});
 	});
 });
-*/
+
+//TODO: Rent variable is <= if you have a nohousing role and >= if you have a housing role so filter does depend on role for that variable only
 router.post('/filter', (req, res) => {
 	//TODO: Sort in order of matching algorithm.
     //neighborhoodList, rent, lease, square feet, parking, gym, pool, appliances, furniture, AC
     //if booleans are false don't filter by them
     //const filterMap = new Map([["gargage", 1], ["parking", 1], ["gym", 1], ["appliances", 1]]); 
     const filterMap = new Map(JSON.parse(req.body.filterMap));
-    console.log(filterMap);
+    //console.log(filterMap);
 	//console.log(filterMap.keys());
 	//console.log(filterMap.values());
 	//console.log(filterMap.length);
     let housingQuery = "SELECT * FROM Housing JOIN User ON Housing.User_id = User.id JOIN Matching ON Housing.User_id = Matching.User_id WHERE ";
 	let nohousingQuery = "SELECT * FROM NoHousing JOIN User ON NoHousing.User_id = User.id JOIN Matching ON NoHousing.User_id = Matching.User_id WHERE ";
     for (var [key, value] of filterMap.entries()) {
-		console.log(typeof value + " " + value);
+		//console.log(typeof value + " " + value);
 		//console.log(key);
 		//console.log(value);
 		//console.log("AAAAAAAAAAAAAAAAAAA");
@@ -172,6 +205,7 @@ router.post('/filter', (req, res) => {
         client.query(query, (err, results) => {
             if(!err && results.length){
                 res.send(results);
+				//console.log(priorityCount);
             } else {
                 //res.status(401).send("No users matching those filters found");
                 console.log(err);

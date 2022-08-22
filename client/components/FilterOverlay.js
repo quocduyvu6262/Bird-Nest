@@ -124,15 +124,18 @@ const FilterOverlay = ({overlayFilterButton, setUserList, setListState}) => {
    */
   //let filteredUserList;
 
+  //TODO: How to get priorityCount map in here? It is in matching.js route and is returned to birdfeed, not filterOverlay
   const Filter = async(filterMap) => {
     let userList = [];
     console.log(filterMap);
     Axios.post(`${await Constants.BASE_URL()}/api/matching/filter`, {
       filterMap : JSON.stringify(Array.from(filterMap.entries())),
     })
-    .then(async(filteredUsers) => {
+    .then(async(filteredUsers, priorityCount) => {
       filterUserData = filteredUsers.data;
+      //priorityCountData = priorityCount.data;
       console.log(filterUserData);
+      //console.log(priorityCountData);
       //filteredUserList = filteredUsers.data;
 
       //set userlist from birdfeed to empty array then set it to the filteredUsers
