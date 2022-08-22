@@ -132,8 +132,8 @@ const Profile = ({ navigation }) => {
     if(opacity9 == 0.5) {
       selectedPics.push(pics[8]);
     }
-    let tempAlbum = Array.from(imageFileSystem.album);
-    let tempPicsList = Array.from(user.picsList);
+    let tempAlbum = Array.from(imageFileSystem.album ? imageFileSystem.album : []);
+    let tempPicsList = Array.from(user.picsList ? user.picsList : []);
     for(let i = 0; i < selectedPics.length; i++) {
       const fileName = selectedPics[i].split('\\').pop().split('/').pop();
       const filePath = `images/${user.uid}/album/${fileName}`;

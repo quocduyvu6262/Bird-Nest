@@ -75,7 +75,6 @@ const LoginScreen = ({ navigation }) => {
    * @param email the current user's email
    */
   const storeData = async (email) => {
-    setIsLoading(true);
     // Get and store user
     Axios.get(`${await Constants.BASE_URL()}/api/users/${email}`).then(async ({data}) => {
       const user = data[0];
@@ -164,6 +163,7 @@ const LoginScreen = ({ navigation }) => {
     if (response?.type === "success") {
       const accessToken = response.authentication.accessToken;
       if (accessToken) {
+        setIsLoading(true);
         fetchGoogleUser(accessToken).then((userInfo) => {
           login(userInfo)
             .then(async (res) => {
