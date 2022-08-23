@@ -387,6 +387,7 @@ const Profile = ({ navigation }) => {
           </Modal>
           <UserCard
             name={data.userInfo.firstname + " " + data.userInfo.lastname} 
+            genderage={data.userInfo.gender + ", " + data.userInfo.age}
           />
           <View style={styles.buttonContainer}>
             <TouchableOpacity>
@@ -429,12 +430,8 @@ const Profile = ({ navigation }) => {
 
           <InfoCard>
             {!buttonClicked && <BioInfo bio={
-              data.userInfo.pronouns 
-              + `\n` 
-              + data.userInfo.gender 
-              + ", " 
-              + data.userInfo.age 
-              + `\n\n` + data.userInfo.bio}></BioInfo>}
+              data.userInfo.pronouns + "\n" + 
+              data.userInfo.bio}></BioInfo>}
 
             {buttonClicked && (
               <RentInfo
