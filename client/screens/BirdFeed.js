@@ -16,7 +16,6 @@ import Svg, { Path } from "react-native-svg";
 import Bird_Drawing from "../assets/svg/Bird_Drawing.js";
 import React, { useEffect, useState, useRef} from "react";
 import * as Device from 'expo-device';
-import Constants1 from "../constants/constants.js";
 import * as Notifications from 'expo-notifications';
 import * as Permissions from 'expo-permissions';
 import moment from 'moment';
@@ -37,12 +36,17 @@ import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
 import MainHeader from "../components/MainHeader.js";
 import Constants from "../constants/constants.js";
 import barackObama from "../assets/barackObama.jpeg";
-import { useChatClient } from "./ChatAPI/useChatClient.js";
 import FilterOverlay from "../components/FilterOverlay.js";
 import Icon3 from "react-native-vector-icons/Ionicons";
 import { useSelector, useDispatch } from "react-redux";
 
+
+
 const BirdFeed = ({ navigation }) => {
+
+  /**
+   * Notification setup
+   */
   Notifications.setNotificationHandler({
     handleNotification: async () => ({
       shouldShowAlert: true,
@@ -51,20 +55,6 @@ const BirdFeed = ({ navigation }) => {
     }),
   });
   
-  const user = useSelector(state => state.data.userInfo);
-  const dispatch = useDispatch();
-  const [expoPushToken, setExpoPushToken] = useState('');
-  const [notification, setNotification] = useState(false);
-  const [test, setTest] = useState(false);
-  const notificationListener = useRef();
-  const responseListener = useRef();
-  let names = user.notiNames;
-  let pics = user.notiPics;
-  let dates = user.notiDate;
-  let notiLength = user.notiNames.length - 1;
-
-
-const BirdFeed = ({ navigation }) => {
 
   /**
    * Redux Hook
@@ -80,120 +70,16 @@ const BirdFeed = ({ navigation }) => {
   const [overlayFilterClicked, setOverlayFilterClicked] = useState(false);
   let [fontsLoaded] = useFonts( {Pacifico_400Regular} );
 
-  // This is the old filter function on birdfeed
-  const updateMatchUI = async () => {
-    Axios.post(`${await Constants1.BASE_URL()}/api/history/picName1`, {
-      user_id: user.id,
-    })
-      .then((response) => {
-        let userData = response.data;
-        let name = userData[0].fullname;
-        let pic = userData[0].profilepic;
-        if(pic == null) {
-          pic = "https://icon-library.com/images/default-profile-icon/default-profile-icon-24.jpg"; //update to not require link
-        }
-        dispatch(dataActions.updateNotiNames(name));
-        dispatch(dataActions.updateNotiPics(pic)); //need to load pic from firebase
-        dispatch(dataActions.updateNotiUnread());
-        var currentDate = moment().format("YYYYMMDD HHmmss");
-        dispatch(dataActions.updateNotiDate(currentDate));
-        dispatch(dataActions.updateIsMatch());
-        dispatch(dataActions.updateSingleSeen());
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-  const updateSwipeUI = async () => {
-    Axios.post(`${await Constants1.BASE_URL()}/api/history/picName2`, {
-      user_id: user.id,
-    })
-      .then((response) => {
-        let userData = response.data;
-        let name = userData[0].fullname;
-        let pic = userData[0].profilepic;
-        if(pic == null) {
-          pic = "https://icon-library.com/images/default-profile-icon/default-profile-icon-24.jpg"; //update to not require link
-        }
-        dispatch(dataActions.updateNotiNames(name));
-        dispatch(dataActions.updateNotiPics(pic)); //need to load pic from firebase
-        dispatch(dataActions.updateNotiUnread());
-        var currentDate = moment().format("YYYYMMDD HHmmss");
-        dispatch(dataActions.updateNotiDate(currentDate));
-        dispatch(dataActions.updateIsNotMatch());
-        dispatch(dataActions.updateSingleSeen());
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-  const insertToken = async (token) => {
-    Axios.post(`${await Constants1.BASE_URL()}/api/history/token`, {
-      user_id: user.id,
-      token: token
-    })
-  }
-
-  useEffect(() => {
-    registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
-    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-      if(notification.request.content.title == "Swiped!") {
-        console.log("HELLO");
-        updateSwipeUI();
-      }
-      else {
-        updateMatchUI();
-      }
-      setNotification(notification);
-    });
-
-    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-      console.log(response);
-    });
-
-    return () => {
-      Notifications.removeNotificationSubscription(notificationListener.current);
-      Notifications.removeNotificationSubscription(responseListener.current);
-    };
-  }, []);
-  
-  async function registerForPushNotificationsAsync() {
-    let token;
-    if (Device.isDevice) {
-      const { status: existingStatus } = await Notifications.getPermissionsAsync();
-      let finalStatus = existingStatus;
-      if (existingStatus !== 'granted') {
-        const { status } = await Notifications.requestPermissionsAsync();
-        finalStatus = status;
-      }
-      if (finalStatus !== 'granted') {
-        alert('Failed to get push token for push notification!');
-        return;
-      }
-      token = (await Notifications.getExpoPushTokenAsync()).data;
-      if(user.token == null) {
-        dispatch(dataActions.updateToken(token));
-        insertToken(token);
-      }
-      console.log(token);
-    } else {
-      alert('Must use physical device for Push Notifications');
-    }
-  
-    if (Platform.OS === 'android') {
-      Notifications.setNotificationChannelAsync('default', {
-        name: 'default',
-        importance: Notifications.AndroidImportance.MAX,
-        vibrationPattern: [0, 250, 250, 250],
-        lightColor: '#FF231F7C',
-      });
-    }
-  
-    return token;
-  }
-  const overlayButton = () => {
-    overlayClicked ? setOverlayClicked(false) : setOverlayClicked(true);
+  /**
+   * Check whether Filter Button is clicked
+   * @returns whether Filter Button is clicked
+   */
+   const overlayFilterButton = () => {
+    overlayFilterClicked ?
+      setOverlayFilterClicked(false) :
+      setOverlayFilterClicked(true);
   };
+
 
   /**
    * Call the matching algorithm and display

@@ -276,6 +276,7 @@ router.post('/picName2', (req, res) => {
         });
     });
 });
+
 router.post('/token', (req, res) => {
     var user_id = req.body.user_id;
     var token = req.body.token;
@@ -287,6 +288,7 @@ router.post('/token', (req, res) => {
         });
     });
 });
+
 router.post('/matches', (req, res) => {
     var user_id = req.body.user_id;
     const query = `SELECT matches FROM BirdNest.User WHERE id = ${user_id}`;

@@ -38,7 +38,6 @@ const ChirpNotification = ({ navigation }) => {
   
   const [expoPushToken, setExpoPushToken] = useState('');
   const [notification, setNotification] = useState(false);
-  const [test, setTest] = useState(false);
   const notificationListener = useRef();
   const responseListener = useRef();
   const user = useSelector(state => state.data.userInfo);
@@ -47,6 +46,7 @@ const ChirpNotification = ({ navigation }) => {
   let pics = user.notiPics;
   let dates = user.notiDate;
   let notiLength = user.notiNames.length - 1;
+  
   const updateMatchUI = async () => {
     Axios.post(`${await Constants1.BASE_URL()}/api/history/picName1`, {
       user_id: user.id,
@@ -93,6 +93,7 @@ const ChirpNotification = ({ navigation }) => {
         console.log(error);
       });
   }
+  
   const insertToken = async (token) => {
     Axios.post(`${await Constants1.BASE_URL()}/api/history/token`, {
       user_id: user.id,
@@ -103,7 +104,8 @@ const ChirpNotification = ({ navigation }) => {
   useEffect(() => {
     registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
     notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
- /*     if(notification.request.content.title == "Swiped!") {
+      /* 
+      if(notification.request.content.title == "Swiped!") {
         updateSwipeUI();
       }
       else {
@@ -153,9 +155,9 @@ const ChirpNotification = ({ navigation }) => {
         lightColor: '#FF231F7C',
       });
     }
-  
     return token;
   }
+
   const seen = (count1) => {
     dispatch(dataActions.updateNotiSeen(count1));
   }
@@ -180,7 +182,6 @@ const ChirpNotification = ({ navigation }) => {
           </View>
           <Text style={{ color: '#560CCE', fontWeight: 'bold', fontSize: 10, marginLeft: 75, marginTop: -15}}>{postDate}</Text>
         </View>
-        
       )
     }
     else if(user.notiSeen[count] == true && user.isMatch[count] == true) {
@@ -188,10 +189,10 @@ const ChirpNotification = ({ navigation }) => {
         <View key = {count*5} style = {{borderBottomColor: "lightgray", padding: 10, borderBottomWidth: 0.8,}}>
           <View key={count} style = {{flexWrap: 'wrap', alignItems: 'center',justifyContent: 'flex-start', flexDirection: 'row'}}>
             <Image 
-            style={{height: 60, 
-            width: 60, 
-            borderRadius: 40}}
-            source={{uri: image}}
+              style={{height: 60, 
+              width: 60, 
+              borderRadius: 40}}
+              source={{uri: image}}
             >
             </Image>
             <Text  style = {{fontSize: 14, fontWeight: 'bold', marginLeft: 15}}>{names[count]}</Text>

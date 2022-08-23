@@ -16,6 +16,7 @@ const userInfo = {
     major: null,
     profilepic: null,
     picsList: [], // array
+
     token: null,
     notiNames: [], //array
     notiPics: [], //array
@@ -59,10 +60,9 @@ const userInfo = {
 }
 
 const housing = {
-    cityList: [],
     neighborhoodList: [], // for no housing only
+
     neighborhood: null,
-    city: null,
     squarefeet: 1000,
     lease: null,
     rent: 500, //500?
@@ -106,6 +106,9 @@ export const dataSlice = createSlice({
         updateAllAlbum: (state, action) => {
             let toAddImagesObj = action.payload;
             state.imageFileSystemUri.album = action.payload;
+        },
+        updateAllNeighborhoodList: (state, action) => {
+            state.housing.neighborhoodList = action.payload;
         },
         // USER
         updateID: (state, action) => {
@@ -380,25 +383,6 @@ export const dataSlice = createSlice({
             // assign temp to pets
             state.housing.neighborhoodList = temp;
         },
-        updateCitylist: (state, action) => {
-            let {activity, add} = action.payload;
-            if (state.housing.neighborhoodList === null) {
-                state.housing.neighborhoodList = [];
-            }
-            let temp = state.housing.neighborhoodList;
-            if(add){
-                if(temp.indexOf(activity) === -1) {
-                    temp.push(activity);
-                }
-            } else {
-                let toRemoveIndex = temp.indexOf(activity)
-                if(toRemoveIndex > -1){
-                    temp.splice(toRemoveIndex,1);
-                }
-            }
-            // assign temp to pets
-            state.housing.neighborhoodList = temp;
-        },
         updateNeighborhood: (state, action) => {
             state.housing.neighborhood = action.payload;
         },
@@ -407,6 +391,9 @@ export const dataSlice = createSlice({
         },
         updateLease: (state, action) => {
             state.housing.lease = action.payload
+        },
+        updateSquarefeet: (state, action) => {
+            state.housing.squarefeet = action.payload
         },
         updateGarage: (state, action) => {
             state.housing.garage = action.payload;
@@ -471,6 +458,7 @@ export const {
     updateUser, 
     updateHousing, 
     updateAllAlbum,
+    updateAllNeighborhoodList,
     // UPDATE USER
     updateID,
     updateUID,
@@ -526,10 +514,10 @@ export const {
     updateBobaBubble,
     // UPDATE HOUSING 
     updateNeighborhoodList,
-    updateNeighborhood, 
-    updateCitylist,
+    updateNeighborhood,     
     updateRent, 
     updateLease,
+    updateSquarefeet,
     updateNotiSeen,
     updateSingleSeen, 
     updateGarage,

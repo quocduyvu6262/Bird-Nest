@@ -35,6 +35,7 @@ import { removePics } from "../redux/slices/data";
 import * as FileSystem from 'expo-file-system'
 import { CONSTANTS } from "@firebase/util";
 import NotificationTracker from "./NotifiationTracker";
+import Tags from "react-native-tags";
 
 const Profile = ({ navigation }) => {
   const user = useSelector(state => state.data.userInfo);

@@ -8,6 +8,7 @@ const router = express.Router();
 // Create a new Expo SDK client
 // optionally providing an access token if you have enabled push security
 let expo = new Expo();
+
 router.post('/match',(req, res) => {
     const somePushTokens = req.body.pushTokens;
     const phone_user = req.body.phone_user;
@@ -59,7 +60,6 @@ router.post('/match',(req, res) => {
   for (let chunk of chunks) {
     try {
       let ticketChunk = await expo.sendPushNotificationsAsync(chunk);
-      console.log(ticketChunk);
       tickets.push(...ticketChunk);
       // NOTE: If a ticket contains an error code in ticket.details.error, you
       // must handle it appropriately. The error codes are listed in the Expo
@@ -127,7 +127,7 @@ let receiptIdChunks = expo.chunkPushNotificationReceiptIds(receiptIds);
     }
   }
 })();
-res.send("Message sent!");
+  res.send("Message sent!");
 })
 
 router.post('/swipe',(req, res) => {
