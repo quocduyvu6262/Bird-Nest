@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   View,
   Text,
@@ -11,6 +11,10 @@ import {
   ScrollView,
   Modal,
 } from "react-native";
+import * as Device from 'expo-device';
+import * as Notifications from 'expo-notifications';
+import * as Permissions from 'expo-permissions';
+import Constants1 from "../constants/constants.js";
 import Background from "../components/Background";
 import Logo from "../components/Logo";
 import Header from "../components/Header";
@@ -30,7 +34,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { removePics } from "../redux/slices/data";
 import * as FileSystem from 'expo-file-system'
 import { CONSTANTS } from "@firebase/util";
-import Tags from 'react-native-tags'
+import NotificationTracker from "./NotifiationTracker";
 
 const Profile = ({ navigation }) => {
   const user = useSelector(state => state.data.userInfo);

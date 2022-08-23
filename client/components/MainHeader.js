@@ -155,7 +155,7 @@ const MainHeader = ({ screen, navigation }) => {
           screen === "Peck View"
         ) && (
           <TouchableOpacity
-            onPress={() => navigation.goBack()}
+            onPress={() => {navigation.goBack(); dispatch(dataActions.updateNotiSeen()); dispatch(dataActions.updateNotiRead())}}
             style={styles.backButton}
           >
             <Icon name="west" size={30} />
@@ -197,6 +197,7 @@ const MainHeader = ({ screen, navigation }) => {
                 onPress={() => navigation.navigate("ChirpNotification")}
               >
                 <Image source={require(`../assets/bird.png`)} />
+                {user.notiunRead && <Text style = {{color: 'red', fontWeight: 'bold', position: "absolute", fontSize: 50, left: 15, bottom: -6}}>.</Text>}
               </TouchableOpacity>
             </View>
           )}

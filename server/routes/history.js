@@ -246,8 +246,8 @@ router.post('/insertNo', (req, res) => {
         });
     });
 });
-router.get('/picName', (req, res) => {
-    var matched_user = req.body.matched_user; 
+router.post('/picName1', (req, res) => {
+    var matched_user = req.body.user_id;
     const query = `SELECT matches FROM BirdNest.User WHERE id = ${matched_user}`;
     db(client => {
         client.query(query, (err, result) => {
@@ -261,5 +261,51 @@ router.get('/picName', (req, res) => {
         });
     });
 });
-
+router.post('/picName2', (req, res) => {
+    var matched_user = req.body.user_id;
+    const query = `SELECT list_of_users_yes FROM BirdNest.History WHERE User_id = ${matched_user}`;
+    db(client => {
+        client.query(query, (err, result) => {
+            if(err) throw err;
+            let matches = JSON.parse(result[0].list_of_users_yes);
+            let match_id = matches[matches.length-1];
+            const infoQuery = `SELECT fullname, profilepic FROM BirdNest.User WHERE id = ${match_id}`;
+            client.query(infoQuery, (err, result) => {
+                res.send(result);
+            });
+        });
+    });
+});
+router.post('/token', (req, res) => {
+    var user_id = req.body.user_id;
+    var token = req.body.token;
+    const query = `UPDATE BirdNest.User SET token = '${token}' WHERE id = ${user_id}`;
+    db(client => {
+        client.query(query, (err, result) => {
+            if(err) throw err;
+            res.send("Token inserted!");
+        });
+    });
+});
+router.post('/matches', (req, res) => {
+    var user_id = req.body.user_id;
+    const query = `SELECT matches FROM BirdNest.User WHERE id = ${user_id}`;
+    db(client => {
+        let final = [];
+        client.query(query, (err, result) => {
+            if(err) throw err;
+            let matches = JSON.parse(result[0].matches);
+            for(let i = 0; i < matches.length; i++) {
+                const namePic = `SELECT fullname, profilepic, uid FROM BirdNest.User WHERE id = ${matches[i]}`;
+                client.query(namePic, (err, result3) => {
+                    if(err) throw err;
+                    final.push(result3);
+                    if(i == matches.length - 1) {
+                        res.send(final);
+                    }
+                })
+            }
+        });
+    });
+});
 module.exports = router;
