@@ -66,6 +66,13 @@ const Settings = ({ navigation }) => {
 
       <TouchableOpacity
         style={styles.regularButton}
+        onPress={() => navigation.navigate("IDQs")}
+      >
+        <Text style={styles.textButton}>Edit Questionnaire</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.regularButton}
         onPress={() => navigation.navigate("HelpSupport")}
       >
         <Text style={styles.textButton}>Help & Support</Text>
