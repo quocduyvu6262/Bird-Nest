@@ -22,10 +22,11 @@ const chatClient = StreamChat.getInstance(Constants.CHAT_API_KEY);
 
 
 const MessengerMatch = () => {
+
     /**
      * Declare states
      */
-    const [secondUserChatUID, setSecondUserChatUID] = useState([])
+    const [secondUserChatUIDList, setSecondUserChatUIDList] = useState([])
     const [userList, setUserList] = useState([[{}]])
     const [wait, setWait] = useState(false);
     const user = useSelector(state => state.data.userInfo);
@@ -56,20 +57,22 @@ const MessengerMatch = () => {
      * TODO: add function header
      */
     const secondUser = async () => {
+        let secondUserIDs = []
         for (let i = 0; i < userList.length; i++) {
-            if (typeof userList[i][0].fullname == "undefined" || typeof userList[i][0].uid == "undefined") {
+            if (typeof userList[i].fullname == "undefined" || typeof userList[i].uid == "undefined") {
                 console.log("FUCK");
             } else {
-                setSecondUserChatUID(getChatUID(userList[i][0].fullname, userList[i][0].uid))
+                const secondUserID = getChatUID(userList[i].fullname, userList[i].uid)
+                secondUserIDs.push(secondUserID)
             }
-            console.log(secondUserChatUID[1])
         }
+        setSecondUserChatUIDList(secondUserIDs);
     }
 
     /**
      * TODO: add function header
      */
-    const createChannel = async () => {
+    const CreateChannel = async () => {
         if (secondUserIDs.length > 0) {
             for (let i = 0; i < secondUserIDs.length; i++) {
                 const channel = chatClient.channel('messaging',{
@@ -97,7 +100,7 @@ const MessengerMatch = () => {
                         source={props.src}
                     />
                     {wait && (
-                    <Text style={{marginTop:5}}>{userList[0][0].fullname}
+                    <Text style={{marginTop:5}}>{props.name}
                     </Text>)}
                 </TouchableOpacity>
             </View>
@@ -109,7 +112,6 @@ const MessengerMatch = () => {
      */
     useEffect(() => {
         viewMatchedUsers();
-        secondUser();
     }, []);
 
 
