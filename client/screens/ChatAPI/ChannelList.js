@@ -39,7 +39,7 @@ export default ChannelListScreen = (props, navigation) => {
                 }}
                 filters={filters}
                 sort={sort}
-            />
+        />
         </SafeAreaView>
     )
 }
