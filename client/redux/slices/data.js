@@ -25,8 +25,9 @@ const userInfo = {
     notiPics: [], //array
     notiLength: 0,
     notiSeen: [], //array
-    notiunRead: 0,
+    notiunRead: null,
     notiDate: [], //array
+    isMatch: [], //array
 
     // BASIC INFO
     pets: [], // array
@@ -211,11 +212,20 @@ export const dataSlice = createSlice({
             state.userInfo.notiSeen.fill(true);
         },
         updateNotiUnread: (state, action) => {
-            state.userInfo.notiunRead = state.userInfo.notiunRead + 1; 
+            state.userInfo.notiunRead = true; 
+        },
+        updateNotiRead: (state, action) => {
+            state.userInfo.notiunRead = false; 
         },
         updateNotiDate: (state, action) => {
             let date = action.payload;
             state.userInfo.notiDate.unshift(date);
+        },
+        updateIsMatch: (state, action) => {
+            state.userInfo.isMatch.unshift(true);
+        },
+        updateIsNotMatch: (state, action) => {
+            state.userInfo.isMatch.unshift(false);
         },
         removePics: (state, action) => {
             let pic = action.payload;
@@ -481,7 +491,8 @@ export const {
     updateBio, 
     updateProfilepic, 
     updatePets, 
-    updateCook, 
+    updateCook,
+    updateNotiRead, 
     updatePicsList,
     updateToken,
     updateNotiNames,
@@ -491,7 +502,9 @@ export const {
     updateNotiLength, 
     updateSleep, 
     updateGuess, 
-    updateOutside, 
+    updateOutside,
+    updateIsMatch,
+    updateIsNotMatch, 
     updateSilent, 
     updateRoommateWork, 
     updateShareAppliances, 

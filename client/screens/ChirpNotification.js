@@ -48,12 +48,11 @@ const ChirpNotification = ({ navigation }) => {
   let pics = user.notiPics;
   let dates = user.notiDate;
   let notiLength = user.notiNames.length - 1;
-  const updateUI = async () => {
-    Axios.post(`${await Constants1.BASE_URL()}/api/history/picName`, {
+  const updateMatchUI = async () => {
+    Axios.post(`${await Constants1.BASE_URL()}/api/history/picName1`, {
       user_id: user.id,
     })
       .then((response) => {
-        console.log('rannn');
         let userData = response.data;
         let name = userData[0].fullname;
         let pic = userData[0].profilepic;
@@ -65,6 +64,30 @@ const ChirpNotification = ({ navigation }) => {
         dispatch(dataActions.updateNotiUnread());
         var currentDate = moment().format("YYYYMMDD HHmmss");
         dispatch(dataActions.updateNotiDate(currentDate));
+        dispatch(dataActions.updateIsMatch());
+        dispatch(dataActions.updateSingleSeen());
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+  const updateSwipeUI = async () => {
+    Axios.post(`${await Constants1.BASE_URL()}/api/history/picName2`, {
+      user_id: user.id,
+    })
+      .then((response) => {
+        let userData = response.data;
+        let name = userData[0].fullname;
+        let pic = userData[0].profilepic;
+        if(pic == null) {
+          pic = "https://icon-library.com/images/default-profile-icon/default-profile-icon-24.jpg"; //update to not require link
+        }
+        dispatch(dataActions.updateNotiNames(name));
+        dispatch(dataActions.updateNotiPics(pic)); //need to load pic from firebase
+        dispatch(dataActions.updateNotiUnread());
+        var currentDate = moment().format("YYYYMMDD HHmmss");
+        dispatch(dataActions.updateNotiDate(currentDate));
+        dispatch(dataActions.updateIsNotMatch());
         dispatch(dataActions.updateSingleSeen());
       })
       .catch((error) => {
@@ -81,8 +104,12 @@ const ChirpNotification = ({ navigation }) => {
   useEffect(() => {
     registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
     notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-      console.log("NOTI: " + notification.request.content.title);
-      updateUI();
+ /*     if(notification.request.content.title == "Swiped!") {
+        updateSwipeUI();
+      }
+      else {
+        updateMatchUI();
+      }*/
       setNotification(notification);
     });
 
@@ -137,7 +164,7 @@ const ChirpNotification = ({ navigation }) => {
   var notis = pics.map(function(image) {
    count = count + 1;
    let postDate = moment(dates[count]).fromNow()
-    if(user.notiSeen[count] == false) {
+    if(user.notiSeen[count] == false && user.isMatch[count] == true) {
       return (
         <View key = {count*5} style = {{borderBottomColor: "lightgray", padding: 10, borderBottomWidth: 0.8,}}>
           <View key={count} style = {{flexWrap: 'wrap', alignItems: 'center',justifyContent: 'flex-start', flexDirection: 'row'}}>
@@ -157,7 +184,7 @@ const ChirpNotification = ({ navigation }) => {
         
       )
     }
-    else {
+    else if(user.notiSeen[count] == true && user.isMatch[count] == true) {
       return (
         <View key = {count*5} style = {{borderBottomColor: "lightgray", padding: 10, borderBottomWidth: 0.8,}}>
           <View key={count} style = {{flexWrap: 'wrap', alignItems: 'center',justifyContent: 'flex-start', flexDirection: 'row'}}>
@@ -173,6 +200,45 @@ const ChirpNotification = ({ navigation }) => {
           </View>
           <Text style={{ color: '#560CCE', fontWeight: 'bold', fontSize: 10, marginLeft: 75, marginTop: -15}}>{postDate}</Text>
         </View>
+      )
+    }
+    else if(user.notiSeen[count] == false && user.isMatch[count] == false) {
+      return (
+        <View key = {count*5} style = {{borderBottomColor: "lightgray", padding: 10, borderBottomWidth: 0.8,}}>
+          <View key={count} style = {{flexWrap: 'wrap', alignItems: 'center',justifyContent: 'flex-start', flexDirection: 'row'}}>
+          <Image 
+          style={{height: 60, 
+          width: 60, 
+          borderRadius: 40}}
+          source={{uri: image}}
+          >
+          </Image>
+          <Text  style = {{fontSize: 14, fontWeight: 'bold', marginLeft: 15}}>{names[count]}</Text>
+          <Text style = {{fontSize: 14}}> swiped right!</Text>
+          <Text style={{ color: '#560CCE', fontWeight: 'bold', fontSize: 10, marginLeft: 30}}>NEW</Text>
+          </View>
+          <Text style={{ color: '#560CCE', fontWeight: 'bold', fontSize: 10, marginLeft: 75, marginTop: -15}}>{postDate}</Text>
+        </View>
+        
+      )
+    }
+    else if(user.notiSeen[count] == true && user.isMatch[count] == false) {
+      return (
+        <View key = {count*5} style = {{borderBottomColor: "lightgray", padding: 10, borderBottomWidth: 0.8,}}>
+          <View key={count} style = {{flexWrap: 'wrap', alignItems: 'center',justifyContent: 'flex-start', flexDirection: 'row'}}>
+          <Image 
+          style={{height: 60, 
+          width: 60, 
+          borderRadius: 40}}
+          source={{uri: image}}
+          >
+          </Image>
+          <Text  style = {{fontSize: 14, fontWeight: 'bold', marginLeft: 15}}>{names[count]}</Text>
+          <Text style = {{fontSize: 14}}> swiped right!</Text>
+          </View>
+          <Text style={{ color: '#560CCE', fontWeight: 'bold', fontSize: 10, marginLeft: 75, marginTop: -15}}>{postDate}</Text>
+        </View>
+        
       )
     }
   });
