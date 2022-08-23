@@ -47,6 +47,7 @@ import FilterOverlay from "../components/FilterOverlay.js";
 // import Icon2 from "react-native-vector-icons/MaterialCommunityIcons";
 import Icon3 from "react-native-vector-icons/Ionicons";
 import { useSelector, useDispatch } from "react-redux";
+import {storage, ref, getDownloadURL} from '../firebaseConfig';
 
 const BirdFeed = ({ navigation }) => {
   Notifications.setNotificationHandler({
@@ -56,6 +57,13 @@ const BirdFeed = ({ navigation }) => {
       shouldSetBadge: false,
     }),
   });
+  const retrieveImage = async (path) => {
+    if(path){
+      const reference = ref(storage, path);
+      const url = await getDownloadURL(reference);
+      return url;
+    }
+  }
   
   const user = useSelector(state => state.data.userInfo);
   const dispatch = useDispatch();
@@ -77,15 +85,18 @@ const BirdFeed = ({ navigation }) => {
     Axios.post(`${await Constants1.BASE_URL()}/api/history/picName1`, {
       user_id: user.id,
     })
-      .then((response) => {
+      .then(async(response) => {
         let userData = response.data;
         let name = userData[0].fullname;
         let pic = userData[0].profilepic;
         if(pic == null) {
           pic = "https://icon-library.com/images/default-profile-icon/default-profile-icon-24.jpg"; //update to not require link
         }
+        else {
+          pic = await retrieveImage(pic);
+        }
         dispatch(dataActions.updateNotiNames(name));
-        dispatch(dataActions.updateNotiPics(pic)); //need to load pic from firebase
+        dispatch(dataActions.updateNotiPics(pic)); 
         dispatch(dataActions.updateNotiUnread());
         var currentDate = moment().format("YYYYMMDD HHmmss");
         dispatch(dataActions.updateNotiDate(currentDate));
@@ -100,15 +111,18 @@ const BirdFeed = ({ navigation }) => {
     Axios.post(`${await Constants1.BASE_URL()}/api/history/picName2`, {
       user_id: user.id,
     })
-      .then((response) => {
+      .then(async(response) => {
         let userData = response.data;
         let name = userData[0].fullname;
         let pic = userData[0].profilepic;
         if(pic == null) {
           pic = "https://icon-library.com/images/default-profile-icon/default-profile-icon-24.jpg"; //update to not require link
         }
+        else {
+          pic = await retrieveImage(pic);
+        }
         dispatch(dataActions.updateNotiNames(name));
-        dispatch(dataActions.updateNotiPics(pic)); //need to load pic from firebase
+        dispatch(dataActions.updateNotiPics(pic)); 
         dispatch(dataActions.updateNotiUnread());
         var currentDate = moment().format("YYYYMMDD HHmmss");
         dispatch(dataActions.updateNotiDate(currentDate));

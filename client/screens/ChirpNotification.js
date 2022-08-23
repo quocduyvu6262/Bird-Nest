@@ -26,6 +26,7 @@ import Constants1 from "../constants/constants.js";
 import Default from "../assets/default.jpg";
 import { not } from "react-native-reanimated";
 import moment from 'moment';
+import {storage, ref, getDownloadURL} from '../firebaseConfig';
 
 const ChirpNotification = ({ navigation }) => {
   Notifications.setNotificationHandler({
@@ -35,7 +36,13 @@ const ChirpNotification = ({ navigation }) => {
       shouldSetBadge: false,
     }),
   });
-
+  const retrieveImage = async (path) => {
+    if(path){
+      const reference = ref(storage, path);
+      const url = await getDownloadURL(reference);
+      return url;
+    }
+  }
   
   const [expoPushToken, setExpoPushToken] = useState('');
   const [notification, setNotification] = useState(false);
@@ -58,6 +65,11 @@ const ChirpNotification = ({ navigation }) => {
         let pic = userData[0].profilepic;
         if(pic == null) {
           pic = "https://icon-library.com/images/default-profile-icon/default-profile-icon-24.jpg"; //update to not require link
+        }
+        else {
+          console.log(pic);
+          pic = retrieveImage(pic);
+          console.log(pic);
         }
         dispatch(dataActions.updateNotiNames(name));
         dispatch(dataActions.updateNotiPics(pic)); //need to load pic from firebase
@@ -177,9 +189,9 @@ const ChirpNotification = ({ navigation }) => {
           </Image>
           <Text  style = {{fontSize: 14, fontWeight: 'bold', marginLeft: 15}}>{names[count]}</Text>
           <Text style = {{fontSize: 14}}> is a match!</Text>
-          <Text style={{ color: '#560CCE', fontWeight: 'bold', fontSize: 10, marginLeft: 30}}>NEW</Text>
+          <Text style={{ color: '#560CCE', fontWeight: 'bold', fontSize: 10, position: 'absolute', right: 5}}>NEW</Text>
           </View>
-          <Text style={{ color: '#560CCE', fontWeight: 'bold', fontSize: 10, marginLeft: 75, marginTop: -15}}>{postDate}</Text>
+          {<Text style={{ color: '#560CCE', fontWeight: 'bold', fontSize: 10, marginLeft: 75, marginTop: -15}}>{postDate}</Text>}
         </View>
         
       )
@@ -215,7 +227,7 @@ const ChirpNotification = ({ navigation }) => {
           </Image>
           <Text  style = {{fontSize: 14, fontWeight: 'bold', marginLeft: 15}}>{names[count]}</Text>
           <Text style = {{fontSize: 14}}> swiped right!</Text>
-          <Text style={{ color: '#560CCE', fontWeight: 'bold', fontSize: 10, marginLeft: 30}}>NEW</Text>
+          <Text style={{ color: '#560CCE', fontWeight: 'bold', fontSize: 10, position: 'absolute', right: 5}}>NEW</Text>
           </View>
           <Text style={{ color: '#560CCE', fontWeight: 'bold', fontSize: 10, marginLeft: 75, marginTop: -15}}>{postDate}</Text>
         </View>
