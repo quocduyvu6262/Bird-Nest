@@ -1,4 +1,11 @@
-import { View, Text, StyleSheet, Image, Dimensions } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Dimensions,
+  TouchableOpacity,
+} from "react-native";
 import React from "react";
 import barackObama from "../assets/barackObama.jpeg";
 import { PanGestureHandler, State } from "react-native-gesture-handler";
@@ -128,11 +135,27 @@ const PeckViewCard = ({
       >
         <View style={styles.cardInfoWrapper}>
           <Image source={barackObama} style={styles.image} />
-          <View style={styles.text}>
-            <Text>Rent</Text>
-            <Text>Neighborhood</Text>
-            <Text></Text>
+          <View style={styles.headerText}>
+            <Text style={styles.name}>{user.name}</Text>
+            <Text>(Age), (Gender)</Text>
           </View>
+          <View style={styles.mainTextWrapper}>
+            <View>
+              <View style={styles.mainTextInfo}>
+                <Text>(Neighborhood)</Text>
+              </View>
+              <Text style={styles.mainTextHeader}>Neighborhood</Text>
+            </View>
+            <View>
+              <View style={styles.mainTextInfo}>
+                <Text>(Rent)</Text>
+              </View>
+              <Text style={styles.mainTextHeader}>Rent</Text>
+            </View>
+          </View>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>View {user.name}'s Profile </Text>
+          </TouchableOpacity>
         </View>
       </Animated.View>
     </PanGestureHandler>
@@ -143,14 +166,14 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
     alignItems: "center",
-    // position: "absolute",
-    // alignSelf: "center",
-    backgroundColor: "red",
+    backgroundColor: "white",
     height: 600,
     width: 350,
     top: 50,
     left: (Dimensions.get("window").width - 350) / 2,
     borderRadius: 15,
+    borderColor: "#560CCE",
+    borderWidth: 4,
   },
   cardInfoWrapper: {
     height: 560,
@@ -160,6 +183,48 @@ const styles = StyleSheet.create({
   image: {
     height: 300,
     width: 300,
+    borderRadius: 15,
+  },
+  headerText: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    borderBottomColor: "#560CCE",
+    borderBottomWidth: 2,
+  },
+  name: {
+    fontFamily: "Pacifico_400Regular",
+    fontSize: 30,
+    color: "#560CCE",
+    marginRight: 20,
+    paddingHorizontal: 10,
+    paddingBottom: 5,
+  },
+  mainTextWrapper: {
+    flex: 1,
+    // backgroundColor: "blue",
+    padding: 10,
+  },
+  mainTextInfo: {
+    borderBottomColor: "#560CCE",
+    borderBottomWidth: 1,
+    // alignSelf: "center",
+  },
+  mainTextHeader: {
+    color: "gray",
+  },
+  button: {
+    backgroundColor: "#560CCE",
+    alignSelf: "center",
+    justifyContent: "center",
+    height: 40,
+    width: 280,
+    borderRadius: 6,
+  },
+  buttonText: {
+    textAlign: "center",
+    color: "white",
+    fontSize: 20,
   },
 });
 export default PeckViewCard;

@@ -96,6 +96,7 @@ const PeckView_Styles = StyleSheet.create({
   },
   wrapper: {
     height: "100%",
+    backgroundColor: "#CBC3E3",
   },
 });
 

@@ -131,6 +131,7 @@ const styles = StyleSheet.create({
   container: {
     height: 90,
     width: "90%",
+    // width: "100%",
     backgroundColor: "lightgray",
     // backgroundColor: "white",
     alignSelf: "center",
