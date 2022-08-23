@@ -424,7 +424,6 @@ const Profile = ({ navigation }) => {
 
           <InfoCard>
             {!buttonClicked && <BioInfo bio={
-              data.userInfo.pronouns + "\n" + 
               data.userInfo.bio}></BioInfo>}
 
             {buttonClicked && (

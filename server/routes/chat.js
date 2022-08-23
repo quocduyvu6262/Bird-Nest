@@ -1,6 +1,7 @@
 // require express
 const express = require('express');
 // require db connection
+const db = require('../utils/database');
 const router = express.Router();
 const StreamChat = require('stream-chat').StreamChat
 
@@ -16,5 +17,56 @@ router.post('/', (req, res) => {
         console.log('Cannot generate token');
     }
 })
+
+router.post('/matches', (req, res) => {
+    var user_id = req.body.user_id;
+    const query = `SELECT matches FROM BirdNest.User WHERE id = ${user_id}`;
+    db(client => {
+        let final = [];
+        client.query(query, (err, result) => {
+            if(err) throw err;
+            let matches = JSON.parse(result[0].matches);
+            if(matches){
+                for(let i = 0; i < matches.length; i++) {
+                    const namePic = `SELECT fullname, profilepic, uid FROM BirdNest.User WHERE id = ${matches[i]}`;
+                    client.query(namePic, (err, result) => {
+                        if(err) throw err;
+                        const matchedUser = result[0];
+                        final.push(matchedUser);
+                        if(i == matches.length - 1) {
+                            res.send(final);
+                        }
+                    })
+                }
+            }
+        });
+    });
+});
+
+router.post(`/matchedChat`, (req, res) => {
+    var user_id = req.body.user_id;
+    const query = `SELECT matchedChat FROM BirdNest.User WHERE id = ${user_id}`;
+    db(client => {
+        let final = [];
+        client.query(query, (err, result) => {
+            if(err) throw err;
+            let matches = result[0].matchedChat;
+            if(matches){
+                for(let i = 0; i < matches.length; i++) {
+                    const namePic = `SELECT fullname, profilepic, uid FROM BirdNest.User WHERE id = ${matches[i]}`;
+                    client.query(namePic, (err, result) => {
+                        if(err) throw err;
+                        const matchedUser = result[0];
+                        final.push(matchedUser);
+                        if(i == matches.length - 1) {
+                            res.send(final);
+                        }
+                    })
+                }
+            }
+        });
+    });
+});
+
 
 module.exports = router;

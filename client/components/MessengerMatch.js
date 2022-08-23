@@ -37,7 +37,7 @@ const MessengerMatch = () => {
      */
     const viewMatchedUsers = async () => {
         let userList = [];
-        Axios.post(`${await Constants.BASE_URL()}/api/history/matches`, {
+        Axios.post(`${await Constants.BASE_URL()}/api/chat/matchedChat`, {
             user_id: user.id,
         })
         .then((response) => {
@@ -67,6 +67,7 @@ const MessengerMatch = () => {
             }
         }
         setSecondUserChatUIDList(secondUserIDs);
+        console.log(secondUserChatUIDList)
     }
 
     /**
@@ -132,10 +133,13 @@ const MessengerMatch = () => {
                 <ScrollView
                     style={styles.user}
                     horizontal = {true}>
+                {wait && userList.map((user,i) => {return (
                     <MatchLoad
-                        name={"Dave Smith"}
+                        key={i}
+                        name={user.fullname}
                         src={Elie}
                     />
+                )})}
                 </ScrollView>
             </View>
         </View>

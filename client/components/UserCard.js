@@ -11,6 +11,9 @@ const UserCard = (props) => {
         <Header>
           {props.name} 
         </Header>
+        <Header>
+          {props.genderage}
+        </Header>
     </View>
   );
 };

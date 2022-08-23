@@ -26,6 +26,10 @@ const userInfo = {
     notiDate: [], //array
     isMatch: [], //array
 
+    // Match
+    matches: [],
+    matchedChat: [],
+
     // BASIC INFO
     pets: [], // array
     cook: "",
@@ -274,6 +278,13 @@ export const dataSlice = createSlice({
         updateIsHousing: (state, action) => {
             state.userInfo.isHousing = action.payload;
         },
+        // Match
+        updateMatches: (state,action) => {
+            state.userInfo.matches = action.payload;
+        },
+        updateMatchedChat: (state,action) => {
+            state.userInfo.matchedChat = action.payload;
+        },
         // PERSONALITY
         updatePersonality: (state, action) => {
             state.userInfo.personality = action.payload;
@@ -497,6 +508,9 @@ export const {
     updateRoommateInteraction, 
     updateTellRoommateIfBothered,
     updateIsHousing,
+    // Match
+    updateMatches,
+    updateMatchedChat,
     // UPDATE PERSONALITY
     updatePersonality,
     updateHogwartHouse,
