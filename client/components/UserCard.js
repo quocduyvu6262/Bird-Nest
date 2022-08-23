@@ -11,6 +11,9 @@ const UserCard = (props) => {
         <Header>
           {props.name} 
         </Header>
+        <Text style={styles.genderAge}>
+          {props.genderage}
+        </Text>
     </View>
   );
 };
@@ -28,6 +31,11 @@ const styles = StyleSheet.create({
     position: "relative",
     bottom: 0,
   },
+  genderAge: {
+    fontSize: 20,
+    color: theme.colors.primary,
+    fontWeight: 'bold',
+  }
 });
 
 export default UserCard;

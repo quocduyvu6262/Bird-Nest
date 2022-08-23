@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   View,
   Text,
@@ -12,25 +12,18 @@ import {
   Modal,
 } from "react-native";
 import Background from "../components/Background";
-import Logo from "../components/Logo";
-import Header from "../components/Header";
 import Button from "../components/Button";
-import Paragraph from "../components/Paragraph";
 import UserCard from "../components/UserCard";
 import InfoCard from "../components/InfoCard";
-import Footer from "../components/Footer.js";
 import * as SecureStore from "expo-secure-store";
 import Axios from "axios";
 import MainHeader from "../components/MainHeader";
-import Deondre from "../assets/deondre.jpg";
-import data, * as dataActions from '../redux/slices/data';
+import * as dataActions from '../redux/slices/data';
 import { storage, ref, deleteObject } from "../firebaseConfig";
 import Constants from "../constants/constants";
 import { useDispatch, useSelector } from "react-redux";
-import { removePics } from "../redux/slices/data";
 import * as FileSystem from 'expo-file-system'
-import { CONSTANTS } from "@firebase/util";
-import Tags from 'react-native-tags'
+import Tags from "react-native-tags";
 
 const Profile = ({ navigation }) => {
   const user = useSelector(state => state.data.userInfo);
@@ -132,8 +125,8 @@ const Profile = ({ navigation }) => {
     if(opacity9 == 0.5) {
       selectedPics.push(pics[8]);
     }
-    let tempAlbum = Array.from(imageFileSystem.album);
-    let tempPicsList = Array.from(user.picsList);
+    let tempAlbum = Array.from(imageFileSystem.album ? imageFileSystem.album : []);
+    let tempPicsList = Array.from(user.picsList ? user.picsList : []);
     for(let i = 0; i < selectedPics.length; i++) {
       const fileName = selectedPics[i].split('\\').pop().split('/').pop();
       const filePath = `images/${user.uid}/album/${fileName}`;
@@ -388,6 +381,7 @@ const Profile = ({ navigation }) => {
           </Modal>
           <UserCard
             name={data.userInfo.firstname + " " + data.userInfo.lastname} 
+            genderage={data.userInfo.gender + ", " + data.userInfo.age}
           />
           <View style={styles.buttonContainer}>
             <TouchableOpacity>
@@ -430,12 +424,8 @@ const Profile = ({ navigation }) => {
 
           <InfoCard>
             {!buttonClicked && <BioInfo bio={
-              data.userInfo.pronouns 
-              + `\n` 
-              + data.userInfo.gender 
-              + ", " 
-              + data.userInfo.age 
-              + `\n\n` + data.userInfo.bio}></BioInfo>}
+              data.userInfo.pronouns + "\n" + 
+              data.userInfo.bio}></BioInfo>}
 
             {buttonClicked && (
               <RentInfo
@@ -467,7 +457,19 @@ const Profile = ({ navigation }) => {
           {interestButtonClicked && (
             <InfoCard>
               <InterestInfo
-              ></InterestInfo>
+                pets={data.userInfo.pets}
+                alc={data.userInfo.alcohol}
+                guests={data.userInfo.guests}
+                roommatesStayingUp={data.userInfo.roommateWorkWhileYouSleep}
+                sharing={data.userInfo.shareAppliances}
+                drivingRoommates={data.userInfo.carWithRoommate}
+                cooking={data.userInfo.cook}
+                outside={data.userInfo.outside}
+                study={data.userInfo.silent}
+                sleep={data.userInfo.sleep}
+                keepOrInteract={data.userInfo.roommateInteraction}
+                communication={data.userInfo.tellRoommateIfBothered}
+              />
             </InfoCard>
           )}
         </Background>
@@ -488,20 +490,20 @@ const BioInfo = (props) => {
 // Rent Info
 const RentInfo = (props) => {
   return (
-    <View style={styles.subContainer}>
+    <View style={styles.rentContainer}>
       <Text style={styles.text}>
-        <Text style={{ fontWeight: "bold" }}> Rent:</Text> ${props.rent}
+        <Text style={styles.rentHeaders}>Rent:</Text> ${props.rent}
       </Text>
       <Text style={styles.text}>
-        <Text style={{ fontWeight: "bold" }}> Lease Term:</Text> {props.lease}{" "}
+        <Text style={styles.rentHeaders}>Lease Term:</Text> {props.lease}{" "}
         months
       </Text>
       <Text style={styles.text}>
-        <Text style={{ fontWeight: "bold" }}> Neighborhood:</Text>{" "}
-        {props.neighborhood}
+        <Text style={styles.rentHeaders}>Neighborhood:</Text>{" "}
+          <Text style={styles.neighborhoodText}> {props.neighborhood} </Text>
       </Text>
       <Text style={styles.text}>
-        Housing Preferences:
+        <Text style={styles.rentHeaders}>Housing Preferences:</Text>
       </Text>
       <Tags
         initialTags={[
@@ -520,25 +522,79 @@ const RentInfo = (props) => {
 };
 // Interest Info
 const InterestInfo = (props) => {
+  const iHave = []
+  for (let i = 0; i < props.pets.length; i++) {
+    iHave.push(props.pets[i])
+  }
+
+  let strSleep = ""
+  if (props.sleep === "Morning") {
+    strSleep = "Early Bird"
+  } else if (props.sleep === "Night Owl") {
+    strSleep = "Night Owl"
+  } else if (props.sleep === "Indifferent") {
+    strSleep = "What's sleep?"
+  }
+
+  let strInteractive = ""
+  if (props.keepOrInteract === "Interact"){
+    strInteractive = "Interactive"
+  } else if (props.keepOrInteract === "Keep to myself") {
+    strInteractive = props.keepOrInteract
+  }
+
   return (
     <View style={styles.interestContainer}>
+      <Text style = {styles.text}>
+        What I have:
+      </Text>
+      <Tags 
+        initialTags={iHave.filter(n=>n)}
+      readonly={true}/>
+
+      <Text style = {styles.text}>What I am okay with: </Text>
       <Tags
         initialTags={[
-          "Pets: Dog", 
-          "Cook: Never", 
-          "Alc/420 Friendly: Yes", 
-          "Sleep Habits: Night Owl",
-          "Guests: Yes",
-          "Go outside: Yes",
-          "Silent studying: Yes",
-          "Late night working: Yes",
-          "Open to sharing: Yes",
-          "Drive roommates: Yes",
-          "Keep to self: Yes",
-          "Open communication: Yes",
-          ]}
+          props.alc ? 'Alchol/420' : null,
+          props.guests ? 'Guests Over' : null,
+          props.roommatesStayingUp ? "Okay with roommates up late" : null,
+          props.sharing ? "Sharing appliances" : null,
+          props.drivingRoommates ? "Driving roommates" : null,
+        ].filter(n=>n)}
+        readonly={true}/>
+
+      <Text style={styles.text}>
+        What I like:
+      </Text>
+
+      <Tags
+        initialTags={[
+          "Cooking " + props.cooking,
+          props.outside ? "Being outside" : "Stay inside",
+          props.study ? "Studying in silence" : null,
+          ].filter(n=>n)}
         readonly={true}
         />
+      <Text style={styles.text}> Who I am: </Text>
+
+      <Tags
+        initialTags={[
+          strSleep,
+          strInteractive,
+          props.communcation ? "Communicative" : null,
+        ].filter(n=>n)}
+        readonly={true}
+      />
+      {/* <Text style={styles.text}>
+        I don't like:
+      </Text>
+
+      <Tags
+        initialTags={[
+          props.outside ? "Staying inside" : "Being outside",
+        ].filter(n=>n)}
+        readonly={true}
+      /> */}
     </View>
   );
 };
@@ -560,14 +616,22 @@ const styles = StyleSheet.create({
   subContainer: {
     padding: 10,
   },
+  rentContainer: {
+    padding: 10,
+  },
   interestContainer: {
     padding: 10,
     justifyContent: 'center',
-    alignItems: 'center',
+  },
+  rentHeaders: {
+    padding: 10,
+    fontWeight: 'bold',
+    fontSize: 20,
   },
   text: {
     padding: 10,
     fontSize: 20,
+    textAlign:'left'
   },
 });
 export default Profile;

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 import Background from "../../components/Background";
 import Logo from "../../components/Logo";
@@ -28,6 +28,7 @@ const LoginScreen = ({ navigation }) => {
   /**
    * States declaration
    */
+  const [isLoading, setIsLoading] = useState(false);
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId: Constants.IOS_GOOGLE_CLIENT_ID,
     androidClientId: "",
@@ -88,17 +89,19 @@ const LoginScreen = ({ navigation }) => {
         const downloadedUrl = await retrieveImage(user.profilepic);
         const result = await FileSystem.downloadAsync(downloadedUrl, FileSystem.documentDirectory + 'avatar.jpg').then().catch(err => {
           console.log("Fail to store avatar to file system from login");
+          throw err;
         })
         avatarUri = result.uri;
         dispatch(dataActions.updateAvatar(avatarUri));
       }
-      await SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_IMAGE_URI, JSON.stringify({avatar: avatarUri, album: listFileSystem}));
+      SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_IMAGE_URI, JSON.stringify({avatar: avatarUri, album: listFileSystem}));
       if(user.picsList){
         user.picsList.map(async path => {
           const downloadedUrl = await retrieveImage(path);
           const fileName = path.split('\\').pop().split('/').pop();
           const result = await FileSystem.downloadAsync(downloadedUrl, FileSystem.documentDirectory + fileName).then().catch(err => {
             console.log("Fail to store album to file system from login");
+            throw err;
           })
           const uri = result.uri;
           listFileSystem.push(uri);
@@ -108,14 +111,15 @@ const LoginScreen = ({ navigation }) => {
       }
       // Get and store housing
       if(user.isHousing){
-        Axios.get(`${await Constants.BASE_URL()}/api/housings/email/${email}`).then( async ({data}) => {
+        Axios.get(`${await Constants.BASE_URL()}/api/housings/email/${email}`).then(async ({data}) => {
           const housing = data[0];
           // push into secure store
           await SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING, JSON.stringify(housing));
           // push into redux store
           dispatch(dataActions.updateHousing(housing));
         }).catch( err => {
-          console.log("Fail to store housing data (Housing data is empty)")
+          console.log("Fail to store housing data (Housing data is empty)");
+          throw err;
         })
       }
       // Get and store no housing
@@ -128,11 +132,15 @@ const LoginScreen = ({ navigation }) => {
           dispatch(dataActions.updateHousing(housing));
         }).catch( err => {
           console.log("Fail to store nohousing data (noHousing data is empty)");
+          throw err;
         })
       }
-
+    }).then(() => {
+      navigation.navigate('BirdFeed');
+      setIsLoading(false);
     }).catch( err => {
-      console.log("Fail to store user data")
+      console.log("Fail to store user data");
+      throw err;
     })
   }
   /**
@@ -155,6 +163,7 @@ const LoginScreen = ({ navigation }) => {
     if (response?.type === "success") {
       const accessToken = response.authentication.accessToken;
       if (accessToken) {
+        setIsLoading(true);
         fetchGoogleUser(accessToken).then((userInfo) => {
           login(userInfo)
             .then(async (res) => {
@@ -169,8 +178,7 @@ const LoginScreen = ({ navigation }) => {
               if (res.status === "login") {
                 console.log("Login Successfully");
                 // PULL FROM DATABASE -> STORE INTO SECURE STORAGE -> STORE INTO REDUX STORAGE
-                await storeData(res.email);
-                navigation.navigate("BirdFeed");
+                storeData(res.email);
               } else if (res.status === "register") {
                 dispatch(dataActions.updateID(res.id));
                 dispatch(dataActions.updateEmail(res.email));
@@ -196,8 +204,9 @@ const LoginScreen = ({ navigation }) => {
         <Logo />
         <Header>Bird Nest</Header>
         <Paragraph>Homes that Match</Paragraph>
-        <TouchableOpacity>
+        <TouchableOpacity disabled={isLoading}>
           <Button
+            disabled={isLoading}
             mode="contained"
             onPress={() => promptAsync({ showInRecents: true })}
           >

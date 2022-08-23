@@ -21,19 +21,13 @@ import * as Updates from "expo-updates";
 import { DevSettings } from "react-native";
 
 const Settings = ({ navigation }) => {
-  /**
-   * Logout function: delete data in Secure Store
-   */
   const logout = async () => {
-    await SecureStore.deleteItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_TOKEN).then().catch(err => {console.log("Fail to delete token from Secure Store")});
-    await SecureStore.deleteItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER).then().catch(err => {console.log("Fail to delete user from Secure Store")});;
-    await SecureStore.deleteItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING).then().catch(err => {console.log("Fail to delete housing from Secure Store")});;
-    await SecureStore.deleteItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_REDUX).then().catch(err => {console.log("Fail to delete redux from Secure Store")});;
-    await SecureStore.deleteItemAsync(Constants.MY_SECURE_AUTH_STATE_IMAGE_URI).then().catch(err => {console.log("Fail to delete images from Secure Store")});;
+    await SecureStore.deleteItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_TOKEN).then().catch(err => {console.log("Fail to delete token from secure store"); throw err;})
+    await SecureStore.deleteItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER).then().catch(err => {console.log("Fail to delete user from secure store"); throw err;})
+    await SecureStore.deleteItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING).then().catch(err => {console.log("Fail to delete housing from secure store"); throw err;})
+    await SecureStore.deleteItemAsync(Constants.MY_SECURE_AUTH_STATE_IMAGE_URI).then().catch(err => {console.log("Fail to delete images from secure store"); throw err;})
     await chatClient.disconnectUser();
-    DevSettings.reload();
-  }
-  
+  };
   return (
     <SafeAreaView style={styles.container}>
       <MainHeader screen="Settings" navigation={navigation} />
@@ -63,7 +57,10 @@ const Settings = ({ navigation }) => {
       <Buttons
         style={{flex: 1}}
         onPress={() => {
-          logout();
+          logout().then(() => {
+            DevSettings.reload();
+            navigation.navigate('LoginScreen');
+          });
         }}
       >
         Logout

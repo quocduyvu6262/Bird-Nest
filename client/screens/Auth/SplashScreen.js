@@ -48,6 +48,7 @@ export default function SplashScreen({navigation}) {
             dispatch(dataActions.updateUser(user));
         }).catch( err => {
             console.log("Fail to store user data");
+            throw err;
         })
 
         // Get and store housing data
@@ -56,6 +57,7 @@ export default function SplashScreen({navigation}) {
             dispatch(dataActions.updateHousing(housing));
         }).catch( err => {
             console.log("Fail to store housing data");
+            throw err;
         })
     }
 
@@ -70,8 +72,9 @@ export default function SplashScreen({navigation}) {
         // else navigate to the auth screen
         setTimeout( () => {
             if(userToken){
-                storeData();
-                navigation.navigate('BirdFeed');
+                storeData().then(() => {
+                    navigation.navigate('BirdFeed');
+                });
             } else {
                 navigation.navigate('LoginScreen');
             }
