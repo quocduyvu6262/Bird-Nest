@@ -18,14 +18,26 @@ import barackObama from "../assets/barackObama.jpeg";
 import MainHeader from "../components/MainHeader";
 import PeckViewCard from "../components/PeckViewCard";
 import StrokeAnimation from "../components/StrokeAnimation.js";
+import { useSelector } from "react-redux";
 
 const PeckView = ({ navigation }) => {
+  const user = useSelector((state) => state.data.userInfo);
   const [userList, setUserList] = useState([]);
 
+  /**
+   * Call the matching algorithm and display
+   * the list of users that match each criteria
+   */
   const viewUsers = async () => {
-    setUserList([]);
-    Axios.post(`${await Constants.BASE_URL()}/api/matching/`, {
-      user_id: 78,
+    let userList = [];
+    let apiEndpoint;
+    if (user.role === "Flamingo" || user.role === "Owl") {
+      apiEndpoint = "/api/matching/lookingfornohousing";
+    } else {
+      apiEndpoint = "/api/matching/lookingforhousing";
+    }
+    Axios.post(`${await Constants.BASE_URL()}${apiEndpoint}`, {
+      user_id: user.id,
     })
       .then((response) => {
         let userData = response.data;
@@ -35,8 +47,7 @@ const PeckView = ({ navigation }) => {
         let id_counter = 0;
         for (let i = 0; i < userData.length - 1; i++) {
           userList.push({
-            name: userData[i].fullname,
-            city: userData[i].city,
+            name: userData[i].info.fullname,
             src: barackObama,
             id: id_counter,
           });
@@ -45,7 +56,7 @@ const PeckView = ({ navigation }) => {
         setUserList((prevList) => [
           ...userList,
           {
-            name: userData[userData.length - 1].fullname,
+            name: userData[userData.length - 1].info.fullname,
             city: userData[userData.length - 1].city,
             src: barackObama,
             id: id_counter,
@@ -98,6 +109,7 @@ const PeckView_Styles = StyleSheet.create({
     height: "100%",
     backgroundColor: "#CBC3E3",
   },
+  // lower: {},
 });
 
 export default PeckView;
