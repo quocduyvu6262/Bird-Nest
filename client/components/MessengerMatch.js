@@ -35,10 +35,10 @@ const MessengerMatch = () => {
     /**
      * TODO: add function header
      */
-    const viewMatchedUsers = async () => {
-        let userList = [];
-        Axios.post(`${await Constants.BASE_URL()}/api/history/matches`, {
-            user_id: user.id,
+    const viewMatchedUsers = async (uidListParam) => {
+        // post the list matched ID
+        Axios.post(`${await Constants.BASE_URL()}/api/chat/matchedChat`, {
+            uidList: uidListParam,
         })
         .then((response) => {
             let userData = response.data;
@@ -88,12 +88,12 @@ const MessengerMatch = () => {
      */
     const MatchLoad = (props) => {
         return(
-            <View>
+            <View props>
                 <TouchableOpacity 
                     style={styles.textContainer}
-                    // onPress={()=>{
-                    //     createChannel()
-                    // }}
+                    onPress={()=>{
+                        // TODO: 
+                    }}
                     >
                     <Image 
                         style={styles.image}
@@ -111,7 +111,7 @@ const MessengerMatch = () => {
      * Use effect
      */
     useEffect(() => {
-        viewMatchedUsers();
+        viewMatchedUsers(user.matchedChat);
     }, []);
 
 
@@ -132,10 +132,14 @@ const MessengerMatch = () => {
                 <ScrollView
                     style={styles.user}
                     horizontal = {true}>
-                    <MatchLoad
-                        name={"Dave Smith"}
-                        src={Elie}
-                    />
+                    {/* For loop */}
+                    {wait && userList.map((user,i) => {return (
+                        <MatchLoad 
+                            key={i}
+                            name={user.fullname}
+                            src={Elie}
+                        />
+                    )})}
                 </ScrollView>
             </View>
         </View>
