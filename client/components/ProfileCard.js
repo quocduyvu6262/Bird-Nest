@@ -32,7 +32,7 @@ const ProfileCard = ({ item, index }) => {
   const renderRightActions = (progress, dragX) => {
     const trans = dragX.interpolate({
       inputRange: [0, 100],
-      outputRange: [-20, -20],
+      outputRange: [0, 0],
     });
     return (
       <Animated.View
@@ -44,7 +44,7 @@ const ProfileCard = ({ item, index }) => {
         ]}
       >
         <TouchableOpacity style={styles.swipeButton}>
-          <Text>No</Text>
+          <Text>Yes</Text>
         </TouchableOpacity>
       </Animated.View>
     );
@@ -53,7 +53,7 @@ const ProfileCard = ({ item, index }) => {
   const renderLeftActions = (progress, dragX) => {
     const trans = dragX.interpolate({
       inputRange: [0, 100],
-      outputRange: [20, 20],
+      outputRange: [0, 0],
     });
     return (
       <Animated.View
@@ -65,9 +65,9 @@ const ProfileCard = ({ item, index }) => {
         ]}
       >
         <TouchableOpacity
-          style={[styles.swipeButton, { backgroundColor: "green" }]}
+          style={[styles.swipeButton, { backgroundColor: "red" }]}
         >
-          <Text>Yes</Text>
+          <Text>No</Text>
         </TouchableOpacity>
       </Animated.View>
     );
@@ -129,22 +129,17 @@ const ProfileCard = ({ item, index }) => {
 
 const styles = StyleSheet.create({
   container: {
-    height: 90,
-    width: "90%",
-    // width: "100%",
-    backgroundColor: "lightgray",
-    // backgroundColor: "white",
+    height: 100,
+    width: "100%",
+    // backgroundColor: "lightgray",
+    backgroundColor: "white",
     alignSelf: "center",
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
-    borderRadius: 20,
-    marginTop: 15,
-    shadowOffset: { height: 20 },
-    shadowOpacity: 0.5,
-    shadowColor: "black",
-    shadowRadius: 5,
-    elevation: 5,
+    // marginTop: 15,
+    borderTopWidth: 1,
+    borderTopColor: "gray",
   },
   image: {
     height: 80,
@@ -174,26 +169,20 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 10,
   },
   noButton: {
-    height: 90,
-    width: 70,
+    height: 100,
+    width: 80,
     backgroundColor: "lightgray",
     alignSelf: "center",
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
-    borderRadius: 20,
-    marginTop: 15,
-    shadowOffset: { height: 20 },
-    shadowOpacity: 0.5,
-    shadowColor: "black",
-    shadowRadius: 5,
-    elevation: 5,
+    borderTopWidth: 1,
+    borderTopColor: "gray",
   },
   swipeButton: {
-    backgroundColor: "red",
+    backgroundColor: "green",
     height: "100%",
     width: "100%",
-    borderRadius: 20,
     justifyContent: "center",
     alignItems: "center",
     position: "absolute",
