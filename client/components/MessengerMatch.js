@@ -84,26 +84,26 @@ const MessengerMatch = () => {
         }
     }
 
-    // const MatchLoad = (props) => {
-    //     return(
-    //         <View>
-    //             <TouchableOpacity 
-    //                 style={styles.textContainer}
-    //                 // onPress={()=>{
-    //                 //     createChannel()
-    //                 // }}
-    //                 >
-    //                 <Image 
-    //                     style={styles.image}
-    //                     source={props.src}
-    //                 />
-    //                 {wait && (
-    //                 <Text style={{marginTop:5}}>{userList[0][0].fullname}
-    //                 </Text>)}
-    //             </TouchableOpacity>
-    //         </View>
-    //     )
-    // }
+    const MatchLoad = (props) => {
+        return(
+            <View>
+                <TouchableOpacity 
+                    style={styles.textContainer}
+                    // onPress={()=>{
+                    //     createChannel()
+                    // }}
+                    >
+                    <Image 
+                        style={styles.image}
+                        source={props.src}
+                    />
+                    {wait && (
+                    <Text style={{marginTop:5}}>{userList[0][0].fullname}
+                    </Text>)}
+                </TouchableOpacity>
+            </View>
+        )
+    }
       
     let [fontsLoaded] = useFonts({
         Pacifico_400Regular,
@@ -114,15 +114,15 @@ const MessengerMatch = () => {
     return (
         <View style={{borderBottomWidth: 0.17, marginTop: 5}}>
             <View style={styles.container}>
-                {/* <Text style={styles.matchText}
-                >Matches! </Text> */}
+                <Text style={styles.matchText}
+                >Matches! </Text>
                 <ScrollView
                     style={styles.user}
                     horizontal = {true}>
-                    {/* <MatchLoad
+                    <MatchLoad
                         name={"Dave Smith"}
                         src={Elie}
-                    /> */}
+                    />
                 </ScrollView>
             </View>
         </View>
