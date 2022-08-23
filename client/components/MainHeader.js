@@ -99,17 +99,18 @@ const MainHeader = ({ screen, navigation }) => {
               Axios.post(`${await Constants.BASE_URL()}/api/images/multiple`,{
                 id: user.id,
                 pics: newListUrl
+              }).then(async () => {
+                // file system
+                let newFileSystemList;
+                if(imageFileSystemUri.album.length){
+                  newFileSystemList = [...imageFileSystemUri.album, ...fileSystemList];
+                }else {
+                  newFileSystemList = fileSystemList;
+                }
+                // upload to secure store
+                await SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify({...user, picsList: newListUrl}));
+                await SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_IMAGE_URI, JSON.stringify({avatar: imageFileSystemUri.avatar, album: newFileSystemList}));
               })
-              // file system
-              let newFileSystemList;
-              if(imageFileSystemUri.album.length){
-                newFileSystemList = [...imageFileSystemUri.album, ...fileSystemList];
-              }else {
-                newFileSystemList = fileSystemList;
-              }
-              // upload to secure store
-              SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify({...user, picsList: newListUrl}));
-              SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_IMAGE_URI, JSON.stringify({avatar: imageFileSystemUri.avatar, album: newFileSystemList}));
             }
           }
         )
@@ -154,7 +155,7 @@ const MainHeader = ({ screen, navigation }) => {
           screen === "Peck View"
         ) && (
           <TouchableOpacity
-            onPress={() => navigation.goBack()}
+            onPress={() => {navigation.goBack(); dispatch(dataActions.updateNotiSeen()); dispatch(dataActions.updateNotiRead())}}
             style={styles.backButton}
           >
             <Icon name="west" size={30} />
@@ -196,6 +197,7 @@ const MainHeader = ({ screen, navigation }) => {
                 onPress={() => navigation.navigate("ChirpNotification")}
               >
                 <Image source={require(`../assets/bird.png`)} />
+                {user.notiunRead && <Text style = {{color: 'red', fontWeight: 'bold', position: "absolute", fontSize: 50, left: 15, bottom: -6}}>.</Text>}
               </TouchableOpacity>
             </View>
           )}

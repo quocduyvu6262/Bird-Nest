@@ -34,25 +34,27 @@ class Personality extends Component {
   /**
    * Pull data from Redux Store and store into
    * Database and Secure Storage
+   * @returns true if storing data successfully.
+   * False otherwise
    */
-   storeData = async () => {
+  storeData = async () => {
     const user = this.props.data.userInfo;
     const housing = this.props.data.housing;
     const imageFileSystemUri = this.props.data.imageFileSystemUri;
+
     // Store into Secure Store
-    SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify(user));
-    SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING, JSON.stringify(housing));
-    SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_IMAGE_URI, JSON.stringify({avatar: imageFileSystemUri.avatar, album: imageFileSystemUri.album}));
+    await SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify(user)).then().catch(err => {console.log("Fail to store user in Secure Store"); throw err});
+    await SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING, JSON.stringify(housing)).then().catch(err => {console.log("Fail to store housing in Secure Store"); throw err});
+    await SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_IMAGE_URI, JSON.stringify({avatar: imageFileSystemUri.avatar, album: imageFileSystemUri.album})).then().catch(err => {console.log("Fail to store images in Secure Store"); throw err});
 
     // Store user into database
-    // TODO: Implement the method to store user data into database
     Axios.post(`${await Constants.BASE_URL()}/api/users/questionnaire`, {
       userInfo : user,
     }).catch( err => {
       console.log("Fail to store user into database from questionnaire");
+      throw err;
     });
     // Store housing into database
-    // TODO: Implement the method to store housing data into database
     if(user.role === 'Flamingo' || user.role === 'Owl'){
       // delete no housing
       Axios.post(`${await Constants.BASE_URL()}/api/nohousing/delete`,{
@@ -62,8 +64,9 @@ class Personality extends Component {
       Axios.post(`${await Constants.BASE_URL()}/api/housings/create`, {
         user_id: user.id,
         housing: housing
-      }).then().catch( err => {
+      }).then(() => true).catch( err => {
         console.log('Fail to update/insert housing from questionnaire');
+        throw err;
       })
     } else if(user.role === 'Parrot' || user.role === 'Penguin' || user.role === 'Duck'){
       // delete housing
@@ -74,11 +77,11 @@ class Personality extends Component {
       Axios.post(`${await Constants.BASE_URL()}/api/nohousing/create`, {
         user_id: user.id,
         housing: housing
-      }).then().catch( err => {
+      }).then(() => true).catch( err => {
         console.log('Fail to update/insert nohousing from questionnaire');
+        throw err;
       })
     }
-    
   }
 
 
@@ -471,16 +474,18 @@ class Personality extends Component {
     return (
       <SafeAreaView style={HousingQ_styles.container}>
         <View style={HousingHeader_styles.header}>
-          <TouchableOpacity
-            onPress={() => this.props.navigation.goBack()}
-            style={HousingHeader_styles.returnToProfileArrow}>
-            <Image
-              source={require("../../assets/backArrow.png")}
-              style={HousingHeader_styles.backIcon}
-            />
-            <Text style={HousingHeader_styles.backText}>Housing</Text>
-          </TouchableOpacity>
           <Text style={HousingHeader_styles.headerText}>Personality (5/5)</Text>
+          <TouchableOpacity
+            style={{ alignSelf: "flex-start" }}
+            onPress={() => {
+              this.props.navigation.goBack();
+            }}
+          >
+            <Text style={HousingHeader_styles.returnToProfileArrow}>
+              {"< "}
+            </Text>
+            <Text style={HousingHeader_styles.returnToProfile}>Housing</Text>
+          </TouchableOpacity>
         </View>
         <ScrollView>
           <Text style={[HousingQ_styles.question1, { marginTop: 120 }]}>
@@ -1011,8 +1016,9 @@ class Personality extends Component {
           <TouchableOpacity style={HousingQ_styles.nextButton}
           onPress={()=>{
             //this.createHousingInfo()
-            this.storeData();
-            this.props.navigation.navigate('BirdFeed')
+            this.storeData().then(() => {
+              this.props.navigation.navigate('BirdFeed');
+            })
           }}>
             <Text style = {[HousingQ_styles.buttonText, {color:'#FFF'}]}>Finish</Text>
           </TouchableOpacity>
@@ -1024,38 +1030,30 @@ class Personality extends Component {
 const HousingHeader_styles = StyleSheet.create({
   header: {
     backgroundColor: "#6736B6",
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: "100%",
     height: 90,
-    bottom: 50,
+    bottom: 45,
     marginBottom: -45,
   },
   headerText: {
-    flex: 2,
-    top: 20,
+    fontWeight: "bold",
     color: "#FFF",
     fontSize: 20,
-    fontWeight: "bold",
+    top: 53,
+    textAlign: "center",
+  },
+  returnToProfile: {
+    color: "#FFF",
+    fontSize: 17,
+    bottom: 4,
+    left: 27,
   },
   returnToProfileArrow: {
-    left: 5,
-    top: 20,
-    flex: 0.85,
-    alignItems: 'center',
-    flexDirection: "row",
-  },
-  backIcon: {
-    height: 20,
-    width: 20,
-    tintColor: "#FFF",
-    marginRight: -5,
-   },
-   backText: {
+    fontWeight: "600",
     color: "#FFF",
-    fontSize: 15,
-    fontWeight: 'bold',
-   },
+    fontSize: 30,
+    top: 22,
+    left: 5,
+  },
 });
 
 const HousingQ_styles = StyleSheet.create({

@@ -447,16 +447,16 @@ class BasicInfo extends Component {
     return (
       <SafeAreaView style={HousingQ_styles.container}>
         <View style={HousingHeader_styles.header}>
+          <Text style={HousingHeader_styles.headerText}>Habits (3/5)</Text>
           <TouchableOpacity
             onPress={() => this.props.navigation.goBack()}
-            style={HousingHeader_styles.returnToProfileArrow}>
-            <Image
-              source={require("../../assets/backArrow.png")}
-              style={HousingHeader_styles.backIcon}
-            />
-            <Text style={HousingHeader_styles.backText}>Roles</Text>
+            style={{ alignSelf: "flex-start" }}
+          >
+            <Text style={HousingHeader_styles.returnToProfileArrow}>
+              {"< "}
+            </Text>
+            <Text style={HousingHeader_styles.returnToProfile}>Roles</Text>
           </TouchableOpacity>
-          <Text style={HousingHeader_styles.headerText}>Habits (3/5)</Text>
         </View>
         <ScrollView>
           <Text style={[HousingQ_styles.question1, { marginTop: 120 }]}>
@@ -931,38 +931,30 @@ class BasicInfo extends Component {
 const HousingHeader_styles = StyleSheet.create({
   header: {
     backgroundColor: "#6736B6",
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: "100%",
     height: 90,
     bottom: 50,
     marginBottom: -45,
   },
   headerText: {
-    flex: 2,
-    top: 20,
+    fontWeight: "bold",
     color: "#FFF",
     fontSize: 20,
-    fontWeight: "bold",
+    top: 53,
+    textAlign: "center",
+  },
+  returnToProfile: {
+    color: "#FFF",
+    fontSize: 17,
+    bottom: 4,
+    left: 27,
   },
   returnToProfileArrow: {
-    left: 5,
-    top: 20,
-    flex: 1.1,
-    alignItems: 'center',
-    flexDirection: "row",
-  },
-  backIcon: {
-    height: 20,
-    width: 20,
-    tintColor: "#FFF",
-    marginRight: -5,
-   },
-   backText: {
+    fontWeight: "600",
     color: "#FFF",
-    fontSize: 15,
-    fontWeight: 'bold',
-   },
+    fontSize: 30,
+    top: 22,
+    left: 5,
+  },
 });
 
 const HousingQ_styles = StyleSheet.create({
