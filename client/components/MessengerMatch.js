@@ -19,7 +19,6 @@ import Constants from '../constants/constants';
 // 344 = stephen
 const chatClient = StreamChat.getInstance(Constants.CHAT_API_KEY);
 const MessengerMatch = () => {
-    const selectedUserID = 'testuser3';
     const [userList, setUserList] = useState([[{}]])
     const [wait, setWait] = useState(false);
     const viewMatchedUsers = async () => {
@@ -49,31 +48,29 @@ const MessengerMatch = () => {
     const userID = `${trimName}_${user.uid}`
 
     const secondUserIDs = []
+
+    const createChatUserID = (fullname, uid)  => {
+        const trimName = fullname.replace(/\s/g, '');
+        const chatUserID = `${trimName}_${uid}`;
+        return chatUserID
+    }
+
     const secondUser = async () => {
         for (let i = 0; i < userList[0].length; i++) {
             if (typeof userList[0][i].fullname == "undefined" || typeof userList[0][i].uid == "undefined") {
                 console.log("FUCK");
             } else {
-                const secondUserDisplayName = userList[0][i].fullname
-                const secondTrimName = secondUserDisplayName.replace(/\s/g, '');
-                const secondUserID = `${secondTrimName}_${userList[0][i].uid}`;
-                secondUserIDs.push(secondUserID)
+                const userID = createChatUserID(userList[0][i].fullname, userList[0][i].uid)
+                secondUserIDs.push(userID)
             }
         }
     }
     secondUser()
     if (secondUserIDs.length > 0) {
-        console.log(secondUserIDs)
+        console.log(secondUserIDs[0])
     }
-    // console.log(secondUserIDs)
-    // const secondUserDisplayName2 = userList[0][0].fullname
-    // const secondTrimName2 = secondUserDisplayName2.replace(/\s/g, '');
-    // console.log(secondTrimName2)
-    // console.log(secondUserDisplayName2)
-    // secondUser()
-    // console.log(secondUserIDs)
 
-    const CreateChannel = async () => {
+    const createChannel = async () => {
         if (secondUserIDs.length > 0) {
             for (let i = 0; i < secondUserIDs.length; i++) {
                 const channel = chatClient.channel('messaging',{
@@ -83,22 +80,17 @@ const MessengerMatch = () => {
             }
         }
     }
-
     const MatchLoad = (props) => {
         return(
             <View>
                 <TouchableOpacity 
-                    style={styles.textContainer}
-                    // onPress={()=>{
-                    //     createChannel()
-                    // }}
-                    >
+                    style={styles.textContainer}>
                     <Image 
                         style={styles.image}
                         source={props.src}
                     />
                     {wait && (
-                    <Text style={{marginTop:5}}>{userList[0][0].fullname}
+                    <Text style={{marginTop:5}}>{props.name}
                     </Text>)}
                 </TouchableOpacity>
             </View>
