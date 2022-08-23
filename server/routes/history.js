@@ -97,30 +97,7 @@ router.post('/no', (req, res) => {
         });
     });
 });
-router.post('/matches', (req, res) => {
-    var user_id = req.body.user_id;
-    const query = `SELECT matches FROM BirdNest.User WHERE id = ${user_id}`;
-    db(client => {
-        let final = [];
-        client.query(query, (err, result) => {
-            if(err) throw err;
-            let matches = JSON.parse(result[0].matches);
-            if(matches){
-                for(let i = 0; i < matches.length; i++) {
-                    const namePic = `SELECT fullname, profilepic, uid FROM BirdNest.User WHERE id = ${matches[i]}`;
-                    client.query(namePic, (err, result) => {
-                        if(err) throw err;
-                        const matchedUser = result[0];
-                        final.push(matchedUser);
-                        if(i == matches.length - 1) {
-                            res.send(final);
-                        }
-                    })
-                }
-            }
-        });
-    });
-});
+
 router.get('/test', (req, res) => {
     const query = "SELECT * FROM BirdNest.History"
     db(client => {
