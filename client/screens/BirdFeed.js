@@ -85,6 +85,7 @@ const BirdFeed = ({ navigation }) => {
         // but setUserList (setState) will only set state once
         for (let i = 0; i < userData.length - 1; i++) {
           userList.push({
+            info: userData[i].info,
             name: userData[i].info.fullname,
             src: barackObama,
           });
@@ -92,6 +93,7 @@ const BirdFeed = ({ navigation }) => {
         setUserList((prevList) => [
           ...userList,
           {
+            info: userData[userData.length - 1].info,
             name: userData[userData.length - 1].info.fullname,
             src: barackObama,
           },
@@ -148,8 +150,12 @@ const BirdFeed = ({ navigation }) => {
           <View styles={styles.flatlist}>
             <FlatList
               data={userList}
-              renderItem={(item) => <ProfileCard item={item} />}
               extraData={userList}
+              renderItem={(item) => (
+                <TouchableOpacity >
+                    <ProfileCard item={item} />
+               </TouchableOpacity>
+            )}
             />
           </View>
         )}

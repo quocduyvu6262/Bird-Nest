@@ -49,7 +49,6 @@ router.post('/lookingforhousing', (req, res) => { // input
 							count: count
 						})
 					});
-					console.log(priorityQueue.toArray().length)
 					res.send(priorityQueue.toArray());
 				});
 		});

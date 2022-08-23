@@ -23,6 +23,7 @@ import { Slider} from '@rneui/themed';
 // Redux
 import {useDispatch, useSelector, connect} from 'react-redux';
 import data, * as dataActions from '../../redux/slices/data';
+import AddressInput from "../../components/AddressInput";
 
 class HasHousingQ extends Component {
   
