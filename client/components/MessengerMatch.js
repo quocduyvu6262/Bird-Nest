@@ -66,12 +66,10 @@ const MessengerMatch = () => {
             } else {
                 const secondUserID = getChatUID(userList[0][i].fullname, userList[0][i].uid)
                 secondUserIDs.push(secondUserID)
+                console.log(secondUserIDs)
             }
+            console.log(userList[0][0])
         }
-    }
-    secondUser()
-    if (secondUserIDs.length > 0) {
-        console.log(secondUserIDs)
     }
 
     /**
@@ -117,6 +115,7 @@ const MessengerMatch = () => {
      */
     useEffect(() => {
         viewMatchedUsers();
+        secondUser();
     }, []);
 
 
@@ -132,15 +131,15 @@ const MessengerMatch = () => {
     return (
         <View style={{borderBottomWidth: 0.17, marginTop: 5}}>
             <View style={styles.container}>
-                {/* <Text style={styles.matchText}
-                >Matches! </Text> */}
+                <Text style={styles.matchText}
+                >Matches! </Text>
                 <ScrollView
                     style={styles.user}
                     horizontal = {true}>
-                    {/* <MatchLoad
+                    <MatchLoad
                         name={"Dave Smith"}
                         src={Elie}
-                    /> */}
+                    />
                 </ScrollView>
             </View>
         </View>
