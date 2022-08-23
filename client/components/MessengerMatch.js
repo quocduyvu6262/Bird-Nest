@@ -16,11 +16,28 @@ import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
 import { useSelector } from "react-redux";
 import { StreamChat } from 'stream-chat';
 import Constants from '../constants/constants';
-// 344 = stephen
+import {getChatUID} from '../utils/getChatUID';
+
 const chatClient = StreamChat.getInstance(Constants.CHAT_API_KEY);
+
+
 const MessengerMatch = () => {
+
+    /**
+     * Declare states
+     */
     const [userList, setUserList] = useState([[{}]])
     const [wait, setWait] = useState(false);
+    const user = useSelector(state => state.data.userInfo);
+    const userID = getChatUID(user.fullname, user.uid);
+    const secondUserIDs = []
+    const selectedUserID = 'testuser3';
+
+    
+    
+    /**
+     * TODO: add function header
+     */
     const viewMatchedUsers = async () => {
         let userList = [];
         Axios.post(`${await Constants.BASE_URL()}/api/history/matches`, {
@@ -38,83 +55,92 @@ const MessengerMatch = () => {
         });
         setWait(true);
     };
-    useEffect(() => {
-        viewMatchedUsers();
-      }, []);
-    
-    const user = useSelector(state => state.data.userInfo);
-    const displayName = user.fullname;
-    const trimName = displayName.replace(/\s/g, '');
-    const userID = `${trimName}_${user.uid}`
 
-    const secondUserIDs = []
-
-    const createChatUserID = (fullname, uid)  => {
-        const trimName = fullname.replace(/\s/g, '');
-        const chatUserID = `${trimName}_${uid}`;
-        return chatUserID
-    }
-
+    /**
+     * TODO: add function header
+     */
     const secondUser = async () => {
         for (let i = 0; i < userList[0].length; i++) {
             if (typeof userList[0][i].fullname == "undefined" || typeof userList[0][i].uid == "undefined") {
                 console.log("FUCK");
             } else {
-                const userID = createChatUserID(userList[0][i].fullname, userList[0][i].uid)
-                secondUserIDs.push(userID)
+                const secondUserID = getChatUID(userList[0][i].fullname, userList[0][i].uid)
+                secondUserIDs.push(secondUserID)
             }
         }
     }
     secondUser()
     if (secondUserIDs.length > 0) {
-        console.log(secondUserIDs[0])
+        console.log(secondUserIDs)
     }
 
-    const createChannel = async () => {
+    /**
+     * TODO: add function header
+     */
+    const CreateChannel = async () => {
         if (secondUserIDs.length > 0) {
             for (let i = 0; i < secondUserIDs.length; i++) {
                 const channel = chatClient.channel('messaging',{
                     members: [userID, secondUserIDs[i]]
-                  });
-                  await channel.create();
+                });
+                await channel.create();
             }
         }
     }
+
+    /**
+     * TODO: add function header
+     */
     const MatchLoad = (props) => {
         return(
             <View>
                 <TouchableOpacity 
-                    style={styles.textContainer}>
+                    style={styles.textContainer}
+                    // onPress={()=>{
+                    //     createChannel()
+                    // }}
+                    >
                     <Image 
                         style={styles.image}
                         source={props.src}
                     />
                     {wait && (
-                    <Text style={{marginTop:5}}>{props.name}
+                    <Text style={{marginTop:5}}>{userList[0][0].fullname}
                     </Text>)}
                 </TouchableOpacity>
             </View>
         )
     }
-      
+
+    /**
+     * Use effect
+     */
+    useEffect(() => {
+        viewMatchedUsers();
+    }, []);
+
+
+    /**
+     * Render logic
+     */
     let [fontsLoaded] = useFonts({
         Pacifico_400Regular,
-      });
-      if (!fontsLoaded) {
+    });
+    if (!fontsLoaded) {
         return <View></View>;
     } else {
     return (
         <View style={{borderBottomWidth: 0.17, marginTop: 5}}>
             <View style={styles.container}>
-                <Text style={styles.matchText}
-                >Matches! </Text>
+                {/* <Text style={styles.matchText}
+                >Matches! </Text> */}
                 <ScrollView
                     style={styles.user}
                     horizontal = {true}>
-                    <MatchLoad
+                    {/* <MatchLoad
                         name={"Dave Smith"}
                         src={Elie}
-                    />
+                    /> */}
                 </ScrollView>
             </View>
         </View>

@@ -98,16 +98,8 @@ const ChirpNotification = ({ navigation }) => {
   useEffect(() => {
     registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
     notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-      /* 
-      if(notification.request.content.title == "Swiped!") {
-        updateSwipeUI();
-      }
-      else {
-        updateMatchUI();
-      }*/
       setNotification(notification);
     });
-
     responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
       console.log(response);
     });

@@ -9,11 +9,8 @@ import {
 } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Logo from "./assets/bird.png";
-
 import Axios from "axios";
 import * as SecureStore from "expo-secure-store";
-
-// IMPORT SCREENS
 import SplashScreen from "./screens/Auth/SplashScreen";
 import BirdFeed from "./screens/BirdFeed.js";
 import PeckView from "./screens/PeckView.js";
