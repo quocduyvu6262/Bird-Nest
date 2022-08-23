@@ -185,8 +185,6 @@ const MainHeader = ({ screen, navigation }) => {
           <TouchableOpacity
             onPress={() => {
               navigation.goBack();
-              dispatch(dataActions.updateNotiSeen());
-              dispatch(dataActions.updateNotiRead());
             }}
             style={styles.backButton}
           >
@@ -226,7 +224,11 @@ const MainHeader = ({ screen, navigation }) => {
 
               <TouchableOpacity
                 style={styles.headerButtons}
-                onPress={() => navigation.navigate("ChirpNotification")}
+                onPress={() => {
+                  navigation.navigate("ChirpNotification");
+                  dispatch(dataActions.updateNotiSeen());
+                  dispatch(dataActions.updateNotiRead());
+                }}
               >
                 <Image source={require(`../assets/bird.png`)} />
                 {user.notiunRead && (
