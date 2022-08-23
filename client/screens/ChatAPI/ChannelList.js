@@ -6,7 +6,7 @@ import Constants from '../../constants/constants';
 import { Text, SafeAreaView, LogBox, StatusBar} from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import MainHeader from '../../components/MainHeader';
-import MessengerMatch from '../../components/MessengerMatch';
+
 LogBox.ignoreLogs([
     'Non-serializable values were found in the navigation state',
     'Sending `onAnimatedValueUpdate` with no listeners registered.'
@@ -31,7 +31,6 @@ export default ChannelListScreen = (props, navigation) => {
     return(
         <SafeAreaView style = {{flex: 1, paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0, backgroundColor: "white",}}>
             <MainHeader screen="Messenger Pigeon" navigation={navigation} />
-            <MessengerMatch></MessengerMatch>
             <ChannelList
                 onSelect={(channel) => {
                     const { navigation } = props;
