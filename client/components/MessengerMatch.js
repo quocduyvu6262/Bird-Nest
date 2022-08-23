@@ -16,12 +16,13 @@ import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
 import { useSelector } from "react-redux";
 import { StreamChat } from 'stream-chat';
 import Constants from '../constants/constants';
-// 344 = stephen
+
 const chatClient = StreamChat.getInstance(Constants.CHAT_API_KEY);
 const MessengerMatch = () => {
     const selectedUserID = 'testuser3';
     const [userList, setUserList] = useState([[{}]])
     const [wait, setWait] = useState(false);
+    
     const viewMatchedUsers = async () => {
         let userList = [];
         Axios.post(`${await Constants.BASE_URL()}/api/history/matches`, {
