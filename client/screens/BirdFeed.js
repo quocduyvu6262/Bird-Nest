@@ -72,8 +72,7 @@ const BirdFeed = ({ navigation }) => {
    * the list of users that match each criteria
    */
   const viewUsers = async () => {
-    //setUserList([]);
-    let userList = [];
+    let userList = []
     let apiEndpoint;
     if(user.role === 'Flamingo' || user.role === 'Owl'){
       apiEndpoint = '/api/matching/lookingfornohousing';
@@ -90,16 +89,14 @@ const BirdFeed = ({ navigation }) => {
         // but setUserList (setState) will only set state once
         for (let i = 0; i < userData.length - 1; i++) {
           userList.push({
-            name: userData[i].fullname,
-            city: userData[i].city,
+            name: userData[i].info.fullname,
             src: barackObama,
           });
         }
         setUserList((prevList) => [
           ...userList,
           {
-            name: userData[userData.length - 1].fullname,
-            city: userData[userData.length - 1].city,
+            name: userData[userData.length - 1].info.fullname,
             src: barackObama,
           },
         ]);

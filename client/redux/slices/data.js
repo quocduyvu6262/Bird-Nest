@@ -17,6 +17,8 @@ const userInfo = {
   major: null,
   profilepic: null,
   picsList: [], // array
+  notiNames: ['Jack Multani', 'Michael Jordan', 'Lebron James', 'Steph Curry'], //array
+  notiPics: ['file:///var/mobile/Containers/Data/Application/6525879C-DFA1-4D73-BC39-9EA131D452A5/Library/Caches/ExponentExperienceData/%2540quocduyvu6262%252FBirdNest/ImagePicker/3A9B8F43-006A-47CF-AE34-990959BC590D.jpg', 'file:///var/mobile/Containers/Data/Application/6525879C-DFA1-4D73-BC39-9EA131D452A5/Library/Caches/ExponentExperienceData/%2540quocduyvu6262%252FBirdNest/ImagePicker/0A6C8202-8AE8-4A7B-8460-6A113F1CA43E.jpg', 'file:///var/mobile/Containers/Data/Application/6525879C-DFA1-4D73-BC39-9EA131D452A5/Library/Caches/ExponentExperienceData/%2540quocduyvu6262%252FBirdNest/ImagePicker/EEFD7E73-1A06-4B90-9280-DAAB6B26521F.jpg', 'file:///var/mobile/Containers/Data/Application/6525879C-DFA1-4D73-BC39-9EA131D452A5/Library/Caches/ExponentExperienceData/%2540quocduyvu6262%252FBirdNest/ImagePicker/6B96B2F8-6044-4C3C-A2A5-38201C32480D.jpg'], //array
 
   // BASIC INFO
   pets: [], // array
@@ -52,9 +54,11 @@ const userInfo = {
 };
 
 const housing = {
-  cityList: [],
   neighborhoodList: [], // for no housing only
+
+  address: "",
   neighborhood: null,
+  
   city: null,
   squarefeet: 1000,
   lease: null,
@@ -340,24 +344,9 @@ export const dataSlice = createSlice({
       // assign temp to pets
       state.housing.neighborhoodList = temp;
     },
-    updateCitylist: (state, action) => {
-      let { activity, add } = action.payload;
-      if (state.housing.neighborhoodList === null) {
-        state.housing.neighborhoodList = [];
-      }
-      let temp = state.housing.neighborhoodList;
-      if (add) {
-        if (temp.indexOf(activity) === -1) {
-          temp.push(activity);
-        }
-      } else {
-        let toRemoveIndex = temp.indexOf(activity);
-        if (toRemoveIndex > -1) {
-          temp.splice(toRemoveIndex, 1);
-        }
-      }
-      // assign temp to pets
-      state.housing.neighborhoodList = temp;
+    
+    updateAddress: (state, action) => {
+      state.housing.address = action.payload;
     },
     updateNeighborhood: (state, action) => {
       state.housing.neighborhood = action.payload;
@@ -482,8 +471,8 @@ export const {
   updateBobaBubble,
   // UPDATE HOUSING
   updateNeighborhoodList,
+  updateAddress,
   updateNeighborhood,
-  updateCitylist,
   updateRent,
   updateLease,
   updateSquarefeet,

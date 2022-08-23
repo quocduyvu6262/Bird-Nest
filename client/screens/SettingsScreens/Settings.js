@@ -22,35 +22,11 @@ import { DevSettings } from "react-native";
 
 const Settings = ({ navigation }) => {
   const logout = async () => {
-    await SecureStore.deleteItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_TOKEN)
-      .then(async () => {
-        await SecureStore.deleteItemAsync(
-          Constants.MY_SECURE_AUTH_STATE_KEY_USER
-        )
-          .then(async () => {
-            await SecureStore.deleteItemAsync(
-              Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING
-            )
-              .then(async () => {
-                SecureStore.deleteItemAsync(
-                  Constants.MY_SECURE_AUTH_STATE_KEY_REDUX
-                );
-                SecureStore.deleteItemAsync(
-                  Constants.MY_SECURE_AUTH_STATE_IMAGE_URI
-                );
-                navigation.navigate("LoginScreen");
-                await chatClient.disconnectUser();
-                DevSettings.reload();
-              })
-              .catch((err) => {
-                console.log(err);
-              });
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      })
-      .catch((err) => console.log(err));
+    await SecureStore.deleteItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_TOKEN).then().catch(err => {console.log("Fail to delete token from secure store"); throw err;})
+    await SecureStore.deleteItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER).then().catch(err => {console.log("Fail to delete user from secure store"); throw err;})
+    await SecureStore.deleteItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING).then().catch(err => {console.log("Fail to delete housing from secure store"); throw err;})
+    await SecureStore.deleteItemAsync(Constants.MY_SECURE_AUTH_STATE_IMAGE_URI).then().catch(err => {console.log("Fail to delete images from secure store"); throw err;})
+    await chatClient.disconnectUser();
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -81,7 +57,10 @@ const Settings = ({ navigation }) => {
       <Buttons
         style={{flex: 1}}
         onPress={() => {
-          logout();
+          logout().then(() => {
+            DevSettings.reload();
+            navigation.navigate('LoginScreen');
+          });
         }}
       >
         Logout

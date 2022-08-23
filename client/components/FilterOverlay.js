@@ -128,8 +128,20 @@ const FilterOverlay = ({overlayFilterButton, setUserList, setListState}) => {
   const Filter = async(filterMap) => {
     let userList = [];
     console.log(filterMap);
-    Axios.post(`${await Constants.BASE_URL()}/api/matching/filter`, {
+    
+    if (user.role === "Flamingo" || user.role === "Owl") {
+
+    }
+    else if (user.role === "Flamingo" || user.role === "Owl") {
+
+    }
+    //or if show all roles switch is toggled
+    else if (user.role === "Flamingo" || user.role === "Owl") {
+
+    }
+    Axios.post(`${await Constants.BASE_URL()}/api/matching/filternohousing`, {
       filterMap : JSON.stringify(Array.from(filterMap.entries())),
+      user_id : user.id,
     })
     .then(async(filteredUsers, priorityCount) => {
       filterUserData = filteredUsers.data;
@@ -141,10 +153,13 @@ const FilterOverlay = ({overlayFilterButton, setUserList, setListState}) => {
       //set userlist from birdfeed to empty array then set it to the filteredUsers
       //setUserList(filteredUsers);
       for (let i = 0; i < filterUserData.length - 1; i++) {
-        userList.push({
-          name: filterUserData[i].fullname,
-          city: filterUserData[i].city,
-        });
+        //skip seeing yourself
+        if (filterUserData[i].User_id != user.id) {
+          userList.push({
+            name: filterUserData[i].fullname,
+            city: filterUserData[i].city,
+          });
+        }
       }
       setUserList((prevList) => [
         ...userList,
@@ -153,13 +168,15 @@ const FilterOverlay = ({overlayFilterButton, setUserList, setListState}) => {
           city: filterUserData[filterUserData.length - 1].city,
         },
       ]);
+      setListState(true);
     })
     .catch(err => {
       console.log(err);
       console.log("Failed to filter users");
+      setListState(false);
 
     })
-    setListState(true);
+
     console.log(userList);
   }
 

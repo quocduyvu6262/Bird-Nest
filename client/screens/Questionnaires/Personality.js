@@ -43,9 +43,9 @@ class Personality extends Component {
     const imageFileSystemUri = this.props.data.imageFileSystemUri;
 
     // Store into Secure Store
-    SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify(user)).then().catch(err => {console.log("Fail to store user in Secure Store"); return false});
-    SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING, JSON.stringify(housing)).then().catch(err => {console.log("Fail to store housing in Secure Store"); return false});
-    SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_IMAGE_URI, JSON.stringify({avatar: imageFileSystemUri.avatar, album: imageFileSystemUri.album})).then().catch(err => {console.log("Fail to store images in Secure Store"); return false});
+    await SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify(user)).then().catch(err => {console.log("Fail to store user in Secure Store"); throw err});
+    await SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING, JSON.stringify(housing)).then().catch(err => {console.log("Fail to store housing in Secure Store"); throw err});
+    await SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_IMAGE_URI, JSON.stringify({avatar: imageFileSystemUri.avatar, album: imageFileSystemUri.album})).then().catch(err => {console.log("Fail to store images in Secure Store"); throw err});
 
     // Store user into database
     Axios.post(`${await Constants.BASE_URL()}/api/users/questionnaire`, {
@@ -54,6 +54,7 @@ class Personality extends Component {
       console.log(err);
       //console.log(user);
       console.log("Fail to store user into database from questionnaire");
+      throw err;
     });
 
     // Store housing into database
@@ -68,7 +69,7 @@ class Personality extends Component {
         housing: housing
       }).then(() => true).catch( err => {
         console.log('Fail to update/insert housing from questionnaire');
-        return false;
+        throw err;
       })
     } else if(user.role === 'Parrot' || user.role === 'Penguin' || user.role === 'Duck'){
       // delete housing
@@ -81,10 +82,9 @@ class Personality extends Component {
         housing: housing
       }).then(() => true).catch( err => {
         console.log('Fail to update/insert nohousing from questionnaire');
-        return false;
+        throw err;
       })
     }
-    
   }
 
 
@@ -1019,9 +1019,9 @@ class Personality extends Component {
           <TouchableOpacity style={HousingQ_styles.nextButton}
           onPress={()=>{
             //this.createHousingInfo()
-            if(this.storeData()){
+            this.storeData().then(() => {
               this.props.navigation.navigate('BirdFeed');
-            }
+            })
           }}>
             <Text style = {[HousingQ_styles.buttonText, {color:'#FFF'}]}>Finish</Text>
           </TouchableOpacity>
