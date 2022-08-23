@@ -26,12 +26,11 @@ const MessengerMatch = () => {
     /**
      * Declare states
      */
+    const [secondUserChatUIDList, setSecondUserChatUIDList] = useState([])
     const [userList, setUserList] = useState([[{}]])
     const [wait, setWait] = useState(false);
     const user = useSelector(state => state.data.userInfo);
     const userID = getChatUID(user.fullname, user.uid);
-    const secondUserIDs = []
-    const selectedUserID = 'testuser3';
     
     /**
      * TODO: add function header
@@ -58,14 +57,16 @@ const MessengerMatch = () => {
      * TODO: add function header
      */
     const secondUser = async () => {
-        for (let i = 0; i < userList[0].length; i++) {
-            if (typeof userList[0][i].fullname == "undefined" || typeof userList[0][i].uid == "undefined") {
+        let secondUserIDs = []
+        for (let i = 0; i < userList.length; i++) {
+            if (typeof userList[i].fullname == "undefined" || typeof userList[i].uid == "undefined") {
                 console.log("FUCK");
             } else {
-                const secondUserID = getChatUID(userList[0][i].fullname, userList[0][i].uid)
+                const secondUserID = getChatUID(userList[i].fullname, userList[i].uid)
                 secondUserIDs.push(secondUserID)
             }
         }
+        setSecondUserChatUIDList(secondUserIDs);
     }
 
     /**
@@ -99,7 +100,7 @@ const MessengerMatch = () => {
                         source={props.src}
                     />
                     {wait && (
-                    <Text style={{marginTop:5}}>{userList[0][0].fullname}
+                    <Text style={{marginTop:5}}>{props.name}
                     </Text>)}
                 </TouchableOpacity>
             </View>
@@ -126,8 +127,8 @@ const MessengerMatch = () => {
     return (
         <View style={{borderBottomWidth: 0.17, marginTop: 5}}>
             <View style={styles.container}>
-                {/* <Text style={styles.matchText}
-                >Matches! </Text> */}
+                <Text style={styles.matchText}
+                >Matches! </Text>
                 <ScrollView
                     style={styles.user}
                     horizontal = {true}>
