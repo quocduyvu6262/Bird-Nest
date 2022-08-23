@@ -22,16 +22,14 @@ const chatClient = StreamChat.getInstance(Constants.CHAT_API_KEY);
 
 
 const MessengerMatch = () => {
-
     /**
      * Declare states
      */
+    const [secondUserChatUID, setSecondUserChatUID] = useState([])
     const [userList, setUserList] = useState([[{}]])
     const [wait, setWait] = useState(false);
     const user = useSelector(state => state.data.userInfo);
     const userID = getChatUID(user.fullname, user.uid);
-    const secondUserIDs = []
-    const selectedUserID = 'testuser3';
     
     /**
      * TODO: add function header
@@ -58,22 +56,20 @@ const MessengerMatch = () => {
      * TODO: add function header
      */
     const secondUser = async () => {
-        for (let i = 0; i < userList[0].length; i++) {
-            if (typeof userList[0][i].fullname == "undefined" || typeof userList[0][i].uid == "undefined") {
+        for (let i = 0; i < userList.length; i++) {
+            if (typeof userList[i][0].fullname == "undefined" || typeof userList[i][0].uid == "undefined") {
                 console.log("FUCK");
             } else {
-                const secondUserID = getChatUID(userList[0][i].fullname, userList[0][i].uid)
-                secondUserIDs.push(secondUserID)
-                console.log(secondUserIDs)
+                setSecondUserChatUID(getChatUID(userList[i][0].fullname, userList[i][0].uid))
             }
-            console.log(userList[0][0])
+            console.log(secondUserChatUID[1])
         }
     }
 
     /**
      * TODO: add function header
      */
-    const CreateChannel = async () => {
+    const createChannel = async () => {
         if (secondUserIDs.length > 0) {
             for (let i = 0; i < secondUserIDs.length; i++) {
                 const channel = chatClient.channel('messaging',{
