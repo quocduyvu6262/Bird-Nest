@@ -17,15 +17,17 @@ import barackObama from "../assets/barackObama.jpeg";
 import MainHeader from "../components/MainHeader";
 import PeckViewCard from "../components/PeckViewCard";
 import StrokeAnimation from "../components/StrokeAnimation.js";
+import { useSelector } from "react-redux";
 
 const PeckView = ({ navigation }) => {
+  const user = useSelector(state => state.data.userInfo)
   const [userList, setUserList] = useState([]);
   const [listState, setListState] = useState(false);
 
   const viewUsers = async () => {
-    setUserList([]);
-    Axios.post(`${await Constants.BASE_URL()}/api/matching/`, {
-      user_id: 78,
+    let userList = [];
+    Axios.post(`${await Constants.BASE_URL()}/api/matching/lookingforhousing`, {
+      user_id: user.id,
     })
       .then((response) => {
         let userData = response.data;
@@ -34,15 +36,14 @@ const PeckView = ({ navigation }) => {
         // but setUserList (setState) will only set state once
         for (let i = 0; i < userData.length - 1; i++) {
           userList.push({
-            name: userData[i].fullname,
-            city: userData[i].city,
+            name: userData[i].info.fullname,
             src: barackObama,
           });
         }
         setUserList((prevList) => [
           ...userList,
           {
-            name: userData[userData.length - 1].fullname,
+            name: userData[userData.length - 1].info.fullname,
             city: userData[userData.length - 1].city,
             src: barackObama,
           },
@@ -93,6 +94,7 @@ const PeckView_Styles = StyleSheet.create({
     alignSelf: "center",
     top: 200,
   },
+  // lower: {},
 });
 
 export default PeckView;

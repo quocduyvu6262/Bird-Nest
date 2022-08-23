@@ -9,16 +9,13 @@ import {
 } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Logo from "./assets/bird.png";
-
 import Axios from "axios";
 import * as SecureStore from "expo-secure-store";
-
-// IMPORT SCREENS
 import SplashScreen from "./screens/Auth/SplashScreen";
 import BirdFeed from "./screens/BirdFeed.js";
 import PeckView from "./screens/PeckView.js";
 import Profile from "./screens/Profile.js";
-import ChirpNotification from "./screens/ChirpNotification.js";
+import ChirpNotification from "./screens/Notification/ChirpNotification.js";
 import History from "./screens/History.js";
 import LoginScreen from "./screens/Auth/Login.js";
 import Roles from "./screens/Questionnaires/Roles";

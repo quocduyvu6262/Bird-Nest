@@ -8,7 +8,12 @@ const UserCard = (props) => {
   return (
     <View style={styles.card}>
       <CarouselCards/>
-      <Header>{props.name}</Header>
+        <Header>
+          {props.name} 
+        </Header>
+        <Text style={styles.genderAge}>
+          {props.genderage}
+        </Text>
     </View>
   );
 };
@@ -17,7 +22,7 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: theme.colors.surface,
     alignItems: "center",
-  },
+  }, 
   userImage: {
     borderColor: "#D3D3D3",
     borderRadius: 15,
@@ -26,6 +31,11 @@ const styles = StyleSheet.create({
     position: "relative",
     bottom: 0,
   },
+  genderAge: {
+    fontSize: 20,
+    color: theme.colors.primary,
+    fontWeight: 'bold',
+  }
 });
 
 export default UserCard;

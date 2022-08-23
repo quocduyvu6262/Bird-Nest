@@ -38,9 +38,8 @@ const Roles = ({ navigation }) => {
     return true;
   }
   return (
-    <SafeAreaView style={Roles_styles.container}>
+    <SafeAreaView style={Roles_styles.container} behavior={Platform.OS === "ios" ? "padding": "height"}>
       <View style={Roles_styles.header}>
-        <Text style={Roles_styles.headTitle}>Roles (2/5)</Text>
         <TouchableOpacity
           onPress={() => navigation.goBack()}
           style={Roles_styles.backButton}
@@ -51,6 +50,7 @@ const Roles = ({ navigation }) => {
           />
           <Text style={Roles_styles.backText}>Profile</Text>
         </TouchableOpacity>
+        <Text style={Roles_styles.headTitle}>Roles (2/5)</Text>
       </View>
       <ScrollView style={{ flex: 1 }}>
         <View style={{ top: 15 }}>
@@ -205,16 +205,18 @@ const Roles_styles = StyleSheet.create({
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
   header: {
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     backgroundColor: "#6736B6",
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: "100%",
     height: 90,
     bottom: 50,
     marginBottom: -50,
   },
   headTitle: {
+    flex: 2,
+    top: 20,
     color: "#FFF",
-    //top: 55,
-    alignSelf: "center",
     fontSize: 20,
     fontWeight: "bold",
   },
@@ -223,14 +225,11 @@ const Roles_styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     textAlign: "center",
-    marginBottom: 0,
   },
   headerText: {
     fontWeight: "bold",
     color: "#FFF",
     fontSize: 20,
-    top: 45,
-    textAlign: "center",
   },
   icons: {
     width: 96,
@@ -343,15 +342,16 @@ const Roles_styles = StyleSheet.create({
     textAlign: "center",
   },
   backButton: {
+    left: 5,
+    top: 20,
+    flex: 1.2,
+    alignItems: 'center',
     flexDirection: "row",
-    //top: 60,
-    bottom: 23,
-    marginLeft: 12,
-    alignItems: "center",
    },
    backText: {
     color: "#FFF",
     fontSize: 15,
+    fontWeight: 'bold',
    },
    backIcon: {
     height: 20,
