@@ -32,8 +32,6 @@ const MessengerMatch = () => {
     const userID = getChatUID(user.fullname, user.uid);
     const secondUserIDs = []
     const selectedUserID = 'testuser3';
-
-    
     
     /**
      * TODO: add function header
@@ -44,14 +42,14 @@ const MessengerMatch = () => {
             user_id: user.id,
         })
         .then((response) => {
-        let userData = response.data;
-        // manually push all but last, then setUserList on last user to trigger FlatList rerender
-        // reason is that FlatList will not re-render unless setUserList is properly called
-        // but setUserList (setState) will only set state once
-        setUserList(userData)
+            let userData = response.data;
+            // manually push all but last, then setUserList on last user to trigger FlatList rerender
+            // reason is that FlatList will not re-render unless setUserList is properly called
+            // but setUserList (setState) will only set state once
+            setUserList(userData)
         })
         .catch((error) => {
-        console.log(error);
+            console.log(error);
         });
         setWait(true);
     };
