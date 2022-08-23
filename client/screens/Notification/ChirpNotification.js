@@ -8,22 +8,16 @@ import {
   ScrollView,
   Button,
   Image,
-  
 } from "react-native";
 import React, {useEffect, useState, useRef} from "react";
 import * as Device from 'expo-device';
-import Footer from "../components/Footer.js";
-import MainHeader from "../components/MainHeader.js";
-import Bird_Drawing from "../assets/svg/Bird_Drawing";
+import MainHeader from "../../components/MainHeader.js";
 //import Constants from "../constants/constants.js";
 import { useDispatch, useSelector } from "react-redux";
 import * as Notifications from 'expo-notifications';
-import * as Permissions from 'expo-permissions';
-import * as dataActions from '../redux/slices/data';
+import * as dataActions from '../../redux/slices/data';
 import Axios from "axios";
-import Constants1 from "../constants/constants.js";
-import Default from "../assets/default.jpg";
-import { not } from "react-native-reanimated";
+import Constants from "../../constants/constants.js";
 import moment from 'moment';
 
 const ChirpNotification = ({ navigation }) => {
@@ -48,7 +42,7 @@ const ChirpNotification = ({ navigation }) => {
   let notiLength = user.notiNames.length - 1;
   
   const updateMatchUI = async () => {
-    Axios.post(`${await Constants1.BASE_URL()}/api/history/picName1`, {
+    Axios.post(`${await Constants.BASE_URL()}/api/history/picName1`, {
       user_id: user.id,
     })
       .then((response) => {
@@ -71,7 +65,7 @@ const ChirpNotification = ({ navigation }) => {
       });
   }
   const updateSwipeUI = async () => {
-    Axios.post(`${await Constants1.BASE_URL()}/api/history/picName2`, {
+    Axios.post(`${await Constants.BASE_URL()}/api/history/picName2`, {
       user_id: user.id,
     })
       .then((response) => {
@@ -95,7 +89,7 @@ const ChirpNotification = ({ navigation }) => {
   }
   
   const insertToken = async (token) => {
-    Axios.post(`${await Constants1.BASE_URL()}/api/history/token`, {
+    Axios.post(`${await Constants.BASE_URL()}/api/history/token`, {
       user_id: user.id,
       token: token
     })
@@ -256,7 +250,7 @@ const ChirpNotification = ({ navigation }) => {
         <Image 
           style={{height: 150, 
           width: 150, marginTop: 120, opacity: 0.3}}
-          source={require("../assets/bell.jpg")}
+          source={require("../../assets/bell.jpg")}
           ></Image>
           <Text style = {{fontSize: 18, fontWeight: 'bold', color: '#560CCE'}}> No notifications found</Text>
           <Text style = {{fontSize: 15, color: '#5b5c5e', marginTop: 5}}> Match with users to recieve notications!</Text>

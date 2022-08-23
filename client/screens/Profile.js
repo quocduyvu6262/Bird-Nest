@@ -11,30 +11,18 @@ import {
   ScrollView,
   Modal,
 } from "react-native";
-import * as Device from 'expo-device';
-import * as Notifications from 'expo-notifications';
-import * as Permissions from 'expo-permissions';
-import Constants1 from "../constants/constants.js";
 import Background from "../components/Background";
-import Logo from "../components/Logo";
-import Header from "../components/Header";
 import Button from "../components/Button";
-import Paragraph from "../components/Paragraph";
 import UserCard from "../components/UserCard";
 import InfoCard from "../components/InfoCard";
-import Footer from "../components/Footer.js";
 import * as SecureStore from "expo-secure-store";
 import Axios from "axios";
 import MainHeader from "../components/MainHeader";
-import Deondre from "../assets/deondre.jpg";
-import data, * as dataActions from '../redux/slices/data';
+import * as dataActions from '../redux/slices/data';
 import { storage, ref, deleteObject } from "../firebaseConfig";
 import Constants from "../constants/constants";
 import { useDispatch, useSelector } from "react-redux";
-import { removePics } from "../redux/slices/data";
 import * as FileSystem from 'expo-file-system'
-import { CONSTANTS } from "@firebase/util";
-import NotificationTracker from "./NotifiationTracker";
 import Tags from "react-native-tags";
 
 const Profile = ({ navigation }) => {
