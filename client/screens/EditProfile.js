@@ -34,7 +34,7 @@ const EditProfile = ({ navigation }) => {
   const [leaseTerm, setLeaseTerm] = useState(housing.lease);
   const [bioText, setBioText] = useState(userInfo.bio);
   const [isNeighborhoodOpen, setIsNeighborhoodOpen] = useState(false); // neighborhood dropdown list
-  const [neighborhoodValue, setNeighborhoodValue] = useState(null);
+  const [neighborhoodValue, setNeighborhoodValue] = useState(userInfo.isHousing ? housing.neighborhood : housing.neighborhoodList);
   const [neighborhoodItems, setNeighborhoodItems] = useState([
     { label: "Downtown SD", value: "Downtown SD" },
     { label: "La Jolla", value: "La Jolla" },
@@ -60,11 +60,11 @@ const EditProfile = ({ navigation }) => {
    */
   const storeData = async () => {
     // Store into Secure Store
-    SecureStore.setItemAsync(
+    await SecureStore.setItemAsync(
       Constants.MY_SECURE_AUTH_STATE_KEY_USER,
       JSON.stringify(userInfo)
     );
-    SecureStore.setItemAsync(
+    await SecureStore.setItemAsync(
       Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING,
       JSON.stringify(housing)
     );
@@ -86,7 +86,6 @@ const EditProfile = ({ navigation }) => {
       })
         .then()
         .catch((err) => {
-          console.log(housing.squarefeet);
           console.log("Fail to update/insert housing from questionnaire");
         });
     } else if (
@@ -109,25 +108,36 @@ const EditProfile = ({ navigation }) => {
   // set slider variable and update redux store
   const handleSliderChange = (value) => {
     setSliderValue(value);
-    dispatch(dataActions.updateRent(value));
+    // dispatch(dataActions.updateRent(value));
   };
 
   // set lease term variable and update redux store
   const handleLeaseTerm = (value) => {
     // console.log(value);
     setLeaseTerm(value);
-    dispatch(dataActions.updateLease(value));
+    // dispatch(dataActions.updateLease(value));
   };
 
   const handleBioText = (text) => {
     setBioText(text);
-    dispatch(dataActions.updateBio(text));
+    // dispatch(dataActions.updateBio(text));
   };
 
   const handleSave = async () => {
+    // update redux
+    dispatch(dataActions.updateRent(sliderValue));
+    dispatch(dataActions.updateLease(leaseTerm));
+    dispatch(dataActions.updateBio(bioText));
+    if(userInfo.isHousing){
+      dispatch(dataActions.updateNeighborhood(neighborhoodValue));
+    }else{
+      dispatch(dataActions.updateAllNeighborhoodList(neighborhoodValue));
+    }
+    // update database
     await storeData();
     navigation.goBack();
   };
+  
 
   return (
     <SafeAreaView style={styles.container}>
@@ -219,24 +229,11 @@ const EditProfile = ({ navigation }) => {
       <View style={styles.dropdown}>
         <DropDownPicker
           open={isNeighborhoodOpen}
+          setOpen={setIsNeighborhoodOpen}
           value={neighborhoodValue}
           items={neighborhoodItems}
-          setOpen={setIsNeighborhoodOpen}
           setValue={setNeighborhoodValue}
           setItems={setNeighborhoodItems}
-          onSelectItem={(item) => {
-            if (userInfo.isHousing) {
-              dispatch(dataActions.updateNeighborhood(item.value));
-            } else {
-              dispatch(
-                dataActions.updateNeighborhoodList({
-                  activity: item.value,
-                  add: true,
-                })
-              );
-            }
-            // console.log(item)
-          }}
           style={{ backgroundColor: "#560CCE" }}
           textStyle={{ fontSize: 18, color: "white", fontWeight: "bold" }}
           dropDownContainerStyle={{ backgroundColor: "#560CCE" }}

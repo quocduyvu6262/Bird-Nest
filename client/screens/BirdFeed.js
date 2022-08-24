@@ -34,16 +34,14 @@ import Animated, {
 } from "react-native-reanimated";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import Buttons from "../components/Button.js";
-
 import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
 import MainHeader from "../components/MainHeader.js";
-import Constants from "../constants/constants.js";
 import barackObama from "../assets/barackObama.jpeg";
-import FilterOverlay from "../components/FilterOverlay.js";
+import FilterOverlay from "../components/Overlay/FilterOverlay";
 import Icon3 from "react-native-vector-icons/Ionicons";
 import { useSelector, useDispatch } from "react-redux";
 import { storage, ref, getDownloadURL } from "../firebaseConfig";
-import Constants1 from "../constants/constants.js";
+import Constants from "../constants/constants.js";
 
 const BirdFeed = ({ navigation }) => {
   /**
@@ -100,7 +98,7 @@ const BirdFeed = ({ navigation }) => {
   };
   // This is the old filter function on birdfeed
   const updateMatchUI = async () => {
-    Axios.post(`${await Constants1.BASE_URL()}/api/history/picName1`, {
+    Axios.post(`${await Constants.BASE_URL()}/api/history/picName1`, {
       user_id: user.id,
     })
       .then(async (response) => {
@@ -126,7 +124,7 @@ const BirdFeed = ({ navigation }) => {
       });
   };
   const updateSwipeUI = async () => {
-    Axios.post(`${await Constants1.BASE_URL()}/api/history/picName2`, {
+    Axios.post(`${await Constants.BASE_URL()}/api/history/picName2`, {
       user_id: user.id,
     })
       .then(async (response) => {
@@ -152,7 +150,7 @@ const BirdFeed = ({ navigation }) => {
       });
   };
   const insertToken = async (token) => {
-    Axios.post(`${await Constants1.BASE_URL()}/api/history/token`, {
+    Axios.post(`${await Constants.BASE_URL()}/api/history/token`, {
       user_id: user.id,
       token: token,
     });
@@ -221,10 +219,6 @@ const BirdFeed = ({ navigation }) => {
 
     return token;
   }
-  const overlayButton = () => {
-    overlayClicked ? setOverlayClicked(false) : setOverlayClicked(true);
-  };
-
   /**
    * Call the matching algorithm and display
    * the list of users that match each criteria
@@ -237,7 +231,7 @@ const BirdFeed = ({ navigation }) => {
     } else {
       apiEndpoint = "/api/matching/lookingforhousing";
     }
-    Axios.post(`${await Constants1.BASE_URL()}${apiEndpoint}`, {
+    Axios.post(`${await Constants.BASE_URL()}${apiEndpoint}`, {
       user_id: user.id,
     })
       .then((response) => {

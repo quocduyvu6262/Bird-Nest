@@ -17,9 +17,9 @@ import { Slider } from "@rneui/themed";
 import DropDownPicker from "react-native-dropdown-picker";
 import Buttons from "../Button.js";
 import { useDispatch, useSelector } from "react-redux";
-import * as dataActions from '../redux/slices/data';
+import * as dataActions from '../../redux/slices/data';
 import Axios from "axios";
-import Constants from "../constants/constants.js";
+import Constants from "../../constants/constants.js";
 
 
 const FilterOverlay = ({overlayFilterButton, setUserList, setListState}) => {
