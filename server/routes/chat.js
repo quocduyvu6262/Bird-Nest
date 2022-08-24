@@ -51,7 +51,7 @@ router.post('/matchedChat', (req, res) => {
     if(uidList){
         let index = 0
         for(let i = 0; i < uidList.length; i++) {
-            const query = `SELECT fullname, profilepic, uid FROM BirdNest.User WHERE id = ${uidList[i]}`
+            const query = `SELECT fullname, profilepic, uid, id FROM BirdNest.User WHERE id = ${uidList[i]}`
             db(client => {
                 client.query(query, (err, result) => {
                     if(err) throw err
