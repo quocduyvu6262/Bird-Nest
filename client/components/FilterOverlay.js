@@ -152,14 +152,13 @@ const FilterOverlay = ({overlayFilterButton, setUserList, setListState}) => {
     })
     .then((filteredUsers) => {
       filterUserData = filteredUsers.data;
+      console.log(filterUserData);
       for (let i = 0; i < filterUserData.length - 1; i++) {
         //skip seeing yourself
-        if (filterUserData[i].User_id != user.id) {
-          userList.push({
-            name: filterUserData[i].info.fullname,
-            neighborhoood: filterUserData[i].info.neighborhood,
-          });
-        }
+        userList.push({
+          name: filterUserData[i].info.fullname,
+          neighborhoood: filterUserData[i].info.neighborhood,
+        });
       }
       setUserList((prevList) => [
         ...userList,
@@ -242,7 +241,7 @@ const FilterOverlay = ({overlayFilterButton, setUserList, setListState}) => {
               backgroundColor: "#dfdfdf",
               width: 175,
             }}
-            placeholder="0 items has been selected"
+            placeholder="Any"
             dropDownDirection="AUTO"
             multiple={true}
             min={0}
@@ -269,19 +268,19 @@ const FilterOverlay = ({overlayFilterButton, setUserList, setListState}) => {
         </View>
 
         <View style={styles.slider}>
-          <Text style={styles.slideText}>Lease Month Term: {lease}</Text>
+          <Text style={styles.slideText}>Lease Month Term: {getLeaseFromInteger(lease)}</Text>
           <Slider
             value={lease}
             minimumValue={1}
             maximumValue={12}
-            step={1}
+            step={4}
             onValueChange={(value) => setLease(value)}
             thumbStyle={{ height: 15, width: 15, backgroundColor: "#6736B6" }}
           />
         </View>
 
         <View style={styles.slider}>
-          <Text style={styles.slideText}>Square Feet : {squarefeet}</Text>
+          <Text style={styles.slideText}>Min Square Feet: {squarefeet}</Text>
           <Slider
             value={squarefeet}
             minimumValue={100}

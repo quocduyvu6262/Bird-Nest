@@ -61,7 +61,7 @@ const Roles = ({ navigation }) => {
       <ScrollView style={{ flex: 1 }}>
         <View style={{ top: 15 }}>
           <View>
-            <Text style={Roles_styles.roleText}>Choose your role!</Text>
+            <Text style={Roles_styles.headerText}>Choose your role!</Text>
           </View>
           <TouchableOpacity
             style={Roles_styles.flamingoButton}
@@ -73,7 +73,7 @@ const Roles = ({ navigation }) => {
           >
             <Image
               style={Roles_styles.icons}
-              source={require("../../assets/Flamingo-512.png")}
+              source={require("../../assets/icons8-flamingo-96.png")}
             />
             <View style={Roles_styles.viewFlex}>
               <Text style={Roles_styles.roleTitle}>Flamingo</Text>
@@ -232,11 +232,10 @@ const Roles_styles = StyleSheet.create({
     marginBottom: 0,
   },
   headerText: {
-    fontWeight: "bold",
-    color: "#FFF",
-    fontSize: 20,
-    top: 45,
-    textAlign: "center",
+    fontSize: 25,
+    top: 0,
+    color: "#6736B6",
+    alignSelf: "center",
   },
   icons: {
     width: 96,
@@ -245,7 +244,7 @@ const Roles_styles = StyleSheet.create({
   flamingoButton: {
     height: 120,
     width: "90%",
-    backgroundColor: "#FE002E",
+    backgroundColor: "#FF006E",
     alignSelf: "center",
     flexDirection: "row",
     justifyContent: "flex-start",
@@ -256,7 +255,7 @@ const Roles_styles = StyleSheet.create({
   owlButton: {
     height: 120,
     width: "90%",
-    backgroundColor: "#BC00FE",
+    backgroundColor: "#300389",
     alignSelf: "center",
     flexDirection: "row",
     justifyContent: "flex-start",
@@ -267,7 +266,7 @@ const Roles_styles = StyleSheet.create({
   penguinButton: {
     height: 120,
     width: "90%",
-    backgroundColor: "#FB5607",
+    backgroundColor: "#FF9D0B",
     alignSelf: "center",
     flexDirection: "row",
     justifyContent: "flex-start",
@@ -278,7 +277,7 @@ const Roles_styles = StyleSheet.create({
   parrotButton: {
     height: 120,
     width: "90%",
-    backgroundColor: "#3B9CF1",
+    backgroundColor: "#22BF6A",
     alignSelf: "center",
     flexDirection: "row",
     justifyContent: "flex-start",
@@ -289,7 +288,7 @@ const Roles_styles = StyleSheet.create({
   duckButton: {
     height: 120,
     width: "90%",
-    backgroundColor: "#FF5775",
+    backgroundColor: "#FF5732",
     alignSelf: "center",
     flexDirection: "row",
     justifyContent: "flex-start",
@@ -306,6 +305,7 @@ const Roles_styles = StyleSheet.create({
   },
   roleDescription: {
     fontSize: 17,
+    color: "#FFF",
     //textAlign: "left",
     alignContent: "flex-start",
     flexWrap: "wrap",
