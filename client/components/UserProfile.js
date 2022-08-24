@@ -48,6 +48,14 @@ const UserProfile = ({ navigation, route }) => {
       ? setInterestButtonClicked(false)
       : setInterestButtonClicked(true);
   };
+  
+  const retrieveImage = async (path) => {
+    if(path){
+      const reference = ref(storage, path);
+      const url = await getDownloadURL(reference);
+      return url;
+    }
+  }
 
   return (
     <SafeAreaView style={styles.container}>
