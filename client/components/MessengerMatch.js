@@ -27,7 +27,7 @@ const MessengerMatch = () => {
      * Declare states
      */
     const [secondUserChatUIDList, setSecondUserChatUIDList] = useState([])
-    const [userList, setUserList] = useState([[{}]])
+    const [userList, setUserList] = useState([{}])
     const [wait, setWait] = useState(false);
     const user = useSelector(state => state.data.userInfo);
     const userID = getChatUID(user.fullname, user.uid);
@@ -72,7 +72,7 @@ const MessengerMatch = () => {
     /**
      * TODO: add function header
      */
-    const CreateChannel = async () => {
+    const createChannel = async () => {
         if (secondUserIDs.length > 0) {
             for (let i = 0; i < secondUserIDs.length; i++) {
                 const channel = chatClient.channel('messaging',{
