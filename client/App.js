@@ -63,7 +63,11 @@ const TabNavigator = () => {
   );
   return (
     <Tab.Navigator
-      screenOptions={{ headerShown: false, tabBarActiveTintColor: "#560CCE" }}
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: "#560CCE",
+        tabBarStyle: { height: 90 },
+      }}
     >
       <Tab.Screen
         name="Profile"

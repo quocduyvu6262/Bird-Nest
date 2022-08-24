@@ -82,6 +82,7 @@ const BirdFeed = ({ navigation }) => {
   const [userList, setUserList] = useState([]);
   const [listState, setListState] = useState(false);
   const [overlayFilterClicked, setOverlayFilterClicked] = useState(false);
+  const [isContentLoaded, setIsContentLoaded] = useState(false);
   let [fontsLoaded] = useFonts({ Pacifico_400Regular });
 
   /**
@@ -232,18 +233,20 @@ const BirdFeed = ({ navigation }) => {
     } else {
       apiEndpoint = "/api/matching/lookingforhousing";
     }
-    Axios.post(`${await Constants.BASE_URL()}${apiEndpoint}`, {
+    Axios.post(`${await Constants1.BASE_URL()}${apiEndpoint}`, {
       user_id: user.id,
     })
       .then((response) => {
         let userData = response.data;
+        // console.log(userData);
         // manually push all but last, then setUserList on last user to trigger FlatList rerender
         // reason is that FlatList will not re-render unless setUserList is properly called
         // but setUserList (setState) will only set state once
         for (let i = 0; i < userData.length - 1; i++) {
           userList.push({
             info: userData[i].info,
-            name: userData[i].info.fullname,
+            // name: userData[i].info.fullname,
+            // rent: userData[i].info.rent,
             src: barackObama,
           });
         }
@@ -251,7 +254,7 @@ const BirdFeed = ({ navigation }) => {
           ...userList,
           {
             info: userData[userData.length - 1].info,
-            name: userData[userData.length - 1].info.fullname,
+            // name: userData[userData.length - 1].info.fullname,
             src: barackObama,
           },
         ]);
@@ -301,20 +304,20 @@ const BirdFeed = ({ navigation }) => {
         {overlayFilterClicked && (
           <FilterOverlay overlayFilterButton={overlayFilterButton} />
         )}
-
-        {listState && (
-          <View styles={styles.flatlist}>
+        <View style={{ flex: 1 }}>
+          {listState && (
             <FlatList
               data={userList}
               extraData={userList}
+              style={{ height: "100%" }}
               renderItem={(item) => (
                 <TouchableOpacity>
                   <ProfileCard item={item} />
                 </TouchableOpacity>
               )}
             />
-          </View>
-        )}
+          )}
+        </View>
       </SafeAreaView>
     );
   }

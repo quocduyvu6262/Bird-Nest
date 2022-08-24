@@ -27,8 +27,6 @@ const ProfileCard = ({ item, index }) => {
     })
   ).current;
 
-  // console.log(item.index);
-
   const renderRightActions = (progress, dragX) => {
     const trans = dragX.interpolate({
       inputRange: [0, 100],
@@ -117,9 +115,21 @@ const ProfileCard = ({ item, index }) => {
       >
         <Image style={styles.image} source={item.item.src} />
         <View style={styles.text_box}>
-          <Text>{item.item.city}</Text>
           <View style={styles.text_box_name}>
-            <Text style={{ color: "white" }}>{item.item.name}</Text>
+            <Text
+              style={{ color: "#560CCE", fontWeight: "bold", fontSize: 20 }}
+            >
+              {item.item.info.fullname}
+            </Text>
+            <Text style={{ marginLeft: 5, color: "gray" }}>
+              {item.item.info.pronouns}, {item.item.info.age}{" "}
+            </Text>
+          </View>
+          <Text>Rent is ${item.item.info.rent}</Text>
+          <View style={styles.barGroup}>
+            <Text>{item.item.info.neighborhood}</Text>
+            <Text style={styles.bar}> | </Text>
+            <Text>{item.item.info.lease} months term</Text>
           </View>
         </View>
       </Animated.View>
@@ -148,25 +158,28 @@ const styles = StyleSheet.create({
     // marginLeft: 15,
   },
   text_box: {
-    backgroundColor: "white",
+    // backgroundColor: "gray",
     // backgroundColor: "lightgray",
-    height: "90%",
-    width: "70%",
+    height: "100%",
+    width: "75%",
     alignSelf: "flex-end",
-    borderTopRightRadius: 20,
-    borderTopLeftRadius: 20,
-    padding: 10,
-    marginRight: 8,
+    // padding: 10,
+    // marginRight: 8,
   },
   text_box_name: {
-    position: "absolute",
-    bottom: 0,
-    left: 15,
-    backgroundColor: "#560CCE",
-    paddingHorizontal: 20,
-    paddingVertical: 3,
-    borderTopRightRadius: 10,
-    borderTopLeftRadius: 10,
+    alignSelf: "flex-start",
+    marginTop: 5,
+    marginBottom: 10,
+    flexDirection: "row",
+    alignItems: "flex-end",
+  },
+  barGroup: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+  },
+  bar: {
+    fontWeight: "bold",
+    color: "#560CCE",
   },
   noButton: {
     height: 100,
