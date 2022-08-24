@@ -29,11 +29,7 @@ import NoHousingQ from "./screens/Questionnaires/NoHousingQ.js";
 import HasHousingQ from "./screens/Questionnaires/HasHousingQ.js";
 import Personality from "./screens/Questionnaires/Personality.js";
 import BasicInfo from "./screens/Questionnaires/BasicInfo.js";
-<<<<<<< HEAD
-import UserProfile from "./components/UserProfile.js";
-=======
 import EditProfile from "./screens/EditProfile";
->>>>>>> origin/deondre-design
 
 // IMPORT CHAT NAVIGATOR
 import ChatNavigator from "./screens/ChatAPI/ChatNavigator";
