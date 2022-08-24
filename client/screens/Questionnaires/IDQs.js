@@ -71,7 +71,6 @@ const IDQs = ({ navigation }) => {
       // store current uri
       setCurrentUri(result.uri);
       setIsuploaded(true);
-      console.log(result.uri);
     }
   }
   

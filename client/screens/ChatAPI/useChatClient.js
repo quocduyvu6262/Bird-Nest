@@ -4,7 +4,7 @@ import Constants from '../../constants/constants';
 import * as SecureStore from 'expo-secure-store';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import {getChatUID} from '../../utils/getChatUID';
+import {getChatUID} from '../../utils/helper';
 
 const chatClient = StreamChat.getInstance(Constants.CHAT_API_KEY);
 

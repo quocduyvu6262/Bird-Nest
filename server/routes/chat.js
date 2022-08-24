@@ -33,4 +33,16 @@ router.post('/getMatchedChatUsersFromList', (req, res) => {
     }
 });
 
+router.post('/updateMatchedChatUsersFromList', (req, res) => {
+    let id = req.body.id;
+    let uidList = req.body.uidList;
+    const query = `UPDATE BirdNest.User SET matchedChat = ${JSON.stringify(JSON.stringify(uidList))} WHERE id = ${id}`;
+    db(client => {
+        client.query(query, (err, result) => {
+            if(err) throw err;
+            res.status(200).send('Update new matched user chat successfully');
+        })
+    })
+})
+
 module.exports = router;
