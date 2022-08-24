@@ -13,10 +13,11 @@ import { Text,
 import Elie from '../assets/Elie.jpg'
 import Axios from "axios";
 import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { StreamChat } from 'stream-chat';
 import Constants from '../constants/constants';
-import {getChatUID} from '../utils/getChatUID';
+import {getChatUID, removeItem} from '../utils/getChatUID';
+import data, * as dataActions from '../redux/slices/data'
 
 const chatClient = StreamChat.getInstance(Constants.CHAT_API_KEY);
 
@@ -27,7 +28,8 @@ const MessengerMatch = () => {
      * Declare states
      */
     const [secondUserChatUIDList, setSecondUserChatUIDList] = useState([])
-    const [userList, setUserList] = useState([{}])
+    const dispatch = useDispatch();
+    const [userList, setUserList] = useState([[{}]])
     const [wait, setWait] = useState(false);
     const user = useSelector(state => state.data.userInfo);
     const userID = getChatUID(user.fullname, user.uid);
@@ -36,6 +38,10 @@ const MessengerMatch = () => {
      * TODO: add function header
      */
     const viewMatchedUsers = async (uidListParam) => {
+        if(uidListParam && uidListParam.length == 0){
+            setUserList([]);
+            return;
+        }
         // post the list matched ID
         Axios.post(`${await Constants.BASE_URL()}/api/chat/matchedChat`, {
             uidList: uidListParam,
@@ -72,7 +78,7 @@ const MessengerMatch = () => {
     /**
      * TODO: add function header
      */
-    const createChannel = async () => {
+    const CreateChannel = async () => {
         if (secondUserIDs.length > 0) {
             for (let i = 0; i < secondUserIDs.length; i++) {
                 const channel = chatClient.channel('messaging',{
@@ -87,12 +93,15 @@ const MessengerMatch = () => {
      * TODO: add function header
      */
     const MatchLoad = (props) => {
+        const clickedUser = props.user;
         return(
             <View props>
                 <TouchableOpacity 
                     style={styles.textContainer}
                     onPress={()=>{
-                        // TODO: 
+                        const newMatchedUserList = removeItem(user.matchedChat, clickedUser.id);
+                        dispatch(dataActions.updateMatchedChat(newMatchedUserList));
+                        viewMatchedUsers(newMatchedUserList);
                     }}
                     >
                     <Image 
@@ -138,6 +147,7 @@ const MessengerMatch = () => {
                             key={i}
                             name={user.fullname}
                             src={Elie}
+                            user={user}
                         />
                     )})}
                 </ScrollView>
