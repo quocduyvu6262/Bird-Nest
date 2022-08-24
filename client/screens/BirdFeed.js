@@ -130,7 +130,6 @@ const BirdFeed = ({ navigation }) => {
   useEffect(() => {
     viewUsers();
   }, []);
-
   /**
    * Render Logic
    */

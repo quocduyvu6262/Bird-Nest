@@ -6,7 +6,7 @@ import CarouselCardItem, { SLIDER_WIDTH, ITEM_WIDTH } from './CarouselCardItem'
 import Axios from "axios";
 import { useSelector } from 'react-redux'
 import {storage, ref, getDownloadURL} from '../../firebaseConfig'
-const CarouselCards = () => {
+const CarouselCards = ({avatar, picList}) => {
 
   const isCarousel = React.useRef(null)
   const imageFileSystemUri = useSelector(state => state.data.imageFileSystemUri);

@@ -54,7 +54,7 @@ const MessengerMatch = ({sheetRef, setIsOpen, handleSnapPress}) => {
                         // setUserList(userList.filter(user => {
                         //     return !(user.id == clickedUser.id);
                         // }));
-                        handleSnapPress(0);
+                        handleSnapPress(0, clickedUser);
                     }}
                     >
                     <Image 
