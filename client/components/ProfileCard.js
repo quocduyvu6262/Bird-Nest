@@ -131,6 +131,8 @@ const ProfileCard = ({ item, index }) => {
             <Text style={styles.bar}> | </Text>
             <Text>{item.item.info.lease} months term</Text>
           </View>
+          <Text>{item.item.info.squarefeet}</Text>
+          <Text>{item.item.info.parking}</Text>
         </View>
       </Animated.View>
     </Swipeable>

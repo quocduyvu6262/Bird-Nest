@@ -51,9 +51,12 @@ class Personality extends Component {
     Axios.post(`${await Constants.BASE_URL()}/api/users/questionnaire`, {
       userInfo : user,
     }).catch( err => {
+      console.log(err);
+      //console.log(user);
       console.log("Fail to store user into database from questionnaire");
       throw err;
     });
+
     // Store housing into database
     if(user.role === 'Flamingo' || user.role === 'Owl'){
       // delete no housing
@@ -74,7 +77,7 @@ class Personality extends Component {
         user_id: user.id
       })
       // Post to nohousing
-      Axios.post(`${await Constants.BASE_URL()}/api/nohousing/create`, {
+      Axios.post(`${await Constants.BASE_URL()}/api/Nohousing/create`, {
         user_id: user.id,
         housing: housing
       }).then(() => true).catch( err => {

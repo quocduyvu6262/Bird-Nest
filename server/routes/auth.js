@@ -121,7 +121,7 @@ router.post('/questionnaire', (req, res) => {
     for (let key in userInfo) {
         //Possible edge case this creates: What if you want to deselect something optional and make it null? (BANDAID FIX)
         //TODO: Handle boolean/yes/no?
-        if (userInfo[key] === null || userInfo[key] === "undefined" || userInfo[key] === '') {
+        if (userInfo[key] === null || userInfo[key] === "undefined" || userInfo[key] === '' || key === "notiNames" || key === "notiPics") {
             continue;
         } 
         else if (key === "email" || key === "userInfo") {

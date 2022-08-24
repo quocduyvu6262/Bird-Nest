@@ -11,6 +11,7 @@ import {
   Platform,
   StatusBar,
   ScrollView,
+  RefreshControlBase,
 } from "react-native";
 import Svg, { Path } from "react-native-svg";
 import Bird_Drawing from "../assets/svg/Bird_Drawing.js";
@@ -32,11 +33,16 @@ import Animated, {
   useAnimatedStyle,
 } from "react-native-reanimated";
 import Swipeable from "react-native-gesture-handler/Swipeable";
+import Buttons from "../components/Button.js";
+
 import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
 import MainHeader from "../components/MainHeader.js";
 import Constants from "../constants/constants.js";
 import barackObama from "../assets/barackObama.jpeg";
 import FilterOverlay from "../components/FilterOverlay.js";
+// Old Imports for filter
+// import { Icon } from "@rneui/themed";
+// import Icon2 from "react-native-vector-icons/MaterialCommunityIcons";
 import Icon3 from "react-native-vector-icons/Ionicons";
 import { useSelector, useDispatch } from "react-redux";
 import { storage, ref, getDownloadURL } from "../firebaseConfig";
@@ -79,6 +85,7 @@ const BirdFeed = ({ navigation }) => {
   /**
    * Declare State
    */
+  const [rentText, setRentText] = useState("");
   const [userList, setUserList] = useState([]);
   const [listState, setListState] = useState(false);
   const [overlayFilterClicked, setOverlayFilterClicked] = useState(false);
@@ -238,7 +245,7 @@ const BirdFeed = ({ navigation }) => {
     })
       .then((response) => {
         let userData = response.data;
-        // console.log(userData);
+        //console.log(userData);
         // manually push all but last, then setUserList on last user to trigger FlatList rerender
         // reason is that FlatList will not re-render unless setUserList is properly called
         // but setUserList (setState) will only set state once
@@ -264,6 +271,8 @@ const BirdFeed = ({ navigation }) => {
       });
 
     setListState(true);
+    //console.log("BIRDFEED USERLIST");
+    //console.log(userList);
   };
 
   /**
@@ -273,13 +282,13 @@ const BirdFeed = ({ navigation }) => {
     viewUsers();
   }, []);
 
-  /**
-   * Render Logic
-   */
+  // ---------------------------------------
+
   if (!fontsLoaded) {
     return <View></View>;
   } else {
     return (
+      // Header - Beginning
       <SafeAreaView style={styles.container}>
         <MainHeader screen="Bird Feed" navigation={navigation} />
         <View
@@ -290,20 +299,31 @@ const BirdFeed = ({ navigation }) => {
         >
           <Bird_Drawing />
         </View>
-        <TouchableOpacity
-          style={[styles.input, { marginVertical: 7 }]}
-          onPress={overlayFilterButton}
-        >
-          <Icon3
-            style={styles.input}
-            name="options-sharp"
-            size={30}
-            color="black"
-          />
-        </TouchableOpacity>
+
+        <View style={{ flexDirection: "row" }}>
+          <TouchableOpacity
+            style={[styles.input, { marginVertical: 7 }]}
+            onPress={overlayFilterButton}
+          >
+            <Icon3
+              style={styles.input}
+              name="options-sharp"
+              size={30}
+              color="black"
+            />
+          </TouchableOpacity>
+          <Buttons style={{ flex: 0.5 }} onPress={viewUsers}>
+            Clear Filters
+          </Buttons>
+        </View>
         {overlayFilterClicked && (
-          <FilterOverlay overlayFilterButton={overlayFilterButton} />
+          <FilterOverlay
+            setUserList={setUserList}
+            setListState={setListState}
+            overlayFilterButton={overlayFilterButton}
+          />
         )}
+
         <View style={{ flex: 1 }}>
           {listState && (
             <FlatList
@@ -414,5 +434,6 @@ const styles = StyleSheet.create({
     // top: 100,
     // left: 200,
   },
+  clearFilterButton: {},
 });
 export default BirdFeed;
