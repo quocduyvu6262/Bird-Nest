@@ -45,6 +45,7 @@ export default ChannelListScreen = (props, navigation) => {
             <View style={{flex:1, opacity: isOpen ? 0.2 : 1}}>
                 <MainHeader screen="Messenger Pigeon" navigation={navigation}/>
                 <MessengerMatch sheetRef={sheetRef} setIsOpen={setIsOpen} handleSnapPress={handleSnapPress}/>
+                <Text style={styles.matchText}>Messages</Text>
                 <ChannelList
                     onSelect={(channel) => {
                         const { navigation } = props;
@@ -64,5 +65,13 @@ const styles = StyleSheet.create({
         flex: 1, 
         paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0, 
         backgroundColor: "white",
-    }
+    }, matchText: {
+        // Potential Fonts: Arial, DamascusLight
+        fontFamily: "DiwanMishafi",
+        color: "#6736B6",
+        fontSize: 25,
+        marginLeft: 10,
+        marginTop: 5,
+        marginBottom: 1
+    },
 })

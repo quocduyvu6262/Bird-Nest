@@ -50,7 +50,7 @@ const MessengerMatch = ({sheetRef, setIsOpen, handleSnapPress}) => {
                         // const newMatchedUserList = removeItem(user.matchedChat, clickedUser.id);
                         // dispatch(dataActions.updateMatchedChat(newMatchedUserList));
                         // updateMatchedUserChatSecureStore(user, newMatchedUserList);
-                        // //updateMatchedChatUserDatabase(user.id, newMatchedUserList);
+                        // updateMatchedChatUserDatabase(user.id, newMatchedUserList);
                         // setUserList(userList.filter(user => {
                         //     return !(user.id == clickedUser.id);
                         // }));
@@ -86,10 +86,10 @@ const MessengerMatch = ({sheetRef, setIsOpen, handleSnapPress}) => {
         return <View></View>;
     } else {
     return (
-        <View style={{borderBottomWidth: 0.17, marginTop: 5}}>
+        <View style={{borderBottomWidth: 0.16, marginTop: 5, borderBottomColor: '#cacaca'}}>
             <View style={styles.container}>
                 <Text style={styles.matchText}
-                >Matches! </Text>
+                >New     Matches </Text>
                 <ScrollView
                     style={styles.users}
                     horizontal = {true}>
@@ -115,16 +115,16 @@ const styles = StyleSheet.create({
         flexDirection: "row",
     },
     textContainer: {
-        marginLeft: 10,
+        marginLeft: 5,
         marginTop: 5,
         marginBottom: 5,
         alignSelf: 'flex-start',
         alignItems:'center',
     },
     matchText: {
-        fontFamily: "Pacifico_400Regular",
-        alignSelf: 'center',
-        fontWeights: {Thin: 100},
+        // Potential Fonts: Arial, DamascusLight
+        fontFamily: "DiwanMishafi",
+        color: "#6736B6",
         fontSize: 25,
         marginLeft: 5,
     },
