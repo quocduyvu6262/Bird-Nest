@@ -32,18 +32,18 @@ router.get("/:id", (req, res) => {
 });
 
 // Get housing by Email
-router.get('/email/:email', (req, res) => {
-    const query = `SELECT * FROM Housing JOIN User ON User.id = Housing.User_id WHERE User.email= "${req.params.email}";`;
-    db(client => {
-        client.query(query, (err, result) => {
-            if(!err && result.length) {
-                res.send(result);
-            } else {
-                console.log("Housing not found");
-                res.status(404).send('Housing not found.');
-            }
-        })
+router.get("/email/:email", (req, res) => {
+  const query = `SELECT * FROM Housing JOIN User ON User.id = Housing.User_id WHERE User.email= "${req.params.email}";`;
+  db((client) => {
+    client.query(query, (err, result) => {
+      if (!err && result.length) {
+        res.send(result);
+      } else {
+        console.log("Housing not found");
+        res.status(404).send("Housing not found.");
+      }
     });
+  });
 });
 // Post housings
 router.post('/create', (req, res) => {
@@ -62,56 +62,56 @@ router.post('/create', (req, res) => {
         squarefeet="${housing.squarefeet}", lease="${housing.lease}", rent="${housing.rent}", 
         garage=${housing.garage.toString()}, parking=${housing.parking.toString()}, gym=${housing.gym.toString()}, pool=${housing.pool.toString()}, 
         appliances=${housing.appliances.toString()}, furniture=${housing.furniture.toString()}, AC=${housing.AC.toString()} WHERE User_id=${user_id}`;
-    db(client => {
-        client.query(checkExistQuery, (err, result) => {
-            //if result is not empty a user is found, update
-            if(result.length){
-                // console.log( "User found successfully.");
-                db(client => {
-                    client.query(updateQuery, (err) => {
-                        if(err){
-                            console.log(err);
-                            res.status(400).send(`Bad Request.`)
-                            return;
-                        }
-                        console.log('Update housing successfully from questionnaire');
-                        res.send(`Update housing successfully from questionnaire`);
-                    });
-                });
-            } 
-            //Else, user is not found. Insert
-            else {
-                db(client => {
-                    client.query(insertQuery, (err) => {
-                        if(err){
-                            console.log(err);
-                            res.status(400).send(`Bad Request.`)
-                            return;
-                        }
-                        console.log('Insert housing successfully from questionnaire');
-                        res.send(`Insert housing successfully from questionnaire`);
-                    });
-                });
+  db((client) => {
+    client.query(checkExistQuery, (err, result) => {
+      //if result is not empty a user is found, update
+      if (result.length) {
+        // console.log( "User found successfully.");
+        db((client) => {
+          client.query(updateQuery, (err) => {
+            if (err) {
+              console.log(err);
+              res.status(400).send(`Bad Request.`);
+              return;
             }
+            console.log("Update housing successfully from questionnaire");
+            res.send(`Update housing successfully from questionnaire`);
+          });
         });
-    })
-})
+      }
+      //Else, user is not found. Insert
+      else {
+        db((client) => {
+          client.query(insertQuery, (err) => {
+            if (err) {
+              console.log(err);
+              res.status(400).send(`Bad Request.`);
+              return;
+            }
+            console.log("Insert housing successfully from questionnaire");
+            res.send(`Insert housing successfully from questionnaire`);
+          });
+        });
+      }
+    });
+  });
+});
 
 // Delete housings
-router.post('/delete', (req, res) => {
-    let user_id = req.body.user_id;
-    //let User_id = req.body.user_id;
-    const query = `
+router.post("/delete", (req, res) => {
+  let user_id = req.body.user_id;
+  //let User_id = req.body.user_id;
+  const query = `
     DELETE FROM Housing WHERE User_id=${user_id}`;
-    db(client => {
-        client.query(query,(err,result) => {
-            if(err){
-                console.log('Fail to delete housing')
-                return;
-            }
-            console.log('Delete housing successfully')
-        });
-    })   
-})
+  db((client) => {
+    client.query(query, (err, result) => {
+      if (err) {
+        console.log("Fail to delete housing");
+        return;
+      }
+      console.log("Delete housing successfully");
+    });
+  });
+});
 
 module.exports = router;
