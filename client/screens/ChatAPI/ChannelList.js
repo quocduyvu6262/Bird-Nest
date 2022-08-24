@@ -92,15 +92,11 @@ export default ChannelListScreen = (props, navigation) => {
         <SafeAreaView style={styles.container}>
             <View style={{flex:1, opacity: isOpen ? 0.2 : 1}}>
                 <MainHeader screen="Messenger Pigeon" navigation={navigation}/>
-<<<<<<< HEAD
                 <MessengerMatch sheetRef={sheetRef} setIsOpen={setIsOpen} 
                                 handleSnapPress={handleSnapPress}
                                 userList={userList}
                                 setUserList={setUserList}/>
-=======
-                <MessengerMatch sheetRef={sheetRef} setIsOpen={setIsOpen} handleSnapPress={handleSnapPress}/>
                 <Text style={styles.matchText}>Messages</Text>
->>>>>>> origin/Elie
                 <ChannelList
                     onSelect={(channel) => {
                         const { navigation } = props;
@@ -110,13 +106,9 @@ export default ChannelListScreen = (props, navigation) => {
                     sort={sort}
                 />
             </View>
-<<<<<<< HEAD
             {isOpen && <ChatOverlay sheetRef={sheetRef} snapPoints={snapPoints} setIsOpen={setIsOpen}
                                     handleSendMessageChatOverlay={handleSendMessageChatOverlay}
                                     clickedUser={clickedUser}/>}
-=======
-            {isOpen && <ChatOverlay sheetRef={sheetRef} snapPoints={snapPoints} setIsOpen={setIsOpen}/>}
->>>>>>> origin/Elie
         </SafeAreaView>
     )
 }
@@ -126,9 +118,6 @@ const styles = StyleSheet.create({
         flex: 1, 
         paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0, 
         backgroundColor: "white",
-<<<<<<< HEAD
-    }
-=======
     }, matchText: {
         // Potential Fonts: Arial, DamascusLight
         fontFamily: "DiwanMishafi",
@@ -138,5 +127,4 @@ const styles = StyleSheet.create({
         marginTop: 5,
         marginBottom: 1
     },
->>>>>>> origin/Elie
 })
