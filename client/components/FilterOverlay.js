@@ -69,6 +69,8 @@ const FilterOverlay = ({overlayFilterButton, setUserList, setListState}) => {
   /**
    * Declare states
    */
+  
+  const [rentText, setRentText] = useState(rentText);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(housing.neighborhoodList);
   const [rent, setRent] = useState(housing.rent);
@@ -119,6 +121,8 @@ const FilterOverlay = ({overlayFilterButton, setUserList, setListState}) => {
     );
   };
 
+
+
   /**
    * Filter post request
    */
@@ -148,21 +152,9 @@ const FilterOverlay = ({overlayFilterButton, setUserList, setListState}) => {
     })
     .then((filteredUsers) => {
       filterUserData = filteredUsers.data;
-      //priorityCountData = priorityCount.data;
-      //console.log("FILTERUSEDATA");
-      //console.log(filterUserData);
-      //console.log(priorityCountData);
-      //filteredUserList = filteredUsers.data;
-
-      //set userlist from birdfeed to empty array then set it to the filteredUsers
-      //setUserList(filteredUsers);
       for (let i = 0; i < filterUserData.length - 1; i++) {
         //skip seeing yourself
         if (filterUserData[i].User_id != user.id) {
-          //console.log(filterUserData[i].fullname);
-          //console.log(filterUserData[i].neighborhood);
-          //console.log(filterUserData[i].priorityCount);
-          //console.log(filterUserData[i].count);
           userList.push({
             name: filterUserData[i].info.fullname,
             neighborhoood: filterUserData[i].info.neighborhood,
@@ -265,7 +257,7 @@ const FilterOverlay = ({overlayFilterButton, setUserList, setListState}) => {
         </View>
 
         <View style={styles.slider}>
-          <Text style={styles.slideText}>Rent : ${rent}</Text>
+        <Text style={styles.slideText}>{user.isHousing ? "Min Rent: $" : "Max Rent: $"}{rent}</Text>
           <Slider
             value={rent}
             minimumValue={500}
