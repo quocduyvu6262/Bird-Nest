@@ -135,23 +135,30 @@ const BirdFeed = ({ navigation }) => {
         >
           <Bird_Drawing />
         </View>
-        <TouchableOpacity
-          style={[styles.input, { marginVertical: 7 }]}
-          onPress={overlayFilterButton}
-        >
-          <Icon3
-            style={styles.input}
-            name="options-sharp"
-            size={30}
-            color="black"
-          />
 
-        </TouchableOpacity>
+        <View style={{ flexDirection:"row" }}>
+          <TouchableOpacity
+            style={[styles.input, { marginVertical: 7 }]}
+            onPress={overlayFilterButton}
+          >
+            <Icon3
+              style={styles.input}
+              name="options-sharp"
+              size={30}
+              color="black"
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.clearFilterButton}
+            onPress={viewUsers}
+          >
+            <Text>Clear Filters</Text>
+          </TouchableOpacity>
+        </View>
         {overlayFilterClicked && (
           <FilterOverlay setUserList={setUserList} setListState={setListState} overlayFilterButton={overlayFilterButton}/>
         )}
-
-
+        
         {listState && (
           <View styles={styles.flatlist}>
             <FlatList
@@ -255,6 +262,9 @@ const styles = StyleSheet.create({
     zIndex: 5,
     // top: 100,
     // left: 200,
+  },
+  clearFilterButton: {
+    
   },
 });
 export default BirdFeed;

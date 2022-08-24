@@ -127,19 +127,22 @@ const FilterOverlay = ({overlayFilterButton, setUserList, setListState}) => {
   //TODO: How to get priorityCount map in here? It is in matching.js route and is returned to birdfeed, not filterOverlay
   const Filter = async(filterMap) => {
     let userList = [];
+    let apiEndpoint;
     console.log(filterMap);
     
     if (user.role === "Flamingo" || user.role === "Owl") {
-
+      apiEndpoint = `/api/matching/filternohousingtable`;
     }
     else if (user.role === "Parrot" || user.role === "Penguin" || user.role === "Duck") {
-
+      apiEndpoint = `/api/matching/filterhousingtable`;
     }
     //or if show all roles switch is toggled
-    else if (user.role === "Flamingo" || user.role === "Owl") {
+    /*
+    else if (filterMap.showAll == true) {
 
     }
-    Axios.post(`${await Constants.BASE_URL()}/api/matching/filternohousingtable`, {
+    */
+    Axios.post(`${await Constants.BASE_URL()}${apiEndpoint}`, {
       filterMap : JSON.stringify(Array.from(filterMap.entries())),
       user_id : user.id,
     })
