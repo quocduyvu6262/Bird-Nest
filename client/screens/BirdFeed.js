@@ -188,7 +188,6 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   input: {
-    marginLeft: 4,
     alignSelf: "flex-start",
     flexDirection: "row",
     color: "black",

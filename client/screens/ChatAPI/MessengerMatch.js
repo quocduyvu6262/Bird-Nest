@@ -78,10 +78,10 @@ const MessengerMatch = ({sheetRef, setIsOpen, handleSnapPress, userList, setUser
         return <View></View>;
     } else {
     return (
-        <View style={{borderBottomWidth: 0.17, marginTop: 5}}>
+        <View style={{borderBottomWidth: 0.16, marginTop: 5, borderBottomColor: '#cacaca'}}>
             <View style={styles.container}>
                 <Text style={styles.matchText}
-                >Matches! </Text>
+                >New     Matches </Text>
                 <ScrollView
                     style={styles.users}
                     horizontal = {true}>
@@ -107,13 +107,16 @@ const styles = StyleSheet.create({
         flexDirection: "row",
     },
     textContainer: {
-        marginLeft: 10,
+        marginLeft: 5,
         marginTop: 5,
         marginBottom: 5,
         alignSelf: 'flex-start',
         alignItems:'center',
     },
     matchText: {
+        // Potential Fonts: Arial, DamascusLight
+        fontFamily: "DiwanMishafi",
+        color: "#6736B6",
         fontSize: 25,
         marginLeft: 5,
     },

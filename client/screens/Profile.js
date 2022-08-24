@@ -425,7 +425,6 @@ const Profile = ({ navigation }) => {
 
           <InfoCard>
             {!buttonClicked && <BioInfo bio={
-              data.userInfo.pronouns + "\n" + 
               data.userInfo.bio}></BioInfo>}
 
             {buttonClicked && (
@@ -458,6 +457,7 @@ const Profile = ({ navigation }) => {
           {interestButtonClicked && (
             <InfoCard>
               <InterestInfo
+                pronouns={data.userInfo.pronouns}
                 pets={data.userInfo.pets}
                 alc={data.userInfo.alcohol}
                 guests={data.userInfo.guests}
@@ -547,12 +547,22 @@ const InterestInfo = (props) => {
   return (
     <View style={styles.interestContainer}>
       <Text style = {styles.text}>
+        What I go by:
+      </Text>
+
+      <Tags 
+        initialTags={[
+          props.pronouns
+        ]}
+      readonly={true}/>
+
+      <Text style = {styles.text}>
         What I have:
       </Text>
+
       <Tags 
         initialTags={iHave.filter(n=>n)}
       readonly={true}/>
-
       <Text style = {styles.text}>What I am okay with: </Text>
       <Tags
         initialTags={[

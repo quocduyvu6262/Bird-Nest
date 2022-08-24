@@ -36,6 +36,10 @@ const UserProfile = ({ navigation, route }) => {
   const item = route.params.item;
   const user = item.item.info;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/Elie
   const roomInfoButton = () => {
     setButtonClicked(true);
   };
@@ -55,6 +59,10 @@ const UserProfile = ({ navigation, route }) => {
       return url;
     }
   }
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/Elie
   return (
     <SafeAreaView style={styles.container}>
       <MainHeader screen={`${user.firstname}'s Profile`} navigation={navigation} />
@@ -63,9 +71,12 @@ const UserProfile = ({ navigation, route }) => {
           <UserCard
             name={user.firstname + " " + user.lastname} 
             genderage={user.gender + ", " + user.age}
+<<<<<<< HEAD
             id={user.id}
             avatar={user.profilepic}
             picList={user.picsList}
+=======
+>>>>>>> origin/Elie
           />
           <View style={styles.buttonContainer}>
 
