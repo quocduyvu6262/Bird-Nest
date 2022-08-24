@@ -230,6 +230,16 @@ router.post('/token', (req, res) => {
         });
     });
 });
+router.post('/getToken', (req, res) => {
+    var user_id = req.body.user_id;
+    const query = `SELECT token FROM BirdNest.User WHERE id = ${user_id}`;
+    db(client => {
+        client.query(query, (err, result) => {
+            if(err) throw err;
+            res.send(result);
+        });
+    });
+});
 router.post('/matches', (req, res) => {
     var user_id = req.body.user_id;
     const query = `SELECT matches FROM BirdNest.User WHERE id = ${user_id}`;

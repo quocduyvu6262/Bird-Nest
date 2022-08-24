@@ -476,7 +476,7 @@ class Personality extends Component {
             this.changeMultipleColor(this.state16, this.state15, this.state17)
             this.props.dispatch(dataActions.updatePersonality(this.state16.name))
           }}>
-            <Text style = {HousingQ_styles.buttonText}>Amivert</Text>
+            <Text style = {HousingQ_styles.buttonText}>Ambivert</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[this.state17, HousingQ_styles.buttonContainerYes5]}
           onPress={()=>{

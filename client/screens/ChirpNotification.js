@@ -173,8 +173,14 @@ const ChirpNotification = ({ navigation }) => {
     dispatch(dataActions.updateNotiSeen(count1));
   }
   let count = -1
+  let original = true;
+  let remake = false;
   var notis = pics.map(function(image) {
    count = count + 1;
+   if(names[count].length >= 20) {
+    original = false;
+    remake = true;
+   }
    let postDate = moment(dates[count]).fromNow()
     if(user.notiSeen[count] == false && user.isMatch[count] == true) {
       return (
@@ -188,10 +194,12 @@ const ChirpNotification = ({ navigation }) => {
           >
           </Image>
           <Text  style = {{fontSize: 14, fontWeight: 'bold', marginLeft: 15}}>{names[count]}</Text>
-          <Text style = {{fontSize: 14}}> is a match!</Text>
+          {original && <Text style = {{fontSize: 14}}> is a match!</Text>}
           <Text style={{ color: '#560CCE', fontWeight: 'bold', fontSize: 10, position: 'absolute', right: 5}}>NEW</Text>
           </View>
-          {<Text style={{ color: '#560CCE', fontWeight: 'bold', fontSize: 10, marginLeft: 75, marginTop: -15}}>{postDate}</Text>}
+          {original && <Text style={{ color: '#560CCE', fontWeight: 'bold', fontSize: 10, marginLeft: 75, marginTop: -15}}>{postDate}</Text>}
+          {remake && <Text style={{fontSize: 14, marginLeft: 75, marginTop: -15}}>is a match!</Text>}
+          {remake && <Text style={{ color: '#560CCE', fontWeight: 'bold', fontSize: 10, marginLeft: 165, marginTop: -15}}>{postDate}</Text>}
         </View>
         
       )
@@ -208,9 +216,11 @@ const ChirpNotification = ({ navigation }) => {
             >
             </Image>
             <Text  style = {{fontSize: 14, fontWeight: 'bold', marginLeft: 15}}>{names[count]}</Text>
-            <Text style = {{fontSize: 14}}> is a match!</Text>
+            {original && <Text style = {{fontSize: 14}}> is a match!</Text>}
           </View>
-          <Text style={{ color: '#560CCE', fontWeight: 'bold', fontSize: 10, marginLeft: 75, marginTop: -15}}>{postDate}</Text>
+          {original && <Text style={{ color: '#560CCE', fontWeight: 'bold', fontSize: 10, marginLeft: 75, marginTop: -15}}>{postDate}</Text>}
+          {remake && <Text style={{fontSize: 14, marginLeft: 75, marginTop: -15}}>is a match!</Text>}
+          {remake && <Text style={{ color: '#560CCE', fontWeight: 'bold', fontSize: 10, marginLeft: 165, marginTop: -15}}>{postDate}</Text>}
         </View>
       )
     }
@@ -226,10 +236,12 @@ const ChirpNotification = ({ navigation }) => {
           >
           </Image>
           <Text  style = {{fontSize: 14, fontWeight: 'bold', marginLeft: 15}}>{names[count]}</Text>
-          <Text style = {{fontSize: 14}}> swiped right!</Text>
+          {original && <Text style = {{fontSize: 14}}> swiped right!</Text>}
           <Text style={{ color: '#560CCE', fontWeight: 'bold', fontSize: 10, position: 'absolute', right: 5}}>NEW</Text>
           </View>
-          <Text style={{ color: '#560CCE', fontWeight: 'bold', fontSize: 10, marginLeft: 75, marginTop: -15}}>{postDate}</Text>
+          {original && <Text style={{ color: '#560CCE', fontWeight: 'bold', fontSize: 10, marginLeft: 75, marginTop: -15}}>{postDate}</Text>}
+          {remake && <Text style={{fontSize: 14, marginLeft: 75, marginTop: -15}}>swiped right!</Text>}
+          {remake && <Text style={{ color: '#560CCE', fontWeight: 'bold', fontSize: 10, marginLeft: 165, marginTop: -15}}>{postDate}</Text>}
         </View>
         
       )
@@ -246,9 +258,11 @@ const ChirpNotification = ({ navigation }) => {
           >
           </Image>
           <Text  style = {{fontSize: 14, fontWeight: 'bold', marginLeft: 15}}>{names[count]}</Text>
-          <Text style = {{fontSize: 14}}> swiped right!</Text>
+          {original && <Text style = {{fontSize: 14}}> swiped right!</Text>}
           </View>
-          <Text style={{ color: '#560CCE', fontWeight: 'bold', fontSize: 10, marginLeft: 75, marginTop: -15}}>{postDate}</Text>
+          {original && <Text style={{ color: '#560CCE', fontWeight: 'bold', fontSize: 10, marginLeft: 75, marginTop: -15}}>{postDate}</Text>}
+          {remake && <Text style={{fontSize: 14, marginLeft: 75, marginTop: -15}}>swiped right!</Text>}
+          {remake && <Text style={{ color: '#560CCE', fontWeight: 'bold', fontSize: 10, marginLeft: 165, marginTop: -15}}>{postDate}</Text>}
         </View>
         
       )

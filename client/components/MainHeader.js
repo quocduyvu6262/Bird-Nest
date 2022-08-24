@@ -151,7 +151,8 @@ const MainHeader = ({ screen, navigation }) => {
           screen === "Profile" ||
           screen === "Bird Feed" ||
           screen === "Messenger Pigeon" ||
-          screen === "Peck View"
+          screen === "Peck View" ||
+          screen === "Chirp Notifications"
         ) && (
           <TouchableOpacity
             onPress={() => {navigation.goBack()}}
@@ -160,6 +161,14 @@ const MainHeader = ({ screen, navigation }) => {
             <Icon name="west" size={30} />
           </TouchableOpacity>
         )}
+        {screen === "Chirp Notifications" && (
+            <TouchableOpacity
+            onPress={() => {navigation.goBack(); dispatch(dataActions.updateNotiSeen()); dispatch(dataActions.updateNotiRead())}}
+            style={styles.backButton}
+          >
+            <Icon name="west" size={30} />
+          </TouchableOpacity>
+          )}
         <View style={styles.contentContainer}>
           {/*  Main Title - conditional render applied */}
           <Text
@@ -193,7 +202,7 @@ const MainHeader = ({ screen, navigation }) => {
 
               <TouchableOpacity
                 style={styles.headerButtons}
-                onPress={() => {navigation.navigate("ChirpNotification"); dispatch(dataActions.updateNotiSeen()); dispatch(dataActions.updateNotiRead())}}
+                onPress={() => {navigation.navigate("ChirpNotification")}}
               >
                 <Image source={require(`../assets/bird.png`)} />
                 {user.notiunRead && <Text style = {{color: 'red', fontWeight: 'bold', position: "absolute", fontSize: 50, left: 15, bottom: -6}}>.</Text>}
