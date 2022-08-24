@@ -234,6 +234,7 @@ const EditProfile = ({ navigation }) => {
           items={neighborhoodItems}
           setValue={setNeighborhoodValue}
           setItems={setNeighborhoodItems}
+          multiple={userInfo.isHousing ? false : true}
           style={{ backgroundColor: "#560CCE" }}
           textStyle={{ fontSize: 18, color: "white", fontWeight: "bold" }}
           dropDownContainerStyle={{ backgroundColor: "#560CCE" }}
