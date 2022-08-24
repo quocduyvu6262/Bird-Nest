@@ -53,7 +53,7 @@ router.post('/create', (req, res) => {
     const checkExistQuery = `SELECT * FROM Housing WHERE User_id = "${user_id}"`
     const insertQuery = `
     INSERT INTO Housing (neighborhood, squarefeet, lease, rent, garage, parking, gym, pool, appliances, furniture, AC, User_id)
-    VALUES ("${housing.neighborhood}", "${housing.city}",
+    VALUES ("${housing.neighborhood}",
      "${housing.squarefeet}", "${housing.lease}", "${housing.rent}", 
      ${housing.garage}, ${housing.parking}, 
      ${housing.gym}, ${housing.pool}, 
