@@ -11,9 +11,9 @@ const UserCard = (props) => {
         <Header>
           {props.name} 
         </Header>
-        <Header>
+        <Text style={styles.header}>
           {props.genderage}
-        </Header>
+        </Text>
     </View>
   );
 };
@@ -23,6 +23,11 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.surface,
     alignItems: "center",
   }, 
+  header: {
+    fontSize: 25,
+    color: theme.colors.primary,
+    fontWeight: 'bold',
+  },
   userImage: {
     borderColor: "#D3D3D3",
     borderRadius: 15,
