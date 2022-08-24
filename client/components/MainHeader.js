@@ -297,6 +297,7 @@ const MainHeader = ({ screen, navigation }) => {
 
               <TouchableOpacity
                 onPress={() => navigation.navigate("EditProfile")}
+                // onPress={() => navigation.navigate("IDQs")}
                 style={styles.headerButtons}
               >
                 <Icon name="edit" size={30} />

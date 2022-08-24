@@ -33,17 +33,22 @@ const ProfileCard = ({ item, index, userID }) => {
 
   // console.log(item.item.info.id);
   // console.log(userID);
-  console.log(item.item.info.User_id);
+  // console.log(item.item.info.User_id);
 
   const swipeUserYes = async () => {
+    console.log(userID);
+    console.log(item.item.info.User_id);
     Axios.post(`${await Constants1.BASE_URL()}/api/history/insertYes`, {
-      user_id: 98,
-      // swiped_id: item.item.info.User_id,
-      swiped_id: 7,
+      user_id: item.item.info.User_id,
+      swiped_id: userID,
+      // user_id: 98,
+      // swiped_id: 7,
     })
       .then((response) => {
         let responseInfo = response.data;
-        console.log(responseInfo);
+        // console.log(responseInfo);
+        if (responseInfo === "") {
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -144,13 +149,19 @@ const ProfileCard = ({ item, index, userID }) => {
             >
               {item.item.info.fullname}
             </Text>
-            <Text style={{ marginLeft: 5, color: "gray" }}>
-              {item.item.info.pronouns}, {item.item.info.age}{" "}
+            <Text style={{ color: "gray" }}>
+              {item.item.info.gender}, {item.item.info.pronouns},{" "}
+              {item.item.info.age}{" "}
             </Text>
           </View>
-          <Text>Rent is ${item.item.info.rent}</Text>
+          <Text>
+            {/* {item.item.info.neighborhood.map(
+              (neighborhood, index) => `${neighborhood}, `
+            )} */}
+            {item.item.info.neighborhood}
+          </Text>
           <View style={styles.barGroup}>
-            <Text>{item.item.info.neighborhood}</Text>
+            <Text>Rent is ${item.item.info.rent}</Text>
             <Text style={styles.bar}> | </Text>
             <Text>{item.item.info.lease} months term</Text>
           </View>
@@ -195,8 +206,8 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
     marginTop: 5,
     marginBottom: 10,
-    flexDirection: "row",
-    alignItems: "flex-end",
+    // flexDirection: "row",
+    // alignItems: "flex-end",
   },
   barGroup: {
     flexDirection: "row",

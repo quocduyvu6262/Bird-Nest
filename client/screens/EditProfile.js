@@ -26,6 +26,9 @@ const EditProfile = ({ navigation }) => {
   const housing = useSelector((state) => state.data.housing);
   const dispatch = useDispatch();
 
+  // console.log(userInfo.id);
+  // console.log(housing);
+
   // state declarations
   const [sliderValue, setSliderValue] = useState(housing.rent);
   const [leaseTerm, setLeaseTerm] = useState(housing.lease);
@@ -47,9 +50,6 @@ const EditProfile = ({ navigation }) => {
     { label: "Sorrento Valley", value: "Sorrento Valley" },
     { label: "Other", value: "Other" },
   ]);
-
-  console.log(userInfo.id);
-  console.log(userInfo.role);
 
   // might need this as a fix later for the dropdown; ignore for now
   //   DropDownPicker.setListMode("SCROLLVIEW");
@@ -224,9 +224,19 @@ const EditProfile = ({ navigation }) => {
           setOpen={setIsNeighborhoodOpen}
           setValue={setNeighborhoodValue}
           setItems={setNeighborhoodItems}
-          onSelectItem={(item) =>
-            dispatch(dataActions.updateNeighborhood(item.value))
-          }
+          onSelectItem={(item) => {
+            if (userInfo.isHousing) {
+              dispatch(dataActions.updateNeighborhood(item.value));
+            } else {
+              dispatch(
+                dataActions.updateNeighborhoodList({
+                  activity: item.value,
+                  add: true,
+                })
+              );
+            }
+            // console.log(item)
+          }}
           style={{ backgroundColor: "#560CCE" }}
           textStyle={{ fontSize: 18, color: "white", fontWeight: "bold" }}
           dropDownContainerStyle={{ backgroundColor: "#560CCE" }}
