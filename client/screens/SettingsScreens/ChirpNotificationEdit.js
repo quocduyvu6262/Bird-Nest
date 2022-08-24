@@ -16,12 +16,50 @@ import MainHeader from "../../components/MainHeader";
 const ChirpNotificationEdit = ({ navigation }) => {
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+  const [isMatch, setIsMatch] = useState(false);
+  const toggleMatch= () => setIsMatch((previousState) => !previousState);
+  
   return (
     <SafeAreaView style={ChirpNotificationEdit_Styles.container}>
       <MainHeader screen="Chirp Notification" navigation={navigation} />
-      <Text>Chirp Notification Page</Text>
       <Text style={ChirpNotificationEdit_Styles.pushNotification}>
-        Push Notification
+        Enable Push Notifications
+      </Text>
+
+      <Switch
+        style={ChirpNotificationEdit_Styles.switchButton}
+        trackColor={{ false: "%767577", true: "green" }}
+        thumbColor={isEnabled ? "#white" : "white"}
+        onValueChange={toggleSwitch}
+        value={isEnabled}
+      ></Switch>
+      
+      <Text style={ChirpNotificationEdit_Styles.pushNotification}>
+        Matches
+      </Text>
+
+      <Switch
+        style={ChirpNotificationEdit_Styles.switchButton}
+        trackColor={{ false: "%767577", true: "green" }}
+        thumbColor={isEnabled ? "#white" : "white"}
+        onValueChange={toggleMatch}
+        value={isMatch}
+      ></Switch>
+
+      <Text style={ChirpNotificationEdit_Styles.pushNotification}>
+        Peck Yes
+      </Text>
+
+      <Switch
+        style={ChirpNotificationEdit_Styles.switchButton}
+        trackColor={{ false: "%767577", true: "green" }}
+        thumbColor={isEnabled ? "#white" : "white"}
+        onValueChange={toggleSwitch}
+        value={isEnabled}
+      ></Switch>
+
+      <Text style={ChirpNotificationEdit_Styles.pushNotification}>
+        New Messenger Pigeon Messages
       </Text>
 
       <Switch
@@ -43,8 +81,7 @@ const ChirpNotificationEdit_Styles = StyleSheet.create({
     backgroundColor: "white",
   },
   pushNotification: {
-    marginTop: 40,
-    width: 200,
+    marginTop: 30,
     height: 50,
     backgroundColor: "#560CCE",
     fontSize: 25,

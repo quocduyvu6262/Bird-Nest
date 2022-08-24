@@ -24,10 +24,12 @@ import Settings from "./screens/SettingsScreens/Settings";
 import ChirpNotificationEdit from "./screens/SettingsScreens/ChirpNotificationEdit.js";
 import HelpSupport from "./screens/SettingsScreens/HelpSupport.js";
 import TermsOfService from "./screens/SettingsScreens/TermsOfService.js";
+import AboutUs from "./screens/SettingsScreens/AboutUs.js"
 import NoHousingQ from "./screens/Questionnaires/NoHousingQ.js";
 import HasHousingQ from "./screens/Questionnaires/HasHousingQ.js";
 import Personality from "./screens/Questionnaires/Personality.js";
 import BasicInfo from "./screens/Questionnaires/BasicInfo.js";
+import UserProfile from "./components/UserProfile.js";
 
 // IMPORT CHAT NAVIGATOR
 import ChatNavigator from "./screens/ChatAPI/ChatNavigator";
@@ -113,6 +115,7 @@ export default function App() {
             />
             <Stack.Screen name="HelpSupport" component={HelpSupport} />
             <Stack.Screen name="TermsOfService" component={TermsOfService} />
+            <Stack.Screen name="AboutUs" component={AboutUs} />
             <Stack.Screen
               name="ChirpNotification"
               component={ChirpNotification}
@@ -124,6 +127,7 @@ export default function App() {
             <Stack.Screen name="Personality" component={Personality} />
             <Stack.Screen name="Roles" component={Roles} />
             <Stack.Screen name="History" component={History} />
+            <Stack.Screen name="UserProfile" component={UserProfile} />
           </Stack.Navigator>
         </NavigationContainer>
       </GestureHandlerRootView>
