@@ -75,7 +75,7 @@ router.post('/create', (req, res) => {
      ${housing.garage}, ${housing.parking}, 
      ${housing.gym}, ${housing.pool}, 
      ${housing.appliances}, ${housing.furniture}, ${housing.AC}, ${user_id})`;
-    const updateQuery = `UPDATE NoHousing SET neighborhood=${JSON.stringify(JSON.stringify(housing.neighborhoodList))}, city="${housing.city}", 
+    const updateQuery = `UPDATE NoHousing SET neighborhood=${JSON.stringify(JSON.stringify(housing.neighborhoodList))}, 
         squarefeet="${housing.squarefeet}", lease="${housing.lease}", rent="${housing.rent}", 
         garage=${housing.garage.toString()}, parking=${housing.parking.toString()}, gym=${housing.gym.toString()}, pool=${housing.pool.toString()}, 
         appliances=${housing.appliances.toString()}, furniture=${housing.furniture.toString()}, AC=${housing.AC.toString()} WHERE User_id=${user_id}`;

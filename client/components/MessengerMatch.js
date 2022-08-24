@@ -16,7 +16,12 @@ import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
 import { useDispatch, useSelector } from "react-redux";
 import { StreamChat } from 'stream-chat';
 import Constants from '../constants/constants';
-import {getChatUID, removeItem} from '../utils/getChatUID';
+import {getChatUID, 
+    removeItem, 
+    updateMatchedUserChatSecureStore,
+    updateMatchedChatUserDatabase,
+    viewMatchedUserChat
+} from '../utils/helper';
 import data, * as dataActions from '../redux/slices/data'
 
 const chatClient = StreamChat.getInstance(Constants.CHAT_API_KEY);
@@ -27,53 +32,12 @@ const MessengerMatch = () => {
     /**
      * Declare states
      */
-    const [secondUserChatUIDList, setSecondUserChatUIDList] = useState([])
     const dispatch = useDispatch();
-    const [userList, setUserList] = useState([[{}]])
-    const [wait, setWait] = useState(false);
+    const [userList, setUserList] = useState([]);
+    const [wait, setWait] = useState(true);
     const user = useSelector(state => state.data.userInfo);
     const userID = getChatUID(user.fullname, user.uid);
     
-    /**
-     * TODO: add function header
-     */
-    const viewMatchedUsers = async (uidListParam) => {
-        if(uidListParam && uidListParam.length == 0){
-            setUserList([]);
-            return;
-        }
-        // post the list matched ID
-        Axios.post(`${await Constants.BASE_URL()}/api/chat/getMatchedChatUsersFromList`, {
-            uidList: uidListParam,
-        })
-        .then((response) => {
-            let userData = response.data;
-            // manually push all but last, then setUserList on last user to trigger FlatList rerender
-            // reason is that FlatList will not re-render unless setUserList is properly called
-            // but setUserList (setState) will only set state once
-            setUserList(userData)
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-        setWait(true);
-    };
-
-    /**
-     * TODO: add function header
-     */
-    const secondUser = async () => {
-        let secondUserIDs = []
-        for (let i = 0; i < userList.length; i++) {
-            if (typeof userList[i].fullname == "undefined" || typeof userList[i].uid == "undefined") {
-                console.log("FUCK");
-            } else {
-                const secondUserID = getChatUID(userList[i].fullname, userList[i].uid)
-                secondUserIDs.push(secondUserID)
-            }
-        }
-        setSecondUserChatUIDList(secondUserIDs);
-    }
 
     /**
      * TODO: add function header
@@ -101,7 +65,11 @@ const MessengerMatch = () => {
                     onPress={()=>{
                         const newMatchedUserList = removeItem(user.matchedChat, clickedUser.id);
                         dispatch(dataActions.updateMatchedChat(newMatchedUserList));
-                        viewMatchedUsers(newMatchedUserList);
+                        updateMatchedUserChatSecureStore(user, newMatchedUserList);
+                        //updateMatchedChatUserDatabase(user.id, newMatchedUserList);
+                        setUserList(userList.filter(user => {
+                            return !(user.id == clickedUser.id);
+                        }));
                     }}
                     >
                     <Image 
@@ -120,7 +88,10 @@ const MessengerMatch = () => {
      * Use effect
      */
     useEffect(() => {
-        viewMatchedUsers(user.matchedChat);
+        viewMatchedUserChat(user.matchedChat).then(({data}) => {
+            // data is the list of matched user
+            setUserList(data);
+        });
     }, []);
 
 
@@ -139,10 +110,10 @@ const MessengerMatch = () => {
                 <Text style={styles.matchText}
                 >Matches! </Text>
                 <ScrollView
-                    style={styles.user}
+                    style={styles.users}
                     horizontal = {true}>
                     {/* For loop */}
-                    {wait && userList.map((user,i) => {return (
+                    {userList.map((user,i) => {return (
                         <MatchLoad 
                             key={i}
                             name={user.fullname}
