@@ -104,7 +104,7 @@ const UserProfile = ({ navigation, route }) => {
               <RentInfo
                 rent={user.rent}
                 lease={user.lease}
-                neighborhood={user.isHousing ? user.neighborhood : user.neighborhoodList.join(", ")}
+                neighborhood={user.isHousing ? user.neighborhood : user.neighborhood.join(", ")}
                 garage={user.garage}
                 parking={user.parking}
                 gym={user.gym}
