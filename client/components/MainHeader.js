@@ -180,11 +180,24 @@ const MainHeader = ({ screen, navigation }) => {
           screen === "Profile" ||
           screen === "Bird Feed" ||
           screen === "Messenger Pigeon" ||
-          screen === "Peck View"
+          screen === "Peck View" ||
+          screen === "Chirp Notifications"
         ) && (
           <TouchableOpacity
             onPress={() => {
               navigation.goBack();
+            }}
+            style={styles.backButton}
+          >
+            <Icon name="west" size={30} />
+          </TouchableOpacity>
+        )}
+        {screen === "Chirp Notifications" && (
+          <TouchableOpacity
+            onPress={() => {
+              navigation.goBack();
+              dispatch(dataActions.updateNotiSeen());
+              dispatch(dataActions.updateNotiRead());
             }}
             style={styles.backButton}
           >
@@ -226,8 +239,6 @@ const MainHeader = ({ screen, navigation }) => {
                 style={styles.headerButtons}
                 onPress={() => {
                   navigation.navigate("ChirpNotification");
-                  dispatch(dataActions.updateNotiSeen());
-                  dispatch(dataActions.updateNotiRead());
                 }}
               >
                 <Image source={require(`../assets/bird.png`)} />

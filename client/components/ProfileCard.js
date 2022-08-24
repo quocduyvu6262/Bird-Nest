@@ -17,8 +17,11 @@ import {
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import { RectButton } from "react-native-gesture-handler";
 import { BounceIn } from "react-native-reanimated";
+import Axios from "axios";
+import Constants1 from "../constants/constants.js";
+// import { useSelector, useDispatch } from "react-redux";
 
-const ProfileCard = ({ item, index }) => {
+const ProfileCard = ({ item, index, userID }) => {
   const opacityTransition = useRef(new Animated.Value(0)).current;
   const translation = useRef(
     new Animated.ValueXY({
@@ -26,6 +29,26 @@ const ProfileCard = ({ item, index }) => {
       y: -400,
     })
   ).current;
+  // const user = useSelector((state) => state.data.userInfo);
+
+  // console.log(item.item.info.id);
+  // console.log(userID);
+  console.log(item.item.info.User_id);
+
+  const swipeUserYes = async () => {
+    Axios.post(`${await Constants1.BASE_URL()}/api/history/insertYes`, {
+      user_id: 98,
+      // swiped_id: item.item.info.User_id,
+      swiped_id: 7,
+    })
+      .then((response) => {
+        let responseInfo = response.data;
+        console.log(responseInfo);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   const renderRightActions = (progress, dragX) => {
     const trans = dragX.interpolate({
@@ -41,7 +64,7 @@ const ProfileCard = ({ item, index }) => {
           },
         ]}
       >
-        <TouchableOpacity style={styles.swipeButton}>
+        <TouchableOpacity onPress={swipeUserYes} style={styles.swipeButton}>
           <Text>Yes</Text>
         </TouchableOpacity>
       </Animated.View>
