@@ -36,10 +36,10 @@ import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
 import MainHeader from "../components/MainHeader.js";
 import Constants from "../constants/constants.js";
 import barackObama from "../assets/barackObama.jpeg";
-import FilterOverlay from "../components/FilterOverlay.js";
+import FilterOverlay from "../components/Overlay/FilterOverlay.js";
 import Icon3 from "react-native-vector-icons/Ionicons";
 import { useSelector, useDispatch } from "react-redux";
-
+import UserProfile from "../components/UserProfile.js";
 
 
 const BirdFeed = ({ navigation }) => {
@@ -170,8 +170,8 @@ const BirdFeed = ({ navigation }) => {
               data={userList}
               extraData={userList}
               renderItem={(item) => (
-                <TouchableOpacity >
-                    <ProfileCard item={item} />
+                <TouchableOpacity onPress={() => navigation.navigate("UserProfile", {item})}>
+                    <ProfileCard item={item}/>
                </TouchableOpacity>
             )}
             />
