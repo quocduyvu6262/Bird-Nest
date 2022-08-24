@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 
 
 
-const ChatOverlay = ({sheetRef, snapPoints, setIsOpen, handleSendMessage, clickedUser}) => {
+const ChatOverlay = ({sheetRef, snapPoints, setIsOpen, handleSendMessageChatOverlay, clickedUser}) => {
     const [message, setMessage] = useState("");
     const user = useSelector(state => state.data.userInfo);
     return (
@@ -26,7 +26,7 @@ const ChatOverlay = ({sheetRef, snapPoints, setIsOpen, handleSendMessage, clicke
                     />
                     <TouchableOpacity
                         onPress={() => {
-                            handleSendMessage(user, clickedUser, message)
+                            handleSendMessageChatOverlay(user, clickedUser, message)
                         }}
                     >
                         <Text style={styles.sendButton}>Send</Text>

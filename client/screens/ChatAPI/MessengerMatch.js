@@ -28,13 +28,12 @@ import data, * as dataActions from '../../redux/slices/data'
 const chatClient = StreamChat.getInstance(Constants.CHAT_API_KEY);
 
 
-const MessengerMatch = ({sheetRef, setIsOpen, handleSnapPress}) => {
+const MessengerMatch = ({sheetRef, setIsOpen, handleSnapPress, userList, setUserList}) => {
 
     /**
      * Declare states
      */
     const dispatch = useDispatch();
-    const [userList, setUserList] = useState([]);
     const user = useSelector(state => state.data.userInfo);
 
     /**
@@ -47,13 +46,6 @@ const MessengerMatch = ({sheetRef, setIsOpen, handleSnapPress}) => {
                 <TouchableOpacity 
                     style={styles.textContainer}
                     onPress={()=>{
-                        // const newMatchedUserList = removeItem(user.matchedChat, clickedUser.id);
-                        // dispatch(dataActions.updateMatchedChat(newMatchedUserList));
-                        // updateMatchedUserChatSecureStore(user, newMatchedUserList);
-                        // //updateMatchedChatUserDatabase(user.id, newMatchedUserList);
-                        // setUserList(userList.filter(user => {
-                        //     return !(user.id == clickedUser.id);
-                        // }));
                         handleSnapPress(0, clickedUser);
                     }}
                     >

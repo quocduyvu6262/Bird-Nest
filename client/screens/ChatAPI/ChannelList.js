@@ -8,7 +8,11 @@ import { Text, SafeAreaView, LogBox, StatusBar, View, StyleSheet} from 'react-na
 import { useDispatch, useSelector } from 'react-redux';
 import MainHeader from '../../components/MainHeader';
 import MessengerMatch from './MessengerMatch';
-import {getChatUID} from '../../utils/helper';
+import {getChatUID, 
+    removeItem, 
+    updateMatchedUserChatSecureStore,
+} from '../../utils/helper';
+import data, * as dataActions from '../../redux/slices/data'
 import ChatOverlay from '../../components/Overlay/ChatOverlay';
 
 LogBox.ignoreLogs([
@@ -21,7 +25,9 @@ export default ChannelListScreen = (props, navigation) => {
     /**
      * Declare state
      */
+    const [userList, setUserList] = useState([]);
     const user = useSelector(state => state.data.userInfo);
+    const dispatch = useDispatch();
     const sheetRef = useRef(null);
     const [isOpen, setIsOpen] = useState(false);
     const snapPoints = ["50%"];
@@ -39,13 +45,32 @@ export default ChannelListScreen = (props, navigation) => {
     /**
      * Handle send message for chat overlay
      */
-    const handleSendMessage = async (currentUser, selectedUser, message) => {
-        const selectedUserChatUID = getChatUID(selectedUser.fullname, selectedUser.uid);
-        const currentUserChatUID = getChatUID(currentUser.fullname, currentUser.uid);
-        const channel = chatClient.channel('messaging',{
-            members: [currentUserChatUID, selectedUserChatUID]
-        });
-        await channel.create();
+    const handleSendMessageChatOverlay = async (currentUser, selectedUser, message) => {
+        if(message && message.length){
+            // create channel
+            const selectedUserChatUID = getChatUID(selectedUser.fullname, selectedUser.uid);
+            const currentUserChatUID = getChatUID(currentUser.fullname, currentUser.uid);
+            const channel = chatClient.channel('messaging',{
+                members: [currentUserChatUID, selectedUserChatUID]
+            });
+            await channel.create();
+            // send message and navigate to channel
+            const messageToSend = await channel.sendMessage({
+                text: message,
+                mentioned_users: [currentUserChatUID]
+            });
+            props.navigation.navigate('ChannelScreen', {channel});
+            // update UI
+            setIsOpen(false);
+            // remove bubble
+            const newMatchedUserList = removeItem(user.matchedChat, clickedUser.id);
+            dispatch(dataActions.updateMatchedChat(newMatchedUserList));
+            updateMatchedUserChatSecureStore(user, newMatchedUserList);
+            //updateMatchedChatUserDatabase(user.id, newMatchedUserList);
+            setUserList(userList.filter(user => {
+                return !(user.id == clickedUser.id);
+            }));
+        }
     }
 
     /**
@@ -67,7 +92,10 @@ export default ChannelListScreen = (props, navigation) => {
         <SafeAreaView style={styles.container}>
             <View style={{flex:1, opacity: isOpen ? 0.2 : 1}}>
                 <MainHeader screen="Messenger Pigeon" navigation={navigation}/>
-                <MessengerMatch sheetRef={sheetRef} setIsOpen={setIsOpen} handleSnapPress={handleSnapPress}/>
+                <MessengerMatch sheetRef={sheetRef} setIsOpen={setIsOpen} 
+                                handleSnapPress={handleSnapPress}
+                                userList={userList}
+                                setUserList={setUserList}/>
                 <ChannelList
                     onSelect={(channel) => {
                         const { navigation } = props;
@@ -78,7 +106,7 @@ export default ChannelListScreen = (props, navigation) => {
                 />
             </View>
             {isOpen && <ChatOverlay sheetRef={sheetRef} snapPoints={snapPoints} setIsOpen={setIsOpen}
-                                    handleSendMessage={handleSendMessage}
+                                    handleSendMessageChatOverlay={handleSendMessageChatOverlay}
                                     clickedUser={clickedUser}/>}
         </SafeAreaView>
     )
