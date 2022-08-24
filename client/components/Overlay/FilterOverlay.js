@@ -15,9 +15,9 @@ import { Icon } from "@rneui/themed";
 import Icon2 from "react-native-vector-icons/Ionicons";
 import { Slider } from "@rneui/themed";
 import DropDownPicker from "react-native-dropdown-picker";
-import Buttons from "./Button.js";
+import Buttons from "../Button.js";
 import { useDispatch, useSelector } from "react-redux";
-import * as dataActions from '../redux/slices/data';
+import * as dataActions from '../../redux/slices/data';
 
 
 const FilterOverlay = ({overlayFilterButton}) => {

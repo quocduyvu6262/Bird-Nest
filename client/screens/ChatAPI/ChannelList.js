@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState, useCallback} from 'react';
 import {
     ChannelList,
 } from 'stream-chat-expo';
@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import MainHeader from '../../components/MainHeader';
 import MessengerMatch from './MessengerMatch';
 import {getChatUID} from '../../utils/helper';
-import {Overlay} from 'react-native-elements';
+import ChatOverlay from '../../components/Overlay/ChatOverlay';
 
 LogBox.ignoreLogs([
     'Non-serializable values were found in the navigation state',
@@ -23,11 +23,15 @@ export default ChannelListScreen = (props, navigation) => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.data.userInfo);
     const userID = getChatUID(user.fullname , user.uid);
-    const [visible, setVisible] = useState(false);
-    const toggleOverlay = () => {
-        setVisible(!visible);
-    };
-    
+        // for chat overlay
+    const sheetRef = useRef(null);
+    const [isOpen, setIsOpen] = useState(false);
+    const snapPoints = ["60%"];
+    const handleSnapPress = useCallback(index => {
+        sheetRef.current?.snapToIndex(index);
+        setIsOpen(true);
+    },[])
+
     const filters = {
         members: {
             '$in': [`${userID}`]
@@ -37,29 +41,28 @@ export default ChannelListScreen = (props, navigation) => {
         last_message_at: -1
     }
     return(
-        <SafeAreaView style = {{flex: 1, paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0, backgroundColor: "white",}}>
-            <MainHeader screen="Messenger Pigeon" navigation={navigation} />
-            <MessengerMatch setVisible={setVisible}/>
-            <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
-                <View style={styles.overlayContainer}>
-                    <Text>Hello from Overlay!</Text>
-                </View>
-            </Overlay>
-            <ChannelList
-                onSelect={(channel) => {
-                    const { navigation } = props;
-                    navigation.navigate('ChannelScreen', {channel});
-                }}
-                filters={filters}
-                sort={sort}
-        />
+        <SafeAreaView style={styles.container}>
+            <View style={{flex:1, opacity: isOpen ? 0.2 : 1}}>
+                <MainHeader screen="Messenger Pigeon" navigation={navigation}/>
+                <MessengerMatch sheetRef={sheetRef} setIsOpen={setIsOpen} handleSnapPress={handleSnapPress}/>
+                <ChannelList
+                    onSelect={(channel) => {
+                        const { navigation } = props;
+                        navigation.navigate('ChannelScreen', {channel});
+                    }}
+                    filters={filters}
+                    sort={sort}
+                />
+            </View>
+            {isOpen && <ChatOverlay sheetRef={sheetRef} snapPoints={snapPoints} setIsOpen={setIsOpen}/>}
         </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
-    overlayContainer:{
-        height: "20%",
-        width: 300
+    container: {
+        flex: 1, 
+        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0, 
+        backgroundColor: "white",
     }
 })

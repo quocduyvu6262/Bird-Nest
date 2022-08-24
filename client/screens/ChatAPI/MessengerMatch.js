@@ -22,13 +22,13 @@ import {getChatUID,
     updateMatchedChatUserDatabase,
     viewMatchedUserChat
 } from '../../utils/helper';
-import { Overlay } from 'react-native-elements';
+import BottomSheet, {BottomSheetView} from '@gorhom/bottom-sheet';
 import data, * as dataActions from '../../redux/slices/data'
 
 const chatClient = StreamChat.getInstance(Constants.CHAT_API_KEY);
 
 
-const MessengerMatch = ({setVisible}) => {
+const MessengerMatch = ({sheetRef, setIsOpen, handleSnapPress}) => {
 
     /**
      * Declare states
@@ -54,7 +54,7 @@ const MessengerMatch = ({setVisible}) => {
                         // setUserList(userList.filter(user => {
                         //     return !(user.id == clickedUser.id);
                         // }));
-                        setVisible(true);
+                        handleSnapPress(0);
                     }}
                     >
                     <Image 
@@ -75,9 +75,7 @@ const MessengerMatch = ({setVisible}) => {
             // data is the list of matched user
             setUserList(data);
         });
-    }, []);
-
-
+    },[]);
     /**
      * Render logic
      */
@@ -95,7 +93,6 @@ const MessengerMatch = ({setVisible}) => {
                 <ScrollView
                     style={styles.users}
                     horizontal = {true}>
-                    {/* For loop */}
                     {userList.map((user,i) => {return (
                         <MatchLoad 
                             key={i}
