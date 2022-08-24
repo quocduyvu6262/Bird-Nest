@@ -5,6 +5,7 @@ const db = require("../utils/database");
 const router = express.Router();
 const priorityQueue = require('../utils/priorityQueue');
 
+/*
 router.post('/lookingforhousing', (req, res) => { // input
 	let provided_id = req.body.user_id; //temporary until ID is provided by front-end
 	priorityQueue.clear();
@@ -12,7 +13,7 @@ router.post('/lookingforhousing', (req, res) => { // input
 	const getHousingQuery = "SELECT User.*, Housing.* FROM BirdNest.User JOIN BirdNest.Housing ON User.id = Housing.User_id";
 	db(client => {
 		var must_have_map = new Map();
-		client.query(`SELECT * FROM BirdNest.NoHousing WHERE User_id = ${provided_id}`, //replaced NoHousing with MustHave
+		client.query(`SELECT * FROM BirdNest.NoHousing WHERE User_id = ${provided_id}`,
 			(err, result) => {
 				if(err) throw err;
 				const provided_values = result;
@@ -48,12 +49,12 @@ router.post('/lookingforhousing', (req, res) => { // input
 							count: count
 						})
 					});
-					console.log(priorityQueue.toArray().length)
 					res.send(priorityQueue.toArray());
 				});
 		});
 	});
 });
+*/
 
 router.post('/lookingfornohousing', (req, res) => { // input
 	let provided_id = req.body.user_id; //temporary until ID is provided by front-end
@@ -66,6 +67,7 @@ router.post('/lookingfornohousing', (req, res) => { // input
 			(err, result) => {
 				if(err) throw err;
 				const provided_values = result;
+				//console.log(provided_values);
 				//add the following matching variables to the map
 				must_have_map.set("neighborhood", provided_values[0].neighborhood);
 				must_have_map.set("lease", provided_values[0].lease);
@@ -80,6 +82,7 @@ router.post('/lookingfornohousing', (req, res) => { // input
 				client.query(getNoHousingQuery, (err, result) => {
 					if(err) throw err;
 					const housings = result;
+					//console.log(housings);
 					housings.forEach(housing => {
 						let priorityCount = 0;
 						let count = 0;
@@ -97,6 +100,7 @@ router.post('/lookingfornohousing', (req, res) => { // input
 							priorityCount: priorityCount,
 							count: count
 						})
+						//console.log(housing.User_id);
 					});
 					res.send(priorityQueue.toArray());
 				});
@@ -105,20 +109,21 @@ router.post('/lookingfornohousing', (req, res) => { // input
 });
 
 
-//Flamingo, Owl
+
+//Filter the results of Flamingo, Owl seeing Parrot, Penguin, Duck (Nohousing table). Uses lookingfornohousing (NoHousing)
 //TODO: Rent variable is <= if you have a nohousing role and >= if you have a housing role so filter does depend on role for that variable only
-router.post('/filternohousing', (req, res) => {
+router.post('/filternohousingtable', (req, res) => {
 	let provided_id = req.body.user_id;
 	priorityQueue.clear();
 	//TODO: Sort in order of matching algorithm.
-    //neighborhoodList, rent, lease, square feet, parking, gym, pool, appliances, furniture, AC
-    //if booleans are false don't filter by them
     const filterMap = new Map(JSON.parse(req.body.filterMap));
-	const getHousingQuery = "SELECT User.*, Housing.* FROM BirdNest.User JOIN BirdNest.Housing ON User.id = Housing.User_id";
+	//Query to get all other users in NoHousing
+	const getNoHousingQuery = "SELECT User.*, NoHousing.* FROM BirdNest.User JOIN BirdNest.NoHousing ON User.id = NoHousing.User_id";
 	let nohousingQuery = "SELECT * FROM NoHousing JOIN User ON NoHousing.User_id = User.id WHERE ";
+	//BUILD FILTER QUERY
     for (var [key, value] of filterMap.entries()) {
 		//skip unselected switches
-		if (value == 0 || false) { //0 or false
+		if (value == 0 || false) { 
 			continue;
 		}
 		else if (value == true) {
@@ -146,16 +151,21 @@ router.post('/filternohousing', (req, res) => {
 	//remove extra AND
 	let filterQuery = nohousingQuery.slice(0, nohousingQuery.length -4) + ";";
 	console.log(filterQuery);
+
 	//GET PRIORITY COUNT
     db(client => {
         client.query(filterQuery, (err, filterResult) => {
+			//If result, use priorityCount on that
+			//console.log("FILTER RESULT:")
+			//console.log(filterResult);
             if(!err && filterResult.length){
 				var must_have_map = new Map();
-				//Matching Query
-				client.query(`SELECT * FROM BirdNest.NoHousing WHERE User_id = ${provided_id}`, //replaced NoHousing with MustHave
-					(err, result) => {
+				//Gets current user's housing data
+				client.query(`SELECT * FROM BirdNest.Housing WHERE User_id = ${provided_id}`, (err, result) => {
 						if(err) throw err;
 						const provided_values = result;
+						//console.log("PROVIDED VALUES:")
+						//console.log(provided_values);
 						//add the following matching variables to the map
 						must_have_map.set("neighborhood", provided_values[0].neighborhood); // array of string
 						must_have_map.set("lease", provided_values[0].lease);
@@ -167,28 +177,31 @@ router.post('/filternohousing', (req, res) => {
 						must_have_map.set("appliances", provided_values[0].appliances);
 						must_have_map.set("furniture", provided_values[0].furniture);
 						must_have_map.set("AC", provided_values[0].AC);
-						client.query(getHousingQuery, (err, result) => {
+						client.query(getNoHousingQuery, (err, result) => {
 							if(err) throw err;
-							const housings = result;
+							const housings = filterResult;
+							//console.log("HOUSINGS:")
+							//console.log(housings);
 							housings.forEach(housing => {
 								let priorityCount = 0;
 								let count = 0;
 								for(const [key, value] of must_have_map){
-									if(key == 'rent' && housing[key] <= value){
+									if(key == 'rent' && housing[key] >= value){
 										priorityCount += 1;
-									} else if(key == 'neighborhood' && value.includes(housing.neighborhood)){
+									} else if(key == 'neighborhood' && housing.neighborhood.includes(value)){
 										count += 1;
 									} else if(value == housing[key]) {
 										count += 1;
 									}
 								}
 								priorityQueue.push({
-									info: filterResult,
+									info: housing,
 									priorityCount: priorityCount,
 									count: count
 								})
 							});
-							console.log(priorityQueue.toArray().length)
+							//console.log(priorityQueue.toArray().length)
+							//console.log(priorityQueue.toArray());
 							res.send(priorityQueue.toArray());
 						});
 				});
@@ -205,7 +218,8 @@ router.post('/filternohousing', (req, res) => {
 })
 
 /*
-router.post('/filterhousing', (req, res) => {
+//Filter the results of Penguin, Duck seeing Flamingo, Owl, Parrot (Housing table)
+router.post('/filterhousingtable', (req, res) => {
 	priorityQueue.clear();
 	//TODO: Sort in order of matching algorithm.
     //neighborhoodList, rent, lease, square feet, parking, gym, pool, appliances, furniture, AC

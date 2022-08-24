@@ -74,13 +74,13 @@ router.post('/create', (req, res) => {
     //Check if user exists in housing table
     const checkExistQuery = `SELECT * FROM Housing WHERE User_id = "${user_id}"`
     const insertQuery = `
-    INSERT INTO Housing (neighborhood, city, squarefeet, lease, rent, garage, parking, gym, pool, appliances, furniture, AC, User_id)
-    VALUES ("${housing.neighborhood}", "${housing.city}",
+    INSERT INTO Housing (address, neighborhood, squarefeet, lease, rent, garage, parking, gym, pool, appliances, furniture, AC, User_id)
+    VALUES ("${housing.address}", "${housing.neighborhood}",
      "${housing.squarefeet}", "${housing.lease}", "${housing.rent}", 
      ${housing.garage}, ${housing.parking}, 
      ${housing.gym}, ${housing.pool}, 
      ${housing.appliances}, ${housing.furniture}, ${housing.AC}, "${user_id}")`;
-    const updateQuery = `UPDATE Housing SET neighborhood="${housing.neighborhood}", city="${housing.city}", 
+    const updateQuery = `UPDATE Housing SET address="${housing.address}", neighborhood="${housing.neighborhood}", 
         squarefeet="${housing.squarefeet}", lease="${housing.lease}", rent="${housing.rent}", 
         garage=${housing.garage.toString()}, parking=${housing.parking.toString()}, gym=${housing.gym.toString()}, pool=${housing.pool.toString()}, 
         appliances=${housing.appliances.toString()}, furniture=${housing.furniture.toString()}, AC=${housing.AC.toString()} WHERE User_id=${user_id}`;

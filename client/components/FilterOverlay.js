@@ -132,21 +132,22 @@ const FilterOverlay = ({overlayFilterButton, setUserList, setListState}) => {
     if (user.role === "Flamingo" || user.role === "Owl") {
 
     }
-    else if (user.role === "Flamingo" || user.role === "Owl") {
+    else if (user.role === "Parrot" || user.role === "Penguin" || user.role === "Duck") {
 
     }
     //or if show all roles switch is toggled
     else if (user.role === "Flamingo" || user.role === "Owl") {
 
     }
-    Axios.post(`${await Constants.BASE_URL()}/api/matching/filternohousing`, {
+    Axios.post(`${await Constants.BASE_URL()}/api/matching/filternohousingtable`, {
       filterMap : JSON.stringify(Array.from(filterMap.entries())),
       user_id : user.id,
     })
-    .then(async(filteredUsers, priorityCount) => {
+    .then((filteredUsers) => {
       filterUserData = filteredUsers.data;
       //priorityCountData = priorityCount.data;
-      console.log(filterUserData);
+      //console.log("FILTERUSEDATA");
+      //console.log(filterUserData);
       //console.log(priorityCountData);
       //filteredUserList = filteredUsers.data;
 
@@ -155,28 +156,33 @@ const FilterOverlay = ({overlayFilterButton, setUserList, setListState}) => {
       for (let i = 0; i < filterUserData.length - 1; i++) {
         //skip seeing yourself
         if (filterUserData[i].User_id != user.id) {
+          //console.log(filterUserData[i].fullname);
+          //console.log(filterUserData[i].neighborhood);
+          //console.log(filterUserData[i].priorityCount);
+          //console.log(filterUserData[i].count);
           userList.push({
-            name: filterUserData[i].fullname,
-            city: filterUserData[i].city,
+            name: filterUserData[i].info.fullname,
+            neighborhoood: filterUserData[i].info.neighborhood,
           });
         }
       }
       setUserList((prevList) => [
         ...userList,
         {
-          name: filterUserData[filterUserData.length - 1].fullname,
-          city: filterUserData[filterUserData.length - 1].city,
+          name: filterUserData[filterUserData.length - 1].info.fullname,
+          neighborhood: filterUserData[filterUserData.length - 1].info.neighborhood,
         },
       ]);
+      userList.reverse();
       setListState(true);
     })
     .catch(err => {
       console.log(err);
       console.log("Failed to filter users");
       setListState(false);
-
     })
 
+    console.log("USERLIST");
     console.log(userList);
   }
 
