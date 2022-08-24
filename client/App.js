@@ -29,6 +29,7 @@ import NoHousingQ from "./screens/Questionnaires/NoHousingQ.js";
 import HasHousingQ from "./screens/Questionnaires/HasHousingQ.js";
 import Personality from "./screens/Questionnaires/Personality.js";
 import BasicInfo from "./screens/Questionnaires/BasicInfo.js";
+import UserProfile from "./components/UserProfile.js";
 
 // IMPORT CHAT NAVIGATOR
 import ChatNavigator from "./screens/ChatAPI/ChatNavigator";
@@ -126,6 +127,7 @@ export default function App() {
             <Stack.Screen name="Personality" component={Personality} />
             <Stack.Screen name="Roles" component={Roles} />
             <Stack.Screen name="History" component={History} />
+            <Stack.Screen name="UserProfile" component={UserProfile} />
           </Stack.Navigator>
         </NavigationContainer>
       </GestureHandlerRootView>

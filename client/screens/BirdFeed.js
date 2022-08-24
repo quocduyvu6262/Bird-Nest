@@ -39,7 +39,7 @@ import barackObama from "../assets/barackObama.jpeg";
 import FilterOverlay from "../components/FilterOverlay.js";
 import Icon3 from "react-native-vector-icons/Ionicons";
 import { useSelector, useDispatch } from "react-redux";
-
+import UserProfile from "../components/UserProfile.js";
 
 
 const BirdFeed = ({ navigation }) => {
@@ -170,8 +170,8 @@ const BirdFeed = ({ navigation }) => {
               data={userList}
               extraData={userList}
               renderItem={(item) => (
-                <TouchableOpacity >
-                    <ProfileCard item={item} />
+                <TouchableOpacity onPress={() => navigation.navigate("UserProfile", {item})}>
+                    <ProfileCard item={item}/>
                </TouchableOpacity>
             )}
             />
