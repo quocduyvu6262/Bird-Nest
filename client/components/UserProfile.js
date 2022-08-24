@@ -36,7 +36,6 @@ const UserProfile = ({ navigation, route }) => {
   const item = route.params.item;
   const user = item.item.info;
 
-
   const roomInfoButton = () => {
     setButtonClicked(true);
   };
@@ -56,7 +55,6 @@ const UserProfile = ({ navigation, route }) => {
       return url;
     }
   }
-
   return (
     <SafeAreaView style={styles.container}>
       <MainHeader screen={`${user.firstname}'s Profile`} navigation={navigation} />
@@ -66,8 +64,8 @@ const UserProfile = ({ navigation, route }) => {
             name={user.firstname + " " + user.lastname} 
             genderage={user.gender + ", " + user.age}
             id={user.id}
-            avatar={user.avatar}
-            picList={user.picList}
+            avatar={user.profilepic}
+            picList={user.picsList}
           />
           <View style={styles.buttonContainer}>
 

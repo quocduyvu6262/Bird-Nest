@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+
 const userInfo = {
     id: "",
     uid: "",
@@ -25,6 +26,10 @@ const userInfo = {
     notiunRead: null,
     notiDate: [], //array
     isMatch: [], //array
+
+    // Match
+    matches: [],
+    matchedChat: [],
 
     // BASIC INFO
     pets: [], // array
@@ -274,6 +279,13 @@ export const dataSlice = createSlice({
         updateIsHousing: (state, action) => {
             state.userInfo.isHousing = action.payload;
         },
+        // MATCH
+        updateMatches: (state, action) => {
+            state.userInfo.matches = action.payload;
+        },
+        updateMatchedChat: (state, action) => {
+            state.userInfo.matchedChat = action.payload;
+        },
         // PERSONALITY
         updatePersonality: (state, action) => {
             state.userInfo.personality = action.payload;
@@ -497,6 +509,9 @@ export const {
     updateRoommateInteraction, 
     updateTellRoommateIfBothered,
     updateIsHousing,
+    // MATCH
+    updateMatches,
+    updateMatchedChat,
     // UPDATE PERSONALITY
     updatePersonality,
     updateHogwartHouse,

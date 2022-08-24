@@ -97,27 +97,7 @@ router.post('/no', (req, res) => {
         });
     });
 });
-router.post('/matches', (req, res) => {
-    var user_id = req.body.user_id;
-    const query = `SELECT matches FROM BirdNest.User WHERE id = ${user_id}`;
-    db(client => {
-        let final = [];
-        client.query(query, (err, result) => {
-            if(err) throw err;
-            let matches = JSON.parse(result[0].matches);
-            for(let i = 0; i < matches.length; i++) {
-                const namePic = `SELECT fullname, profilepic, uid FROM BirdNest.User WHERE id = ${matches[i]}`;
-                client.query(namePic, (err, result3) => {
-                    if(err) throw err;
-                    final.push(result3);
-                    if(i == matches.length - 1) {
-                        res.send(final);
-                    }
-                })
-            }
-        });
-    });
-});
+
 router.get('/test', (req, res) => {
     const query = "SELECT * FROM BirdNest.History"
     db(client => {
@@ -160,25 +140,4 @@ router.post('/token', (req, res) => {
     });
 });
 
-router.post('/matches', (req, res) => {
-    var user_id = req.body.user_id;
-    const query = `SELECT matches FROM BirdNest.User WHERE id = ${user_id}`;
-    db(client => {
-        let final = [];
-        client.query(query, (err, result) => {
-            if(err) throw err;
-            let matches = JSON.parse(result[0].matches);
-            for(let i = 0; i < matches.length; i++) {
-                const namePic = `SELECT fullname, profilepic, uid FROM BirdNest.User WHERE id = ${matches[i]}`;
-                client.query(namePic, (err, result3) => {
-                    if(err) throw err;
-                    final.push(result3);
-                    if(i == matches.length - 1) {
-                        res.send(final);
-                    }
-                })
-            }
-        });
-    });
-});
 module.exports = router;
