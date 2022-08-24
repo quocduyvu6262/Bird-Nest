@@ -142,6 +142,9 @@ const styles = StyleSheet.create({
         alignItems:'center',
     },
     matchText: {
+        fontFamily: "Pacifico_400Regular",
+        alignSelf: 'center',
+        fontWeights: {Thin: 100},
         fontSize: 25,
         marginLeft: 5,
     },
