@@ -65,6 +65,9 @@ const UserProfile = ({ navigation, route }) => {
           <UserCard
             name={user.firstname + " " + user.lastname} 
             genderage={user.gender + ", " + user.age}
+            id={user.id}
+            avatar={user.avatar}
+            picList={user.picList}
           />
           <View style={styles.buttonContainer}>
 

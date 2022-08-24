@@ -382,6 +382,7 @@ const Profile = ({ navigation }) => {
           <UserCard
             name={data.userInfo.firstname + " " + data.userInfo.lastname} 
             genderage={data.userInfo.gender + ", " + data.userInfo.age}
+            id={data.userInfo.id}
           />
           <View style={styles.buttonContainer}>
             <TouchableOpacity>

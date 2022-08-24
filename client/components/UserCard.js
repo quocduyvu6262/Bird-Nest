@@ -3,11 +3,18 @@ import { View, Text, StyleSheet, Image, StatusBar } from "react-native";
 import Header from "./Header";
 import { theme } from "../core/theme";
 import CarouselCards from "./ProfileCarousel/CarouselCards";
+import {useSelector} from "react-redux";
+import UserCarouselCards from "./ProfileCarousel/UserCarouselCards";
 
 const UserCard = (props) => {
+  const user = useSelector(state => state.data.userInfo);
   return (
     <View style={styles.card}>
-      <CarouselCards/>
+      {user.id == props.id 
+        ? <CarouselCards avatar={props.avatar} picList={props.picList}/>
+        : <UserCarouselCards avatar={props.avatar} picList={props.picList}/>
+      }
+     
         <Header>
           {props.name} 
         </Header>

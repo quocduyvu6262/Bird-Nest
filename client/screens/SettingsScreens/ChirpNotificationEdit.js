@@ -21,7 +21,7 @@ const ChirpNotificationEdit = ({ navigation }) => {
   
   return (
     <SafeAreaView style={ChirpNotificationEdit_Styles.container}>
-      <MainHeader screen="Chirp Notification" navigation={navigation} />
+      <MainHeader screen="Chirp Notifications" navigation={navigation} />
       <Text style={ChirpNotificationEdit_Styles.pushNotification}>
         Enable Push Notifications
       </Text>
@@ -59,7 +59,7 @@ const ChirpNotificationEdit = ({ navigation }) => {
       ></Switch>
 
       <Text style={ChirpNotificationEdit_Styles.pushNotification}>
-        New Messenger Pigeon Messages
+        New Messages
       </Text>
 
       <Switch
