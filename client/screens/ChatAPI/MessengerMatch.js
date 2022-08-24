@@ -10,48 +10,32 @@ import { Text,
     ScrollView,
     FlatList
 } from 'react-native';
-import Elie from '../assets/Elie.jpg'
+import Elie from '../../assets/Elie.jpg'
 import Axios from "axios";
 import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
 import { useDispatch, useSelector } from "react-redux";
 import { StreamChat } from 'stream-chat';
-import Constants from '../constants/constants';
+import Constants from '../../constants/constants';
 import {getChatUID, 
     removeItem, 
     updateMatchedUserChatSecureStore,
     updateMatchedChatUserDatabase,
     viewMatchedUserChat
-} from '../utils/helper';
-import data, * as dataActions from '../redux/slices/data'
+} from '../../utils/helper';
+import { Overlay } from 'react-native-elements';
+import data, * as dataActions from '../../redux/slices/data'
 
 const chatClient = StreamChat.getInstance(Constants.CHAT_API_KEY);
 
 
-const MessengerMatch = () => {
+const MessengerMatch = ({setVisible}) => {
 
     /**
      * Declare states
      */
     const dispatch = useDispatch();
     const [userList, setUserList] = useState([]);
-    const [wait, setWait] = useState(true);
     const user = useSelector(state => state.data.userInfo);
-    const userID = getChatUID(user.fullname, user.uid);
-    
-
-    /**
-     * TODO: add function header
-     */
-    const CreateChannel = async () => {
-        if (secondUserIDs.length > 0) {
-            for (let i = 0; i < secondUserIDs.length; i++) {
-                const channel = chatClient.channel('messaging',{
-                    members: [userID, secondUserIDs[i]]
-                });
-                await channel.create();
-            }
-        }
-    }
 
     /**
      * TODO: add function header
@@ -63,22 +47,21 @@ const MessengerMatch = () => {
                 <TouchableOpacity 
                     style={styles.textContainer}
                     onPress={()=>{
-                        const newMatchedUserList = removeItem(user.matchedChat, clickedUser.id);
-                        dispatch(dataActions.updateMatchedChat(newMatchedUserList));
-                        updateMatchedUserChatSecureStore(user, newMatchedUserList);
-                        //updateMatchedChatUserDatabase(user.id, newMatchedUserList);
-                        setUserList(userList.filter(user => {
-                            return !(user.id == clickedUser.id);
-                        }));
+                        // const newMatchedUserList = removeItem(user.matchedChat, clickedUser.id);
+                        // dispatch(dataActions.updateMatchedChat(newMatchedUserList));
+                        // updateMatchedUserChatSecureStore(user, newMatchedUserList);
+                        // //updateMatchedChatUserDatabase(user.id, newMatchedUserList);
+                        // setUserList(userList.filter(user => {
+                        //     return !(user.id == clickedUser.id);
+                        // }));
+                        setVisible(true);
                     }}
                     >
                     <Image 
                         style={styles.image}
                         source={props.src}
                     />
-                    {wait && (
-                    <Text style={{marginTop:5}}>{props.name}
-                    </Text>)}
+                    <Text style={{marginTop:5}}>{props.name} </Text>
                 </TouchableOpacity>
             </View>
         )

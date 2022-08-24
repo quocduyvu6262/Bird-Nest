@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     ChannelList,
 } from 'stream-chat-expo';
 import Constants from '../../constants/constants';
-import { Text, SafeAreaView, LogBox, StatusBar} from 'react-native';
+import { Text, SafeAreaView, LogBox, StatusBar, View, StyleSheet} from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import MainHeader from '../../components/MainHeader';
-import MessengerMatch from '../../components/MessengerMatch';
+import MessengerMatch from './MessengerMatch';
+import {getChatUID} from '../../utils/helper';
+import {Overlay} from 'react-native-elements';
+
 LogBox.ignoreLogs([
     'Non-serializable values were found in the navigation state',
     'Sending `onAnimatedValueUpdate` with no listeners registered.'
@@ -14,11 +17,16 @@ LogBox.ignoreLogs([
   
 
 export default ChannelListScreen = (props, navigation) => {
+    /**
+     * Declare state
+     */
     const dispatch = useDispatch();
     const user = useSelector(state => state.data.userInfo);
-    const displayName = user.fullname;
-    const trimName = displayName.replace(/\s/g, '');
-    const userID = `${trimName}_${user.uid}`
+    const userID = getChatUID(user.fullname , user.uid);
+    const [visible, setVisible] = useState(false);
+    const toggleOverlay = () => {
+        setVisible(!visible);
+    };
     
     const filters = {
         members: {
@@ -31,7 +39,12 @@ export default ChannelListScreen = (props, navigation) => {
     return(
         <SafeAreaView style = {{flex: 1, paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0, backgroundColor: "white",}}>
             <MainHeader screen="Messenger Pigeon" navigation={navigation} />
-            <MessengerMatch></MessengerMatch>
+            <MessengerMatch setVisible={setVisible}/>
+            <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
+                <View style={styles.overlayContainer}>
+                    <Text>Hello from Overlay!</Text>
+                </View>
+            </Overlay>
             <ChannelList
                 onSelect={(channel) => {
                     const { navigation } = props;
@@ -44,3 +57,9 @@ export default ChannelListScreen = (props, navigation) => {
     )
 }
 
+const styles = StyleSheet.create({
+    overlayContainer:{
+        height: "20%",
+        width: 300
+    }
+})
