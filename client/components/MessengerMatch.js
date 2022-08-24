@@ -43,7 +43,7 @@ const MessengerMatch = () => {
             return;
         }
         // post the list matched ID
-        Axios.post(`${await Constants.BASE_URL()}/api/chat/matchedChat`, {
+        Axios.post(`${await Constants.BASE_URL()}/api/chat/getMatchedChatUsersFromList`, {
             uidList: uidListParam,
         })
         .then((response) => {
