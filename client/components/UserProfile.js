@@ -25,12 +25,8 @@ import { useDispatch, useSelector } from "react-redux";
 import * as FileSystem from 'expo-file-system'
 import Tags from "react-native-tags";
 
-const UserProfile = ({ navigation, route }) => {
- 
-  const imageFileSystem = useSelector(state => state.data.imageFileSystemUri)
-  const dispatch = useDispatch();
-  const data = useSelector(state => state.data);
- 
+const UserProfile = React.memo(({ navigation, route }) => {
+
   const [buttonClicked, setButtonClicked] = useState(false);
   const [interestButtonClicked, setInterestButtonClicked] = useState(false);
   const item = route.params.item;
@@ -48,13 +44,7 @@ const UserProfile = ({ navigation, route }) => {
       : setInterestButtonClicked(true);
   };
   
-  const retrieveImage = async (path) => {
-    if(path){
-      const reference = ref(storage, path);
-      const url = await getDownloadURL(reference);
-      return url;
-    }
-  }
+  console.log("render");
   return (
     <SafeAreaView style={styles.container}>
       <MainHeader screen={`${user.firstname}'s Profile`} navigation={navigation} />
@@ -65,7 +55,7 @@ const UserProfile = ({ navigation, route }) => {
             genderage={user.gender + ", " + user.age}
             id={user.id}
             avatar={user.profilepic}
-            picList={user.picsList}
+            picsList={user.picsList}
           />
           <View style={styles.buttonContainer}>
 
@@ -149,7 +139,7 @@ const UserProfile = ({ navigation, route }) => {
       </ScrollView>
     </SafeAreaView>
   );
-};
+});
 
 // Bio
 const BioInfo = (props) => {
