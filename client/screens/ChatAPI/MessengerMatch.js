@@ -76,27 +76,32 @@ const MessengerMatch = ({sheetRef, setIsOpen, handleSnapPress, userList, setUser
     });
     if (!fontsLoaded) {
         return <View></View>;
-    } else {
-    return (
-        <View style={{borderBottomWidth: 0.16, marginTop: 5, borderBottomColor: '#cacaca'}}>
-            <View style={styles.container}>
-                <Text style={styles.matchText}
-                >New     Matches </Text>
-                <ScrollView
-                    style={styles.users}
-                    horizontal = {true}>
-                    {userList.map((user,i) => {return (
-                        <MatchLoad 
-                            key={i}
-                            name={user.fullname}
-                            src={Elie}
-                            user={user}
-                        />
-                    )})}
-                </ScrollView>
+    } else {   
+        return (
+            <View style={{ marginTop: 5 }}>
+                <View style={styles.container}>
+                    <Text style={styles.matchText}
+                    >New     Matches </Text>
+                    {userList.length != 0 ? (
+                    <View>
+                        <ScrollView
+                            style={styles.users}
+                            horizontal = {true}>
+                            {userList.map((user,i) => {return (
+                                <MatchLoad 
+                                    key={i}
+                                    name={user.fullname}
+                                    src={Elie}
+                                    user={user}
+                                />
+                            )})}
+                        </ScrollView>
+                    </View>
+                    ) : <Text style={styles.noMatches}> "No new matches at the moment, keep on swiping!" </Text>}
+                    </View>
+                <Text style={styles.matchText}>Messages</Text>
             </View>
-        </View>
-    )
+        )
 }}
 
 const styles = StyleSheet.create({
@@ -112,6 +117,9 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         alignSelf: 'flex-start',
         alignItems:'center',
+    },
+    noMatches: {
+        marginBottom: 10,
     },
     matchText: {
         // Potential Fonts: Arial, DamascusLight

@@ -680,13 +680,16 @@ const InterestInfo = (props) => {
         ]}
       readonly={true}/>
 
-      <Text style = {styles.text}>
-        What I have:
-      </Text>
+      {props.pets.length != 0 && (
+      <View>
+        <Text style = {styles.text}>
+          What I have:
+        </Text>
 
-      <Tags 
-        initialTags={iHave.filter(n=>n)}
-      readonly={true}/>
+        <Tags 
+          initialTags={iHave.filter(n=>n)}
+          readonly={true}/>
+      </View>)}
       <Text style = {styles.text}>What I am okay with: </Text>
       <Tags
         initialTags={[

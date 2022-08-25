@@ -1,6 +1,7 @@
 import React, { useRef, useState, useCallback} from 'react';
 import {
     ChannelList,
+    serverClient,
 } from 'stream-chat-expo';
 import { StreamChat } from 'stream-chat';
 import Constants from '../../constants/constants';
@@ -14,6 +15,7 @@ import {getChatUID,
 } from '../../utils/helper';
 import data, * as dataActions from '../../redux/slices/data'
 import ChatOverlay from '../../components/Overlay/ChatOverlay';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 LogBox.ignoreLogs([
     'Non-serializable values were found in the navigation state',
@@ -88,15 +90,31 @@ export default ChannelListScreen = (props, navigation) => {
     const sort = {
         last_message_at: -1
     }
+    const deleteChan = async () => {
+
+        const channel = await chatClient.queryChannel('messaging',{
+            members: ["AlejandroMartinez_EMP3hAcHjKyMfX0BZwTbVQ6H2B8r", "ElieMubarka_NDIyIJQ0Zj0VTr68WG6iYLTTQ9Ig"]
+        });
+        const response = await channel.deleteChannel(["AlejandroMartinez_EMP3hAcHjKyMfX0BZwTbVQ6H2B8r", "ElieMubarka_NDIyIJQ0Zj0VTr68WG6iYLTTQ9Ig"]);
+        const result = await channel.getTask(response.task_id);
+        if(result['status'] === 'completed') {
+            // success!
+        }
+    }
     return(
         <SafeAreaView style={styles.container}>
             <View style={{flex:1, opacity: isOpen ? 0.2 : 1}}>
                 <MainHeader screen="Messenger Pigeon" navigation={navigation}/>
+                <TouchableOpacity 
+                    onPress={()=>{
+                        deleteChan()
+                }}>
+                    <Text> Delete channel </Text>
+                </TouchableOpacity>
                 <MessengerMatch sheetRef={sheetRef} setIsOpen={setIsOpen} 
                                 handleSnapPress={handleSnapPress}
                                 userList={userList}
                                 setUserList={setUserList}/>
-                <Text style={styles.matchText}>Messages</Text>
                 <ChannelList
                     onSelect={(channel) => {
                         const { navigation } = props;
