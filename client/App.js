@@ -9,11 +9,8 @@ import {
 } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Logo from "./assets/bird.png";
-
 import Axios from "axios";
 import * as SecureStore from "expo-secure-store";
-
-// IMPORT SCREENS
 import SplashScreen from "./screens/Auth/SplashScreen";
 import BirdFeed from "./screens/BirdFeed.js";
 import PeckView from "./screens/PeckView.js";
@@ -27,10 +24,12 @@ import Settings from "./screens/SettingsScreens/Settings";
 import ChirpNotificationEdit from "./screens/SettingsScreens/ChirpNotificationEdit.js";
 import HelpSupport from "./screens/SettingsScreens/HelpSupport.js";
 import TermsOfService from "./screens/SettingsScreens/TermsOfService.js";
+import AboutUs from "./screens/SettingsScreens/AboutUs.js"
 import NoHousingQ from "./screens/Questionnaires/NoHousingQ.js";
 import HasHousingQ from "./screens/Questionnaires/HasHousingQ.js";
 import Personality from "./screens/Questionnaires/Personality.js";
 import BasicInfo from "./screens/Questionnaires/BasicInfo.js";
+import EditProfile from "./screens/EditProfile";
 
 // IMPORT CHAT NAVIGATOR
 import ChatNavigator from "./screens/ChatAPI/ChatNavigator";
@@ -62,7 +61,11 @@ const TabNavigator = () => {
   );
   return (
     <Tab.Navigator
-      screenOptions={{ headerShown: false, tabBarActiveTintColor: "#560CCE" }}
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: "#560CCE",
+        tabBarStyle: { height: 90 },
+      }}
     >
       <Tab.Screen
         name="Profile"
@@ -116,6 +119,7 @@ export default function App() {
             />
             <Stack.Screen name="HelpSupport" component={HelpSupport} />
             <Stack.Screen name="TermsOfService" component={TermsOfService} />
+            <Stack.Screen name="AboutUs" component={AboutUs} />
             <Stack.Screen
               name="ChirpNotification"
               component={ChirpNotification}
@@ -127,6 +131,7 @@ export default function App() {
             <Stack.Screen name="Personality" component={Personality} />
             <Stack.Screen name="Roles" component={Roles} />
             <Stack.Screen name="History" component={History} />
+            <Stack.Screen name="EditProfile" component={EditProfile} />
           </Stack.Navigator>
         </NavigationContainer>
       </GestureHandlerRootView>

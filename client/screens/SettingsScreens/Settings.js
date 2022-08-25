@@ -42,6 +42,13 @@ const Settings = ({ navigation }) => {
 
       <TouchableOpacity
         style={styles.regularButton}
+        onPress={() => navigation.navigate("IDQs")}
+      >
+        <Text style={styles.textButton}>Edit Questionnaire</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.regularButton}
         onPress={() => navigation.navigate("HelpSupport")}
       >
         <Text style={styles.textButton}>Help & Support</Text>
@@ -51,9 +58,16 @@ const Settings = ({ navigation }) => {
         style={styles.regularButton}
         onPress={() => navigation.navigate("TermsOfService")}
       >
-        <Text style={styles.textButton}>Terms of service</Text>
+        <Text style={styles.textButton}>Terms of Service</Text>
       </TouchableOpacity>
-
+      
+      <TouchableOpacity
+        style={styles.regularButton}
+        onPress={() => navigation.navigate("AboutUs")}
+      >
+        <Text style={styles.textButton}>About Us</Text>
+      </TouchableOpacity>
+      
       <Buttons
         style={{flex: 1}}
         onPress={() => {
@@ -93,6 +107,8 @@ const styles = StyleSheet.create({
   },
   textButton: {
     color: "white",
+    fontWeight: "bold",
+    fontSize: 15,
   },
   deleteButton: {
     marginBottom: 40,

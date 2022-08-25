@@ -42,28 +42,20 @@ router.post('/loginwithgoogle', async (req, res) => {
                 } else {
                     db(client => {
                         client.query(query, (err, result) => {
-                            if(!err){
-                                db(client => {
-                                    client.query(checkExistQuery, (err, result) => {
-                                        const id = result[0].id;
-                                        // add matching table
-                                        db(client => {
-                                            const queryMatching = `INSERT INTO BirdNest.Matching (number, prioritycount, User_id)
-                                            VALUES(0, 0, "${id}")`; // database link
-                                            client.query(queryMatching, err => {
-                                                if(err) console.log("Fail to add matching table")
-                                            })
-                                            res.send({
-                                                status: "register",
-                                                email: user.email,
-                                                name: user.fullname,
-                                                uid: uid,
-                                                id: id
-                                            });
-                                        })
-                                    })
+                            if(err) throw err;
+                            db(client => {
+                                client.query(checkExistQuery, (err, result) => {
+                                    const id = result[0].id;
+                                    // add matching table
+                                    res.send({
+                                        status: "register",
+                                        email: user.email,
+                                        name: user.fullname,
+                                        uid: uid,
+                                        id: id
+                                    });
                                 })
-                            }
+                            })
                         });
                     });
                 }
@@ -122,6 +114,7 @@ router.post('/role', (req, res) => {
         });
     })
 });
+
 // store user
 router.post('/questionnaire', (req, res) => {
     let userInfo = req.body.userInfo;
@@ -129,14 +122,14 @@ router.post('/questionnaire', (req, res) => {
     for (let key in userInfo) {
         //Possible edge case this creates: What if you want to deselect something optional and make it null? (BANDAID FIX)
         //TODO: Handle boolean/yes/no?
-        if (userInfo[key] === null || userInfo[key] === "undefined" || userInfo[key] === '' || key === "notiNames" || key === "notiPics") {
+        if (userInfo[key] === null || userInfo[key] === "undefined" || userInfo[key] === '' || key.includes('noti') || key === 'isMatch') {
             continue;
         } 
         else if (key === "email" || key === "userInfo") {
             continue;
         }
-        else if (key === "pets" || key === "dayout" || key === "interiorDesign" || key === "favoriteSport" || key === "picsList") {
-            incompleteQuery += key + "=" + JSON.stringify(JSON.stringify(userInfo[key])) + ","; // ["1", "2", "3"] => "[\"1\", \"2\" "]"
+        else if (key === "pets" || key === "dayout" || key === "interiorDesign" || key === "favoriteSport" || key === "picsList" || key === 'matchedChat') {
+            incompleteQuery += key + "=" + JSON.stringify(JSON.stringify(userInfo[key])) + ","; 
         }
         else if (userInfo[key] === false || userInfo[key] === true) {
             incompleteQuery += key + "=" + `${userInfo[key].toString()}` + ",";

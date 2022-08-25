@@ -8,41 +8,43 @@ import {
   SafeAreaView,
   StatusBar,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, Component } from "react";
 import InfoCard from "../../components/InfoCard";
 import MainHeader from "../../components/MainHeader";
+import MyAccordion from "../../components/Accordion";
 
 const HelpSupport = ({ navigation }) => {
-  const [contactus, setContactus] = useState(false);
+  // const [contactus, setContactus] = useState(false);
 
-  const contactUsButton = () => {
-    contactus ? setContactus(false) : setContactus(true);
-  };
+  // const contactUsButton = () => {
+  //   contactus ? setContactus(false) : setContactus(true);
+  // };
   return (
     <SafeAreaView style={HelpSupport_Styles.container}>
       <MainHeader screen="Help & Support" navigation={navigation} />
-      <View style={HelpSupport_Styles.card}>
-        <Text style={HelpSupport_Styles.textStyle}>Help & Support Page</Text>
-      </View>
-
+        <ScrollView>
+          <Text style={[HelpSupport_Styles.textStyle, {fontWeight: "bold"}]}>Frequently Asked Questions</Text>
+          <MyAccordion/>
+        </ScrollView>
+{/* 
       <TouchableOpacity
         style={HelpSupport_Styles.regularButton}
         onPress={contactUsButton}
       >
-        <Text style={HelpSupport_Styles.textStyle}>Contact Us!</Text>
+        <Text style={HelpSupport_Styles.buttonText}>Contact Us!</Text>
       </TouchableOpacity>
 
       {contactus && (
         <View style={HelpSupport_Styles.overLay}>
           <ContactNumber></ContactNumber>
         </View>
-      )}
+      )} */}
     </SafeAreaView>
   );
 };
 const HelpSupport_Styles = StyleSheet.create({
   card: {
-    marginTop: 60,
+    marginTop: 30,
     alignSelf: "center",
     borderWidth: 0.5,
     borderColor: "black",
@@ -70,8 +72,12 @@ const HelpSupport_Styles = StyleSheet.create({
     fontSize: 20,
     alignSelf: "center",
   },
+  buttonText: {
+    fontSize: 20,
+    color: "white",
+  },
   overLay: {
-    marginTop: 60,
+    marginTop: 40,
     alignSelf: "center",
     borderWidth: 0.5,
     borderColor: "black",
@@ -79,11 +85,4 @@ const HelpSupport_Styles = StyleSheet.create({
   },
 });
 
-const ContactNumber = () => {
-  return (
-    <View style={HelpSupport_Styles.subContainer}>
-      <Text style={HelpSupport_Styles.textStyle}> Contact #: 943-204-3213</Text>
-    </View>
-  );
-};
 export default HelpSupport;

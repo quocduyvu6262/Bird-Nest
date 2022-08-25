@@ -8,20 +8,24 @@ import {
   ScrollView,
   Button,
   Image,
-  
 } from "react-native";
-import React, {useEffect, useState, useRef} from "react";
-import * as Device from 'expo-device';
+import React, { useEffect, useState, useRef } from "react";
+import * as Device from "expo-device";
 import Footer from "../components/Footer.js";
 import MainHeader from "../components/MainHeader.js";
 import Bird_Drawing from "../assets/svg/Bird_Drawing";
 //import Constants from "../constants/constants.js";
+import Constants from "expo-constants";
 import { useDispatch, useSelector } from "react-redux";
-import * as Notifications from 'expo-notifications';
-import * as Permissions from 'expo-permissions';
-import * as dataActions from '../redux/slices/data';
+import * as Notifications from "expo-notifications";
+import * as Permissions from "expo-permissions";
+import * as dataActions from "../redux/slices/data";
 import Axios from "axios";
-import Constants from "../constants/constants.js";
+import Constants1 from "../constants/constants.js";
+import Default from "../assets/default.jpg";
+import { not } from "react-native-reanimated";
+import moment from "moment";
+import { storage, ref, getDownloadURL } from "../firebaseConfig";
 
 const ChirpNotification = ({ navigation }) => {
   Notifications.setNotificationHandler({
@@ -31,94 +35,464 @@ const ChirpNotification = ({ navigation }) => {
       shouldSetBadge: false,
     }),
   });
+  const retrieveImage = async (path) => {
+    if (path) {
+      const reference = ref(storage, path);
+      const url = await getDownloadURL(reference);
+      return url;
+    }
+  };
 
-  
-  const [expoPushToken, setExpoPushToken] = useState('');
+  const [expoPushToken, setExpoPushToken] = useState("");
   const [notification, setNotification] = useState(false);
   const [test, setTest] = useState(false);
   const notificationListener = useRef();
   const responseListener = useRef();
-  const user = useSelector(state => state.data.userInfo);
+  const user = useSelector((state) => state.data.userInfo);
   const dispatch = useDispatch();
   let names = user.notiNames;
   let pics = user.notiPics;
+  let dates = user.notiDate;
+  let notiLength = user.notiNames.length - 1;
+  const updateMatchUI = async () => {
+    Axios.post(`${await Constants1.BASE_URL()}/api/history/picName1`, {
+      user_id: user.id,
+    })
+      .then((response) => {
+        let userData = response.data;
+        let name = userData[0].fullname;
+        let pic = userData[0].profilepic;
+        if (pic == null) {
+          pic =
+            "https://icon-library.com/images/default-profile-icon/default-profile-icon-24.jpg"; //update to not require link
+        } else {
+          console.log(pic);
+          pic = retrieveImage(pic);
+          console.log(pic);
+        }
+        dispatch(dataActions.updateNotiNames(name));
+        dispatch(dataActions.updateNotiPics(pic)); //need to load pic from firebase
+        dispatch(dataActions.updateNotiUnread());
+        var currentDate = moment().format("YYYYMMDD HHmmss");
+        dispatch(dataActions.updateNotiDate(currentDate));
+        dispatch(dataActions.updateIsMatch());
+        dispatch(dataActions.updateSingleSeen());
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  const updateSwipeUI = async () => {
+    Axios.post(`${await Constants1.BASE_URL()}/api/history/picName2`, {
+      user_id: user.id,
+    })
+      .then((response) => {
+        let userData = response.data;
+        let name = userData[0].fullname;
+        let pic = userData[0].profilepic;
+        if (pic == null) {
+          pic =
+            "https://icon-library.com/images/default-profile-icon/default-profile-icon-24.jpg"; //update to not require link
+        }
+        dispatch(dataActions.updateNotiNames(name));
+        dispatch(dataActions.updateNotiPics(pic)); //need to load pic from firebase
+        dispatch(dataActions.updateNotiUnread());
+        var currentDate = moment().format("YYYYMMDD HHmmss");
+        dispatch(dataActions.updateNotiDate(currentDate));
+        dispatch(dataActions.updateIsNotMatch());
+        dispatch(dataActions.updateSingleSeen());
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  const insertToken = async (token) => {
+    Axios.post(`${await Constants1.BASE_URL()}/api/history/token`, {
+      user_id: user.id,
+      token: token,
+    });
+  };
 
   useEffect(() => {
-    registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
+    registerForPushNotificationsAsync().then((token) =>
+      setExpoPushToken(token)
+    );
+    notificationListener.current =
+      Notifications.addNotificationReceivedListener((notification) => {
+        /*     if(notification.request.content.title == "Swiped!") {
+        updateSwipeUI();
+      }
+      else {
+        updateMatchUI();
+      }*/
+        setNotification(notification);
+      });
 
-    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-      dispatch(dataActions.updateNotiNames('Bird'));
-      dispatch(dataActions.updateNotiPics('file:///var/mobile/Containers/Data/Application/6525879C-DFA1-4D73-BC39-9EA131D452A5/Library/Caches/ExponentExperienceData/%2540quocduyvu6262%252FBirdNest/ImagePicker/A5F74F76-BBF4-4F94-9345-8B037E90C7F3.jpg'));
-      setNotification(notification);
-    });
-
-    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-      console.log(response);
-    });
+    responseListener.current =
+      Notifications.addNotificationResponseReceivedListener((response) => {
+        console.log(response);
+      });
 
     return () => {
-      Notifications.removeNotificationSubscription(notificationListener.current);
+      Notifications.removeNotificationSubscription(
+        notificationListener.current
+      );
       Notifications.removeNotificationSubscription(responseListener.current);
     };
   }, []);
-  
+
   async function registerForPushNotificationsAsync() {
     let token;
     if (Device.isDevice) {
-      const { status: existingStatus } = await Notifications.getPermissionsAsync();
+      const { status: existingStatus } =
+        await Notifications.getPermissionsAsync();
       let finalStatus = existingStatus;
-      if (existingStatus !== 'granted') {
+      if (existingStatus !== "granted") {
         const { status } = await Notifications.requestPermissionsAsync();
         finalStatus = status;
       }
-      if (finalStatus !== 'granted') {
-        alert('Failed to get push token for push notification!');
+      if (finalStatus !== "granted") {
+        alert("Failed to get push token for push notification!");
         return;
       }
       token = (await Notifications.getExpoPushTokenAsync()).data;
+      if (user.token == null) {
+        dispatch(dataActions.updateToken(token));
+        insertToken(token);
+      }
       console.log(token);
     } else {
-      alert('Must use physical device for Push Notifications');
+      alert("Must use physical device for Push Notifications");
     }
-  
-    if (Platform.OS === 'android') {
-      Notifications.setNotificationChannelAsync('default', {
-        name: 'default',
+
+    if (Platform.OS === "android") {
+      Notifications.setNotificationChannelAsync("default", {
+        name: "default",
         importance: Notifications.AndroidImportance.MAX,
         vibrationPattern: [0, 250, 250, 250],
-        lightColor: '#FF231F7C',
+        lightColor: "#FF231F7C",
       });
     }
-  
+
     return token;
   }
+  const seen = (count1) => {
+    dispatch(dataActions.updateNotiSeen(count1));
+  };
   let count = -1;
-  var notis = pics.map(function(image) {
+  let original = true;
+  let remake = false;
+  var notis = pics.map(function (image) {
     count = count + 1;
+    if (names[count].length >= 20) {
+      original = false;
+      remake = true;
+    }
+    let postDate = moment(dates[count]).fromNow();
+    if (user.notiSeen[count] == false && user.isMatch[count] == true) {
       return (
-        <View key={image} style = {{alignItems: 'center',justifyContent: 'flex-start', flexDirection: 'row', borderBottomColor: "lightgray", padding: 10, borderBottomWidth: 0.8,}}>
-          <Image 
-          style={{height: 60, 
-          width: 60, 
-          borderRadius: 40}}
-          source={{uri: image}}
+        <View
+          key={count * 5}
+          style={{
+            borderBottomColor: "lightgray",
+            padding: 10,
+            borderBottomWidth: 0.8,
+          }}
+        >
+          <View
+            key={count}
+            style={{
+              flexWrap: "wrap",
+              alignItems: "center",
+              justifyContent: "flex-start",
+              flexDirection: "row",
+            }}
           >
-          </Image>
-          <Text style = {{fontSize: 14, fontWeight: 'bold', marginLeft: 15}}>{names[count]}</Text>
-          <Text style = {{fontSize: 14}}> is a match!</Text>
+            <Image
+              style={{ height: 60, width: 60, borderRadius: 40 }}
+              source={{ uri: image }}
+            ></Image>
+            <Text style={{ fontSize: 14, fontWeight: "bold", marginLeft: 15 }}>
+              {names[count]}
+            </Text>
+            {original && <Text style={{ fontSize: 14 }}> is a match!</Text>}
+            <Text
+              style={{
+                color: "#560CCE",
+                fontWeight: "bold",
+                fontSize: 10,
+                position: "absolute",
+                right: 5,
+              }}
+            >
+              NEW
+            </Text>
+          </View>
+          {original && (
+            <Text
+              style={{
+                color: "#560CCE",
+                fontWeight: "bold",
+                fontSize: 10,
+                marginLeft: 75,
+                marginTop: -15,
+              }}
+            >
+              {postDate}
+            </Text>
+          )}
+          {remake && (
+            <Text style={{ fontSize: 14, marginLeft: 75, marginTop: -15 }}>
+              is a match!
+            </Text>
+          )}
+          {remake && (
+            <Text
+              style={{
+                color: "#560CCE",
+                fontWeight: "bold",
+                fontSize: 10,
+                marginLeft: 165,
+                marginTop: -15,
+              }}
+            >
+              {postDate}
+            </Text>
+          )}
         </View>
-      )
+      );
+    } else if (user.notiSeen[count] == true && user.isMatch[count] == true) {
+      return (
+        <View
+          key={count * 5}
+          style={{
+            borderBottomColor: "lightgray",
+            padding: 10,
+            borderBottomWidth: 0.8,
+          }}
+        >
+          <View
+            key={count}
+            style={{
+              flexWrap: "wrap",
+              alignItems: "center",
+              justifyContent: "flex-start",
+              flexDirection: "row",
+            }}
+          >
+            <Image
+              style={{ height: 60, width: 60, borderRadius: 40 }}
+              source={{ uri: image }}
+            ></Image>
+            <Text style={{ fontSize: 14, fontWeight: "bold", marginLeft: 15 }}>
+              {names[count]}
+            </Text>
+            {original && <Text style={{ fontSize: 14 }}> is a match!</Text>}
+          </View>
+          {original && (
+            <Text
+              style={{
+                color: "#560CCE",
+                fontWeight: "bold",
+                fontSize: 10,
+                marginLeft: 75,
+                marginTop: -15,
+              }}
+            >
+              {postDate}
+            </Text>
+          )}
+          {remake && (
+            <Text style={{ fontSize: 14, marginLeft: 75, marginTop: -15 }}>
+              is a match!
+            </Text>
+          )}
+          {remake && (
+            <Text
+              style={{
+                color: "#560CCE",
+                fontWeight: "bold",
+                fontSize: 10,
+                marginLeft: 165,
+                marginTop: -15,
+              }}
+            >
+              {postDate}
+            </Text>
+          )}
+        </View>
+      );
+    } else if (user.notiSeen[count] == false && user.isMatch[count] == false) {
+      return (
+        <View
+          key={count * 5}
+          style={{
+            borderBottomColor: "lightgray",
+            padding: 10,
+            borderBottomWidth: 0.8,
+          }}
+        >
+          <View
+            key={count}
+            style={{
+              flexWrap: "wrap",
+              alignItems: "center",
+              justifyContent: "flex-start",
+              flexDirection: "row",
+            }}
+          >
+            <Image
+              style={{ height: 60, width: 60, borderRadius: 40 }}
+              source={{ uri: image }}
+            ></Image>
+            <Text style={{ fontSize: 14, fontWeight: "bold", marginLeft: 15 }}>
+              {names[count]}
+            </Text>
+            {original && <Text style={{ fontSize: 14 }}> swiped right!</Text>}
+            <Text
+              style={{
+                color: "#560CCE",
+                fontWeight: "bold",
+                fontSize: 10,
+                position: "absolute",
+                right: 5,
+              }}
+            >
+              NEW
+            </Text>
+          </View>
+          {original && (
+            <Text
+              style={{
+                color: "#560CCE",
+                fontWeight: "bold",
+                fontSize: 10,
+                marginLeft: 75,
+                marginTop: -15,
+              }}
+            >
+              {postDate}
+            </Text>
+          )}
+          {remake && (
+            <Text style={{ fontSize: 14, marginLeft: 75, marginTop: -15 }}>
+              swiped right!
+            </Text>
+          )}
+          {remake && (
+            <Text
+              style={{
+                color: "#560CCE",
+                fontWeight: "bold",
+                fontSize: 10,
+                marginLeft: 165,
+                marginTop: -15,
+              }}
+            >
+              {postDate}
+            </Text>
+          )}
+        </View>
+      );
+    } else if (user.notiSeen[count] == true && user.isMatch[count] == false) {
+      return (
+        <View
+          key={count * 5}
+          style={{
+            borderBottomColor: "lightgray",
+            padding: 10,
+            borderBottomWidth: 0.8,
+          }}
+        >
+          <View
+            key={count}
+            style={{
+              flexWrap: "wrap",
+              alignItems: "center",
+              justifyContent: "flex-start",
+              flexDirection: "row",
+            }}
+          >
+            <Image
+              style={{ height: 60, width: 60, borderRadius: 40 }}
+              source={{ uri: image }}
+            ></Image>
+            <Text style={{ fontSize: 14, fontWeight: "bold", marginLeft: 15 }}>
+              {names[count]}
+            </Text>
+            {original && <Text style={{ fontSize: 14 }}> swiped right!</Text>}
+          </View>
+          {original && (
+            <Text
+              style={{
+                color: "#560CCE",
+                fontWeight: "bold",
+                fontSize: 10,
+                marginLeft: 75,
+                marginTop: -15,
+              }}
+            >
+              {postDate}
+            </Text>
+          )}
+          {remake && (
+            <Text style={{ fontSize: 14, marginLeft: 75, marginTop: -15 }}>
+              swiped right!
+            </Text>
+          )}
+          {remake && (
+            <Text
+              style={{
+                color: "#560CCE",
+                fontWeight: "bold",
+                fontSize: 10,
+                marginLeft: 165,
+                marginTop: -15,
+              }}
+            >
+              {postDate}
+            </Text>
+          )}
+        </View>
+      );
+    }
+  });
+  /*
+   let temp = ['temp'];
+   var render = temp.map(function(dummy) {
+      dispatch(dataActions.updateNotiLength(count-1));
    });
-
-  return (
-    <SafeAreaView style={styles.container}>
-      <MainHeader screen="Chirp Notifications" navigation={navigation} />
-      <ScrollView>
-      {notis}
-        </ScrollView>
-    </SafeAreaView>
-  );
+   */
+  if (names.length == 0 && pics.length == 0) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <MainHeader screen="Chirp Notifications" navigation={navigation} />
+        <View style={{ alignItems: "center", justifyContent: "flex-start" }}>
+          <Image
+            style={{ height: 150, width: 150, marginTop: 120, opacity: 0.3 }}
+            source={require("../assets/bell.jpg")}
+          ></Image>
+          <Text style={{ fontSize: 18, fontWeight: "bold", color: "#560CCE" }}>
+            {" "}
+            No notifications found
+          </Text>
+          <Text style={{ fontSize: 15, color: "#5b5c5e", marginTop: 5 }}>
+            {" "}
+            Match with users to recieve notications!
+          </Text>
+        </View>
+      </SafeAreaView>
+    );
+  } else {
+    return (
+      <SafeAreaView style={styles.container}>
+        <MainHeader screen="Chirp Notifications" navigation={navigation} />
+        <ScrollView>{notis}</ScrollView>
+      </SafeAreaView>
+    );
+  }
 };
+//dispatch(dataActions.updateNotiSeen(0));
 const styles = StyleSheet.create({
   container: {
     flex: 1,
