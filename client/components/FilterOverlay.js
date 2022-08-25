@@ -105,17 +105,18 @@ const FilterOverlay = ({overlayFilterButton, setUserList, setListState}) => {
    * @returns view
    */
   const SingleSwitch = (props) => {
+    //console.log(props);
     return (
       <View style={styles.switchView}>
         <Switch
           trackColor={{ false: "%767577", true: "green" }}
           thumbColor={props.enabled ? "#white" : "white"}
           onValueChange={props.toggle}
-          value={props.enabled}
+          value={!!props.enabled}
         ></Switch>
         <Text style={styles.switchText}>
           <Text></Text>
-          {props.enabled ? props.variable : `No ${props.variable}`}
+          {!!props.enabled ? props.variable : `No ${props.variable}`}
         </Text>
       </View>
     );
@@ -194,9 +195,11 @@ const FilterOverlay = ({overlayFilterButton, setUserList, setListState}) => {
     dispatch(dataActions.updateGym(gym));
     dispatch(dataActions.updatePool(pool));
     dispatch(dataActions.updateAppliances(appliances));
+    dispatch(dataActions.updateFurniture(furniture));
     dispatch(dataActions.updateAC(AC));
-    console.log(gym);
-    console.log(AC);
+    //console.log(gym);
+    //console.log(AC);
+    //console.log(!!AC);
     // update Secure Store
 
     //call filtering algorithm
@@ -216,6 +219,8 @@ const FilterOverlay = ({overlayFilterButton, setUserList, setListState}) => {
     //console.log(filterMap.get("neighborhood"));
     Filter(filterMap);
     // back to birdfeed/peckview
+    //reset switch states here like Eli did in his old code?
+    
     overlayFilterButton();
 
   }

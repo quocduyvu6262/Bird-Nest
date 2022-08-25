@@ -92,12 +92,12 @@ const Roles = ({ navigation }) => {
             }}
           >
             <Image
-              style={Roles_styles.icons}
+              style={Roles_styles.owlIcon}
               source={require("../../assets/owl-icon.png")}
             />
             <View style={Roles_styles.viewFlex}>
-              <Text style={Roles_styles.roleTitle}>Owl</Text>
-              <Text style={Roles_styles.roleDescription}>
+              <Text style={Roles_styles.owlRoleTitle}>Owl</Text>
+              <Text style={Roles_styles.owlRoleDescription}>
                 I have housing, am not living there, and need people to live in
                 the space. (sublease)
               </Text>
@@ -241,6 +241,12 @@ const Roles_styles = StyleSheet.create({
     width: 96,
     height: 96,
   },
+  owlIcon: {
+    paddingLeft: 6,    
+    left: 6,
+    width: 90,
+    height: 90,
+  },
   flamingoButton: {
     height: 120,
     width: "90%",
@@ -255,7 +261,7 @@ const Roles_styles = StyleSheet.create({
   owlButton: {
     height: 120,
     width: "90%",
-    backgroundColor: "#300389",
+    backgroundColor: "#563AFF",
     alignSelf: "center",
     flexDirection: "row",
     justifyContent: "flex-start",
@@ -277,7 +283,7 @@ const Roles_styles = StyleSheet.create({
   parrotButton: {
     height: 120,
     width: "90%",
-    backgroundColor: "#22BF6A",
+    backgroundColor: "#54BF22",
     alignSelf: "center",
     flexDirection: "row",
     justifyContent: "flex-start",
@@ -302,10 +308,29 @@ const Roles_styles = StyleSheet.create({
     fontSize: 18,
     textAlign: "left",
     alignContent: "flex-start",
+    paddingLeft: 5,
+  },
+  owlRoleTitle: {
+    fontWeight: "bold",
+    color: "#FFF",
+    fontSize: 18,
+    textAlign: "left",
+    alignContent: "flex-start",
+    paddingLeft: 11,
   },
   roleDescription: {
     fontSize: 17,
     color: "#FFF",
+    paddingLeft: 5, 
+    //textAlign: "left",
+    alignContent: "flex-start",
+    flexWrap: "wrap",
+    //fontFamily: "Inter400_Regular",
+  },
+  owlRoleDescription: {
+    fontSize: 17,
+    color: "#FFF",
+    paddingLeft: 11, 
     //textAlign: "left",
     alignContent: "flex-start",
     flexWrap: "wrap",
