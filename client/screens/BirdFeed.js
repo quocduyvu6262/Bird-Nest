@@ -291,7 +291,7 @@ const BirdFeed = ({ navigation }) => {
           <Bird_Drawing />
         </View>
 
-        <View style={{ flexDirection: "row" }}>
+        <View style={{ marginLeft: 5, flexDirection: "row" }}>
           <TouchableOpacity
             style={[styles.input, { marginVertical: 7 }]}
             onPress={overlayFilterButton}
