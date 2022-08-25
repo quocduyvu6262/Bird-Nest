@@ -12,8 +12,6 @@ router.post("/lookingforhousing", (req, res) => {
   //query for sending every user's variables to the front-end
   const getHousingQuery =
     "SELECT User.*, Housing.* FROM BirdNest.User JOIN BirdNest.Housing ON User.id = Housing.User_id";
-  console.log(getHousingQuery);
-  console.log(provided_id);
   db((client) => {
     var must_have_map = new Map();
     client.query(
@@ -137,7 +135,6 @@ router.post("/filternohousingtable", (req, res) => {
     } else if (value == true) {
       nohousingQuery += key + "=" + value.toString() + " AND ";
     }
-<<<<<<< HEAD
     //rent has to be >=
     else if (key == "rent") {
       nohousingQuery += key + ">=" + value.toString() + " AND ";
@@ -158,17 +155,16 @@ router.post("/filternohousingtable", (req, res) => {
   }
   //remove extra AND
   let filterQuery = nohousingQuery.slice(0, nohousingQuery.length - 4) + ";";
+  //if everything deselected
+  if (
+    filterQuery ===
+    "SELECT * FROM NoHousing JOIN User ON NoHousing.User_id = User.id WHERE ;"
+  ) {
+    filterQuery =
+      "SELECT * FROM NoHousing JOIN User ON NoHousing.User_id = User.id";
+  }
+
   console.log(filterQuery);
-=======
-	//remove extra AND
-	let filterQuery = nohousingQuery.slice(0, nohousingQuery.length -4) + ";";
-	//if everything deselected
-	if (filterQuery === "SELECT * FROM NoHousing JOIN User ON NoHousing.User_id = User.id WHERE ;") {
-		filterQuery = "SELECT * FROM NoHousing JOIN User ON NoHousing.User_id = User.id";
-	}
-	
-	console.log(filterQuery);
->>>>>>> alm011-copy
 
   //GET PRIORITY COUNT
   db((client) => {
@@ -244,7 +240,6 @@ router.post("/filterhousingtable", (req, res) => {
     } else if (value == true) {
       housingQuery += key + "=" + value.toString() + " AND ";
     }
-<<<<<<< HEAD
     //rent has to be <=
     else if (key == "rent") {
       housingQuery += key + "<=" + value.toString() + " AND ";
@@ -263,16 +258,15 @@ router.post("/filterhousingtable", (req, res) => {
   }
   //remove extra AND
   let filterQuery = housingQuery.slice(0, housingQuery.length - 4) + ";";
+  //if everything deselected
+  if (
+    filterQuery ===
+    "SELECT * FROM NoHousing JOIN User ON NoHousing.User_id = User.id WHERE ;"
+  ) {
+    filterQuery =
+      "SELECT * FROM NoHousing JOIN User ON NoHousing.User_id = User.id";
+  }
   console.log(filterQuery);
-=======
-	//remove extra AND
-	let filterQuery = housingQuery.slice(0, housingQuery.length -4) + ";";
-	//if everything deselected
-	if (filterQuery === "SELECT * FROM NoHousing JOIN User ON NoHousing.User_id = User.id WHERE ;") {
-		filterQuery = "SELECT * FROM NoHousing JOIN User ON NoHousing.User_id = User.id";
-	}
-	console.log(filterQuery);
->>>>>>> alm011-copy
 
   //GET PRIORITY COUNT
   db((client) => {

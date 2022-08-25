@@ -14,7 +14,6 @@ import {
   RefreshControlBase,
 } from "react-native";
 import Svg, { Path } from "react-native-svg";
-import Bird_Drawing from "../assets/svg/Bird_Drawing.js";
 import React, { useEffect, useState, useRef } from "react";
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
@@ -243,8 +242,7 @@ const BirdFeed = ({ navigation }) => {
         for (let i = 0; i < userData.length - 1; i++) {
           userList.push({
             info: userData[i].info,
-            // name: userData[i].info.fullname,
-            // rent: userData[i].info.rent,
+            count: userData[i].count,
             src: barackObama,
           });
         }
@@ -252,7 +250,7 @@ const BirdFeed = ({ navigation }) => {
           ...userList,
           {
             info: userData[userData.length - 1].info,
-            // name: userData[userData.length - 1].info.fullname,
+            count: userData[userData.length - 1].count,
             src: barackObama,
           },
         ]);
@@ -287,9 +285,7 @@ const BirdFeed = ({ navigation }) => {
             styles.svg,
             { transform: [{ translateY: 20 }, { translateX: 100 }] },
           ]}
-        >
-          <Bird_Drawing />
-        </View>
+        ></View>
 
         <View style={{ flexDirection: "row" }}>
           <TouchableOpacity

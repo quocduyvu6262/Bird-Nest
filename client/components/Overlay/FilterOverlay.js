@@ -41,7 +41,7 @@ const FilterOverlay = ({ overlayFilterButton, setUserList, setListState }) => {
     if (housing.lease === "4 to 7") {
       return 4;
     }
-    if (housing.lease === "8 - 11") {
+    if (housing.lease === "8 to 11") {
       return 8;
     }
     return 12;
@@ -59,7 +59,7 @@ const FilterOverlay = ({ overlayFilterButton, setUserList, setListState }) => {
       return "4 to 7";
     }
     if (lease >= 8 && lease <= 11) {
-      return "8 - 11";
+      return "8 to 11";
     }
     return "12+";
   };
@@ -156,16 +156,13 @@ const FilterOverlay = ({ overlayFilterButton, setUserList, setListState }) => {
         for (let i = 0; i < filterUserData.length - 1; i++) {
           //skip seeing yourself
           userList.push({
-            name: filterUserData[i].info.fullname,
-            neighborhoood: filterUserData[i].info.neighborhood,
+            info: filterUserData[i].info,
           });
         }
         setUserList((prevList) => [
           ...userList,
           {
-            name: filterUserData[filterUserData.length - 1].info.fullname,
-            neighborhood:
-              filterUserData[filterUserData.length - 1].info.neighborhood,
+            info: filterUserData[filterUserData.length - 1].info,
           },
         ]);
         userList.reverse();

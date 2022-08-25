@@ -29,11 +29,6 @@ const ProfileCard = ({ item, index, userID, userName }) => {
       y: -400,
     })
   ).current;
-  // const user = useSelector((state) => state.data.userInfo);
-
-  // console.log(item.item.info.id);
-  // console.log(userID);
-  // console.log(item.item.info.User_id);
 
   const swipeUserYes = async () => {
     Axios.post(`${await Constants1.BASE_URL()}/api/history/insertYes`, {
@@ -46,6 +41,10 @@ const ProfileCard = ({ item, index, userID, userName }) => {
     })
       .then(async (response) => {
         let responseInfo = response.data;
+        console.log("token 0: " + responseInfo[0].token);
+        // console.log("token 1: " + responseInfo[1].token);
+        // console.log("item.item.info.fullname: " + item.item.info.fullname);
+        console.log("userName: " + userName);
         if (responseInfo.length === 2) {
           Axios.post(`${await Constants1.BASE_URL()}/api/notifications/match`, {
             pushTokens: [responseInfo[0].token, responseInfo[1].token],
@@ -59,7 +58,7 @@ const ProfileCard = ({ item, index, userID, userName }) => {
         } else if (responseInfo.length === 1) {
           Axios.post(`${await Constants1.BASE_URL()}/api/notifications/swipe`, {
             pushTokens: responseInfo[0].token,
-            swiped_user: item.item.info.fullname,
+            swiped_user: userName,
           }).catch((error) => {
             console.log(error);
           });
@@ -106,7 +105,7 @@ const ProfileCard = ({ item, index, userID, userName }) => {
         ]}
       >
         <TouchableOpacity
-          style={[styles.swipeButton, { backgroundColor: "red" }]}
+          style={[styles.swipeButton, { backgroundColor: "#FE002E" }]}
         >
           <Text>No</Text>
         </TouchableOpacity>
@@ -170,19 +169,26 @@ const ProfileCard = ({ item, index, userID, userName }) => {
             </Text>
           </View>
           <Text>
-            {/* {item.item.info.neighborhood.map(
-              (neighborhood, index) => `${neighborhood}, `
-            )} */}
-            {item.item.info.neighborhood}
+            {item.item.info.neighborhood.map((neighborhood, index) => {
+              if (index !== item.item.info.neighborhood.length - 1) {
+                return `${neighborhood}, `;
+              } else {
+                return `${neighborhood} `;
+              }
+            })}
           </Text>
           <View style={styles.barGroup}>
             <Text>Rent is ${item.item.info.rent}</Text>
             <Text style={styles.bar}> | </Text>
             <Text>{item.item.info.lease} months term</Text>
           </View>
-          <Text>{item.item.info.squarefeet}</Text>
+          <Text>SQFT: {item.item.info.squarefeet}</Text>
           <Text>{item.item.info.parking}</Text>
         </View>
+        {/* <View>
+          <Text>{item.item.count}</Text>
+          <Text>matched interests</Text>
+        </View> */}
       </Animated.View>
     </Swipeable>
   );
@@ -190,15 +196,13 @@ const ProfileCard = ({ item, index, userID, userName }) => {
 
 const styles = StyleSheet.create({
   container: {
-    height: 100,
+    height: 150,
     width: "100%",
-    // backgroundColor: "lightgray",
     backgroundColor: "white",
     alignSelf: "center",
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
-    // marginTop: 15,
     borderTopWidth: 1,
     borderTopColor: "gray",
   },
@@ -206,23 +210,16 @@ const styles = StyleSheet.create({
     height: 80,
     width: 80,
     borderRadius: 50,
-    // marginLeft: 15,
   },
   text_box: {
-    // backgroundColor: "gray",
-    // backgroundColor: "lightgray",
     height: "100%",
     width: "75%",
     alignSelf: "flex-end",
-    // padding: 10,
-    // marginRight: 8,
   },
   text_box_name: {
     alignSelf: "flex-start",
     marginTop: 5,
     marginBottom: 10,
-    // flexDirection: "row",
-    // alignItems: "flex-end",
   },
   barGroup: {
     flexDirection: "row",
@@ -233,7 +230,7 @@ const styles = StyleSheet.create({
     color: "#560CCE",
   },
   noButton: {
-    height: 100,
+    height: 150,
     width: 80,
     backgroundColor: "lightgray",
     alignSelf: "center",
@@ -244,7 +241,7 @@ const styles = StyleSheet.create({
     borderTopColor: "gray",
   },
   swipeButton: {
-    backgroundColor: "green",
+    backgroundColor: "#54BF22",
     height: "100%",
     width: "100%",
     justifyContent: "center",
