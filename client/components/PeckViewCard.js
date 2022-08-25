@@ -180,6 +180,11 @@ const PeckViewCard = ({
     }
   };
 
+  const handleView = () => {
+    let item = { item: user };
+    navigation.navigate("UserProfile", { item });
+  };
+
   return (
     <PanGestureHandler
       onGestureEvent={onGestureEvent}
@@ -217,7 +222,8 @@ const PeckViewCard = ({
             </View>
           </View>
           <TouchableOpacity
-            onPress={() => navigation.navigate("UserProfile", { item })}
+            // onPress={() => navigation.navigate("UserProfile", { item: user })}
+            onPress={handleView}
             style={styles.button}
           >
             <Text style={styles.buttonText}>
