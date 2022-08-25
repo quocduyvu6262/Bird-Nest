@@ -27,7 +27,7 @@ import Tags from "react-native-tags";
 
 const Profile = ({ navigation }) => {
   const user = useSelector((state) => state.data.userInfo);
-  console.log(user.isHousing)
+  console.log(user.isHousing);
   const imageFileSystem = useSelector((state) => state.data.imageFileSystemUri);
   const dispatch = useDispatch();
   let pics = imageFileSystem.album;
@@ -539,8 +539,7 @@ const Profile = ({ navigation }) => {
           </View>
 
           <InfoCard>
-            {!buttonClicked && <BioInfo bio={
-              data.userInfo.bio}></BioInfo>}
+            {!buttonClicked && <BioInfo bio={data.userInfo.bio}></BioInfo>}
 
             {buttonClicked && (
               <RentInfo
@@ -670,24 +669,17 @@ const InterestInfo = (props) => {
 
   return (
     <View style={styles.interestContainer}>
-      <Text style = {styles.text}>
-        What I go by:
-      </Text>
+      <Text style={styles.text}>What I go by:</Text>
 
-      <Tags 
-        initialTags={[
-          props.pronouns
-        ]}
-      readonly={true}/>
+      <Tags initialTags={[props.pronouns]} readonly={true} />
 
-      <Text style = {styles.text}>
-        What I have:
-      </Text>
-
-      <Tags 
-        initialTags={iHave.filter(n=>n)}
-      readonly={true}/>
-      <Text style = {styles.text}>What I am okay with: </Text>
+      {props.pets.length != 0 && (
+        <View>
+          <Text style={styles.text}>What I have:</Text>
+          <Tags initialTags={iHave.filter((n) => n)} readonly={true} />
+        </View>
+      )}
+      <Text style={styles.text}>What I am okay with: </Text>
       <Tags
         initialTags={[
           props.alc ? "Alchol/420" : null,

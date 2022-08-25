@@ -33,10 +33,10 @@ const ProfileCard = ({ item, index, userID, userName }) => {
 
   const swipeUserYes = async () => {
     Axios.post(`${await Constants1.BASE_URL()}/api/history/insertYes`, {
-      user_id: userID,
-      swiped_id: item.item.info.User_id,
-      // swiped_id: 345,
-      // user_id: 98,
+      // user_id: userID,
+      // swiped_id: item.item.info.User_id,
+      user_id: 345,
+      swiped_id: 98,
       // swiped_id: 7,
     })
       .then(async (response) => {
@@ -97,7 +97,9 @@ const ProfileCard = ({ item, index, userID, userName }) => {
         ]}
       >
         <TouchableOpacity onPress={swipeUserYes} style={styles.swipeButton}>
-          <Text>Yes</Text>
+          <Text style={{ fontSize: 18, color: "white", fontWeight: "700" }}>
+            Yes
+          </Text>
         </TouchableOpacity>
       </Animated.View>
     );
@@ -121,7 +123,9 @@ const ProfileCard = ({ item, index, userID, userName }) => {
           onPress={swipeUserNo}
           style={[styles.swipeButton, { backgroundColor: "#FE002E" }]}
         >
-          <Text>No</Text>
+          <Text style={{ fontSize: 18, color: "white", fontWeight: "700" }}>
+            No
+          </Text>
         </TouchableOpacity>
       </Animated.View>
     );

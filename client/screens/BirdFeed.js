@@ -279,7 +279,11 @@ const BirdFeed = ({ navigation }) => {
     return (
       // Header - Beginning
       <SafeAreaView style={styles.container}>
-        <MainHeader screen="Bird Feed" navigation={navigation} />
+        <MainHeader
+          screen="Bird Feed"
+          navigation={navigation}
+          overlayFilterButton={overlayFilterButton}
+        />
         <View
           style={[
             styles.svg,
@@ -287,34 +291,12 @@ const BirdFeed = ({ navigation }) => {
           ]}
         ></View>
 
-        <View style={styles.filterButtons}>
-          <TouchableOpacity
-            style={[styles.input, { marginVertical: 7 }]}
-            onPress={overlayFilterButton}
-          >
-            <Icon3
-              style={styles.input}
-              name="options-sharp"
-              size={30}
-              color="black"
-            />
-          </TouchableOpacity>
-          <Buttons
-            style={{
-              width: "auto",
-              // alignItems: "flex-start",
-            }}
-            onPress={viewUsers}
-          >
-            Clear Filter
-          </Buttons>
-        </View>
-
         {overlayFilterClicked && (
           <FilterOverlay
             setUserList={setUserList}
             setListState={setListState}
             overlayFilterButton={overlayFilterButton}
+            viewUsers={viewUsers}
           />
         )}
 
@@ -433,19 +415,31 @@ const styles = StyleSheet.create({
     // top: 100,
     // left: 200,
   },
-  filterButtons: {
+  filterButton: {
+    flexDirection: "row",
+    position: "absolute",
+    // top: 110,
+    bottom: 10,
+    left: 10,
+    alignSelf: "center",
+    backgroundColor: "rgba(194, 192, 192, 0.6)",
+    zIndex: 10,
+    // width: 280,
+    // padding: 10,
+    borderRadius: 10,
+  },
+  clearFilterButton: {
     flexDirection: "row",
     position: "absolute",
     // top: 110,
     bottom: 10,
     right: 10,
     alignSelf: "center",
-    backgroundColor: "lightgray",
+    backgroundColor: "rgba(194, 192, 192, 0.6)",
     zIndex: 10,
     // width: 280,
     paddingLeft: 10,
     borderRadius: 10,
   },
-  clearFilterButton: {},
 });
 export default BirdFeed;

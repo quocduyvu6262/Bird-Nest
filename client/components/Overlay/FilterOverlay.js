@@ -21,7 +21,12 @@ import * as dataActions from "../../redux/slices/data";
 import Axios from "axios";
 import Constants from "../../constants/constants.js";
 
-const FilterOverlay = ({ overlayFilterButton, setUserList, setListState }) => {
+const FilterOverlay = ({
+  overlayFilterButton,
+  setUserList,
+  setListState,
+  viewUsers,
+}) => {
   DropDownPicker.setListMode("SCROLLVIEW");
   /**
    * Redux Hoook
@@ -107,7 +112,7 @@ const FilterOverlay = ({ overlayFilterButton, setUserList, setListState }) => {
     return (
       <View style={styles.switchView}>
         <Switch
-          trackColor={{ false: "%767577", true: "green" }}
+          trackColor={{ false: "%767577", true: "#54BF22" }}
           thumbColor={props.enabled ? "#white" : "white"}
           onValueChange={props.toggle}
           value={!!props.enabled}
@@ -222,6 +227,11 @@ const FilterOverlay = ({ overlayFilterButton, setUserList, setListState }) => {
     overlayFilterButton();
   };
 
+  const handleClear = () => {
+    viewUsers();
+    overlayFilterButton();
+  };
+
   /**
    * Render Logic
    */
@@ -234,6 +244,12 @@ const FilterOverlay = ({ overlayFilterButton, setUserList, setListState }) => {
         >
           <Icon name="west" size={30} />
           <Text style={styles.filterText}>Filter</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={handleClear}
+          style={{ position: "absolute", top: 10, right: 10 }}
+        >
+          <Text style={{ color: "#FE002E", fontSize: 18 }}>Clear Filter</Text>
         </TouchableOpacity>
         <View style={styles.dropDown}>
           <Text style={styles.slideText}>Neighborhood: </Text>
