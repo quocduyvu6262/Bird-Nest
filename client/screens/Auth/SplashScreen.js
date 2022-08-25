@@ -2,7 +2,7 @@ import React, { useEffect, useReducer, useRef} from 'react';
 import { View, Animated, Image, Dimensions } from "react-native";
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as SecureStore from 'expo-secure-store';
-import Logo from '../../assets/bird.png';
+import Logo from "../../assets/BirdFeedLogo.png";
 // Import constants
 import Constants from '../../constants/constants';
 // Redux
@@ -84,6 +84,7 @@ export default function SplashScreen({navigation}) {
     /**
      * Use Effect Hook
      */
+
     useEffect(()=> {
         // Starting Animation after 500ms...
         setTimeout(() => {
@@ -150,12 +151,26 @@ export default function SplashScreen({navigation}) {
         }, 1000);
     }, [])
     
+    const fadeIn = () => {
+        Animated.timing(new Animated.Value(0), {
+            toValue: 1,
+            duration: 4000
+        }).start();
+        };
+        
+    const fadeOut = () => {
+        Animated.timing(new Animated.Value(0), {
+            toValue: 0,
+            duration: 4000
+        }).start();
+        };
     /**
      * Return Screen
      */
     return (
         <View style = {{
             position: 'absolute',
+            backgroundColor: "#fffff",
             top: 0,
             bottom: 0,
             left:0,
@@ -173,16 +188,23 @@ export default function SplashScreen({navigation}) {
                 alignItems: 'center',
                 justifyContent: 'center',
             }}>
-                <Animated.Image source = {Logo} style = {{
-                    width: 100,
-                    height: 100,
-                    marginBottom: 20,
-                    // transform:[
-                    //     {translateX: moveLogo.x},
-                    //     {translateY: moveLogo.y},
-                    //     {scale: scaleLogo},
-                    // ]
-                }}></Animated.Image>
+                <Animated.Image 
+                    source = {Logo} 
+                    style = {{
+                        width: 165,
+                        height: 165,
+                        
+                        // transform:[
+                        //     {translateX: moveLogo.x},
+                        //     {translateY: moveLogo.y},
+                        //     {scale: scaleLogo},
+                        // ]
+                    }}            
+                    key={'uniqueKey'}
+                    entering={fadeIn}
+                    exiting={fadeOut}
+
+                ></Animated.Image>
 
                 <Animated.Text style = {{
                     fontSize: 25,

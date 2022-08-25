@@ -624,7 +624,7 @@ const RentInfo = (props) => {
         <Text style={styles.rentHeaders}>Lease Term:</Text> {props.lease} months
       </Text>
       <Text style={styles.text}>
-        <Text style={styles.rentHeaders}>Neighborhood:</Text>{" "}
+        <Text style={styles.rentHeaders}>Neighborhood:</Text>
         <Text style={styles.neighborhoodText}> {props.neighborhood} </Text>
       </Text>
       <Text style={styles.text}>

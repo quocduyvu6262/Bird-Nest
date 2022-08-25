@@ -106,7 +106,7 @@ export default function App() {
           <Stack.Navigator
             //change back default to "Splashcreen" after testing
             initialRouteName="SplashScreen"
-            screenOptions={{ headerShown: false }}
+            screenOptions={{ headerShown: false, gestureEnabled: false }}
           >
             <Stack.Screen name="SplashScreen" component={SplashScreen} />
             <Stack.Screen name="LoginScreen" component={LoginScreen} />
