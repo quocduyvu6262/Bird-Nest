@@ -81,6 +81,16 @@ class Personality extends Component {
       throw err;
     });
 
+    // Store user into history table
+    Axios.post(`${await Constants.BASE_URL()}/api/history/create`, {
+      user_id: user.id,
+    }).catch((err) => {
+      console.log(err);
+      //console.log(user);
+      console.log("Fail to store user into history");
+      throw err;
+    });
+
     // Store housing into database
     if (user.role === "Flamingo" || user.role === "Owl") {
       // delete no housing
