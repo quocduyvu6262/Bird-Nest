@@ -12,7 +12,7 @@ const UserCard = (props) => {
     <View style={styles.card}>
       {user.id === props.id 
         ? <CarouselCards />
-        : <UserCarouselCards avatar={props.avatar} picList={props.picsList}/>
+        : <UserCarouselCards avatar={props.avatar} picsList={props.picsList}/>
       }
         <Header>
           {props.name} 

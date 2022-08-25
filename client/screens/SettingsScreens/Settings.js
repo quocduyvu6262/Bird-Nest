@@ -72,6 +72,7 @@ const Settings = ({ navigation }) => {
         style={{flex: 1}}
         onPress={() => {
           logout().then(() => {
+            //DevSettings.reload();
             navigation.navigate('LoginScreen');
           });
         }}
