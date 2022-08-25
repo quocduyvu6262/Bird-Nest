@@ -19,6 +19,7 @@ import MainHeader from "../components/MainHeader";
 import PeckViewCard from "../components/PeckViewCard";
 import StrokeAnimation from "../components/StrokeAnimation.js";
 import { useSelector } from "react-redux";
+import { storage, ref, getDownloadURL } from "../firebaseConfig";
 
 const PeckView = ({ navigation }) => {
   const user = useSelector((state) => state.data.userInfo);
@@ -44,22 +45,17 @@ const PeckView = ({ navigation }) => {
         // manually push all but last, then setUserList on last user to trigger FlatList rerender
         // reason is that FlatList will not re-render unless setUserList is properly called
         // but setUserList (setState) will only set state once
-        let id_counter = 0;
         for (let i = 0; i < userData.length - 1; i++) {
           userList.push({
-            name: userData[i].info.fullname,
+            info: userData[i].info,
             src: barackObama,
-            id: id_counter,
           });
-          id_counter++;
         }
         setUserList((prevList) => [
           ...userList,
           {
-            name: userData[userData.length - 1].info.fullname,
-            city: userData[userData.length - 1].city,
+            info: userData[userData.length - 1].info,
             src: barackObama,
-            id: id_counter,
           },
         ]);
       })
@@ -82,16 +78,17 @@ const PeckView = ({ navigation }) => {
     <SafeAreaView style={[PeckView_Styles.container, StyleSheet.absoluteFill]}>
       <MainHeader screen="Peck View" navigation={navigation} />
       <View style={PeckView_Styles.wrapper}>
-        {userList.map((user) => (
+        {userList.map((profile) => (
           <PeckViewCard
-            user={user}
+            user={profile}
             SNAP_POINTS={SNAP_POINTS}
             width={width}
             userList={userList}
             setUserList={setUserList}
             // CHANGE ID TO DATABASE ID WHEN I GET MORE INFORMATION ABOUT USER
-            key={user.id}
-            id={user.id}
+            key={profile.info.User_id}
+            id={profile.info.User_id}
+            userID={user.id}
           />
         ))}
       </View>

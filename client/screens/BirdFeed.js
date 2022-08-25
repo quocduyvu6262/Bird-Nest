@@ -287,7 +287,7 @@ const BirdFeed = ({ navigation }) => {
           ]}
         ></View>
 
-        <View style={{ flexDirection: "row" }}>
+        <View style={styles.filterButtons}>
           <TouchableOpacity
             style={[styles.input, { marginVertical: 7 }]}
             onPress={overlayFilterButton}
@@ -299,10 +299,17 @@ const BirdFeed = ({ navigation }) => {
               color="black"
             />
           </TouchableOpacity>
-          <Buttons style={{ flex: 0.5 }} onPress={viewUsers}>
-            Clear Filters
+          <Buttons
+            style={{
+              width: "auto",
+              // alignItems: "flex-start",
+            }}
+            onPress={viewUsers}
+          >
+            Clear Filter
           </Buttons>
         </View>
+
         {overlayFilterClicked && (
           <FilterOverlay
             setUserList={setUserList}
@@ -423,6 +430,19 @@ const styles = StyleSheet.create({
     zIndex: 5,
     // top: 100,
     // left: 200,
+  },
+  filterButtons: {
+    flexDirection: "row",
+    position: "absolute",
+    // top: 110,
+    bottom: 10,
+    right: 10,
+    alignSelf: "center",
+    backgroundColor: "lightgray",
+    zIndex: 10,
+    // width: 280,
+    paddingLeft: 10,
+    borderRadius: 10,
   },
   clearFilterButton: {},
 });

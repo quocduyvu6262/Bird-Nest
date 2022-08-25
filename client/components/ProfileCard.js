@@ -31,15 +31,11 @@ const ProfileCard = ({ item, index, userID, userName }) => {
     })
   ).current;
 
-  console.log(item.item.info.role);
-  console.log(roleImagesIndex["Flamingo"]);
-
   const swipeUserYes = async () => {
     Axios.post(`${await Constants1.BASE_URL()}/api/history/insertYes`, {
-      // user_id: item.item.info.User_id,
-      user_id: 98,
-      // swiped_id: userID,
-      swiped_id: 345,
+      user_id: userID,
+      swiped_id: item.item.info.User_id,
+      // swiped_id: 345,
       // user_id: 98,
       // swiped_id: 7,
     })
@@ -70,6 +66,19 @@ const ProfileCard = ({ item, index, userID, userName }) => {
       })
       .catch((error) => {
         console.log(error);
+      });
+  };
+
+  const swipeUserNo = async () => {
+    Axios.post(`${await Constants1.BASE_URL()}/api/history/insertNo`, {
+      user_id: userID,
+      swiped_id: item.item.info.User_id,
+    })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
 
@@ -109,6 +118,7 @@ const ProfileCard = ({ item, index, userID, userName }) => {
         ]}
       >
         <TouchableOpacity
+          onPress={swipeUserNo}
           style={[styles.swipeButton, { backgroundColor: "#FE002E" }]}
         >
           <Text>No</Text>
