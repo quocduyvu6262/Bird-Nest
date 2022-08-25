@@ -323,7 +323,7 @@ const BirdFeed = ({ navigation }) => {
               extraData={userList}
               style={{ height: "100%" }}
               renderItem={(item) => (
-                <TouchableOpacity onPress={() => navigation.navigate("FakeComponent", item)}>
+                <TouchableOpacity onPress={() => navigation.navigate("UserProfile", item)}>
                   <ProfileCard item={item} userID={user.id} />
                 </TouchableOpacity>
               )}

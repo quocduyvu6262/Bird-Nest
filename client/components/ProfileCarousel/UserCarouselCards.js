@@ -6,22 +6,11 @@ import CarouselCardItem, { SLIDER_WIDTH, ITEM_WIDTH } from './CarouselCardItem'
 import Axios from "axios";
 import { useSelector } from 'react-redux'
 import {storage, ref, getDownloadURL} from '../../firebaseConfig'
+import { retrieveImage } from '../../utils/helper';
 
 const UserCarouselCards = ({avatar, picsList}) => {
     const isCarousel = React.useRef(null)
     const [picsListCarouselData, setPicsListCarouselData] = useState([]);
-
-    /**
-     * @params path the uri to image in Firebase Cloud Storage
-     * Function to retrieve image from firebase cloud storage
-     */
-    const retrieveImage = async (path) => {
-        if(path){
-            const reference = ref(storage, path);
-            const url = await getDownloadURL(reference);
-            return url;
-        }
-    }
 
     /**
      * Download picsList

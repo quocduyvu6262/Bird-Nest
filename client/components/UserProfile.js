@@ -30,7 +30,7 @@ const UserProfile = ({ navigation, route }) => {
   const [buttonClicked, setButtonClicked] = useState(false);
   const [interestButtonClicked, setInterestButtonClicked] = useState(false);
   const item = route.params.item;
-  const user = item.item.info;
+  const user = item.info;
 
   const roomInfoButton = () => {
     setButtonClicked(true);
