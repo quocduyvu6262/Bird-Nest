@@ -25,20 +25,20 @@ import Settings from "./screens/SettingsScreens/Settings";
 import ChirpNotificationEdit from "./screens/SettingsScreens/ChirpNotificationEdit.js";
 import HelpSupport from "./screens/SettingsScreens/HelpSupport.js";
 import TermsOfService from "./screens/SettingsScreens/TermsOfService.js";
-import AboutUs from "./screens/SettingsScreens/AboutUs.js"
+import AboutUs from "./screens/SettingsScreens/AboutUs.js";
 import NoHousingQ from "./screens/Questionnaires/NoHousingQ.js";
 import HasHousingQ from "./screens/Questionnaires/HasHousingQ.js";
 import Personality from "./screens/Questionnaires/Personality.js";
 import BasicInfo from "./screens/Questionnaires/BasicInfo.js";
 import EditProfile from "./screens/EditProfile";
-import UserProfile from './components/UserProfile';
+import UserProfile from "./components/UserProfile";
 // IMPORT CHAT NAVIGATOR
 import ChatNavigator from "./screens/ChatAPI/ChatNavigator";
 
 // LOGO ICONS
 import BirdFeedLogo from "./assets/BirdFeedLogo.png";
 import MessengerLogo from "./assets/MessengerLogo.png";
-import ProfileLogo from "./assets/ProfileLogo.png";
+import ProfileLogo2 from "./assets/ProfileLogo2.png";
 
 // STACK/TAB NAVIGATION
 import { NavigationContainer } from "@react-navigation/native";
@@ -73,7 +73,7 @@ const TabNavigator = () => {
         component={Profile}
         options={{
           tabBarIcon: () => (
-            <Image style={{ height: 40, width: 40 }} source={ProfileLogo} />
+            <Image style={{ height: 50, width: 50 }} source={ProfileLogo2} />
           ),
         }}
       />

@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   Easing,
 } from "react-native";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   GestureDetector,
   Gesture,
@@ -21,6 +21,7 @@ import Axios from "axios";
 import Constants1 from "../constants/constants.js";
 // import { useSelector, useDispatch } from "react-redux";
 import { roleImagesIndex } from "../assets/roleImagesIndex";
+import { storage, ref, deleteObject, getDownloadURL } from "../firebaseConfig";
 
 const ProfileCard = ({ item, index, userID, userName }) => {
   const opacityTransition = useRef(new Animated.Value(0)).current;
@@ -30,6 +31,36 @@ const ProfileCard = ({ item, index, userID, userName }) => {
       y: -400,
     })
   ).current;
+  const [avatar, setAvatar] = useState(null);
+
+  const retrieveImage = async (path) => {
+    if (path) {
+      const reference = ref(storage, path);
+      const url = await getDownloadURL(reference).catch((error) => {
+        // A full list of error codes is available at
+        // https://firebase.google.com/docs/storage/web/handle-errors
+        switch (error.code) {
+          case "storage/object-not-found":
+            // File doesn’t exist
+            break;
+          case "storage/unauthorized":
+            // User doesn’t have permission to access the object
+            break;
+          case "storage/canceled":
+            // User canceled the upload
+            break;
+          case "storage/unknown":
+            // Unknown error occurred, inspect the server response
+            break;
+        }
+      });
+      return url;
+    }
+  };
+
+  const getAvatar = async () => {
+    setAvatar(await retrieveImage(item.item.info.profilepic));
+  };
 
   const swipeUserYes = async () => {
     Axios.post(`${await Constants1.BASE_URL()}/api/history/insertYes`, {
@@ -42,8 +73,7 @@ const ProfileCard = ({ item, index, userID, userName }) => {
       .then(async (response) => {
         let responseInfo = response.data;
         console.log("token 0: " + responseInfo[0].token);
-        // console.log("token 1: " + responseInfo[1].token);
-        // console.log("item.item.info.fullname: " + item.item.info.fullname);
+
         console.log("userName: " + userName);
         if (responseInfo.length === 2) {
           Axios.post(`${await Constants1.BASE_URL()}/api/notifications/match`, {
@@ -132,6 +162,7 @@ const ProfileCard = ({ item, index, userID, userName }) => {
   };
 
   useEffect(() => {
+    getAvatar();
     Animated.parallel([
       Animated.timing(opacityTransition, {
         toValue: 1,
@@ -173,7 +204,16 @@ const ProfileCard = ({ item, index, userID, userName }) => {
           },
         ]}
       >
-        <Image style={styles.image} source={item.item.src} />
+        <Image
+          style={styles.image}
+          source={
+            avatar
+              ? { uri: avatar }
+              : {
+                  uri: "https://icon-library.com/images/default-profile-icon/default-profile-icon-24.jpg",
+                }
+          }
+        />
         <View style={styles.text_box}>
           <View style={styles.text_box_name}>
             <Text
