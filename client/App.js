@@ -32,7 +32,7 @@ import BasicInfo from "./screens/Questionnaires/BasicInfo.js";
 import EditProfile from "./screens/EditProfile";
 import UserProfile from './components/UserProfile';
 // IMPORT CHAT NAVIGATOR
-import ChatNavigator from "./screens/ChatAPI/ChatNavigator.js";
+import ChatNavigator from "./screens/ChatAPI/ChatNavigator";
 
 // LOGO ICONS
 import BirdFeedLogo from "./assets/BirdFeedLogo.png";

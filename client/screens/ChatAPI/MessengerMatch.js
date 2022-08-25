@@ -98,10 +98,10 @@ const MessengerMatch = ({sheetRef, setIsOpen, handleSnapPress, userList, setUser
                         </ScrollView>
                     </View>
                     ) : <Text style={styles.noMatches}> "No new matches at the moment, keep on swiping!" </Text>}
-                    </View>
                 <Text style={styles.matchText}>Messages</Text>
-            </View>
-        )
+                </View>
+        </View>
+    )
 }}
 
 const styles = StyleSheet.create({

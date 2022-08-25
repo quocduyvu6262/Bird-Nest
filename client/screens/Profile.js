@@ -690,6 +690,7 @@ const InterestInfo = (props) => {
           initialTags={iHave.filter(n=>n)}
           readonly={true}/>
       </View>)}
+
       <Text style = {styles.text}>What I am okay with: </Text>
       <Tags
         initialTags={[

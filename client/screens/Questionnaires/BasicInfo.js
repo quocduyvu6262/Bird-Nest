@@ -52,7 +52,7 @@ class BasicInfo extends Component {
       return false;
     }
     */
-   if ((this.props.userInfo.alcohol !== "") && (this.props.userInfo.sleep !== "")
+    if ((this.props.userInfo.alcohol !== "") && (this.props.userInfo.sleep !== "")
     && (this.props.userInfo.guests !== "") && (this.props.userInfo.silent !== "") && (this.props.userInfo.shareAppliances !== "")
     && (this.props.userInfo.roommateInteraction !== "") && (this.props.userInfo.tellRoommateIfBothered !== "")) {
       return true;
@@ -463,7 +463,7 @@ class BasicInfo extends Component {
             Select the type of pet(s) that
           </Text>
           <Text style={HousingQ_styles.question1}>
-            you own: <Text style={HousingQ_styles.highlight}></Text>
+            you own: <Text style={HousingQ_styles.highlight}>*</Text>
           </Text>
           <TouchableOpacity
             style={[this.state15, HousingQ_styles.buttonContainerYes4]}
