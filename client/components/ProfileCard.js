@@ -169,13 +169,21 @@ const ProfileCard = ({ item, index, userID, userName }) => {
             </Text>
           </View>
           <Text>
-            {item.item.info.neighborhood.map((neighborhood, index) => {
-              if (index !== item.item.info.neighborhood.length - 1) {
-                return `${neighborhood}, `;
-              } else {
-                return `${neighborhood} `;
-              }
-            })}
+            {item.item.info.neighborhood.length <= 2
+              ? item.item.info.neighborhood.map((neighborhood, index) => {
+                  if (index === 0 && item.item.info.neighborhood.length == 2) {
+                    return `${neighborhood}, `;
+                  } else {
+                    return `${neighborhood} `;
+                  }
+                })
+              : item.item.info.neighborhood.map((neighborhood, index) => {
+                  if (index <= 1) {
+                    return `${neighborhood}, `;
+                  } else if (index === 2) {
+                    return `etc.`;
+                  }
+                })}
           </Text>
           <View style={styles.barGroup}>
             <Text>Rent is ${item.item.info.rent}</Text>
@@ -183,12 +191,16 @@ const ProfileCard = ({ item, index, userID, userName }) => {
             <Text>{item.item.info.lease} months term</Text>
           </View>
           <Text>SQFT: {item.item.info.squarefeet}</Text>
-          <Text>{item.item.info.parking}</Text>
+          <View style={styles.matchedInterestsBox}>
+            <Text style={{ fontSize: 30, marginRight: 5 }}>
+              {item.item.count}
+            </Text>
+            <View>
+              <Text style={{ fontSize: 11 }}>matched</Text>
+              <Text style={{ fontSize: 11 }}>interests!</Text>
+            </View>
+          </View>
         </View>
-        {/* <View>
-          <Text>{item.item.count}</Text>
-          <Text>matched interests</Text>
-        </View> */}
       </Animated.View>
     </Swipeable>
   );
@@ -196,7 +208,7 @@ const ProfileCard = ({ item, index, userID, userName }) => {
 
 const styles = StyleSheet.create({
   container: {
-    height: 150,
+    height: 130,
     width: "100%",
     backgroundColor: "white",
     alignSelf: "center",
@@ -230,7 +242,7 @@ const styles = StyleSheet.create({
     color: "#560CCE",
   },
   noButton: {
-    height: 150,
+    height: 130,
     width: 80,
     backgroundColor: "lightgray",
     alignSelf: "center",
@@ -249,6 +261,14 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 0,
     right: 0,
+  },
+  matchedInterestsBox: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    // backgroundColor: "red",
+    alignItems: "center",
+    flexDirection: "row",
   },
 });
 
