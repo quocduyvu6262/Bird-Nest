@@ -103,17 +103,18 @@ const FilterOverlay = ({ overlayFilterButton, setUserList, setListState }) => {
    * @returns view
    */
   const SingleSwitch = (props) => {
+    //console.log(props);
     return (
       <View style={styles.switchView}>
         <Switch
           trackColor={{ false: "%767577", true: "green" }}
           thumbColor={props.enabled ? "#white" : "white"}
           onValueChange={props.toggle}
-          value={props.enabled}
+          value={!!props.enabled}
         ></Switch>
         <Text style={styles.switchText}>
           <Text></Text>
-          {props.enabled ? props.variable : `No ${props.variable}`}
+          {!!props.enabled ? props.variable : `No ${props.variable}`}
         </Text>
       </View>
     );
@@ -151,14 +152,13 @@ const FilterOverlay = ({ overlayFilterButton, setUserList, setListState }) => {
     })
       .then((filteredUsers) => {
         filterUserData = filteredUsers.data;
+        console.log(filterUserData);
         for (let i = 0; i < filterUserData.length - 1; i++) {
           //skip seeing yourself
-          if (filterUserData[i].User_id != user.id) {
-            userList.push({
-              name: filterUserData[i].info.fullname,
-              neighborhoood: filterUserData[i].info.neighborhood,
-            });
-          }
+          userList.push({
+            name: filterUserData[i].info.fullname,
+            neighborhoood: filterUserData[i].info.neighborhood,
+          });
         }
         setUserList((prevList) => [
           ...userList,
@@ -196,9 +196,11 @@ const FilterOverlay = ({ overlayFilterButton, setUserList, setListState }) => {
     dispatch(dataActions.updateGym(gym));
     dispatch(dataActions.updatePool(pool));
     dispatch(dataActions.updateAppliances(appliances));
+    dispatch(dataActions.updateFurniture(furniture));
     dispatch(dataActions.updateAC(AC));
-    console.log(gym);
-    console.log(AC);
+    //console.log(gym);
+    //console.log(AC);
+    //console.log(!!AC);
     // update Secure Store
 
     //call filtering algorithm
@@ -218,6 +220,8 @@ const FilterOverlay = ({ overlayFilterButton, setUserList, setListState }) => {
     //console.log(filterMap.get("neighborhood"));
     Filter(filterMap);
     // back to birdfeed/peckview
+    //reset switch states here like Eli did in his old code?
+
     overlayFilterButton();
   };
 
@@ -242,7 +246,7 @@ const FilterOverlay = ({ overlayFilterButton, setUserList, setListState }) => {
               backgroundColor: "#dfdfdf",
               width: 175,
             }}
-            placeholder="0 items has been selected"
+            placeholder="Any"
             dropDownDirection="AUTO"
             multiple={true}
             min={0}
@@ -272,12 +276,14 @@ const FilterOverlay = ({ overlayFilterButton, setUserList, setListState }) => {
         </View>
 
         <View style={styles.slider}>
-          <Text style={styles.slideText}>Lease Month Term: {lease}</Text>
+          <Text style={styles.slideText}>
+            Lease Month Term: {getLeaseFromInteger(lease)}
+          </Text>
           <Slider
             value={lease}
             minimumValue={1}
             maximumValue={12}
-            step={1}
+            step={4}
             onValueChange={(value) => setLease(value)}
             thumbStyle={{ height: 15, width: 15, backgroundColor: "#6736B6" }}
           />
@@ -285,7 +291,7 @@ const FilterOverlay = ({ overlayFilterButton, setUserList, setListState }) => {
 
         {/* <View style={[styles.slider, { opacity: squarefeet ? 1 : 0.5 }]}> */}
         <View style={styles.slider}>
-          <Text style={styles.slideText}>Square Feet : {squarefeet}</Text>
+          <Text style={styles.slideText}>Min Square Feet: {squarefeet}</Text>
           <Slider
             value={squarefeet}
             minimumValue={100}

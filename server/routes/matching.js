@@ -137,6 +137,7 @@ router.post("/filternohousingtable", (req, res) => {
     } else if (value == true) {
       nohousingQuery += key + "=" + value.toString() + " AND ";
     }
+<<<<<<< HEAD
     //rent has to be >=
     else if (key == "rent") {
       nohousingQuery += key + ">=" + value.toString() + " AND ";
@@ -158,6 +159,16 @@ router.post("/filternohousingtable", (req, res) => {
   //remove extra AND
   let filterQuery = nohousingQuery.slice(0, nohousingQuery.length - 4) + ";";
   console.log(filterQuery);
+=======
+	//remove extra AND
+	let filterQuery = nohousingQuery.slice(0, nohousingQuery.length -4) + ";";
+	//if everything deselected
+	if (filterQuery === "SELECT * FROM NoHousing JOIN User ON NoHousing.User_id = User.id WHERE ;") {
+		filterQuery = "SELECT * FROM NoHousing JOIN User ON NoHousing.User_id = User.id";
+	}
+	
+	console.log(filterQuery);
+>>>>>>> alm011-copy
 
   //GET PRIORITY COUNT
   db((client) => {
@@ -233,6 +244,7 @@ router.post("/filterhousingtable", (req, res) => {
     } else if (value == true) {
       housingQuery += key + "=" + value.toString() + " AND ";
     }
+<<<<<<< HEAD
     //rent has to be <=
     else if (key == "rent") {
       housingQuery += key + "<=" + value.toString() + " AND ";
@@ -252,6 +264,15 @@ router.post("/filterhousingtable", (req, res) => {
   //remove extra AND
   let filterQuery = housingQuery.slice(0, housingQuery.length - 4) + ";";
   console.log(filterQuery);
+=======
+	//remove extra AND
+	let filterQuery = housingQuery.slice(0, housingQuery.length -4) + ";";
+	//if everything deselected
+	if (filterQuery === "SELECT * FROM NoHousing JOIN User ON NoHousing.User_id = User.id WHERE ;") {
+		filterQuery = "SELECT * FROM NoHousing JOIN User ON NoHousing.User_id = User.id";
+	}
+	console.log(filterQuery);
+>>>>>>> alm011-copy
 
   //GET PRIORITY COUNT
   db((client) => {
