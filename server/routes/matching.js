@@ -12,8 +12,6 @@ router.post("/lookingforhousing", (req, res) => {
   //query for sending every user's variables to the front-end
   const getHousingQuery =
     "SELECT User.*, Housing.* FROM BirdNest.User JOIN BirdNest.Housing ON User.id = Housing.User_id";
-  console.log(getHousingQuery);
-  console.log(provided_id);
   db((client) => {
     var must_have_map = new Map();
     client.query(

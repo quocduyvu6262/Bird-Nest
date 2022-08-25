@@ -18,7 +18,6 @@ const ChirpNotificationEdit = ({ navigation }) => {
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
   const [isMatch, setIsMatch] = useState(false);
   const toggleMatch= () => setIsMatch((previousState) => !previousState);
-  
   return (
     <SafeAreaView style={ChirpNotificationEdit_Styles.container}>
       <MainHeader screen="Chirp Notification" navigation={navigation} />

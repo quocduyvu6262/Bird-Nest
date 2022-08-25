@@ -31,6 +31,7 @@ import Personality from "./screens/Questionnaires/Personality.js";
 import BasicInfo from "./screens/Questionnaires/BasicInfo.js";
 import EditProfile from "./screens/EditProfile";
 import UserProfile from './components/UserProfile';
+import FakeComponent from "./screens/fake";
 // IMPORT CHAT NAVIGATOR
 import ChatNavigator from "./screens/ChatAPI/ChatNavigator";
 
@@ -133,6 +134,7 @@ export default function App() {
             <Stack.Screen name="History" component={History} />
             <Stack.Screen name="UserProfile" component={UserProfile} />
             <Stack.Screen name="EditProfile" component={EditProfile} />
+            <Stack.Screen name="FakeComponent" component={FakeComponent} />
           </Stack.Navigator>
         </NavigationContainer>
       </GestureHandlerRootView>
