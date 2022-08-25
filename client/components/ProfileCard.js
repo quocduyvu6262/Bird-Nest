@@ -21,7 +21,7 @@ import Axios from "axios";
 import Constants1 from "../constants/constants.js";
 // import { useSelector, useDispatch } from "react-redux";
 
-const ProfileCard = ({ item, index, userID }) => {
+const ProfileCard = ({ item, index, userID, userName }) => {
   const opacityTransition = useRef(new Animated.Value(0)).current;
   const translation = useRef(
     new Animated.ValueXY({
@@ -36,18 +36,33 @@ const ProfileCard = ({ item, index, userID }) => {
   // console.log(item.item.info.User_id);
 
   const swipeUserYes = async () => {
-    console.log(userID);
-    console.log(item.item.info.User_id);
     Axios.post(`${await Constants1.BASE_URL()}/api/history/insertYes`, {
-      user_id: item.item.info.User_id,
-      swiped_id: userID,
+      // user_id: item.item.info.User_id,
+      user_id: 98,
+      // swiped_id: userID,
+      swiped_id: 345,
       // user_id: 98,
       // swiped_id: 7,
     })
-      .then((response) => {
+      .then(async (response) => {
         let responseInfo = response.data;
-        // console.log(responseInfo);
-        if (responseInfo === "") {
+        if (responseInfo.length === 2) {
+          Axios.post(`${await Constants1.BASE_URL()}/api/notifications/match`, {
+            pushTokens: [responseInfo[0].token, responseInfo[1].token],
+            phone_user: userName,
+            swiped_user: item.item.info.fullname,
+          })
+            .then()
+            .catch((error) => {
+              console.log(error);
+            });
+        } else if (responseInfo.length === 1) {
+          Axios.post(`${await Constants1.BASE_URL()}/api/notifications/swipe`, {
+            pushTokens: responseInfo[0].token,
+            swiped_user: item.item.info.fullname,
+          }).catch((error) => {
+            console.log(error);
+          });
         }
       })
       .catch((error) => {

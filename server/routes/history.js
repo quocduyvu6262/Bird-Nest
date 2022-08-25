@@ -157,9 +157,11 @@ router.post("/insertYes", (req, res) => {
               });
               client.query(addQuery2, (err, result) => {
                 if (err) throw err;
-                return res.send(
-                  "History updated and match found between users!"
-                );
+                const tokenQuery = `SELECT token FROM BirdNest.User WHERE id = ${provided_id} OR id = ${swiped_id}`;
+                client.query(tokenQuery, (err, result5) => {
+                  if (err) throw err;
+                  res.send(result5);
+                });
               });
             });
           });
@@ -167,7 +169,11 @@ router.post("/insertYes", (req, res) => {
         return;
       });
       if (!matched) {
-        res.send("History updated but match not found between users.");
+        const tokenQuery2 = `SELECT token FROM BirdNest.User WHERE id = ${swiped_id}`;
+        client.query(tokenQuery2, (err, result6) => {
+          if (err) throw err;
+          res.send(result6);
+        });
       }
     });
   });
