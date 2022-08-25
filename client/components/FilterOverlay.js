@@ -42,7 +42,7 @@ const FilterOverlay = ({overlayFilterButton, setUserList, setListState}) => {
     if (housing.lease === '4 to 7'){
       return 4;
     } 
-    if (housing.lease === '8 - 11'){
+    if (housing.lease === '8 to 11'){
       return 8;
     } 
     return 12;
@@ -60,7 +60,7 @@ const FilterOverlay = ({overlayFilterButton, setUserList, setListState}) => {
       return '4 to 7';
     }
     if(lease >= 8 && lease <= 11){
-      return '8 - 11';
+      return '8 to 11';
     }
     return '12+'
   }

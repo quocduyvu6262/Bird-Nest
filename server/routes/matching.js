@@ -242,8 +242,8 @@ router.post('/filterhousingtable', (req, res) => {
 	//remove extra AND
 	let filterQuery = housingQuery.slice(0, housingQuery.length -4) + ";";
 	//if everything deselected
-	if (filterQuery === "SELECT * FROM NoHousing JOIN User ON NoHousing.User_id = User.id WHERE ;") {
-		filterQuery = "SELECT * FROM NoHousing JOIN User ON NoHousing.User_id = User.id";
+	if (filterQuery === "SELECT * FROM Housing JOIN User ON Housing.User_id = User.id WHERE ;") {
+		filterQuery = "SELECT * FROM Housing JOIN User ON Housing.User_id = User.id";
 	}
 	console.log(filterQuery);
 
