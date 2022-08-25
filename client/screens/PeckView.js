@@ -89,6 +89,7 @@ const PeckView = ({ navigation }) => {
             key={profile.info.User_id}
             id={profile.info.User_id}
             userID={user.id}
+            userName={user.fullname}
           />
         ))}
       </View>

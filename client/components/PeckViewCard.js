@@ -23,6 +23,8 @@ import Animated, {
   withTiming,
   Easing,
 } from "react-native-reanimated";
+import Axios from "axios";
+import Constants1 from "../constants/constants.js";
 
 const snapPoint = (value, velocity, points) => {
   "worklet";
@@ -40,13 +42,12 @@ const PeckViewCard = ({
   setUserList,
   userID,
   id,
+  userName,
 }) => {
   const positionX = useSharedValue(0);
   const positionY = useSharedValue(0);
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(0);
-
-  console.log(user.info);
 
   const onGestureEvent = useAnimatedGestureHandler({
     onStart: () => {
@@ -104,22 +105,24 @@ const PeckViewCard = ({
   const swipeUserYes = async () => {
     Axios.post(`${await Constants1.BASE_URL()}/api/history/insertYes`, {
       user_id: userID,
-      swiped_id: item.item.info.User_id,
+      swiped_id: user.info.User_id,
       // swiped_id: 345,
       // user_id: 98,
-      // swiped_id: 7,
+      // swiped_id: 345,
     })
       .then(async (response) => {
         let responseInfo = response.data;
         console.log("token 0: " + responseInfo[0].token);
         // console.log("token 1: " + responseInfo[1].token);
-        // console.log("item.item.info.fullname: " + item.item.info.fullname);
+        // console.log("user.info.fullname: " + user.info.fullname);
         console.log("userName: " + userName);
         if (responseInfo.length === 2) {
           Axios.post(`${await Constants1.BASE_URL()}/api/notifications/match`, {
             pushTokens: [responseInfo[0].token, responseInfo[1].token],
             phone_user: userName,
-            swiped_user: item.item.info.fullname,
+            swiped_user: user.info.fullname,
+            // phone_user: userName,
+            // swiped_user: user.info.fullname,
           })
             .then()
             .catch((error) => {
@@ -142,7 +145,7 @@ const PeckViewCard = ({
   const swipeUserNo = async () => {
     Axios.post(`${await Constants1.BASE_URL()}/api/history/insertNo`, {
       user_id: userID,
-      swiped_id: item.item.info.User_id,
+      swiped_id: user.info.User_id,
     })
       .then((response) => {
         console.log(response.data);
@@ -152,7 +155,7 @@ const PeckViewCard = ({
       });
   };
 
-  const handleStateChange = async ({ nativeEvent }) => {
+  const handleStateChange = ({ nativeEvent }) => {
     const dest = snapPoint(
       translateX.value,
       nativeEvent.velocityX,
@@ -164,14 +167,14 @@ const PeckViewCard = ({
       //   if (profileList.length == 1) {
       //     return;
       //   }
-      await swipeUserYes();
+      swipeUserYes();
       setTimeout(removeCard, 100);
     } else if (nativeEvent.state === State.END && dest === SNAP_POINTS[0]) {
       console.log("Swiped Left");
       //   if (userList.length == 1) {
       //     return;
       //   }
-      await swipeUserNo();
+      swipeUserNo();
       setTimeout(removeCard, 100);
     }
   };
@@ -191,8 +194,12 @@ const PeckViewCard = ({
         <View style={styles.cardInfoWrapper}>
           <Image source={barackObama} style={styles.image} />
           <View style={styles.headerText}>
-            <Text style={styles.name}>{user.info.fullname}</Text>
-            <Text>(Age), (Gender)</Text>
+            <Text style={styles.name}>
+              {user.info.firstname} {user.info.lastname[0]}.
+            </Text>
+            <Text>
+              {user.info.gender}, {user.info.pronouns}, {user.info.age},
+            </Text>
           </View>
           <View style={styles.mainTextWrapper}>
             <View>
@@ -245,7 +252,7 @@ const styles = StyleSheet.create({
   headerText: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     borderBottomColor: "#560CCE",
     borderBottomWidth: 2,
   },
@@ -253,7 +260,7 @@ const styles = StyleSheet.create({
     fontFamily: "Pacifico_400Regular",
     fontSize: 25,
     color: "#560CCE",
-    marginRight: 20,
+    marginRight: 10,
     paddingHorizontal: 10,
     paddingBottom: 5,
   },

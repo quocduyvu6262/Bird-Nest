@@ -329,7 +329,7 @@ const BirdFeed = ({ navigation }) => {
                   <ProfileCard
                     item={item}
                     userID={user.id}
-                    userName={user.firstname}
+                    userName={user.fullname}
                   />
                 </TouchableOpacity>
               )}
