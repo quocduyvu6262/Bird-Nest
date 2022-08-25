@@ -52,7 +52,7 @@ class BasicInfo extends Component {
       return false;
     }
     */
-   if ((this.props.userInfo.pets.length > 0) && (this.props.userInfo.alcohol !== "") && (this.props.userInfo.sleep !== "")
+   if ((this.props.userInfo.alcohol !== "") && (this.props.userInfo.sleep !== "")
     && (this.props.userInfo.guests !== "") && (this.props.userInfo.silent !== "") && (this.props.userInfo.shareAppliances !== "")
     && (this.props.userInfo.roommateInteraction !== "") && (this.props.userInfo.tellRoommateIfBothered !== "")) {
       return true;
@@ -146,43 +146,43 @@ class BasicInfo extends Component {
   };
   state15 = {
     name: "Dog",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.pets.includes("Dog"),
+    backgroundColor: this.props.userInfo.pets.includes("Dog") ? "#3B9CF1" : "#D9D9D9",
   };
   state16 = {
     name: "Cat",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.pets.includes("Cat"),
+    backgroundColor: this.props.userInfo.pets.includes("Cat") ? "#3B9CF1" : "#D9D9D9",
   };
   state17 = {
     name: "Fish",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.pets.includes("Fish"),
+    backgroundColor: this.props.userInfo.pets.includes("Fish") ? "#3B9CF1" : "#D9D9D9",
   };
   state18 = {
     name: "Snake",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.pets.includes("Snake"),
+    backgroundColor: this.props.userInfo.pets.includes("Snake") ? "#3B9CF1" : "#D9D9D9",
   };
   state19 = {
     name: "Turtle",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.pets.includes("Turtle"),
+    backgroundColor: this.props.userInfo.pets.includes("Turtle") ? "#3B9CF1" : "#D9D9D9",
   };
   state20 = {
     name: "Hamster",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.pets.includes("Hamster"),
+    backgroundColor: this.props.userInfo.pets.includes("Hamster") ? "#3B9CF1" : "#D9D9D9",
   };
   state21 = {
     name: "Guinea Pig",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.pets.includes("Guinea Pig"),
+    backgroundColor: this.props.userInfo.pets.includes("Guinea Pig") ? "#3B9CF1" : "#D9D9D9",
   };
   state22 = {
     name: "Other",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.pets.includes("Other"),
+    backgroundColor: this.props.userInfo.pets.includes("Other") ? "#3B9CF1" : "#D9D9D9",
   };
   state23 = {
     pressed: false,
@@ -463,7 +463,7 @@ class BasicInfo extends Component {
             Select the type of pet(s) that
           </Text>
           <Text style={HousingQ_styles.question1}>
-            you own: <Text style={HousingQ_styles.highlight}>*</Text>
+            you own: <Text style={HousingQ_styles.highlight}></Text>
           </Text>
           <TouchableOpacity
             style={[this.state15, HousingQ_styles.buttonContainerYes4]}
@@ -1254,6 +1254,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => ({
   userInfo: state.data.userInfo,
+  housing: state.data.housing
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BasicInfo);

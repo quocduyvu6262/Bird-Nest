@@ -67,8 +67,6 @@ const UserCarouselCards = ({avatar, picsList}) => {
         });
         //setPicsListCarouselData(picsListCarouselData);
     }, [])
-    
-    
     return (
         <SafeAreaView>
             <Carousel
@@ -88,7 +86,7 @@ const UserCarouselCards = ({avatar, picsList}) => {
             />
         </SafeAreaView>
     )
-}
+};
 
 
 export default UserCarouselCards

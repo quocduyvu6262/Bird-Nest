@@ -42,6 +42,7 @@ import Icon3 from "react-native-vector-icons/Ionicons";
 import { useSelector, useDispatch } from "react-redux";
 import { storage, ref, getDownloadURL } from "../firebaseConfig";
 import Constants from "../constants/constants.js";
+import { getDateSeparators } from "stream-chat-expo";
 
 const BirdFeed = ({ navigation }) => {
   /**
