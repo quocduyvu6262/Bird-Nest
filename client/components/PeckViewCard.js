@@ -43,6 +43,7 @@ const PeckViewCard = ({
   userID,
   id,
   userName,
+  navigation,
 }) => {
   const positionX = useSharedValue(0);
   const positionY = useSharedValue(0);
@@ -215,7 +216,10 @@ const PeckViewCard = ({
               <Text style={styles.mainTextHeader}>Rent</Text>
             </View>
           </View>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("UserProfile", { item })}
+            style={styles.button}
+          >
             <Text style={styles.buttonText}>
               View {user.info.fullname}'s Profile{" "}
             </Text>
