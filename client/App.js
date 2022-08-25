@@ -6,6 +6,7 @@ import {
   InteractionManager,
   ActivityIndicator,
   Pressable,
+  StatusBar,
 } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Logo from "./assets/bird.png";

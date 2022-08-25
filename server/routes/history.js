@@ -291,4 +291,39 @@ router.post("/matches", (req, res) => {
     });
   });
 });
+router.post("/create", (req, res) => {
+  var user_id = req.body.user_id;
+  try {
+    const checkExistQuery = `SELECT * FROM BirdNest.History WHERE User_id = "${user_id}"`;
+    const insertQuery = `INSERT INTO BirdNest.History (list_of_users_all, list_of_users_yes, list_of_users_no, User_id) 
+                    VALUES (null, null, null, ${user_id})`;
+    db((client) => {
+      client.query(checkExistQuery, (err, result) => {
+        //if result is not empty a user is found, don't do anything
+        if (result.length) {
+          // console.log( "User found successfully.");
+          res.status(400).send("User already in history table")
+          return;
+        }
+        //Else, user is not found. Insert
+        else {
+          db((client) => {
+            client.query(insertQuery, (err) => {
+              if (err) {
+                console.log(err);
+                res.status(400).send(`Bad Request.`);
+                return;
+              }
+              console.log("Insert user successfully into history");
+              res.send(`Insert user successfully into history`);
+            });
+          });
+        }
+      });
+    });
+  }
+  catch(err) {
+    res.status(400).send(err);
+  }
+});
 module.exports = router;
