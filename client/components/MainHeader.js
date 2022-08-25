@@ -115,7 +115,7 @@ const MainHeader = ({ screen, navigation }) => {
               }
               Axios.post(`${await Constants.BASE_URL()}/api/images/multiple`, {
                 id: user.id,
-                pics: newListUrl
+                pics: newListUrl,
               }).then(async () => {
                 // file system
                 let newFileSystemList;
@@ -128,9 +128,18 @@ const MainHeader = ({ screen, navigation }) => {
                   newFileSystemList = fileSystemList;
                 }
                 // upload to secure store
-                await SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify({...user, picsList: newListUrl}));
-                await SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_IMAGE_URI, JSON.stringify({avatar: imageFileSystemUri.avatar, album: newFileSystemList}));
-              })
+                await SecureStore.setItemAsync(
+                  Constants.MY_SECURE_AUTH_STATE_KEY_USER,
+                  JSON.stringify({ ...user, picsList: newListUrl })
+                );
+                await SecureStore.setItemAsync(
+                  Constants.MY_SECURE_AUTH_STATE_IMAGE_URI,
+                  JSON.stringify({
+                    avatar: imageFileSystemUri.avatar,
+                    album: newFileSystemList,
+                  })
+                );
+              });
             }
           }
         );
@@ -232,7 +241,7 @@ const MainHeader = ({ screen, navigation }) => {
                   navigation.navigate("ChirpNotification");
                 }}
               >
-                <Image source={require(`../assets/bird.png`)} />
+                <Icon name="notifications" size={30} />
                 {user.notiunRead && (
                   <Text
                     style={{
@@ -306,10 +315,6 @@ const MainHeader = ({ screen, navigation }) => {
           {/* if screen === Messenger Pigeon */}
           {screen === "Messenger Pigeon" && (
             <View style={styles.headerButtonView}>
-              <TouchableOpacity style={styles.headerButtons}>
-                <Icon name="notifications" size={30} />
-              </TouchableOpacity>
-
               <TouchableOpacity
                 style={styles.headerButtons}
                 onPress={() => navigation.navigate("History")}

@@ -157,9 +157,11 @@ router.post("/insertYes", (req, res) => {
               });
               client.query(addQuery2, (err, result) => {
                 if (err) throw err;
-                return res.send(
-                  "History updated and match found between users!"
-                );
+                const tokenQuery = `SELECT token FROM BirdNest.User WHERE id = ${provided_id} OR id = ${swiped_id}`;
+                client.query(tokenQuery, (err, result5) => {
+                  if (err) throw err;
+                  res.send(result5);
+                });
               });
             });
           });
@@ -167,7 +169,27 @@ router.post("/insertYes", (req, res) => {
         return;
       });
       if (!matched) {
-        res.send("History updated but match not found between users.");
+        const rightQuery = `SELECT right1 FROM BirdNest.User WHERE id = ${swiped_id}`;
+        client.query(rightQuery, (err, result12) => {
+          if (err) throw err;
+          let resultRight = result12[0].right;
+          if (resultRight == null) {
+            resultRight = [];
+          } else {
+            resultRight = JSON.parse(resultRight);
+          }
+          resultRight.push(provided_id);
+          resultRight = JSON.stringify(resultRight);
+          const pushQuery = `UPDATE BirdNest.User SET right1 = '${resultRight}' WHERE id = ${swiped_id};`;
+          client.query(pushQuery, (err, result10) => {
+            if (err) throw err;
+            const tokenQuery2 = `SELECT token FROM BirdNest.User WHERE id = ${swiped_id}`;
+            client.query(tokenQuery2, (err, result6) => {
+              if (err) throw err;
+              res.send(result6);
+            });
+          });
+        });
       }
     });
   });
@@ -214,11 +236,11 @@ router.post("/picName1", (req, res) => {
 });
 router.post("/picName2", (req, res) => {
   var matched_user = req.body.user_id;
-  const query = `SELECT list_of_users_yes FROM BirdNest.History WHERE User_id = ${matched_user}`;
+  const query = `SELECT right1 FROM BirdNest.User WHERE id = ${matched_user}`;
   db((client) => {
     client.query(query, (err, result) => {
       if (err) throw err;
-      let matches = JSON.parse(result[0].list_of_users_yes);
+      let matches = JSON.parse(result[0].right1);
       let match_id = matches[matches.length - 1];
       const infoQuery = `SELECT fullname, profilepic FROM BirdNest.User WHERE id = ${match_id}`;
       client.query(infoQuery, (err, result) => {

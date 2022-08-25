@@ -14,7 +14,6 @@ import {
   RefreshControlBase,
 } from "react-native";
 import Svg, { Path } from "react-native-svg";
-import Bird_Drawing from "../assets/svg/Bird_Drawing.js";
 import React, { useEffect, useState, useRef } from "react";
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
@@ -243,8 +242,7 @@ const BirdFeed = ({ navigation }) => {
         for (let i = 0; i < userData.length - 1; i++) {
           userList.push({
             info: userData[i].info,
-            // name: userData[i].info.fullname,
-            // rent: userData[i].info.rent,
+            count: userData[i].count,
             src: barackObama,
           });
         }
@@ -252,7 +250,7 @@ const BirdFeed = ({ navigation }) => {
           ...userList,
           {
             info: userData[userData.length - 1].info,
-            // name: userData[userData.length - 1].info.fullname,
+            count: userData[userData.length - 1].count,
             src: barackObama,
           },
         ]);
@@ -287,11 +285,9 @@ const BirdFeed = ({ navigation }) => {
             styles.svg,
             { transform: [{ translateY: 20 }, { translateX: 100 }] },
           ]}
-        >
-          <Bird_Drawing />
-        </View>
+        ></View>
 
-        <View style={{ marginLeft: 5, flexDirection: "row" }}>
+        <View style={styles.filterButtons}>
           <TouchableOpacity
             style={[styles.input, { marginVertical: 7 }]}
             onPress={overlayFilterButton}
@@ -303,10 +299,17 @@ const BirdFeed = ({ navigation }) => {
               color="black"
             />
           </TouchableOpacity>
-          <Buttons style={{ flex: 0.5 }} onPress={viewUsers}>
-            Clear Filters
+          <Buttons
+            style={{
+              width: "auto",
+              // alignItems: "flex-start",
+            }}
+            onPress={viewUsers}
+          >
+            Clear Filter
           </Buttons>
         </View>
+
         {overlayFilterClicked && (
           <FilterOverlay
             setUserList={setUserList}
@@ -322,8 +325,12 @@ const BirdFeed = ({ navigation }) => {
               extraData={userList}
               style={{ height: "100%" }}
               renderItem={(item) => (
-                <TouchableOpacity onPress={() => navigation.navigate("UserProfile", {item})}>
-                  <ProfileCard item={item} userID={user.id} />
+                <TouchableOpacity>
+                  <ProfileCard
+                    item={item}
+                    userID={user.id}
+                    userName={user.firstname}
+                  />
                 </TouchableOpacity>
               )}
             />
@@ -423,6 +430,19 @@ const styles = StyleSheet.create({
     zIndex: 5,
     // top: 100,
     // left: 200,
+  },
+  filterButtons: {
+    flexDirection: "row",
+    position: "absolute",
+    // top: 110,
+    bottom: 10,
+    right: 10,
+    alignSelf: "center",
+    backgroundColor: "lightgray",
+    zIndex: 10,
+    // width: 280,
+    paddingLeft: 10,
+    borderRadius: 10,
   },
   clearFilterButton: {},
 });
