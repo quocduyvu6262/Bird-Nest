@@ -20,6 +20,7 @@ import { BounceIn } from "react-native-reanimated";
 import Axios from "axios";
 import Constants1 from "../constants/constants.js";
 // import { useSelector, useDispatch } from "react-redux";
+import { roleImagesIndex } from "../assets/roleImagesIndex";
 
 const ProfileCard = ({ item, index, userID, userName }) => {
   const opacityTransition = useRef(new Animated.Value(0)).current;
@@ -29,6 +30,9 @@ const ProfileCard = ({ item, index, userID, userName }) => {
       y: -400,
     })
   ).current;
+
+  console.log(item.item.info.role);
+  console.log(roleImagesIndex["Flamingo"]);
 
   const swipeUserYes = async () => {
     Axios.post(`${await Constants1.BASE_URL()}/api/history/insertYes`, {
@@ -169,26 +173,45 @@ const ProfileCard = ({ item, index, userID, userName }) => {
             </Text>
           </View>
           <Text>
-            {item.item.info.neighborhood.map((neighborhood, index) => {
-              if (index !== item.item.info.neighborhood.length - 1) {
-                return `${neighborhood}, `;
-              } else {
-                return `${neighborhood} `;
-              }
-            })}
+            {item.item.info.neighborhood.length <= 2
+              ? item.item.info.neighborhood.map((neighborhood, index) => {
+                  if (index === 0 && item.item.info.neighborhood.length == 2) {
+                    return `${neighborhood}, `;
+                  } else {
+                    return `${neighborhood} `;
+                  }
+                })
+              : item.item.info.neighborhood.map((neighborhood, index) => {
+                  if (index <= 1) {
+                    return `${neighborhood}, `;
+                  } else if (index === 2) {
+                    return `etc.`;
+                  }
+                })}
           </Text>
           <View style={styles.barGroup}>
             <Text>Rent is ${item.item.info.rent}</Text>
             <Text style={styles.bar}> | </Text>
             <Text>{item.item.info.lease} months term</Text>
           </View>
-          <Text>SQFT: {item.item.info.squarefeet}</Text>
-          <Text>{item.item.info.parking}</Text>
+          <Text>{item.item.info.squarefeet}sq ft</Text>
+          <View style={styles.matchedInterestsBox}>
+            <Text style={{ fontSize: 30, marginRight: 5 }}>
+              {item.item.count}
+            </Text>
+            <View>
+              <Text style={{ fontSize: 11 }}>matched</Text>
+              <Text style={{ fontSize: 11 }}>interests!</Text>
+            </View>
+          </View>
+          <View style={styles.roleImage}>
+            <Image
+              style={{ height: 50, width: 50 }}
+              source={roleImagesIndex[item.item.info.role]}
+              // source={roleImagesIndex["Flamingo"]}
+            />
+          </View>
         </View>
-        {/* <View>
-          <Text>{item.item.count}</Text>
-          <Text>matched interests</Text>
-        </View> */}
       </Animated.View>
     </Swipeable>
   );
@@ -196,7 +219,7 @@ const ProfileCard = ({ item, index, userID, userName }) => {
 
 const styles = StyleSheet.create({
   container: {
-    height: 150,
+    height: 130,
     width: "100%",
     backgroundColor: "white",
     alignSelf: "center",
@@ -230,7 +253,7 @@ const styles = StyleSheet.create({
     color: "#560CCE",
   },
   noButton: {
-    height: 150,
+    height: 130,
     width: 80,
     backgroundColor: "lightgray",
     alignSelf: "center",
@@ -249,6 +272,23 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 0,
     right: 0,
+  },
+  matchedInterestsBox: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    // backgroundColor: "red",
+    alignItems: "center",
+    flexDirection: "row",
+  },
+  roleImage: {
+    position: "absolute",
+    bottom: 0,
+    right: 0,
+    // backgroundColor: "red",
+    height: 50,
+    width: 50,
+    marginRight: 5,
   },
 });
 
