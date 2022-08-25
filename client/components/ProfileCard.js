@@ -20,6 +20,7 @@ import { BounceIn } from "react-native-reanimated";
 import Axios from "axios";
 import Constants1 from "../constants/constants.js";
 // import { useSelector, useDispatch } from "react-redux";
+import { roleImagesIndex } from "../assets/roleImagesIndex";
 
 const ProfileCard = ({ item, index, userID, userName }) => {
   const opacityTransition = useRef(new Animated.Value(0)).current;
@@ -29,6 +30,9 @@ const ProfileCard = ({ item, index, userID, userName }) => {
       y: -400,
     })
   ).current;
+
+  console.log(item.item.info.role);
+  console.log(roleImagesIndex["Flamingo"]);
 
   const swipeUserYes = async () => {
     Axios.post(`${await Constants1.BASE_URL()}/api/history/insertYes`, {
@@ -190,7 +194,7 @@ const ProfileCard = ({ item, index, userID, userName }) => {
             <Text style={styles.bar}> | </Text>
             <Text>{item.item.info.lease} months term</Text>
           </View>
-          <Text>SQFT: {item.item.info.squarefeet}</Text>
+          <Text>{item.item.info.squarefeet}sq ft</Text>
           <View style={styles.matchedInterestsBox}>
             <Text style={{ fontSize: 30, marginRight: 5 }}>
               {item.item.count}
@@ -199,6 +203,13 @@ const ProfileCard = ({ item, index, userID, userName }) => {
               <Text style={{ fontSize: 11 }}>matched</Text>
               <Text style={{ fontSize: 11 }}>interests!</Text>
             </View>
+          </View>
+          <View style={styles.roleImage}>
+            <Image
+              style={{ height: 50, width: 50 }}
+              source={roleImagesIndex[item.item.info.role]}
+              // source={roleImagesIndex["Flamingo"]}
+            />
           </View>
         </View>
       </Animated.View>
@@ -269,6 +280,15 @@ const styles = StyleSheet.create({
     // backgroundColor: "red",
     alignItems: "center",
     flexDirection: "row",
+  },
+  roleImage: {
+    position: "absolute",
+    bottom: 0,
+    right: 0,
+    // backgroundColor: "red",
+    height: 50,
+    width: 50,
+    marginRight: 5,
   },
 });
 
