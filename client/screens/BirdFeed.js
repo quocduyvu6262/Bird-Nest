@@ -17,6 +17,7 @@ import Svg, { Path } from "react-native-svg";
 import Bird_Drawing from "../assets/svg/Bird_Drawing.js";
 
 import React, { useEffect, useState, useRef} from "react";
+import * as SecureStore from "expo-secure-store";
 import * as Device from 'expo-device';
 import Constants1 from "../constants/constants.js";
 import * as Notifications from 'expo-notifications';
@@ -95,6 +96,7 @@ const BirdFeed = ({ navigation }) => {
         else {
           pic = await retrieveImage(pic);
         }
+        
         dispatch(dataActions.updateNotiNames(name));
         dispatch(dataActions.updateNotiPics(pic)); 
         dispatch(dataActions.updateNotiUnread());
@@ -102,7 +104,16 @@ const BirdFeed = ({ navigation }) => {
         dispatch(dataActions.updateNotiDate(currentDate));
         dispatch(dataActions.updateIsMatch());
         dispatch(dataActions.updateSingleSeen());
-      })
+        //update Secure Store
+        /*
+        const secureNames = [name, ...user.notiNames];
+        const securePics = [pic, ...user.notiPics];
+        const secureUnread = true;
+        const secureDate = [currentDate, ...user.notiDate];
+        const secureMatch = [true, ...user.isMatch];
+        const secureSeen = [false, ...user.notiSeen];
+        await SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify({...user, notiNames: secureNames, notiPics: securePics, notiUnread: secureUnread, notiDate: secureDate, notiMatch: secureMatch, notiSeen: secureSeen}));
+      */})
       .catch((error) => {
         console.log(error);
       });
@@ -128,7 +139,17 @@ const BirdFeed = ({ navigation }) => {
         dispatch(dataActions.updateNotiDate(currentDate));
         dispatch(dataActions.updateIsNotMatch());
         dispatch(dataActions.updateSingleSeen());
-      })
+        //update secure store
+        /*
+        const secureNames = [name, ...user.notiNames];
+        console.log(user.notiNames);
+        const securePics = [pic, ...user.notiPics];
+        const secureUnread = true;
+        const secureDate = [currentDate, ...user.notiDate];
+        const secureMatch = [false, ...user.isMatch];
+        const secureSeen = [false, ...user.notiSeen];
+        await SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify({...user, notiNames: secureNames, notiPics: securePics, notiUnread: secureUnread, notiDate: secureDate, notiMatch: secureMatch, notiSeen: secureSeen}));
+      */})
       .catch((error) => {
         console.log(error);
       });
