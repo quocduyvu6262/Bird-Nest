@@ -96,6 +96,7 @@ export default ChannelListScreen = (props, navigation) => {
                                 handleSnapPress={handleSnapPress}
                                 userList={userList}
                                 setUserList={setUserList}/>
+                <Text style={styles.matchText}>Messages</Text>
                 <ChannelList
                     onSelect={(channel) => {
                         const { navigation } = props;
@@ -117,5 +118,13 @@ const styles = StyleSheet.create({
         flex: 1, 
         paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0, 
         backgroundColor: "white",
-    }
+    }, matchText: {
+        // Potential Fonts: Arial, DamascusLight
+        fontFamily: "DiwanMishafi",
+        color: "#6736B6",
+        fontSize: 25,
+        marginLeft: 10,
+        marginTop: 5,
+        marginBottom: 1
+    },
 })

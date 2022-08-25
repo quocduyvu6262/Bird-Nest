@@ -6,8 +6,8 @@ import CarouselCardItem, { SLIDER_WIDTH, ITEM_WIDTH } from './CarouselCardItem'
 import Axios from "axios";
 import { useSelector } from 'react-redux'
 import {storage, ref, getDownloadURL} from '../../firebaseConfig'
-const UserCarouselCards = ({avatar, picList}) => {
 
+const UserCarouselCards = ({avatar, picsList}) => {
     const isCarousel = React.useRef(null)
     const [picsListCarouselData, setPicsListCarouselData] = useState([]);
 
@@ -24,9 +24,22 @@ const UserCarouselCards = ({avatar, picList}) => {
     }
 
     /**
+     * Download picsList
+     */
+    const downloadPicsList = async (list) => {
+        const urlList = await list.map(async url => ({
+            title: "Coral Reef",
+            body: "Location: Red Sea",
+            imgUrl: await retrieveImage(url)
+        }))
+        const toReturnUrlList = await Promise.all(urlList);
+        return toReturnUrlList;
+    }
+
+    /**
      * Download all images
      */
-    const downloadImages = async () => {
+    const downloadAllImages = async () => {
         let picsListCarouselData = []
         const avatarPath = await retrieveImage(avatar);
         if(avatar){
@@ -36,14 +49,9 @@ const UserCarouselCards = ({avatar, picList}) => {
                 imgUrl: avatarPath
             })
         }
-        if(picList && picList.length){
-            await picList.map(async picUrl => {
-                    picsListCarouselData.push({
-                    title: "Coral Reef",
-                    body: "Location: Red Sea",
-                    imgUrl: await retrieveImage(picUrl)
-                })
-            })
+        if(picsList && picsList.length){
+            const listUrl = await downloadPicsList(picsList);
+            picsListCarouselData = [...picsListCarouselData, ...listUrl];
         }
         return new Promise((resolve, reject) => {
             resolve(picsListCarouselData);
@@ -54,7 +62,7 @@ const UserCarouselCards = ({avatar, picList}) => {
      * use effect
      */
     useEffect(() => {
-        downloadImages().then(picsListCarouselData => {
+        downloadAllImages().then(picsListCarouselData => {
             setPicsListCarouselData(picsListCarouselData);
         });
         //setPicsListCarouselData(picsListCarouselData);

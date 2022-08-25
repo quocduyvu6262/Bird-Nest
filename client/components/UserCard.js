@@ -12,12 +12,12 @@ const UserCard = (props) => {
     <View style={styles.card}>
       {user.id === props.id 
         ? <CarouselCards />
-        : <UserCarouselCards avatar={props.avatar} picList={props.picsList}/>
+        : <UserCarouselCards avatar={props.avatar} picsList={props.picsList}/>
       }
         <Header>
           {props.name} 
         </Header>
-        <Text style={styles.genderAge}>
+        <Text style={styles.header}>
           {props.genderage}
         </Text>
     </View>
@@ -29,6 +29,11 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.surface,
     alignItems: "center",
   }, 
+  header: {
+    fontSize: 25,
+    color: theme.colors.primary,
+    fontWeight: 'bold',
+  },
   userImage: {
     borderColor: "#D3D3D3",
     borderRadius: 15,
@@ -37,11 +42,6 @@ const styles = StyleSheet.create({
     position: "relative",
     bottom: 0,
   },
-  genderAge: {
-    fontSize: 20,
-    color: theme.colors.primary,
-    fontWeight: 'bold',
-  }
 });
 
 export default UserCard;

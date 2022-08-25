@@ -13,12 +13,13 @@ router.post('/match',(req, res) => {
     const somePushTokens = req.body.pushTokens;
     const phone_user = req.body.phone_user;
     const swiped_user = req.body.swiped_user;
+    console.log(somePushTokens[0]);
     let count = 0;
     // Create the messages that you want to send to clients
     let messages = [];
     for (let pushToken of somePushTokens) {
       // Each push token looks like ExponentPushToken[xxxxxxxxxxxxxxxxxxxxxx]
-    
+      //console.log(somePushTokens[0]);
       // Check that all your push tokens appear to be valid Expo push tokens
       if (!Expo.isExpoPushToken(pushToken)) {
         console.error(`Push token ${pushToken} is not a valid Expo push token`);

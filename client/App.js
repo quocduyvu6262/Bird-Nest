@@ -15,7 +15,7 @@ import SplashScreen from "./screens/Auth/SplashScreen";
 import BirdFeed from "./screens/BirdFeed.js";
 import PeckView from "./screens/PeckView.js";
 import Profile from "./screens/Profile.js";
-import ChirpNotification from "./screens/Notification/ChirpNotification.js";
+import ChirpNotification from "./screens/ChirpNotification.js";
 import History from "./screens/History.js";
 import LoginScreen from "./screens/Auth/Login.js";
 import Roles from "./screens/Questionnaires/Roles";
@@ -29,8 +29,8 @@ import NoHousingQ from "./screens/Questionnaires/NoHousingQ.js";
 import HasHousingQ from "./screens/Questionnaires/HasHousingQ.js";
 import Personality from "./screens/Questionnaires/Personality.js";
 import BasicInfo from "./screens/Questionnaires/BasicInfo.js";
-import UserProfile from "./components/UserProfile.js";
-
+import EditProfile from "./screens/EditProfile";
+import UserProfile from './components/UserProfile';
 // IMPORT CHAT NAVIGATOR
 import ChatNavigator from "./screens/ChatAPI/ChatNavigator";
 
@@ -61,7 +61,11 @@ const TabNavigator = () => {
   );
   return (
     <Tab.Navigator
-      screenOptions={{ headerShown: false, tabBarActiveTintColor: "#560CCE" }}
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: "#560CCE",
+        tabBarStyle: { height: 90 },
+      }}
     >
       <Tab.Screen
         name="Profile"
@@ -128,6 +132,7 @@ export default function App() {
             <Stack.Screen name="Roles" component={Roles} />
             <Stack.Screen name="History" component={History} />
             <Stack.Screen name="UserProfile" component={UserProfile} />
+            <Stack.Screen name="EditProfile" component={EditProfile} />
           </Stack.Navigator>
         </NavigationContainer>
       </GestureHandlerRootView>
