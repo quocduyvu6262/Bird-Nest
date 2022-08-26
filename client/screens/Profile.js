@@ -670,26 +670,6 @@ const InterestInfo = (props) => {
 
   return (
     <View style={styles.interestContainer}>
-<<<<<<< HEAD
-      <Text style = {styles.text}>
-        What I go by:
-      </Text>
-
-      <Tags 
-        initialTags={[
-          props.pronouns
-        ]}
-      readonly={true}/>
-
-      <Text style = {styles.text}>
-        What I have:
-      </Text>
-
-      <Tags 
-        initialTags={iHave.filter(n=>n)}
-      readonly={true}/>
-      <Text style = {styles.text}>What I am okay with: </Text>
-=======
       <Text style={styles.text}>What I go by:</Text>
 
       <Tags initialTags={[props.pronouns]} readonly={true} />
@@ -701,7 +681,6 @@ const InterestInfo = (props) => {
         </View>
       )}
       <Text style={styles.text}>What I am okay with: </Text>
->>>>>>> origin/dev
       <Tags
         initialTags={[
           props.alc ? "Alchol/420" : null,

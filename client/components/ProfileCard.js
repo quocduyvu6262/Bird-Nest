@@ -260,19 +260,6 @@ const ProfileCard = ({ item, index, userID, userName }) => {
               // source={roleImagesIndex["Flamingo"]}
             />
           </View>
-          <Text>
-            {/* {item.item.info.neighborhood.map(
-              (neighborhood, index) => `${neighborhood}, `
-            )} */}
-            {item.item.info.neighborhood}
-          </Text>
-          <View style={styles.barGroup}>
-            <Text>Rent is ${item.item.info.rent}</Text>
-            <Text style={styles.bar}> | </Text>
-            <Text>{item.item.info.lease} months term</Text>
-          </View>
-          <Text>{item.item.info.squarefeet}</Text>
-          <Text>{item.item.info.parking}</Text>
         </View>
       </Animated.View>
     </Swipeable>
@@ -355,3 +342,4 @@ const styles = StyleSheet.create({
 });
 
 export default ProfileCard;
+
