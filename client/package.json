@@ -28,6 +28,7 @@
     "axios": "^0.27.2",
     "babel-plugin-inline-import": "^3.0.0",
     "deprecated-react-native-prop-types": "^2.3.0",
+    "doctor": "^0.3.0",
     "dotenv": "^16.0.1",
     "expo": "^46.0.9",
     "expo-app-loading": "~2.1.0",

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useMemo } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   View,
   Text,
@@ -25,12 +25,12 @@ import { useDispatch, useSelector } from "react-redux";
 import * as FileSystem from 'expo-file-system'
 import Tags from "react-native-tags";
 
-const UserProfile = ({ navigation, route }) => {
+const UserProfile = React.memo(({ navigation, route }) => {
 
   const [buttonClicked, setButtonClicked] = useState(false);
   const [interestButtonClicked, setInterestButtonClicked] = useState(false);
   const item = route.params.item;
-  const user = item.info;
+  const user = item.item.info;
 
   const roomInfoButton = () => {
     setButtonClicked(true);
@@ -43,6 +43,8 @@ const UserProfile = ({ navigation, route }) => {
       ? setInterestButtonClicked(false)
       : setInterestButtonClicked(true);
   };
+  
+  console.log("render");
   return (
     <SafeAreaView style={styles.container}>
       <MainHeader screen={`${user.firstname}'s Profile`} navigation={navigation} />
@@ -137,7 +139,7 @@ const UserProfile = ({ navigation, route }) => {
       </ScrollView>
     </SafeAreaView>
   );
-};
+});
 
 // Bio
 const BioInfo = (props) => {

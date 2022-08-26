@@ -52,15 +52,20 @@ class BasicInfo extends Component {
       return false;
     }
     */
-   if ((this.props.userInfo.alcohol !== "") && (this.props.userInfo.sleep !== "")
-    && (this.props.userInfo.guests !== "") && (this.props.userInfo.silent !== "") && (this.props.userInfo.shareAppliances !== "")
-    && (this.props.userInfo.roommateInteraction !== "") && (this.props.userInfo.tellRoommateIfBothered !== "")) {
+    if (
+      this.props.userInfo.alcohol !== "" &&
+      this.props.userInfo.sleep !== "" &&
+      this.props.userInfo.guests !== "" &&
+      this.props.userInfo.silent !== "" &&
+      this.props.userInfo.shareAppliances !== "" &&
+      this.props.userInfo.roommateInteraction !== "" &&
+      this.props.userInfo.tellRoommateIfBothered !== ""
+    ) {
       return true;
-   }
-   else {
-    return false;
-   }
-  }  
+    } else {
+      return false;
+    }
+  };
 
   setField = () => {
     this.fieldState = { blankError: "Please fill in all required fields*" };
@@ -147,42 +152,58 @@ class BasicInfo extends Component {
   state15 = {
     name: "Dog",
     pressed: this.props.userInfo.pets.includes("Dog"),
-    backgroundColor: this.props.userInfo.pets.includes("Dog") ? "#3B9CF1" : "#D9D9D9",
+    backgroundColor: this.props.userInfo.pets.includes("Dog")
+      ? "#3B9CF1"
+      : "#D9D9D9",
   };
   state16 = {
     name: "Cat",
     pressed: this.props.userInfo.pets.includes("Cat"),
-    backgroundColor: this.props.userInfo.pets.includes("Cat") ? "#3B9CF1" : "#D9D9D9",
+    backgroundColor: this.props.userInfo.pets.includes("Cat")
+      ? "#3B9CF1"
+      : "#D9D9D9",
   };
   state17 = {
     name: "Fish",
     pressed: this.props.userInfo.pets.includes("Fish"),
-    backgroundColor: this.props.userInfo.pets.includes("Fish") ? "#3B9CF1" : "#D9D9D9",
+    backgroundColor: this.props.userInfo.pets.includes("Fish")
+      ? "#3B9CF1"
+      : "#D9D9D9",
   };
   state18 = {
     name: "Snake",
     pressed: this.props.userInfo.pets.includes("Snake"),
-    backgroundColor: this.props.userInfo.pets.includes("Snake") ? "#3B9CF1" : "#D9D9D9",
+    backgroundColor: this.props.userInfo.pets.includes("Snake")
+      ? "#3B9CF1"
+      : "#D9D9D9",
   };
   state19 = {
     name: "Turtle",
     pressed: this.props.userInfo.pets.includes("Turtle"),
-    backgroundColor: this.props.userInfo.pets.includes("Turtle") ? "#3B9CF1" : "#D9D9D9",
+    backgroundColor: this.props.userInfo.pets.includes("Turtle")
+      ? "#3B9CF1"
+      : "#D9D9D9",
   };
   state20 = {
     name: "Hamster",
     pressed: this.props.userInfo.pets.includes("Hamster"),
-    backgroundColor: this.props.userInfo.pets.includes("Hamster") ? "#3B9CF1" : "#D9D9D9",
+    backgroundColor: this.props.userInfo.pets.includes("Hamster")
+      ? "#3B9CF1"
+      : "#D9D9D9",
   };
   state21 = {
     name: "Guinea Pig",
     pressed: this.props.userInfo.pets.includes("Guinea Pig"),
-    backgroundColor: this.props.userInfo.pets.includes("Guinea Pig") ? "#3B9CF1" : "#D9D9D9",
+    backgroundColor: this.props.userInfo.pets.includes("Guinea Pig")
+      ? "#3B9CF1"
+      : "#D9D9D9",
   };
   state22 = {
     name: "Other",
     pressed: this.props.userInfo.pets.includes("Other"),
-    backgroundColor: this.props.userInfo.pets.includes("Other") ? "#3B9CF1" : "#D9D9D9",
+    backgroundColor: this.props.userInfo.pets.includes("Other")
+      ? "#3B9CF1"
+      : "#D9D9D9",
   };
   state23 = {
     pressed: false,
@@ -449,7 +470,8 @@ class BasicInfo extends Component {
         <View style={HousingHeader_styles.header}>
           <TouchableOpacity
             onPress={() => this.props.navigation.goBack()}
-            style={HousingHeader_styles.returnToProfileArrow}>
+            style={HousingHeader_styles.returnToProfileArrow}
+          >
             <Image
               source={require("../../assets/backArrow.png")}
               style={HousingHeader_styles.backIcon}
@@ -931,8 +953,8 @@ class BasicInfo extends Component {
 const HousingHeader_styles = StyleSheet.create({
   header: {
     backgroundColor: "#6736B6",
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     width: "100%",
     height: 90,
     bottom: 50,
@@ -949,8 +971,19 @@ const HousingHeader_styles = StyleSheet.create({
     left: 5,
     top: 20,
     flex: 1.1,
-    alignItems: 'center',
+    alignItems: "center",
     flexDirection: "row",
+  },
+  backIcon: {
+    height: 20,
+    width: 20,
+    tintColor: "#FFF",
+    marginRight: -5,
+  },
+  backText: {
+    color: "#FFF",
+    fontSize: 15,
+    fontWeight: "bold",
   },
   backIcon: {
     height: 20,

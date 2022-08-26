@@ -26,10 +26,11 @@ import * as FileSystem from "expo-file-system";
 import Axios from "axios";
 import Constants from "../constants/constants";
 import * as SecureStore from "expo-secure-store";
+import Icon3 from "react-native-vector-icons/Ionicons";
 
 // import buttons
 
-const MainHeader = ({ screen, navigation }) => {
+const MainHeader = ({ screen, navigation, overlayFilterButton }) => {
   const user = useSelector((state) => state.data.userInfo);
   const imageFileSystemUri = useSelector(
     (state) => state.data.imageFileSystemUri
@@ -115,7 +116,7 @@ const MainHeader = ({ screen, navigation }) => {
               }
               Axios.post(`${await Constants.BASE_URL()}/api/images/multiple`, {
                 id: user.id,
-                pics: newListUrl
+                pics: newListUrl,
               }).then(async () => {
                 // file system
                 let newFileSystemList;
@@ -128,9 +129,18 @@ const MainHeader = ({ screen, navigation }) => {
                   newFileSystemList = fileSystemList;
                 }
                 // upload to secure store
-                await SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify({...user, picsList: newListUrl}));
-                await SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_IMAGE_URI, JSON.stringify({avatar: imageFileSystemUri.avatar, album: newFileSystemList}));
-              })
+                await SecureStore.setItemAsync(
+                  Constants.MY_SECURE_AUTH_STATE_KEY_USER,
+                  JSON.stringify({ ...user, picsList: newListUrl })
+                );
+                await SecureStore.setItemAsync(
+                  Constants.MY_SECURE_AUTH_STATE_IMAGE_URI,
+                  JSON.stringify({
+                    avatar: imageFileSystemUri.avatar,
+                    album: newFileSystemList,
+                  })
+                );
+              });
             }
           }
         );
@@ -213,6 +223,13 @@ const MainHeader = ({ screen, navigation }) => {
           {screen === "Bird Feed" && (
             <View style={styles.headerButtonView}>
               <TouchableOpacity
+                onPress={overlayFilterButton}
+                style={styles.headerButtons}
+              >
+                <Icon3 name="options-sharp" size={30} color="black" />
+              </TouchableOpacity>
+
+              <TouchableOpacity
                 style={styles.headerButtons}
                 onPress={() => navigation.navigate("PeckView")}
               >
@@ -232,7 +249,7 @@ const MainHeader = ({ screen, navigation }) => {
                   navigation.navigate("ChirpNotification");
                 }}
               >
-                <Image source={require(`../assets/bird.png`)} />
+                <Icon name="notifications" size={30} />
                 {user.notiunRead && (
                   <Text
                     style={{
@@ -305,11 +322,7 @@ const MainHeader = ({ screen, navigation }) => {
 
           {/* if screen === Messenger Pigeon */}
           {screen === "Messenger Pigeon" && (
-            <View style={styles.headerButtonView}>
-              <TouchableOpacity style={styles.headerButtons}>
-                <Icon name="notifications" size={30} />
-              </TouchableOpacity>
-
+            <View style={[styles.headerButtonView, { marginLeft: 65 }]}>
               <TouchableOpacity
                 style={styles.headerButtons}
                 onPress={() => navigation.navigate("History")}
@@ -366,7 +379,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   headerButtons: {
-    marginRight: 10,
+    marginRight: 5,
     alignSelf: "center",
     padding: 5,
     // borderWidth: 3,

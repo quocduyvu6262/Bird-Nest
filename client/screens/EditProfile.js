@@ -5,7 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import React, { memo, useState } from "react";
+import React, { useState } from "react";
 import MainHeader from "../components/MainHeader";
 import { Slider } from "@rneui/themed";
 import DropDownPicker from "react-native-dropdown-picker";

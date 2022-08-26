@@ -23,6 +23,8 @@ import Animated, {
   withTiming,
   Easing,
 } from "react-native-reanimated";
+import Axios from "axios";
+import Constants1 from "../constants/constants.js";
 
 const snapPoint = (value, velocity, points) => {
   "worklet";
@@ -38,14 +40,15 @@ const PeckViewCard = ({
   width,
   userList,
   setUserList,
+  userID,
   id,
+  userName,
+  navigation,
 }) => {
   const positionX = useSharedValue(0);
   const positionY = useSharedValue(0);
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(0);
-
-  //   console.log(id);
 
   const onGestureEvent = useAnimatedGestureHandler({
     onStart: () => {
@@ -94,9 +97,63 @@ const PeckViewCard = ({
   const removeCard = () => {
     setUserList(
       userList.filter((user) => {
-        return user.id !== id;
+        // return user.id !== id;
+        return user.info.User_id !== id;
       })
     );
+  };
+
+  const swipeUserYes = async () => {
+    Axios.post(`${await Constants1.BASE_URL()}/api/history/insertYes`, {
+      user_id: userID,
+      swiped_id: user.info.User_id,
+      // swiped_id: 345,
+      // user_id: 98,
+      // swiped_id: 345,
+    })
+      .then(async (response) => {
+        let responseInfo = response.data;
+        console.log("token 0: " + responseInfo[0].token);
+        // console.log("token 1: " + responseInfo[1].token);
+        // console.log("user.info.fullname: " + user.info.fullname);
+        console.log("userName: " + userName);
+        if (responseInfo.length === 2) {
+          Axios.post(`${await Constants1.BASE_URL()}/api/notifications/match`, {
+            pushTokens: [responseInfo[0].token, responseInfo[1].token],
+            phone_user: userName,
+            swiped_user: user.info.fullname,
+            // phone_user: userName,
+            // swiped_user: user.info.fullname,
+          })
+            .then()
+            .catch((error) => {
+              console.log(error);
+            });
+        } else if (responseInfo.length === 1) {
+          Axios.post(`${await Constants1.BASE_URL()}/api/notifications/swipe`, {
+            pushTokens: responseInfo[0].token,
+            swiped_user: userName,
+          }).catch((error) => {
+            console.log(error);
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const swipeUserNo = async () => {
+    Axios.post(`${await Constants1.BASE_URL()}/api/history/insertNo`, {
+      user_id: userID,
+      swiped_id: user.info.User_id,
+    })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const handleStateChange = ({ nativeEvent }) => {
@@ -111,14 +168,21 @@ const PeckViewCard = ({
       //   if (profileList.length == 1) {
       //     return;
       //   }
+      swipeUserYes();
       setTimeout(removeCard, 100);
     } else if (nativeEvent.state === State.END && dest === SNAP_POINTS[0]) {
       console.log("Swiped Left");
       //   if (userList.length == 1) {
       //     return;
       //   }
+      swipeUserNo();
       setTimeout(removeCard, 100);
     }
+  };
+
+  const handleView = () => {
+    let item = { item: user };
+    navigation.navigate("UserProfile", { item });
   };
 
   return (
@@ -136,25 +200,35 @@ const PeckViewCard = ({
         <View style={styles.cardInfoWrapper}>
           <Image source={barackObama} style={styles.image} />
           <View style={styles.headerText}>
-            <Text style={styles.name}>{user.name}</Text>
-            <Text>(Age), (Gender)</Text>
+            <Text style={styles.name}>
+              {user.info.firstname} {user.info.lastname[0]}.
+            </Text>
+            <Text>
+              {user.info.gender}, {user.info.pronouns}, {user.info.age},
+            </Text>
           </View>
           <View style={styles.mainTextWrapper}>
             <View>
               <View style={styles.mainTextInfo}>
-                <Text>(Neighborhood)</Text>
+                <Text>{user.info.neighborhood}</Text>
               </View>
               <Text style={styles.mainTextHeader}>Neighborhood</Text>
             </View>
             <View>
               <View style={styles.mainTextInfo}>
-                <Text>(Rent)</Text>
+                <Text>${user.info.rent}</Text>
               </View>
               <Text style={styles.mainTextHeader}>Rent</Text>
             </View>
           </View>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>View {user.name}'s Profile </Text>
+          <TouchableOpacity
+            // onPress={() => navigation.navigate("UserProfile", { item: user })}
+            onPress={handleView}
+            style={styles.button}
+          >
+            <Text style={styles.buttonText}>
+              View {user.info.fullname}'s Profile{" "}
+            </Text>
           </TouchableOpacity>
         </View>
       </Animated.View>
@@ -188,15 +262,15 @@ const styles = StyleSheet.create({
   headerText: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     borderBottomColor: "#560CCE",
     borderBottomWidth: 2,
   },
   name: {
     fontFamily: "Pacifico_400Regular",
-    fontSize: 30,
+    fontSize: 25,
     color: "#560CCE",
-    marginRight: 20,
+    marginRight: 10,
     paddingHorizontal: 10,
     paddingBottom: 5,
   },

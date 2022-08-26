@@ -14,7 +14,6 @@ import {
   RefreshControlBase,
 } from "react-native";
 import Svg, { Path } from "react-native-svg";
-import Bird_Drawing from "../assets/svg/Bird_Drawing.js";
 import React, { useEffect, useState, useRef } from "react";
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
@@ -42,7 +41,6 @@ import Icon3 from "react-native-vector-icons/Ionicons";
 import { useSelector, useDispatch } from "react-redux";
 import { storage, ref, getDownloadURL } from "../firebaseConfig";
 import Constants from "../constants/constants.js";
-import { getDateSeparators } from "stream-chat-expo";
 
 const BirdFeed = ({ navigation }) => {
   /**
@@ -237,6 +235,7 @@ const BirdFeed = ({ navigation }) => {
     })
       .then((response) => {
         let userData = response.data;
+        console.log(userData);
         //console.log(userData);
         // manually push all but last, then setUserList on last user to trigger FlatList rerender
         // reason is that FlatList will not re-render unless setUserList is properly called
@@ -244,8 +243,7 @@ const BirdFeed = ({ navigation }) => {
         for (let i = 0; i < userData.length - 1; i++) {
           userList.push({
             info: userData[i].info,
-            // name: userData[i].info.fullname,
-            // rent: userData[i].info.rent,
+            count: userData[i].count,
             src: barackObama,
           });
         }
@@ -253,7 +251,7 @@ const BirdFeed = ({ navigation }) => {
           ...userList,
           {
             info: userData[userData.length - 1].info,
-            // name: userData[userData.length - 1].info.fullname,
+            count: userData[userData.length - 1].count,
             src: barackObama,
           },
         ]);
@@ -282,37 +280,24 @@ const BirdFeed = ({ navigation }) => {
     return (
       // Header - Beginning
       <SafeAreaView style={styles.container}>
-        <MainHeader screen="Bird Feed" navigation={navigation} />
+        <MainHeader
+          screen="Bird Feed"
+          navigation={navigation}
+          overlayFilterButton={overlayFilterButton}
+        />
         <View
           style={[
             styles.svg,
             { transform: [{ translateY: 20 }, { translateX: 100 }] },
           ]}
-        >
-          <Bird_Drawing />
-        </View>
+        ></View>
 
-        <View style={{ flexDirection: "row" }}>
-          <TouchableOpacity
-            style={[styles.input, { marginVertical: 7 }]}
-            onPress={overlayFilterButton}
-          >
-            <Icon3
-              style={styles.input}
-              name="options-sharp"
-              size={30}
-              color="black"
-            />
-          </TouchableOpacity>
-          <Buttons style={{ flex: 0.5 }} onPress={viewUsers}>
-            Clear Filters
-          </Buttons>
-        </View>
         {overlayFilterClicked && (
           <FilterOverlay
             setUserList={setUserList}
             setListState={setListState}
             overlayFilterButton={overlayFilterButton}
+            viewUsers={viewUsers}
           />
         )}
 
@@ -323,8 +308,14 @@ const BirdFeed = ({ navigation }) => {
               extraData={userList}
               style={{ height: "100%" }}
               renderItem={(item) => (
-                <TouchableOpacity onPress={() => navigation.navigate("UserProfile", item)}>
-                  <ProfileCard item={item} userID={user.id} />
+                <TouchableOpacity
+                  onPress={() => navigation.navigate("UserProfile", { item })}
+                >
+                  <ProfileCard
+                    item={item}
+                    userID={user.id}
+                    userName={user.fullname}
+                  />
                 </TouchableOpacity>
               )}
             />
@@ -425,6 +416,31 @@ const styles = StyleSheet.create({
     // top: 100,
     // left: 200,
   },
-  clearFilterButton: {},
+  filterButton: {
+    flexDirection: "row",
+    position: "absolute",
+    // top: 110,
+    bottom: 10,
+    left: 10,
+    alignSelf: "center",
+    backgroundColor: "rgba(194, 192, 192, 0.6)",
+    zIndex: 10,
+    // width: 280,
+    // padding: 10,
+    borderRadius: 10,
+  },
+  clearFilterButton: {
+    flexDirection: "row",
+    position: "absolute",
+    // top: 110,
+    bottom: 10,
+    right: 10,
+    alignSelf: "center",
+    backgroundColor: "rgba(194, 192, 192, 0.6)",
+    zIndex: 10,
+    // width: 280,
+    paddingLeft: 10,
+    borderRadius: 10,
+  },
 });
 export default BirdFeed;
