@@ -23,6 +23,7 @@ import {
   updateMatchedUserChatSecureStore,
   updateMatchedChatUserDatabase,
   viewMatchedUserChat,
+  getUpdatedMatchedUserChat
 } from "../../utils/helper";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import data, * as dataActions from "../../redux/slices/data";
@@ -69,6 +70,7 @@ const MessengerMatch = ({
       setUserList(data);
     });
   }, []);
+
   /**
    * Render logic
    */
@@ -87,7 +89,15 @@ const MessengerMatch = ({
         }}
       >
         <View style={styles.container}>
-          <Text style={styles.matchText}>New Matches </Text>
+          <TouchableOpacity
+            onPress={() => {
+              getUpdatedMatchedUserChat(user.id).then(({data}) => {
+                setUserList(data);
+              })
+            }}
+          >
+            <Text style={styles.matchText}>New    Matches</Text>
+          </TouchableOpacity>
           {userList.length != 0 ? (
             <View>
               <ScrollView style={styles.users} horizontal={true}>

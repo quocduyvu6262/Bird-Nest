@@ -82,6 +82,16 @@ export const viewMatchedUserChat = async (uidList) => {
 }
 
 /**
+ * Get new matched user chat
+ * @param id the current user id
+ */
+export const getUpdatedMatchedUserChat = async (id) => {
+    return Axios.post(`${await Constants.BASE_URL()}/api/chat/getUpdatedMatchedChatUsers`, {
+        id: id,
+    })
+}
+
+/**
  * @param path the uri to image in Firebase Cloud Storage
  * Function to retrieve image from firebase cloud storage
  * @returns the image url
