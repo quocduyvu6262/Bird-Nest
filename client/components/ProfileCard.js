@@ -65,11 +65,8 @@ const ProfileCard = ({ item, index, userID, userName }) => {
 
   const swipeUserYes = async () => {
     Axios.post(`${await Constants1.BASE_URL()}/api/history/insertYes`, {
-      // user_id: userID,
-      // swiped_id: item.item.info.User_id,
-      user_id: 345,
-      swiped_id: 98,
-      // swiped_id: 7,
+      user_id: userID,
+      swiped_id: item.item.info.User_id,
     })
       .then(async (response) => {
         let responseInfo = response.data;

@@ -485,7 +485,7 @@ class BasicInfo extends Component {
             Select the type of pet(s) that
           </Text>
           <Text style={HousingQ_styles.question1}>
-            you own: <Text style={HousingQ_styles.highlight}>*</Text>
+            you own: <Text style={HousingQ_styles.highlight}></Text>
           </Text>
           <TouchableOpacity
             style={[this.state15, HousingQ_styles.buttonContainerYes4]}
@@ -985,6 +985,17 @@ const HousingHeader_styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "bold",
   },
+  backIcon: {
+    height: 20,
+    width: 20,
+    tintColor: "#FFF",
+    marginRight: -5,
+  },
+  backText: {
+    color: "#FFF",
+    fontSize: 15,
+    fontWeight: "bold",
+  },
 });
 
 const HousingQ_styles = StyleSheet.create({
@@ -1276,6 +1287,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => ({
   userInfo: state.data.userInfo,
+  housing: state.data.housing,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BasicInfo);
