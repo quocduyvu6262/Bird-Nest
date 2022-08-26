@@ -219,7 +219,9 @@ const ProfileCard = ({ item, index, userID, userName }) => {
             </Text>
           </View>
           <Text>
-            {item.item.info.neighborhood.length <= 2
+            {item.item.info.isHousing
+              ? item.item.info.neighborhood
+              : item.item.info.neighborhood.length <= 2
               ? item.item.info.neighborhood.map((neighborhood, index) => {
                   if (index === 0 && item.item.info.neighborhood.length == 2) {
                     return `${neighborhood}, `;
