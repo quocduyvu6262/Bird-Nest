@@ -137,6 +137,8 @@ router.post("/insertYes", (req, res) => {
             client.query(getMatches2, (err2, result2) => {
               let resultMatch1 = result1[0].matches;
               let resultMatch2 = result2[0].matches;
+              console.log(resultMatch1);
+              console.log(resultMatch2);
               if (resultMatch1 == null) {
                 resultMatch1 = [];
               } else {
@@ -309,7 +311,6 @@ router.post("/create", (req, res) => {
     db((client) => {
       client.query(checkExistQuery, (err, result) => {
         //if result is not empty a user is found, don't do anything
-        console.log(result)
         if (result.length) {
           // console.log( "User found successfully.");
           res.status(200).send("User already in history table");

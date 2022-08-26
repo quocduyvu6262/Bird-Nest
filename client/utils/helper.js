@@ -68,6 +68,7 @@ export const updateMatchedChatUserDatabase = async (id, newMatchedUserChat) => {
  */
 export const viewMatchedUserChat = async (uidList) => {
     if(!uidList || uidList.length == 0){
+
         return new Promise((resolve, reject) => {
             resolve({
                 data: []

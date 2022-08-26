@@ -39,7 +39,6 @@ const MessengerMatch = ({
   /**
    * Declare states
    */
-  const dispatch = useDispatch();
   const user = useSelector((state) => state.data.userInfo);
 
   /**

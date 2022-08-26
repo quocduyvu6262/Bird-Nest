@@ -23,8 +23,13 @@ import Constants1 from "../constants/constants.js";
 import { roleImagesIndex } from "../assets/roleImagesIndex";
 import { storage, ref, deleteObject, getDownloadURL } from "../firebaseConfig";
 import DefaultProfilePic from "../assets/DefaultProfilePic.jpeg";
+import * as dataActions from "../redux/slices/data";
+import { updateMatchedUserChatSecureStore } from "../utils/helper";
+import { useDispatch, useSelector } from "react-redux";
 
 const ProfileCard = ({ item, index, userID, userName }) => {
+  const myuser = useSelector((state) => state.data.userInfo);
+  const dispatch = useDispatch();
   const opacityTransition = useRef(new Animated.Value(0)).current;
   const translation = useRef(
     new Animated.ValueXY({
@@ -33,6 +38,7 @@ const ProfileCard = ({ item, index, userID, userName }) => {
     })
   ).current;
   const [avatar, setAvatar] = useState(null);
+
 
   const retrieveImage = async (path) => {
     if (path) {
@@ -71,9 +77,15 @@ const ProfileCard = ({ item, index, userID, userName }) => {
       .then(async (response) => {
         let responseInfo = response.data;
         console.log("token 0: " + responseInfo[0].token);
-
         console.log("userName: " + userName);
         if (responseInfo.length === 2) {
+          let newMatchedChat = [item.item.info.User_id];
+          if(myuser.matchedChat){
+            newMatchedChat = [...myuser.matchedChat, item.item.info.User_id];
+          }
+          dispatch(dataActions.updateMatchedChat(newMatchedChat));
+          updateMatchedUserChatSecureStore(myuser, newMatchedChat);
+
           Axios.post(`${await Constants1.BASE_URL()}/api/notifications/match`, {
             pushTokens: [responseInfo[0].token, responseInfo[1].token],
             phone_user: userName,

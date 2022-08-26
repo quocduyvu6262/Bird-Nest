@@ -124,10 +124,10 @@ const PeckViewCard = ({
         console.log("userName: " + userName);
         if (responseInfo.length === 2) {
           // update matched chat
-          const newMatchedChat = [
-            ...myuser.updateMatchedChat,
-            item.item.info.User_id,
-          ];
+          let newMatchedChat = [item.item.info.User_id];
+          if(myuser.matchedChat){
+            newMatchedChat = [...myuser.matchedChat, item.item.info.User_id];
+          }
           dispatch(dataActions.updateMatchedChat(newMatchedChat));
           updateMatchedUserChatSecureStore(myuser, newMatchedChat);
 
