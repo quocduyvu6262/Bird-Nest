@@ -309,9 +309,10 @@ router.post("/create", (req, res) => {
     db((client) => {
       client.query(checkExistQuery, (err, result) => {
         //if result is not empty a user is found, don't do anything
+        console.log(result)
         if (result.length) {
           // console.log( "User found successfully.");
-          res.status(400).send("User already in history table");
+          res.status(200).send("User already in history table");
           return;
         }
         //Else, user is not found. Insert
