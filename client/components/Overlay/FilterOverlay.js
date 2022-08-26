@@ -10,7 +10,7 @@ import {
   Switch,
   TextInput,
 } from "react-native";
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import { Icon } from "@rneui/themed";
 import Icon2 from "react-native-vector-icons/Ionicons";
 import { Slider } from "@rneui/themed";
@@ -22,7 +22,7 @@ import Axios from "axios";
 import Constants from "../../constants/constants.js";
 
 
-const FilterOverlay = ({overlayFilterButton, setUserList, setListState}) => {
+const FilterOverlay = memo(({overlayFilterButton, setUserList, setListState}) => {
   DropDownPicker.setListMode("SCROLLVIEW");
   /**
    * Redux Hoook
@@ -333,7 +333,7 @@ const FilterOverlay = ({overlayFilterButton, setUserList, setListState}) => {
       </ScrollView>
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   subContainer: {
