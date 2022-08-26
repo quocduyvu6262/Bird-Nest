@@ -27,7 +27,6 @@ import Tags from "react-native-tags";
 
 const Profile = ({ navigation }) => {
   const user = useSelector((state) => state.data.userInfo);
-  console.log(user.isHousing)
   const imageFileSystem = useSelector((state) => state.data.imageFileSystemUri);
   const dispatch = useDispatch();
   let pics = imageFileSystem.album;
