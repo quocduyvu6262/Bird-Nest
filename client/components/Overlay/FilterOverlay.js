@@ -72,7 +72,6 @@ const FilterOverlay = ({
   /**
    * Declare states
    */
-
   const [rentText, setRentText] = useState(rentText);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(housing.neighborhoodList);

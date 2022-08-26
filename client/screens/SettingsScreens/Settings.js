@@ -90,6 +90,13 @@ const Settings = ({ navigation }) => {
         <Text style={styles.textButton}>About Us</Text>
       </TouchableOpacity>
 
+      <TouchableOpacity
+        style={styles.regularButton}
+        onPress={() => navigation.navigate("AboutUs")}
+      >
+        <Text style={styles.textButton}>About Us</Text>
+      </TouchableOpacity>
+
       <Buttons
         style={{ flex: 1 }}
         onPress={() => {
