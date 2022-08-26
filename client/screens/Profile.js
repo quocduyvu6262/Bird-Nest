@@ -27,7 +27,7 @@ import Tags from "react-native-tags";
 
 const Profile = ({ navigation }) => {
   const user = useSelector((state) => state.data.userInfo);
-  console.log(user.isHousing)
+  console.log(user.isHousing);
   const imageFileSystem = useSelector((state) => state.data.imageFileSystemUri);
   const dispatch = useDispatch();
   let pics = imageFileSystem.album;
@@ -539,8 +539,7 @@ const Profile = ({ navigation }) => {
           </View>
 
           <InfoCard>
-            {!buttonClicked && <BioInfo bio={
-              data.userInfo.bio}></BioInfo>}
+            {!buttonClicked && <BioInfo bio={data.userInfo.bio}></BioInfo>}
 
             {buttonClicked && (
               <RentInfo
@@ -624,7 +623,7 @@ const RentInfo = (props) => {
         <Text style={styles.rentHeaders}>Lease Term:</Text> {props.lease} months
       </Text>
       <Text style={styles.text}>
-        <Text style={styles.rentHeaders}>Neighborhood:</Text>
+        <Text style={styles.rentHeaders}>Neighborhood:</Text>{" "}
         <Text style={styles.neighborhoodText}> {props.neighborhood} </Text>
       </Text>
       <Text style={styles.text}>
@@ -670,28 +669,17 @@ const InterestInfo = (props) => {
 
   return (
     <View style={styles.interestContainer}>
-      <Text style = {styles.text}>
-        What I go by:
-      </Text>
+      <Text style={styles.text}>What I go by:</Text>
 
-      <Tags 
-        initialTags={[
-          props.pronouns
-        ]}
-      readonly={true}/>
+      <Tags initialTags={[props.pronouns]} readonly={true} />
 
       {props.pets.length != 0 && (
-      <View>
-        <Text style = {styles.text}>
-          What I have:
-        </Text>
-
-        <Tags 
-          initialTags={iHave.filter(n=>n)}
-          readonly={true}/>
-      </View>)}
-
-      <Text style = {styles.text}>What I am okay with: </Text>
+        <View>
+          <Text style={styles.text}>What I have:</Text>
+          <Tags initialTags={iHave.filter((n) => n)} readonly={true} />
+        </View>
+      )}
+      <Text style={styles.text}>What I am okay with: </Text>
       <Tags
         initialTags={[
           props.alc ? "Alchol/420" : null,

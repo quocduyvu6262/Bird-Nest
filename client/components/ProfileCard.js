@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   Easing,
 } from "react-native";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   GestureDetector,
   Gesture,
@@ -20,8 +20,11 @@ import { BounceIn } from "react-native-reanimated";
 import Axios from "axios";
 import Constants1 from "../constants/constants.js";
 // import { useSelector, useDispatch } from "react-redux";
+import { roleImagesIndex } from "../assets/roleImagesIndex";
+import { storage, ref, deleteObject, getDownloadURL } from "../firebaseConfig";
+import DefaultProfilePic from "../assets/DefaultProfilePic.jpeg";
 
-const ProfileCard = ({ item, index, userID }) => {
+const ProfileCard = ({ item, index, userID, userName }) => {
   const opacityTransition = useRef(new Animated.Value(0)).current;
   const translation = useRef(
     new Animated.ValueXY({
@@ -29,29 +32,84 @@ const ProfileCard = ({ item, index, userID }) => {
       y: -400,
     })
   ).current;
-  // const user = useSelector((state) => state.data.userInfo);
+  const [avatar, setAvatar] = useState(null);
 
-  // console.log(item.item.info.id);
-  // console.log(userID);
-  // console.log(item.item.info.User_id);
+  const retrieveImage = async (path) => {
+    if (path) {
+      const reference = ref(storage, path);
+      const url = await getDownloadURL(reference).catch((error) => {
+        // A full list of error codes is available at
+        // https://firebase.google.com/docs/storage/web/handle-errors
+        switch (error.code) {
+          case "storage/object-not-found":
+            // File doesn’t exist
+            break;
+          case "storage/unauthorized":
+            // User doesn’t have permission to access the object
+            break;
+          case "storage/canceled":
+            // User canceled the upload
+            break;
+          case "storage/unknown":
+            // Unknown error occurred, inspect the server response
+            break;
+        }
+      });
+      return url;
+    }
+  };
+
+  const getAvatar = async () => {
+    setAvatar(await retrieveImage(item.item.info.profilepic));
+  };
 
   const swipeUserYes = async () => {
-    console.log(userID);
-    console.log(item.item.info.User_id);
     Axios.post(`${await Constants1.BASE_URL()}/api/history/insertYes`, {
-      user_id: item.item.info.User_id,
-      swiped_id: userID,
-      // user_id: 98,
+      // user_id: userID,
+      // swiped_id: item.item.info.User_id,
+      user_id: 345,
+      swiped_id: 98,
       // swiped_id: 7,
     })
-      .then((response) => {
+      .then(async (response) => {
         let responseInfo = response.data;
-        // console.log(responseInfo);
-        if (responseInfo === "") {
+        console.log("token 0: " + responseInfo[0].token);
+
+        console.log("userName: " + userName);
+        if (responseInfo.length === 2) {
+          Axios.post(`${await Constants1.BASE_URL()}/api/notifications/match`, {
+            pushTokens: [responseInfo[0].token, responseInfo[1].token],
+            phone_user: userName,
+            swiped_user: item.item.info.fullname,
+          })
+            .then()
+            .catch((error) => {
+              console.log(error);
+            });
+        } else if (responseInfo.length === 1) {
+          Axios.post(`${await Constants1.BASE_URL()}/api/notifications/swipe`, {
+            pushTokens: responseInfo[0].token,
+            swiped_user: userName,
+          }).catch((error) => {
+            console.log(error);
+          });
         }
       })
       .catch((error) => {
         console.log(error);
+      });
+  };
+
+  const swipeUserNo = async () => {
+    Axios.post(`${await Constants1.BASE_URL()}/api/history/insertNo`, {
+      user_id: userID,
+      swiped_id: item.item.info.User_id,
+    })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
 
@@ -70,7 +128,9 @@ const ProfileCard = ({ item, index, userID }) => {
         ]}
       >
         <TouchableOpacity onPress={swipeUserYes} style={styles.swipeButton}>
-          <Text>Yes</Text>
+          <Text style={{ fontSize: 18, color: "white", fontWeight: "700" }}>
+            Yes
+          </Text>
         </TouchableOpacity>
       </Animated.View>
     );
@@ -91,15 +151,19 @@ const ProfileCard = ({ item, index, userID }) => {
         ]}
       >
         <TouchableOpacity
-          style={[styles.swipeButton, { backgroundColor: "red" }]}
+          onPress={swipeUserNo}
+          style={[styles.swipeButton, { backgroundColor: "#FE002E" }]}
         >
-          <Text>No</Text>
+          <Text style={{ fontSize: 18, color: "white", fontWeight: "700" }}>
+            No
+          </Text>
         </TouchableOpacity>
       </Animated.View>
     );
   };
 
   useEffect(() => {
+    getAvatar();
     Animated.parallel([
       Animated.timing(opacityTransition, {
         toValue: 1,
@@ -141,7 +205,10 @@ const ProfileCard = ({ item, index, userID }) => {
           },
         ]}
       >
-        <Image style={styles.image} source={item.item.src} />
+        <Image
+          style={styles.image}
+          source={avatar ? { uri: avatar } : DefaultProfilePic}
+        />
         <View style={styles.text_box}>
           <View style={styles.text_box_name}>
             <Text
@@ -155,18 +222,44 @@ const ProfileCard = ({ item, index, userID }) => {
             </Text>
           </View>
           <Text>
-            {/* {item.item.info.neighborhood.map(
-              (neighborhood, index) => `${neighborhood}, `
-            )} */}
-            {item.item.info.neighborhood}
+            {item.item.info.neighborhood.length <= 2
+              ? item.item.info.neighborhood.map((neighborhood, index) => {
+                  if (index === 0 && item.item.info.neighborhood.length == 2) {
+                    return `${neighborhood}, `;
+                  } else {
+                    return `${neighborhood} `;
+                  }
+                })
+              : item.item.info.neighborhood.map((neighborhood, index) => {
+                  if (index <= 1) {
+                    return `${neighborhood}, `;
+                  } else if (index === 2) {
+                    return `etc.`;
+                  }
+                })}
           </Text>
           <View style={styles.barGroup}>
             <Text>Rent is ${item.item.info.rent}</Text>
             <Text style={styles.bar}> | </Text>
             <Text>{item.item.info.lease} months term</Text>
           </View>
-          <Text>{item.item.info.squarefeet}</Text>
-          <Text>{item.item.info.parking}</Text>
+          <Text>{item.item.info.squarefeet}sq ft</Text>
+          <View style={styles.matchedInterestsBox}>
+            <Text style={{ fontSize: 30, marginRight: 5 }}>
+              {item.item.count}
+            </Text>
+            <View>
+              <Text style={{ fontSize: 11 }}>matched</Text>
+              <Text style={{ fontSize: 11 }}>interests!</Text>
+            </View>
+          </View>
+          <View style={styles.roleImage}>
+            <Image
+              style={{ height: 50, width: 50 }}
+              source={roleImagesIndex[item.item.info.role]}
+              // source={roleImagesIndex["Flamingo"]}
+            />
+          </View>
         </View>
       </Animated.View>
     </Swipeable>
@@ -175,15 +268,13 @@ const ProfileCard = ({ item, index, userID }) => {
 
 const styles = StyleSheet.create({
   container: {
-    height: 100,
+    height: 130,
     width: "100%",
-    // backgroundColor: "lightgray",
     backgroundColor: "white",
     alignSelf: "center",
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
-    // marginTop: 15,
     borderTopWidth: 1,
     borderTopColor: "gray",
   },
@@ -191,23 +282,16 @@ const styles = StyleSheet.create({
     height: 80,
     width: 80,
     borderRadius: 50,
-    // marginLeft: 15,
   },
   text_box: {
-    // backgroundColor: "gray",
-    // backgroundColor: "lightgray",
     height: "100%",
     width: "75%",
     alignSelf: "flex-end",
-    // padding: 10,
-    // marginRight: 8,
   },
   text_box_name: {
     alignSelf: "flex-start",
     marginTop: 5,
     marginBottom: 10,
-    // flexDirection: "row",
-    // alignItems: "flex-end",
   },
   barGroup: {
     flexDirection: "row",
@@ -218,7 +302,7 @@ const styles = StyleSheet.create({
     color: "#560CCE",
   },
   noButton: {
-    height: 100,
+    height: 130,
     width: 80,
     backgroundColor: "lightgray",
     alignSelf: "center",
@@ -229,7 +313,7 @@ const styles = StyleSheet.create({
     borderTopColor: "gray",
   },
   swipeButton: {
-    backgroundColor: "green",
+    backgroundColor: "#54BF22",
     height: "100%",
     width: "100%",
     justifyContent: "center",
@@ -237,6 +321,23 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 0,
     right: 0,
+  },
+  matchedInterestsBox: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    // backgroundColor: "red",
+    alignItems: "center",
+    flexDirection: "row",
+  },
+  roleImage: {
+    position: "absolute",
+    bottom: 0,
+    right: 0,
+    // backgroundColor: "red",
+    height: 50,
+    width: 50,
+    marginRight: 5,
   },
 });
 

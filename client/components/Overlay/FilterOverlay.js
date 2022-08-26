@@ -1,4 +1,4 @@
-import { 
+import {
   SafeAreaView,
   StyleSheet,
   Platform,
@@ -17,59 +17,62 @@ import { Slider } from "@rneui/themed";
 import DropDownPicker from "react-native-dropdown-picker";
 import Buttons from "../Button.js";
 import { useDispatch, useSelector } from "react-redux";
-import * as dataActions from '../../redux/slices/data';
+import * as dataActions from "../../redux/slices/data";
 import Axios from "axios";
 import Constants from "../../constants/constants.js";
 
-
-const FilterOverlay = ({overlayFilterButton, setUserList, setListState}) => {
+const FilterOverlay = ({
+  overlayFilterButton,
+  setUserList,
+  setListState,
+  viewUsers,
+}) => {
   DropDownPicker.setListMode("SCROLLVIEW");
   /**
    * Redux Hoook
    */
-  const user = useSelector(state => state.data.userInfo);
-  const housing = useSelector(state => state.data.housing);
+  const user = useSelector((state) => state.data.userInfo);
+  const housing = useSelector((state) => state.data.housing);
   const dispatch = useDispatch();
 
   /**
    * Transform string value into integer value
    * @returns lease base on string range value
    */
-   const getLeaseFromString = () => {
-    if(housing.lease === '1 to 3'){
+  const getLeaseFromString = () => {
+    if (housing.lease === "1 to 3") {
       return 1;
-    }  
-    if (housing.lease === '4 to 7'){
+    }
+    if (housing.lease === "4 to 7") {
       return 4;
-    } 
-    if (housing.lease === '8 - 11'){
+    }
+    if (housing.lease === "8 to 11") {
       return 8;
-    } 
+    }
     return 12;
-  }
+  };
 
   /**
    * Transform int value into string value
    * @returns string range value based on integer value
    */
   const getLeaseFromInteger = (lease) => {
-    if(lease >=1 && lease <= 3){
-      return '1 to 3';
+    if (lease >= 1 && lease <= 3) {
+      return "1 to 3";
     }
-    if(lease >= 4 && lease <= 7){
-      return '4 to 7';
+    if (lease >= 4 && lease <= 7) {
+      return "4 to 7";
     }
-    if(lease >= 8 && lease <= 11){
-      return '8 - 11';
+    if (lease >= 8 && lease <= 11) {
+      return "8 to 11";
     }
-    return '12+'
-  }
-
+    return "12+";
+  };
 
   /**
    * Declare states
    */
-  
+
   const [rentText, setRentText] = useState(rentText);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(housing.neighborhoodList);
@@ -100,28 +103,27 @@ const FilterOverlay = ({overlayFilterButton, setUserList, setListState}) => {
   const itemcount = items.length;
 
   /**
-   * Single switch function 
-   * @param props 
+   * Single switch function
+   * @param props
    * @returns view
    */
   const SingleSwitch = (props) => {
+    //console.log(props);
     return (
       <View style={styles.switchView}>
         <Switch
-          trackColor={{ false: "%767577", true: "green" }}
+          trackColor={{ false: "%767577", true: "#54BF22" }}
           thumbColor={props.enabled ? "#white" : "white"}
           onValueChange={props.toggle}
-          value={props.enabled}
+          value={!!props.enabled}
         ></Switch>
         <Text style={styles.switchText}>
           <Text></Text>
-          {props.enabled ? props.variable : `No ${props.variable}`}
+          {!!props.enabled ? props.variable : `No ${props.variable}`}
         </Text>
       </View>
     );
   };
-
-
 
   /**
    * Filter post request
@@ -129,15 +131,18 @@ const FilterOverlay = ({overlayFilterButton, setUserList, setListState}) => {
   //let filteredUserList;
 
   //TODO: How to get priorityCount map in here? It is in matching.js route and is returned to birdfeed, not filterOverlay
-  const Filter = async(filterMap) => {
+  const Filter = async (filterMap) => {
     let userList = [];
     let apiEndpoint;
     console.log(filterMap);
-    
+
     if (user.role === "Flamingo" || user.role === "Owl") {
       apiEndpoint = `/api/matching/filternohousingtable`;
-    }
-    else if (user.role === "Parrot" || user.role === "Penguin" || user.role === "Duck") {
+    } else if (
+      user.role === "Parrot" ||
+      user.role === "Penguin" ||
+      user.role === "Duck"
+    ) {
       apiEndpoint = `/api/matching/filterhousingtable`;
     }
     //or if show all roles switch is toggled
@@ -147,44 +152,42 @@ const FilterOverlay = ({overlayFilterButton, setUserList, setListState}) => {
     }
     */
     Axios.post(`${await Constants.BASE_URL()}${apiEndpoint}`, {
-      filterMap : JSON.stringify(Array.from(filterMap.entries())),
-      user_id : user.id,
+      filterMap: JSON.stringify(Array.from(filterMap.entries())),
+      user_id: user.id,
     })
-    .then((filteredUsers) => {
-      filterUserData = filteredUsers.data;
-      for (let i = 0; i < filterUserData.length - 1; i++) {
-        //skip seeing yourself
-        if (filterUserData[i].User_id != user.id) {
+      .then((filteredUsers) => {
+        filterUserData = filteredUsers.data;
+        console.log(filterUserData);
+        for (let i = 0; i < filterUserData.length - 1; i++) {
+          //skip seeing yourself
           userList.push({
-            name: filterUserData[i].info.fullname,
-            neighborhoood: filterUserData[i].info.neighborhood,
+            info: filterUserData[i].info,
           });
         }
-      }
-      setUserList((prevList) => [
-        ...userList,
-        {
-          name: filterUserData[filterUserData.length - 1].info.fullname,
-          neighborhood: filterUserData[filterUserData.length - 1].info.neighborhood,
-        },
-      ]);
-      userList.reverse();
-      setListState(true);
-    })
-    .catch(err => {
-      console.log(err);
-      console.log("Failed to filter users");
-      setListState(false);
-    })
+        setUserList((prevList) => [
+          ...userList,
+          {
+            info: filterUserData[filterUserData.length - 1].info,
+          },
+        ]);
+        userList.reverse();
+        setListState(true);
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log("Failed to filter users");
+        setListState(false);
+      });
 
     console.log("USERLIST");
     console.log(userList);
-  }
+  };
 
   /**
    * Perform the filter submission
    */
   const submit = () => {
+    // console.log("sqft: " + squarefeet);
     // update redux
     //console.log(lease);
     dispatch(dataActions.updateAllNeighborhoodList(value));
@@ -195,9 +198,11 @@ const FilterOverlay = ({overlayFilterButton, setUserList, setListState}) => {
     dispatch(dataActions.updateGym(gym));
     dispatch(dataActions.updatePool(pool));
     dispatch(dataActions.updateAppliances(appliances));
+    dispatch(dataActions.updateFurniture(furniture));
     dispatch(dataActions.updateAC(AC));
-    console.log(gym);
-    console.log(AC);
+    //console.log(gym);
+    //console.log(AC);
+    //console.log(!!AC);
     // update Secure Store
 
     //call filtering algorithm
@@ -213,13 +218,19 @@ const FilterOverlay = ({overlayFilterButton, setUserList, setListState}) => {
     filterMap.set("furniture", furniture);
     filterMap.set("AC", AC);
     //console.log(value);
-   // console.log(filterMap);
+    // console.log(filterMap);
     //console.log(filterMap.get("neighborhood"));
     Filter(filterMap);
     // back to birdfeed/peckview
-    overlayFilterButton();
+    //reset switch states here like Eli did in his old code?
 
-  }
+    overlayFilterButton();
+  };
+
+  const handleClear = () => {
+    viewUsers();
+    overlayFilterButton();
+  };
 
   /**
    * Render Logic
@@ -230,19 +241,25 @@ const FilterOverlay = ({overlayFilterButton, setUserList, setListState}) => {
         <TouchableOpacity
           style={styles.filterHeader}
           onPress={overlayFilterButton}
-          >
+        >
           <Icon name="west" size={30} />
-            <Text style={styles.filterText}>Filter</Text>
+          <Text style={styles.filterText}>Filter</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={handleClear}
+          style={{ position: "absolute", top: 10, right: 10 }}
+        >
+          <Text style={{ color: "#FE002E", fontSize: 18 }}>Clear Filter</Text>
         </TouchableOpacity>
         <View style={styles.dropDown}>
           <Text style={styles.slideText}>Neighborhood: </Text>
           <DropDownPicker
-            style = {{width: 175}}
+            style={{ width: 175 }}
             dropDownContainerStyle={{
               backgroundColor: "#dfdfdf",
               width: 175,
             }}
-            placeholder="0 items has been selected"
+            placeholder="Any"
             dropDownDirection="AUTO"
             multiple={true}
             min={0}
@@ -253,11 +270,14 @@ const FilterOverlay = ({overlayFilterButton, setUserList, setListState}) => {
             setOpen={setOpen}
             setValue={setValue}
             setItems={setItems}
-            />
+          />
         </View>
 
         <View style={styles.slider}>
-        <Text style={styles.slideText}>{user.isHousing ? "Min Rent: $" : "Max Rent: $"}{rent}</Text>
+          <Text style={styles.slideText}>
+            {user.isHousing ? "Min Rent: $" : "Max Rent: $"}
+            {rent}
+          </Text>
           <Slider
             value={rent}
             minimumValue={500}
@@ -269,19 +289,22 @@ const FilterOverlay = ({overlayFilterButton, setUserList, setListState}) => {
         </View>
 
         <View style={styles.slider}>
-          <Text style={styles.slideText}>Lease Month Term: {lease}</Text>
+          <Text style={styles.slideText}>
+            Lease Month Term: {getLeaseFromInteger(lease)}
+          </Text>
           <Slider
             value={lease}
             minimumValue={1}
             maximumValue={12}
-            step={1}
+            step={4}
             onValueChange={(value) => setLease(value)}
             thumbStyle={{ height: 15, width: 15, backgroundColor: "#6736B6" }}
           />
         </View>
 
+        {/* <View style={[styles.slider, { opacity: squarefeet ? 1 : 0.5 }]}> */}
         <View style={styles.slider}>
-          <Text style={styles.slideText}>Square Feet : {squarefeet}</Text>
+          <Text style={styles.slideText}>Min Square Feet: {squarefeet}</Text>
           <Slider
             value={squarefeet}
             minimumValue={100}
@@ -291,40 +314,49 @@ const FilterOverlay = ({overlayFilterButton, setUserList, setListState}) => {
             thumbStyle={{ height: 15, width: 15, backgroundColor: "#6736B6" }}
           />
         </View>
+        {/* <TouchableOpacity onPress={() => setSquarefeet(false)}>
+          <View
+            style={{
+              height: 20,
+              width: 20,
+              backgroundColor: squarefeet ? "gray" : "red",
+            }}
+          />
+        </TouchableOpacity> */}
 
         <SingleSwitch
           variable="Parking"
           enabled={parking}
-          toggle={() => setParking(state => !state)}
+          toggle={() => setParking((state) => !state)}
         />
 
         <SingleSwitch
           variable="Gym"
           enabled={gym}
-          toggle={() => setGym(state => !state)}
+          toggle={() => setGym((state) => !state)}
         />
         <SingleSwitch
           variable="Pool"
           enabled={pool}
-          toggle={() => setPool(state => !state)}
+          toggle={() => setPool((state) => !state)}
         />
 
         <SingleSwitch
           variable="Appliances"
           enabled={appliances}
-          toggle={() => setAppliances(state => !state)}
+          toggle={() => setAppliances((state) => !state)}
         />
 
-      <SingleSwitch
+        <SingleSwitch
           variable="Furniture"
           enabled={furniture}
-          toggle={() => setFurniture(state => !state)}
+          toggle={() => setFurniture((state) => !state)}
         />
 
-      <SingleSwitch
+        <SingleSwitch
           variable="AC"
           enabled={AC}
-          toggle={() => setAC(state => !state)}
+          toggle={() => setAC((state) => !state)}
         />
 
         <Buttons style={{ flex: 1 }} onPress={submit}>
@@ -345,7 +377,7 @@ const styles = StyleSheet.create({
   },
   dropDown: {
     marginLeft: 10,
-    zIndex:2,
+    zIndex: 2,
     flexDirection: "row",
   },
   filterCard: {
@@ -376,11 +408,11 @@ const styles = StyleSheet.create({
   },
   slider: {
     flex: 1,
-    alignSelf: 'flex-start',
+    alignSelf: "flex-start",
     marginLeft: 10,
   },
   slideText: {
-    alignSelf:'center',
+    alignSelf: "center",
     marginLeft: 5,
     fontSize: 20,
   },

@@ -37,7 +37,6 @@ router.post("/all", (req, res) => {
 });
 router.post("/yes", (req, res) => {
   var provided_id = req.body.user_id; //temporary ID until backend connected to frontend
-
   const userQuery = `SELECT list_of_users_yes FROM BirdNest.History WHERE User_id = ${provided_id}`;
   db((client) => {
     client.query(userQuery, (err, result) => {
@@ -49,10 +48,12 @@ router.post("/yes", (req, res) => {
       var count = 0;
       list_of_users.forEach((ID) => {
         //iterates through each ID that the user swiped on
-        var retrieveInfo = `(SELECT User.*, Housing.*, Matching.number FROM BirdNest.User JOIN BirdNest.Housing ON User.id = Housing.User_id JOIN BirdNest.Matching ON User.id = Matching.User_id WHERE (User.id = ${ID})) UNION (SELECT User.*, NoHousing.*, Matching.number FROM BirdNest.User JOIN BirdNest.NoHousing ON User.id = NoHousing.User_id JOIN BirdNest.Matching ON User.id = Matching.User_id WHERE (User.id = ${ID}))`;
+        console.log(ID);
+        var retrieveInfo = `(SELECT User.fullname, User.gender, User.age, Housing.neighborhood, Housing.rent, Housing.lease, Housing.squarefeet, Matching.number FROM BirdNest.User JOIN BirdNest.Housing ON User.id = Housing.User_id JOIN BirdNest.Matching ON User.id = Matching.User_id WHERE (User.id = ${ID})) UNION (SELECT User.fullname, User.gender, User.age, NoHousing.neighborhood, NoHousing.rent, NoHousing.lease, NoHousing.squarefeet, Matching.number FROM BirdNest.User JOIN BirdNest.NoHousing ON User.id = NoHousing.User_id JOIN BirdNest.Matching ON User.id = Matching.User_id WHERE (User.id = ${ID}))`;
         client.query(retrieveInfo, (err, individualInfo) => {
           if (err) throw err;
           var temp_list = individualInfo[0]; //grabs current user's information
+          console.log(individualInfo);
           count++;
           history_list.push(temp_list); //adds current user's information to the final array to be sent
           if (count == list_of_users.length) {
@@ -79,7 +80,7 @@ router.post("/no", (req, res) => {
       var count = 0;
       list_of_users.forEach((ID) => {
         //iterates through each ID that the user swiped on
-        var retrieveInfo = `(SELECT User.*, Housing.*, Matching.number FROM BirdNest.User JOIN BirdNest.Housing ON User.id = Housing.User_id JOIN BirdNest.Matching ON User.id = Matching.User_id WHERE (User.id = ${ID})) UNION (SELECT User.*, NoHousing.*, Matching.number FROM BirdNest.User JOIN BirdNest.NoHousing ON User.id = NoHousing.User_id JOIN BirdNest.Matching ON User.id = Matching.User_id WHERE (User.id = ${ID}))`;
+        var retrieveInfo = `(SELECT User.fullname, User.gender, User.age, Housing.neighborhood, Housing.rent, Housing.lease, Housing.squarefeet, Matching.number FROM BirdNest.User JOIN BirdNest.Housing ON User.id = Housing.User_id JOIN BirdNest.Matching ON User.id = Matching.User_id WHERE (User.id = ${ID})) UNION (SELECT User.fullname, User.gender, User.age, NoHousing.neighborhood, NoHousing.rent, NoHousing.lease, NoHousing.squarefeet, Matching.number FROM BirdNest.User JOIN BirdNest.NoHousing ON User.id = NoHousing.User_id JOIN BirdNest.Matching ON User.id = Matching.User_id WHERE (User.id = ${ID}))`;
         client.query(retrieveInfo, (err, individualInfo) => {
           if (err) throw err;
           var temp_list = individualInfo[0]; //grabs current user's information
@@ -291,4 +292,39 @@ router.post("/matches", (req, res) => {
     });
   });
 });
+router.post("/create", (req, res) => {
+  var user_id = req.body.user_id;
+  try {
+    const checkExistQuery = `SELECT * FROM BirdNest.History WHERE User_id = "${user_id}"`;
+    const insertQuery = `INSERT INTO BirdNest.History (list_of_users_all, list_of_users_yes, list_of_users_no, User_id) 
+                      VALUES (null, null, null, ${user_id})`;
+    db((client) => {
+      client.query(checkExistQuery, (err, result) => {
+        //if result is not empty a user is found, don't do anything
+        if (result.length) {
+          // console.log( "User found successfully.");
+          res.status(400).send("User already in history table");
+          return;
+        }
+        //Else, user is not found. Insert
+        else {
+          db((client) => {
+            client.query(insertQuery, (err) => {
+              if (err) {
+                console.log(err);
+                res.status(400).send(`Bad Request.`);
+                return;
+              }
+              console.log("Insert user successfully into history");
+              res.send(`Insert user successfully into history`);
+            });
+          });
+        }
+      });
+    });
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
+
 module.exports = router;
