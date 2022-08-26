@@ -22,6 +22,7 @@ import Constants1 from "../constants/constants.js";
 // import { useSelector, useDispatch } from "react-redux";
 import { roleImagesIndex } from "../assets/roleImagesIndex";
 import { storage, ref, deleteObject, getDownloadURL } from "../firebaseConfig";
+import DefaultProfilePic from "../assets/DefaultProfilePic.jpeg";
 
 const ProfileCard = ({ item, index, userID, userName }) => {
   const opacityTransition = useRef(new Animated.Value(0)).current;
@@ -206,13 +207,7 @@ const ProfileCard = ({ item, index, userID, userName }) => {
       >
         <Image
           style={styles.image}
-          source={
-            avatar
-              ? { uri: avatar }
-              : {
-                  uri: "https://icon-library.com/images/default-profile-icon/default-profile-icon-24.jpg",
-                }
-          }
+          source={avatar ? { uri: avatar } : DefaultProfilePic}
         />
         <View style={styles.text_box}>
           <View style={styles.text_box_name}>

@@ -235,6 +235,7 @@ const BirdFeed = ({ navigation }) => {
     })
       .then((response) => {
         let userData = response.data;
+        console.log(userData);
         //console.log(userData);
         // manually push all but last, then setUserList on last user to trigger FlatList rerender
         // reason is that FlatList will not re-render unless setUserList is properly called
