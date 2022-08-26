@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   View,
   Text,
@@ -12,27 +12,22 @@ import {
   Modal,
 } from "react-native";
 import Background from "../components/Background";
-import Logo from "../components/Logo";
-import Header from "../components/Header";
 import Button from "../components/Button";
-import Paragraph from "../components/Paragraph";
 import UserCard from "../components/UserCard";
 import InfoCard from "../components/InfoCard";
-import Footer from "../components/Footer.js";
 import * as SecureStore from "expo-secure-store";
 import Axios from "axios";
 import MainHeader from "../components/MainHeader";
-import Deondre from "../assets/deondre.jpg";
 import * as dataActions from "../redux/slices/data";
 import { storage, ref, deleteObject } from "../firebaseConfig";
 import Constants from "../constants/constants";
 import { useDispatch, useSelector } from "react-redux";
-import { removePics } from "../redux/slices/data";
 import * as FileSystem from "expo-file-system";
-import { CONSTANTS } from "@firebase/util";
+import Tags from "react-native-tags";
 
 const Profile = ({ navigation }) => {
   const user = useSelector((state) => state.data.userInfo);
+  console.log(user.isHousing);
   const imageFileSystem = useSelector((state) => state.data.imageFileSystemUri);
   const dispatch = useDispatch();
   let pics = imageFileSystem.album;
@@ -54,12 +49,9 @@ const Profile = ({ navigation }) => {
   let count2 = 0;
   let count3 = 0;
   let selectedPics = [];
+  let keptPics = [];
   const data = useSelector((state) => state.data);
   const [index, setIndex] = useState(0);
-  const [name, setName] = useState();
-  const [rent, setRent] = useState();
-  const [lease, setLease] = useState();
-  const [city, setCity] = useState();
   const [buttonClicked, setButtonClicked] = useState(false);
   const [interestButtonClicked, setInterestButtonClicked] = useState(false);
   const [deleteImage, setDeleteImage] = useState(false);
@@ -132,8 +124,10 @@ const Profile = ({ navigation }) => {
     if (opacity9 == 0.5) {
       selectedPics.push(pics[8]);
     }
-    let tempAlbum = Array.from(imageFileSystem.album);
-    let tempPicsList = Array.from(user.picsList);
+    let tempAlbum = Array.from(
+      imageFileSystem.album ? imageFileSystem.album : []
+    );
+    let tempPicsList = Array.from(user.picsList ? user.picsList : []);
     for (let i = 0; i < selectedPics.length; i++) {
       const fileName = selectedPics[i].split("\\").pop().split("/").pop();
       const filePath = `images/${user.uid}/album/${fileName}`;
@@ -497,8 +491,9 @@ const Profile = ({ navigation }) => {
           </Modal>
           <UserCard
             name={data.userInfo.firstname + " " + data.userInfo.lastname}
+            genderage={data.userInfo.gender + ", " + data.userInfo.age}
+            id={data.userInfo.id}
           />
-
           <View style={styles.buttonContainer}>
             <TouchableOpacity>
               <Button
@@ -550,7 +545,19 @@ const Profile = ({ navigation }) => {
               <RentInfo
                 rent={data.housing.rent}
                 lease={data.housing.lease}
-                neighborhood={data.housing.neighborhood}
+                neighborhood={
+                  data.userInfo.isHousing
+                    ? data.housing.neighborhood
+                    : data.housing.neighborhoodList.join(", ")
+                }
+                // neighborhood={data.housing.neighborhood}
+                garage={data.housing.garage}
+                parking={data.housing.parking}
+                gym={data.housing.gym}
+                pool={data.housing.pool}
+                appliances={data.housing.appliances}
+                furnished={data.housing.furnished}
+                ac={data.housing.ac}
               />
             )}
           </InfoCard>
@@ -559,18 +566,35 @@ const Profile = ({ navigation }) => {
             color={interestButtonClicked ? "#560CCE" : "black"}
             onPress={interestButton}
             style={
-              interestButtonClicked && {
-                borderBottomColor: "#560CCE",
-                borderBottomWidth: 1,
-              }
+              interestButtonClicked
+                ? {
+                    borderBottomColor: "#560CCE",
+                    borderBottomWidth: 1,
+                    width: "auto",
+                  }
+                : { width: "auto" }
             }
           >
-            See Interests/Personality
+            About me as a roommate!
           </Button>
 
           {interestButtonClicked && (
             <InfoCard>
-              <InterestInfo></InterestInfo>
+              <InterestInfo
+                pronouns={data.userInfo.pronouns}
+                pets={data.userInfo.pets}
+                alc={data.userInfo.alcohol}
+                guests={data.userInfo.guests}
+                roommatesStayingUp={data.userInfo.roommateWorkWhileYouSleep}
+                sharing={data.userInfo.shareAppliances}
+                drivingRoommates={data.userInfo.carWithRoommate}
+                cooking={data.userInfo.cook}
+                outside={data.userInfo.outside}
+                study={data.userInfo.silent}
+                sleep={data.userInfo.sleep}
+                keepOrInteract={data.userInfo.roommateInteraction}
+                communication={data.userInfo.tellRoommateIfBothered}
+              />
             </InfoCard>
           )}
         </Background>
@@ -591,29 +615,112 @@ const BioInfo = (props) => {
 // Rent Info
 const RentInfo = (props) => {
   return (
-    <View style={styles.subContainer}>
+    <View style={styles.rentContainer}>
       <Text style={styles.text}>
-        <Text style={{ fontWeight: "bold" }}> Rent:</Text> ${props.rent}
+        <Text style={styles.rentHeaders}>Rent:</Text> ${props.rent}
       </Text>
       <Text style={styles.text}>
-        <Text style={{ fontWeight: "bold" }}> Lease Term:</Text> {props.lease}{" "}
-        months
+        <Text style={styles.rentHeaders}>Lease Term:</Text> {props.lease} months
       </Text>
       <Text style={styles.text}>
-        <Text style={{ fontWeight: "bold" }}> Neighborhood:</Text>{" "}
-        {props.neighborhood}
+        <Text style={styles.rentHeaders}>Neighborhood:</Text>{" "}
+        <Text style={styles.neighborhoodText}> {props.neighborhood} </Text>
       </Text>
+      <Text style={styles.text}>
+        <Text style={styles.rentHeaders}>Housing Preferences:</Text>
+      </Text>
+      <Tags
+        initialTags={[
+          props.garage ? `Garage` : null,
+          props.parking ? `Parking` : null,
+          props.gym ? `Gym` : null,
+          props.pool ? `Pool` : null,
+          props.appliances ? `Appliances` : null,
+          props.furnished ? `Furnished` : null,
+          props.ac ? `AC` : null,
+        ].filter((n) => n)}
+        readonly={true}
+      />
     </View>
   );
 };
 // Interest Info
 const InterestInfo = (props) => {
+  const iHave = [];
+  for (let i = 0; i < props.pets.length; i++) {
+    iHave.push(props.pets[i]);
+  }
+
+  let strSleep = "";
+  if (props.sleep === "Morning") {
+    strSleep = "Early Bird";
+  } else if (props.sleep === "Night Owl") {
+    strSleep = "Night Owl";
+  } else if (props.sleep === "Indifferent") {
+    strSleep = "What's sleep?";
+  }
+
+  let strInteractive = "";
+  if (props.keepOrInteract === "Interact") {
+    strInteractive = "Interactive";
+  } else if (props.keepOrInteract === "Keep to myself") {
+    strInteractive = props.keepOrInteract;
+  }
+
   return (
-    <View style={styles.subContainer}>
-      <Text style={styles.text}>Ice cream</Text>
-      <Text style={styles.text}>Drink</Text>
-      <Text style={styles.text}>Boba</Text>
-      <Text style={styles.text}>Movie</Text>
+    <View style={styles.interestContainer}>
+      <Text style={styles.text}>What I go by:</Text>
+
+      <Tags initialTags={[props.pronouns]} readonly={true} />
+
+      {props.pets.length != 0 && (
+        <View>
+          <Text style={styles.text}>What I have:</Text>
+          <Tags initialTags={iHave.filter((n) => n)} readonly={true} />
+        </View>
+      )}
+      <Text style={styles.text}>What I am okay with: </Text>
+      <Tags
+        initialTags={[
+          props.alc ? "Alchol/420" : null,
+          props.guests ? "Guests Over" : null,
+          props.roommatesStayingUp ? "Okay with roommates up late" : null,
+          props.sharing ? "Sharing appliances" : null,
+          props.drivingRoommates ? "Driving roommates" : null,
+        ].filter((n) => n)}
+        readonly={true}
+      />
+
+      <Text style={styles.text}>What I like:</Text>
+
+      <Tags
+        initialTags={[
+          "Cooking " + props.cooking,
+          props.outside ? "Being outside" : "Stay inside",
+          props.study ? "Studying in silence" : null,
+        ].filter((n) => n)}
+        readonly={true}
+      />
+      <Text style={styles.text}> Who I am: </Text>
+
+      <Tags
+        initialTags={[
+          strSleep,
+          strInteractive,
+          props.communcation ? "Communicative" : null,
+        ].filter((n) => n)}
+        readonly={true}
+      />
+      {/* <Text style={styles.text}>
+        I don't like:
+      </Text>
+
+      <Tags
+        initialTags={[
+          props.outside ? "Staying inside" : "Being outside",
+        ].filter(n=>n)}
+        readonly={true}
+      /> */}
     </View>
   );
 };
@@ -635,9 +742,22 @@ const styles = StyleSheet.create({
   subContainer: {
     padding: 10,
   },
+  rentContainer: {
+    padding: 10,
+  },
+  interestContainer: {
+    padding: 10,
+    justifyContent: "center",
+  },
+  rentHeaders: {
+    padding: 10,
+    fontWeight: "bold",
+    fontSize: 20,
+  },
   text: {
     padding: 10,
     fontSize: 20,
+    textAlign: "left",
   },
 });
 export default Profile;

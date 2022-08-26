@@ -1,30 +1,30 @@
-import { View, Text, StyleSheet, Dimensions, Image } from "react-native";
-import React, { useEffect, useState } from "react";
 import {
-  GestureDetector,
-  PanGestureHandler,
-  State,
-  Gesture,
-  GestureHandlerRootView,
-} from "react-native-gesture-handler";
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Dimensions,
+  TouchableOpacity,
+} from "react-native";
+import React from "react";
+import barackObama from "../assets/barackObama.jpeg";
+import { PanGestureHandler, State } from "react-native-gesture-handler";
 import Animated, {
-  useAnimatedGestureHandler,
-  useSharedValue,
+  Extrapolate,
   useAnimatedStyle,
+  useSharedValue,
+  concat,
+  interpolate,
+  interpolateNode,
   withSpring,
-  withTiming,
+  runOnJS,
+  useAnimatedGestureHandler,
   withDelay,
+  withTiming,
   Easing,
 } from "react-native-reanimated";
-
-const { width, height } = Dimensions.get("window");
-const aspectRatio = 722 / 368;
-const CARD_WIDTH = width - 128;
-const CARD_HEIGHT = CARD_WIDTH * aspectRatio;
-const IMAGE_WIDTH = CARD_WIDTH * 0.9;
-const DURATION = 250;
-const side = (width + CARD_WIDTH + 100) / 2;
-const SNAP_POINTS = [-side, 0, side];
+import Axios from "axios";
+import Constants1 from "../constants/constants.js";
 
 const snapPoint = (value, velocity, points) => {
   "worklet";
@@ -34,187 +34,271 @@ const snapPoint = (value, velocity, points) => {
   return points.filter((p) => Math.abs(point - p) === minDelta)[0];
 };
 
-const PeckViewCard = ({ user, index, listState }) => {
-  const x = useSharedValue(0);
-  const y = useSharedValue(-height - 200);
-  const theta = Math.random() * 20 - 10;
-  const rotateZ = useSharedValue(Math.random() * 20 - 10);
-  const scale = useSharedValue(1);
-  const opacity = useSharedValue(1);
-  const [hidden, setHidden] = useState(false);
-
-  useEffect(() => {
-    if (listState) {
-      const delay = 1000 + index * DURATION;
-      y.value = withDelay(
-        delay,
-        withTiming(0, {
-          duration: DURATION,
-          easing: Easing.inOut(Easing.ease),
-        })
-      );
-      rotateZ.value = withDelay(
-        delay,
-        withTiming(theta, {
-          duration: DURATION,
-          easing: Easing.inOut(Easing.ease),
-        })
-      );
-    }
-  }, [listState]);
+const PeckViewCard = ({
+  user,
+  SNAP_POINTS,
+  width,
+  userList,
+  setUserList,
+  userID,
+  id,
+  userName,
+  navigation,
+}) => {
+  const positionX = useSharedValue(0);
+  const positionY = useSharedValue(0);
+  const translateX = useSharedValue(0);
+  const translateY = useSharedValue(0);
 
   const onGestureEvent = useAnimatedGestureHandler({
-    // get context info of object so card remembers position
-    onStart: (_, ctx) => {
-      ctx.x = x.value;
-      ctx.y = y.value;
-      scale.value = withTiming(1.1, { easing: Easing.inOut(Easing.ease) });
-      rotateZ.value = withTiming(0, { easing: Easing.inOut(Easing.ease) });
+    onStart: () => {
+      positionX.value = translateX.value;
+      positionY.value = translateY.value;
     },
-    onActive: ({ translationX, translationY }, ctx) => {
-      x.value = ctx.x + translationX;
-      y.value = ctx.y + translationY;
+    onActive: ({ translationX, translationY }) => {
+      translateX.value = positionX.value + translationX;
+      translateY.value = positionY.value + translationY;
     },
     onEnd: ({ velocityX, velocityY }) => {
-      const dest = snapPoint(x.value, velocityX, SNAP_POINTS);
-      opacity.value = withTiming(0, {
-        duration: DURATION,
-        easing: Easing.inOut(Easing.ease),
-      });
-      x.value = withSpring(dest, { velocity: velocityX });
-      y.value = withSpring(0, { velocity: velocityY });
-      scale.value = withTiming(1, {
-        duration: DURATION,
-        easing: Easing.inOut(Easing.ease),
-      });
+      const dest = snapPoint(translateX.value, velocityX, SNAP_POINTS);
+      translateX.value = withSpring(dest, { velocity: velocityX });
+      translateY.value = withSpring(0, { velocity: velocityY });
     },
   });
 
-  const Animated_Style = useAnimatedStyle(() => ({
-    transform: [
-      { perspective: 3000 },
-      { rotateX: "30deg" },
-      { rotateZ: `${rotateZ.value}deg` },
-      { translateX: x.value },
-      { translateY: y.value },
-      { scale: scale.value },
-    ],
-  }));
+  const animatedStyles = useAnimatedStyle(() => {
+    const rotateZ = interpolate(
+      translateX.value,
+      [-width / 2, width / 2],
+      [-15, 15],
+      { extrapolate: Extrapolate.CLAMP }
+    );
+    const opacity = interpolate(
+      translateX.value,
+      [-width / 2, 0, width / 2],
+      [0.8, 1, 0.8]
+    );
 
-  const Animated_Opacity = useAnimatedStyle(() => ({
-    opacity: opacity.value,
-  }));
+    return {
+      // StyleSheet.absoluteFillObject,
+      transform: [
+        { translateX: translateX.value },
+        { translateY: translateY.value },
+        { rotateZ: `${rotateZ}deg` },
+      ],
+      opacity: opacity,
+    };
+  });
+
+  //   const opacityStyles = useAnimatedStyle(() => {
+  //       const opacity = interpolate(translateX.value, [0 , width/4], )
+  //   })
+
+  const removeCard = () => {
+    setUserList(
+      userList.filter((user) => {
+        // return user.id !== id;
+        return user.info.User_id !== id;
+      })
+    );
+  };
+
+  const swipeUserYes = async () => {
+    Axios.post(`${await Constants1.BASE_URL()}/api/history/insertYes`, {
+      user_id: userID,
+      swiped_id: user.info.User_id,
+      // swiped_id: 345,
+      // user_id: 98,
+      // swiped_id: 345,
+    })
+      .then(async (response) => {
+        let responseInfo = response.data;
+        console.log("token 0: " + responseInfo[0].token);
+        // console.log("token 1: " + responseInfo[1].token);
+        // console.log("user.info.fullname: " + user.info.fullname);
+        console.log("userName: " + userName);
+        if (responseInfo.length === 2) {
+          Axios.post(`${await Constants1.BASE_URL()}/api/notifications/match`, {
+            pushTokens: [responseInfo[0].token, responseInfo[1].token],
+            phone_user: userName,
+            swiped_user: user.info.fullname,
+            // phone_user: userName,
+            // swiped_user: user.info.fullname,
+          })
+            .then()
+            .catch((error) => {
+              console.log(error);
+            });
+        } else if (responseInfo.length === 1) {
+          Axios.post(`${await Constants1.BASE_URL()}/api/notifications/swipe`, {
+            pushTokens: responseInfo[0].token,
+            swiped_user: userName,
+          }).catch((error) => {
+            console.log(error);
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const swipeUserNo = async () => {
+    Axios.post(`${await Constants1.BASE_URL()}/api/history/insertNo`, {
+      user_id: userID,
+      swiped_id: user.info.User_id,
+    })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const handleStateChange = ({ nativeEvent }) => {
-    const dest = snapPoint(x.value, nativeEvent.velocityX, SNAP_POINTS);
+    const dest = snapPoint(
+      translateX.value,
+      nativeEvent.velocityX,
+      SNAP_POINTS
+    );
+
     if (nativeEvent.state === State.END && dest === SNAP_POINTS[2]) {
-      console.log("Yes");
-      // setHidden(true);
-      opacity.value = withTiming(0, {
-        duration: DURATION,
-        easing: Easing.inOut(Easing.ease),
-      });
-    } else if (nativeEvent.state === State.END && dest === SNAP_POINTS[1]) {
-      console.log("No");
-      // setHidden(true);
-      opacity.value = withTiming(0, {
-        duration: DURATION,
-        easing: Easing.inOut(Easing.ease),
-      });
+      console.log("Swiped Right");
+      //   if (profileList.length == 1) {
+      //     return;
+      //   }
+      swipeUserYes();
+      setTimeout(removeCard, 100);
+    } else if (nativeEvent.state === State.END && dest === SNAP_POINTS[0]) {
+      console.log("Swiped Left");
+      //   if (userList.length == 1) {
+      //     return;
+      //   }
+      swipeUserNo();
+      setTimeout(removeCard, 100);
     }
   };
 
+  const handleView = () => {
+    let item = { item: user };
+    navigation.navigate("UserProfile", { item });
+  };
+
   return (
-    <View
-      style={Peck_View_Styles.container}
-      // { display: hidden ? "none" : "flex" },
-      pointerEvents="box-none"
+    <PanGestureHandler
+      onGestureEvent={onGestureEvent}
+      onHandlerStateChange={handleStateChange}
     >
-      <PanGestureHandler
-        onGestureEvent={onGestureEvent}
-        onHandlerStateChange={handleStateChange}
+      <Animated.View
+        style={[
+          StyleSheet.absoluteFillObject,
+          styles.container,
+          animatedStyles,
+        ]}
       >
-        <Animated.View style={[Peck_View_Styles.card, Animated_Style]}>
-          <View style={Peck_View_Styles.cardFlourish}>
-            <View style={Peck_View_Styles.cardFlourish2}>
-              <View style={Peck_View_Styles.cardContent}>
-                <Image
-                  source={user.src}
-                  style={Peck_View_Styles.image}
-                  resizeMode="cover"
-                />
-                <Text style={Peck_View_Styles.text}>{user.name}</Text>
+        <View style={styles.cardInfoWrapper}>
+          <Image source={barackObama} style={styles.image} />
+          <View style={styles.headerText}>
+            <Text style={styles.name}>
+              {user.info.firstname} {user.info.lastname[0]}.
+            </Text>
+            <Text>
+              {user.info.gender}, {user.info.pronouns}, {user.info.age},
+            </Text>
+          </View>
+          <View style={styles.mainTextWrapper}>
+            <View>
+              <View style={styles.mainTextInfo}>
+                <Text>{user.info.neighborhood}</Text>
               </View>
+              <Text style={styles.mainTextHeader}>Neighborhood</Text>
+            </View>
+            <View>
+              <View style={styles.mainTextInfo}>
+                <Text>${user.info.rent}</Text>
+              </View>
+              <Text style={styles.mainTextHeader}>Rent</Text>
             </View>
           </View>
-        </Animated.View>
-      </PanGestureHandler>
-    </View>
+          <TouchableOpacity
+            // onPress={() => navigation.navigate("UserProfile", { item: user })}
+            onPress={handleView}
+            style={styles.button}
+          >
+            <Text style={styles.buttonText}>
+              View {user.info.fullname}'s Profile{" "}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </Animated.View>
+    </PanGestureHandler>
   );
 };
 
-const Peck_View_Styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
-    ...StyleSheet.absoluteFillObject,
-    // position: "absolute",
-    // ------ CLEAN UP THIS POSITIONING ---------
-    // top: "25%",
-    // left: "15%",
-    justifyContent: "center",
-    alignItems: "center",
-    // height: 500,
-    // width: 300,
-  },
-  card: {
-    backgroundColor: "#560CCE",
-    borderRadius: 10,
-    // width: 300,
-    // height: 500,
-    width: CARD_WIDTH,
-    height: CARD_HEIGHT,
-    justifyContent: "center",
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.5,
-    shadowRadius: 8,
-    elevation: 5,
-  },
-  cardFlourish: {
-    justifyContent: "center",
-    alignItems: "center",
-    width: "98%",
-    height: "98%",
-    backgroundColor: "white",
-    borderRadius: 10,
-  },
-  cardFlourish2: {
-    justifyContent: "center",
-    alignItems: "center",
-    width: "98%",
-    height: "98%",
-    backgroundColor: "#560CCE",
-    borderRadius: 10,
-  },
-  cardContent: {
-    width: "98%",
-    height: "98%",
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "white",
-    borderRadius: 10,
+    height: 600,
+    width: 350,
+    top: 50,
+    left: (Dimensions.get("window").width - 350) / 2,
+    borderRadius: 15,
+    borderColor: "#560CCE",
+    borderWidth: 4,
+  },
+  cardInfoWrapper: {
+    height: 560,
+    width: 300,
+    backgroundColor: "white",
   },
   image: {
+    height: 300,
+    width: 300,
     borderRadius: 15,
-    marginTop: 15,
   },
-  text: {
-    marginTop: 20,
-    backgroundColor: "white",
+  headerText: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    borderBottomColor: "#560CCE",
+    borderBottomWidth: 2,
+  },
+  name: {
+    fontFamily: "Pacifico_400Regular",
+    fontSize: 25,
+    color: "#560CCE",
+    marginRight: 10,
+    paddingHorizontal: 10,
+    paddingBottom: 5,
+  },
+  mainTextWrapper: {
+    flex: 1,
+    // backgroundColor: "blue",
+    padding: 10,
+  },
+  mainTextInfo: {
+    borderBottomColor: "#560CCE",
+    borderBottomWidth: 1,
+    // alignSelf: "center",
+  },
+  mainTextHeader: {
+    color: "gray",
+  },
+  button: {
+    backgroundColor: "#560CCE",
+    alignSelf: "center",
+    justifyContent: "center",
+    height: 40,
+    width: 280,
+    borderRadius: 6,
+  },
+  buttonText: {
+    textAlign: "center",
+    color: "white",
+    fontSize: 20,
   },
 });
-
 export default PeckViewCard;

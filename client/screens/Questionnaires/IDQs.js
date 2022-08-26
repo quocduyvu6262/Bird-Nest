@@ -60,7 +60,6 @@ const IDQs = ({ navigation }) => {
       return;
     }
     
-
     // Pick image from device library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -72,6 +71,7 @@ const IDQs = ({ navigation }) => {
       // store current uri
       setCurrentUri(result.uri);
       setIsuploaded(true);
+      console.log(result.uri);
     }
   }
   
@@ -99,7 +99,6 @@ const IDQs = ({ navigation }) => {
         if(imageDownloadedUrl){
           dispatch(dataActions.updateProfilepic(uploadTask.snapshot.ref._location.path_));
           FileSystem.downloadAsync(imageDownloadedUrl, FileSystem.documentDirectory + 'avatar.jpg').then(({uri})=>{
-            console.log(uri);
             dispatch(dataActions.updateAvatar(uri));
           })
         }
@@ -113,7 +112,7 @@ const IDQs = ({ navigation }) => {
     <SafeAreaView style={styles.container} behavior={Platform.OS === "ios" ? "padding": "height"}>
       {/* header */}
       <View style={styles.header}>
-        <Text style={styles.headTitle}>Profile (1/4)</Text>
+        <Text style={styles.headTitle}>Profile (1/5)</Text>
       </View>
       {/* Text input fields */}
       <Text style={styles.headerText}>Let's get started!</Text>

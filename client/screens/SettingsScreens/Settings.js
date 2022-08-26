@@ -23,34 +23,32 @@ import { DevSettings } from "react-native";
 const Settings = ({ navigation }) => {
   const logout = async () => {
     await SecureStore.deleteItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_TOKEN)
-      .then(async () => {
-        await SecureStore.deleteItemAsync(
-          Constants.MY_SECURE_AUTH_STATE_KEY_USER
-        )
-          .then(async () => {
-            await SecureStore.deleteItemAsync(
-              Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING
-            )
-              .then(async () => {
-                SecureStore.deleteItemAsync(
-                  Constants.MY_SECURE_AUTH_STATE_KEY_REDUX
-                );
-                SecureStore.deleteItemAsync(
-                  Constants.MY_SECURE_AUTH_STATE_IMAGE_URI
-                );
-                navigation.navigate("LoginScreen");
-                await chatClient.disconnectUser();
-                DevSettings.reload();
-              })
-              .catch((err) => {
-                console.log(err);
-              });
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      })
-      .catch((err) => console.log(err));
+      .then()
+      .catch((err) => {
+        console.log("Fail to delete token from secure store");
+        throw err;
+      });
+    await SecureStore.deleteItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER)
+      .then()
+      .catch((err) => {
+        console.log("Fail to delete user from secure store");
+        throw err;
+      });
+    await SecureStore.deleteItemAsync(
+      Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING
+    )
+      .then()
+      .catch((err) => {
+        console.log("Fail to delete housing from secure store");
+        throw err;
+      });
+    await SecureStore.deleteItemAsync(Constants.MY_SECURE_AUTH_STATE_IMAGE_URI)
+      .then()
+      .catch((err) => {
+        console.log("Fail to delete images from secure store");
+        throw err;
+      });
+    await chatClient.disconnectUser();
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -66,6 +64,13 @@ const Settings = ({ navigation }) => {
 
       <TouchableOpacity
         style={styles.regularButton}
+        onPress={() => navigation.navigate("IDQs")}
+      >
+        <Text style={styles.textButton}>Edit Questionnaire</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.regularButton}
         onPress={() => navigation.navigate("HelpSupport")}
       >
         <Text style={styles.textButton}>Help & Support</Text>
@@ -75,13 +80,22 @@ const Settings = ({ navigation }) => {
         style={styles.regularButton}
         onPress={() => navigation.navigate("TermsOfService")}
       >
-        <Text style={styles.textButton}>Terms of service</Text>
+        <Text style={styles.textButton}>Terms of Service</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.regularButton}
+        onPress={() => navigation.navigate("AboutUs")}
+      >
+        <Text style={styles.textButton}>About Us</Text>
       </TouchableOpacity>
 
       <Buttons
-        style={{flex: 1}}
+        style={{ flex: 1 }}
         onPress={() => {
-          logout();
+          logout().then(() => {
+            navigation.navigate("LoginScreen");
+          });
         }}
       >
         Logout
@@ -114,6 +128,8 @@ const styles = StyleSheet.create({
   },
   textButton: {
     color: "white",
+    fontWeight: "bold",
+    fontSize: 15,
   },
   deleteButton: {
     marginBottom: 40,
