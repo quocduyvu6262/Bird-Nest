@@ -148,7 +148,15 @@ router.post('/insertYes', (req, res) => {
                             resultMatch2 = JSON.stringify(resultMatch2);
                             const addQuery1 = `UPDATE BirdNest.User SET matches = '${resultMatch1}' WHERE id = ${provided_id};`;
                             const addQuery2 = `UPDATE BirdNest.User SET matches = '${resultMatch2}' WHERE id = ${swiped_id};`;
+                            const addQuery3 = `UPDATE BirdNest.User SET matchedChat = '${resultMatch1}' WHERE id = ${provided_id};`;
+                            const addQuery4 = `UPDATE BirdNest.User SET matchedChat = '${resultMatch2}' WHERE id = ${swiped_id};`;
                             client.query(addQuery1, (err, result) => {
+                                if(err) throw err;
+                            });
+                            client.query(addQuery3, (err, result) => {
+                                if(err) throw err;
+                            });
+                            client.query(addQuery4, (err, result) => {
                                 if(err) throw err;
                             });
                             client.query(addQuery2, (err, result) => {
