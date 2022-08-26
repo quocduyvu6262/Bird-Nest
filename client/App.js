@@ -25,21 +25,13 @@ import Settings from "./screens/SettingsScreens/Settings";
 import ChirpNotificationEdit from "./screens/SettingsScreens/ChirpNotificationEdit.js";
 import HelpSupport from "./screens/SettingsScreens/HelpSupport.js";
 import TermsOfService from "./screens/SettingsScreens/TermsOfService.js";
-<<<<<<< HEAD
-import AboutUs from "./screens/SettingsScreens/AboutUs.js"
-=======
 import AboutUs from "./screens/SettingsScreens/AboutUs.js";
->>>>>>> origin/dev
 import NoHousingQ from "./screens/Questionnaires/NoHousingQ.js";
 import HasHousingQ from "./screens/Questionnaires/HasHousingQ.js";
 import Personality from "./screens/Questionnaires/Personality.js";
 import BasicInfo from "./screens/Questionnaires/BasicInfo.js";
 import EditProfile from "./screens/EditProfile";
-<<<<<<< HEAD
-import UserProfile from './components/UserProfile';
-=======
 import UserProfile from "./components/UserProfile";
->>>>>>> origin/dev
 // IMPORT CHAT NAVIGATOR
 import ChatNavigator from "./screens/ChatAPI/ChatNavigator";
 
