@@ -222,7 +222,11 @@ const ProfileCard = ({ item, index, userID, userName }) => {
             </Text>
           </View>
           <Text>
-            {item.item.info.neighborhood.length <= 2
+            {item.item.info.isHousing 
+              ? item.item.info.neighborhood
+              : item.item.info.neighborhood.join(', ')
+             }
+            {/* {item.item.info.neighborhood.length <= 2
               ? item.item.info.neighborhood.map((neighborhood, index) => {
                   if (index === 0 && item.item.info.neighborhood.length == 2) {
                     return `${neighborhood}, `;
@@ -236,7 +240,7 @@ const ProfileCard = ({ item, index, userID, userName }) => {
                   } else if (index === 2) {
                     return `etc.`;
                   }
-                })}
+                })} */}
           </Text>
           <View style={styles.barGroup}>
             <Text>Rent is ${item.item.info.rent}</Text>
