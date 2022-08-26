@@ -4,6 +4,7 @@ import {
   SafeAreaView,
   StyleSheet,
   TouchableOpacity,
+  StatusBar,
 } from "react-native";
 import React, { useState } from "react";
 import MainHeader from "../components/MainHeader";
