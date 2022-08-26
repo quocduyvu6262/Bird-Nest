@@ -31,53 +31,100 @@ class Personality extends Component {
   /**
    * Pull data from Redux Store and store into
    * Database and Secure Storage
+   * @returns true if storing data successfully.
+   * False otherwise
    */
   storeData = async () => {
     const user = this.props.data.userInfo;
     const housing = this.props.data.housing;
+    const imageFileSystemUri = this.props.data.imageFileSystemUri;
+
     // Store into Secure Store
-    SecureStore.setItemAsync(
+    await SecureStore.setItemAsync(
       Constants.MY_SECURE_AUTH_STATE_KEY_USER,
       JSON.stringify(user)
-    );
-    SecureStore.setItemAsync(
+    )
+      .then()
+      .catch((err) => {
+        console.log("Fail to store user in Secure Store");
+        throw err;
+      });
+    await SecureStore.setItemAsync(
       Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING,
       JSON.stringify(housing)
-    );
+    )
+      .then()
+      .catch((err) => {
+        console.log("Fail to store housing in Secure Store");
+        throw err;
+      });
+    await SecureStore.setItemAsync(
+      Constants.MY_SECURE_AUTH_STATE_IMAGE_URI,
+      JSON.stringify({
+        avatar: imageFileSystemUri.avatar,
+        album: imageFileSystemUri.album,
+      })
+    )
+      .then()
+      .catch((err) => {
+        console.log("Fail to store images in Secure Store");
+        throw err;
+      });
 
     // Store user into database
-    // TODO: Implement the method to store user data into database
     Axios.post(`${await Constants.BASE_URL()}/api/users/questionnaire`, {
       userInfo: user,
     }).catch((err) => {
+      console.log(err);
+      //console.log(user);
       console.log("Fail to store user into database from questionnaire");
+      throw err;
     });
+
+    // Store user into history table
+    Axios.post(`${await Constants.BASE_URL()}/api/history/create`, {
+      user_id: user.id,
+    }).catch((err) => {
+      console.log(err);
+      //console.log(user);
+      console.log("Fail to store user into history");
+      throw err;
+    });
+
     // Store housing into database
-    // TODO: Implement the method to store housing data into database
     if (user.role === "Flamingo" || user.role === "Owl") {
+      // delete no housing
+      Axios.post(`${await Constants.BASE_URL()}/api/nohousing/delete`, {
+        user_id: user.id,
+      });
       // Post to housing
       Axios.post(`${await Constants.BASE_URL()}/api/housings/create`, {
         user_id: user.id,
         housing: housing,
       })
-        .then()
+        .then(() => true)
         .catch((err) => {
-          console.log(housing.squarefeet);
           console.log("Fail to update/insert housing from questionnaire");
+          throw err;
         });
     } else if (
       user.role === "Parrot" ||
       user.role === "Penguin" ||
       user.role === "Duck"
     ) {
+      // delete housing
+      Axios.post(`${await Constants.BASE_URL()}/api/housings/delete`, {
+        user_id: user.id,
+      });
       // Post to nohousing
-      Axios.post(`${await Constants.BASE_URL()}/api/nohousing/create`, {
+      Axios.post(`${await Constants.BASE_URL()}/api/Nohousing/create`, {
         user_id: user.id,
         housing: housing,
       })
-        .then()
+        .then(() => true)
         .catch((err) => {
           console.log("Fail to update/insert nohousing from questionnaire");
+          throw err;
         });
     }
   };
@@ -473,18 +520,17 @@ class Personality extends Component {
     return (
       <SafeAreaView style={HousingQ_styles.container}>
         <View style={HousingHeader_styles.header}>
-          <Text style={HousingHeader_styles.headerText}>Personality (5/5)</Text>
           <TouchableOpacity
-            style={{ alignSelf: "flex-start" }}
-            onPress={() => {
-              this.props.navigation.goBack();
-            }}
+            onPress={() => this.props.navigation.goBack()}
+            style={HousingHeader_styles.returnToProfileArrow}
           >
-            <Text style={HousingHeader_styles.returnToProfileArrow}>
-              {"< "}
-            </Text>
-            <Text style={HousingHeader_styles.returnToProfile}>Housing</Text>
+            <Image
+              source={require("../../assets/backArrow.png")}
+              style={HousingHeader_styles.backIcon}
+            />
+            <Text style={HousingHeader_styles.backText}>Housing</Text>
           </TouchableOpacity>
+          <Text style={HousingHeader_styles.headerText}>Personality (5/5)</Text>
         </View>
         <ScrollView>
           <Text style={[HousingQ_styles.question1, { marginTop: 120 }]}>
@@ -519,7 +565,7 @@ class Personality extends Component {
               );
             }}
           >
-            <Text style={HousingQ_styles.buttonText}>Amivert</Text>
+            <Text style={HousingQ_styles.buttonText}>Ambivert</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[this.state17, HousingQ_styles.buttonContainerYes5]}
@@ -1016,8 +1062,9 @@ class Personality extends Component {
             style={HousingQ_styles.nextButton}
             onPress={() => {
               //this.createHousingInfo()
-              this.storeData();
-              this.props.navigation.navigate("BirdFeed");
+              this.storeData().then(() => {
+                this.props.navigation.navigate("BirdFeed");
+              });
             }}
           >
             <Text style={[HousingQ_styles.buttonText, { color: "#FFF" }]}>
@@ -1032,29 +1079,37 @@ class Personality extends Component {
 const HousingHeader_styles = StyleSheet.create({
   header: {
     backgroundColor: "#6736B6",
+    flexDirection: "row",
+    alignItems: "center",
+    width: "100%",
     height: 90,
-    bottom: 45,
+    bottom: 50,
     marginBottom: -45,
   },
   headerText: {
-    fontWeight: "bold",
+    flex: 2,
+    top: 20,
     color: "#FFF",
     fontSize: 20,
-    top: 53,
-    textAlign: "center",
-  },
-  returnToProfile: {
-    color: "#FFF",
-    fontSize: 17,
-    bottom: 4,
-    left: 27,
+    fontWeight: "bold",
   },
   returnToProfileArrow: {
-    fontWeight: "600",
-    color: "#FFF",
-    fontSize: 30,
-    top: 22,
     left: 5,
+    top: 20,
+    flex: 0.85,
+    alignItems: "center",
+    flexDirection: "row",
+  },
+  backIcon: {
+    height: 20,
+    width: 20,
+    tintColor: "#FFF",
+    marginRight: -5,
+  },
+  backText: {
+    color: "#FFF",
+    fontSize: 15,
+    fontWeight: "bold",
   },
 });
 

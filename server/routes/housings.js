@@ -46,24 +46,20 @@ router.get("/email/:email", (req, res) => {
   });
 });
 // Post housings
-router.post("/create", (req, res) => {
-  let housing = req.body.housing;
-  let user_id = req.body.user_id;
-  //Check if user exists in housing table
-  const checkExistQuery = `SELECT * FROM Housing WHERE User_id = "${user_id}"`;
-  const insertQuery = `
-    INSERT INTO Housing (neighborhood, city, squarefeet, lease, rent, garage, parking, gym, pool, appliances, furniture, AC, User_id)
-    VALUES ("${housing.neighborhood}", "${housing.city}",
+router.post('/create', (req, res) => {
+    let housing = req.body.housing;
+    let user_id = req.body.user_id;
+    //Check if user exists in housing table
+    const checkExistQuery = `SELECT * FROM Housing WHERE User_id = "${user_id}"`
+    const insertQuery = `
+    INSERT INTO Housing (neighborhood, squarefeet, lease, rent, garage, parking, gym, pool, appliances, furniture, AC, User_id)
+    VALUES ("${housing.neighborhood}",
      "${housing.squarefeet}", "${housing.lease}", "${housing.rent}", 
      ${housing.garage}, ${housing.parking}, 
      ${housing.gym}, ${housing.pool}, 
      ${housing.appliances}, ${housing.furniture}, ${housing.AC}, "${user_id}")`;
-  const updateQuery = `UPDATE Housing SET neighborhood="${
-    housing.neighborhood
-  }", city="${housing.city}", 
-        squarefeet="${housing.squarefeet}", lease="${housing.lease}", rent="${
-    housing.rent
-  }", 
+    const updateQuery = `UPDATE Housing SET neighborhood="${housing.neighborhood}", 
+        squarefeet="${housing.squarefeet}", lease="${housing.lease}", rent="${housing.rent}", 
         garage=${housing.garage.toString()}, parking=${housing.parking.toString()}, gym=${housing.gym.toString()}, pool=${housing.pool.toString()}, 
         appliances=${housing.appliances.toString()}, furniture=${housing.furniture.toString()}, AC=${housing.AC.toString()} WHERE User_id=${user_id}`;
   db((client) => {
@@ -103,55 +99,17 @@ router.post("/create", (req, res) => {
 
 // Delete housings
 router.post("/delete", (req, res) => {
-  let housing = req.body;
+  let user_id = req.body.user_id;
   //let User_id = req.body.user_id;
   const query = `
-    DELETE FROM Housing WHERE User_id=${housing.User_id}`;
+    DELETE FROM Housing WHERE User_id=${user_id}`;
   db((client) => {
     client.query(query, (err, result) => {
       if (err) {
-        console.log(err);
-        res.status(400).send(`Bad Request.`);
+        console.log("Fail to delete housing");
         return;
       }
-      res.send(`Delete successfully.`);
-    });
-  });
-});
-
-//Store the buttons (Correspond to variables) a user clicked in an array (each button adds an element to the array)
-//Insert the strings into queries. Where 'variable' = 'variable_value
-
-router.get("/filtered", (req, res) => {
-  const filterVars = [
-    "id",
-    "fullname",
-    "role",
-    "gender",
-    "age",
-    "graduationyear",
-    "major",
-    "pet",
-  ];
-  //const filterVars = [];
-  //filterVars.push(var);
-  incompleteQuery = "SELECT ";
-  for (let i = 0; i < filterVars.length - 1; i++) {
-    //skip last element because last doesnt have comma
-    incompleteQuery += filterVars[i] + ", ";
-  }
-  incompleteQuery += filterVars[filterVars.length - 1] + " FROM User;";
-  //const query = "SELECT id, fullname, role, gender, age, graduationyear, major, pet FROM User;";
-  const query = incompleteQuery;
-  db((client) => {
-    client.query(query, (err, results) => {
-      if (!err) {
-        res.send(results);
-      } else {
-        //res.status(401).send("No users matching those filters found");
-        console.log(err);
-        res.status(401).send(results);
-      }
+      console.log("Delete housing successfully");
     });
   });
 });

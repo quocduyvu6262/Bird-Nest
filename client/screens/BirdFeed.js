@@ -11,14 +11,18 @@ import {
   Platform,
   StatusBar,
   ScrollView,
+  RefreshControlBase,
 } from "react-native";
 import Svg, { Path } from "react-native-svg";
-import Bird_Drawing from "../assets/svg/Bird_Drawing.js";
-
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import * as Device from "expo-device";
+import * as Notifications from "expo-notifications";
+import * as Permissions from "expo-permissions";
+import moment from "moment";
 import Axios from "axios";
 import Footer from "../components/Footer.js";
 import ProfileCard from "../components/ProfileCard.js";
+import * as dataActions from "../redux/slices/data";
 import { imagesIndex } from "../assets/images/imagesIndex.js";
 import { stepforward } from "react-native-vector-icons";
 import ViewUsers from "../components/buttons/ViewUsers.js";
@@ -28,119 +32,226 @@ import Animated, {
   useAnimatedStyle,
 } from "react-native-reanimated";
 import Swipeable from "react-native-gesture-handler/Swipeable";
-
+import Buttons from "../components/Button.js";
 import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
 import MainHeader from "../components/MainHeader.js";
-import Constants from "../constants/constants.js";
 import barackObama from "../assets/barackObama.jpeg";
-import { useChatClient } from "./ChatAPI/useChatClient.js";
-import FilterOverlay from "../components/FilterOverlay.js";
-// Old Imports for filter
-// import { Icon } from "@rneui/themed";
-// import Icon2 from "react-native-vector-icons/MaterialCommunityIcons";
+import FilterOverlay from "../components/Overlay/FilterOverlay";
 import Icon3 from "react-native-vector-icons/Ionicons";
-import { useSelector } from "react-redux";
-const BirdFeed = ({ navigation }) => {
-  const user = useSelector((state) => state.data.userInfo);
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState([]);
-  const [items, setItems] = useState([
-    { label: "Downtown SD", value: "downtownsd" },
-    { label: "La Jolla", value: "lajolla" },
-    { label: "Del Mar", value: "delmar" },
-    { label: "Mira Mesa", value: "mira" },
-    { label: "Pacific Beach", value: "pacificbeach" },
-    { label: "Clairemont", value: "clairemont" },
-    { label: "University City", value: "universitycity" },
-    { label: "UTC", value: "utc" },
-    { label: "Solana Beach", value: "solanabeach" },
-    { label: "Mission Valley", value: "missionvalley" },
-    { label: "Carmel Valley", value: "carmelvalley" },
-    { label: "Sorrento Valley", value: "sorrentovalley" },
-    { label: "Other", value: "other" },
-  ]);
-  const itemcount = items.length;
+import { useSelector, useDispatch } from "react-redux";
+import { storage, ref, getDownloadURL } from "../firebaseConfig";
+import Constants from "../constants/constants.js";
 
+const BirdFeed = ({ navigation }) => {
+  /**
+   * Notification setup
+   */
+  Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: false,
+      shouldSetBadge: false,
+    }),
+  });
+  const retrieveImage = async (path) => {
+    if (path) {
+      const reference = ref(storage, path);
+      const url = await getDownloadURL(reference);
+      return url;
+    }
+  };
+
+  /**
+   * Redux Hook
+   */
+  const user = useSelector((state) => state.data.userInfo);
+  const housing = useSelector((state) => state.data.housing);
+  const notificationListener = useRef();
+  const [expoPushToken, setExpoPushToken] = useState("");
+  const [notification, setNotification] = useState(false);
+  const responseListener = useRef();
+  let names = user.notiNames;
+  let pics = user.notiPics;
+  let dates = user.notiDate;
+  let notiLength = user.notiNames.length - 1;
+  const dispatch = useDispatch();
+
+  /**
+   * Declare State
+   */
+  const [rentText, setRentText] = useState("");
   const [userList, setUserList] = useState([]);
   const [listState, setListState] = useState(false);
-  // This is the old filter function on birdfeed
+  const [overlayFilterClicked, setOverlayFilterClicked] = useState(false);
+  const [isContentLoaded, setIsContentLoaded] = useState(false);
+  let [fontsLoaded] = useFonts({ Pacifico_400Regular });
 
+  /**
+   * Check whether Filter Button is clicked
+   * @returns whether Filter Button is clicked
+   */
   const overlayFilterButton = () => {
     overlayFilterClicked
       ? setOverlayFilterClicked(false)
       : setOverlayFilterClicked(true);
   };
-
-  const overlayDropDownButton = () => {
-    overlayDropDownClicked
-      ? setOverlayDropDownClicked(false)
-      : setOverlayDropDownClicked(true);
+  // This is the old filter function on birdfeed
+  const updateMatchUI = async () => {
+    Axios.post(`${await Constants.BASE_URL()}/api/history/picName1`, {
+      user_id: user.id,
+    })
+      .then(async (response) => {
+        let userData = response.data;
+        let name = userData[0].fullname;
+        let pic = userData[0].profilepic;
+        if (pic == null) {
+          pic =
+            "https://icon-library.com/images/default-profile-icon/default-profile-icon-24.jpg"; //update to not require link
+        } else {
+          pic = await retrieveImage(pic);
+        }
+        dispatch(dataActions.updateNotiNames(name));
+        dispatch(dataActions.updateNotiPics(pic));
+        dispatch(dataActions.updateNotiUnread());
+        var currentDate = moment().format("YYYYMMDD HHmmss");
+        dispatch(dataActions.updateNotiDate(currentDate));
+        dispatch(dataActions.updateIsMatch());
+        dispatch(dataActions.updateSingleSeen());
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
-  // const handlerAgeChange = (ageSlide) => {
-  //   setAgeState({ageState});
-  // }
-  const [ageState, setAgeState] = useState(18);
+  const updateSwipeUI = async () => {
+    Axios.post(`${await Constants.BASE_URL()}/api/history/picName2`, {
+      user_id: user.id,
+    })
+      .then(async (response) => {
+        let userData = response.data;
+        let name = userData[0].fullname;
+        let pic = userData[0].profilepic;
+        if (pic == null) {
+          pic =
+            "https://icon-library.com/images/default-profile-icon/default-profile-icon-24.jpg"; //update to not require link
+        } else {
+          pic = await retrieveImage(pic);
+        }
+        dispatch(dataActions.updateNotiNames(name));
+        dispatch(dataActions.updateNotiPics(pic));
+        dispatch(dataActions.updateNotiUnread());
+        var currentDate = moment().format("YYYYMMDD HHmmss");
+        dispatch(dataActions.updateNotiDate(currentDate));
+        dispatch(dataActions.updateIsNotMatch());
+        dispatch(dataActions.updateSingleSeen());
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  const insertToken = async (token) => {
+    Axios.post(`${await Constants.BASE_URL()}/api/history/token`, {
+      user_id: user.id,
+      token: token,
+    });
+  };
 
-  const [rentState, setRentState] = useState(500);
+  useEffect(() => {
+    registerForPushNotificationsAsync().then((token) =>
+      setExpoPushToken(token)
+    );
+    notificationListener.current =
+      Notifications.addNotificationReceivedListener((notification) => {
+        if (notification.request.content.title == "Swiped!") {
+          console.log("HELLO");
+          updateSwipeUI();
+        } else {
+          updateMatchUI();
+        }
+        setNotification(notification);
+      });
 
-  const [neighborhood, setNeighborhood] = useState("");
+    responseListener.current =
+      Notifications.addNotificationResponseReceivedListener((response) => {
+        console.log(response);
+      });
 
-  const [leaseState, setLeaseState] = useState(1);
+    return () => {
+      Notifications.removeNotificationSubscription(
+        notificationListener.current
+      );
+      Notifications.removeNotificationSubscription(responseListener.current);
+    };
+  }, []);
 
-  const [sqFtState, setSqFtState] = useState(100);
+  async function registerForPushNotificationsAsync() {
+    let token;
+    if (Device.isDevice) {
+      const { status: existingStatus } =
+        await Notifications.getPermissionsAsync();
+      let finalStatus = existingStatus;
+      if (existingStatus !== "granted") {
+        const { status } = await Notifications.requestPermissionsAsync();
+        finalStatus = status;
+      }
+      if (finalStatus !== "granted") {
+        alert("Failed to get push token for push notification!");
+        return;
+      }
+      token = (await Notifications.getExpoPushTokenAsync()).data;
+      if (user.token == null) {
+        dispatch(dataActions.updateToken(token));
+        insertToken(token);
+      }
+      console.log(token);
+    } else {
+      alert("Must use physical device for Push Notifications");
+    }
 
-  const [overlayFilterClicked, setOverlayFilterClicked] = useState(false);
+    if (Platform.OS === "android") {
+      Notifications.setNotificationChannelAsync("default", {
+        name: "default",
+        importance: Notifications.AndroidImportance.MAX,
+        vibrationPattern: [0, 250, 250, 250],
+        lightColor: "#FF231F7C",
+      });
+    }
 
-  const [switchEnabledPar, setSwitchEnabledPar] = useState(false);
-  const toggleSwitchPar = () =>
-    setSwitchEnabledPar((previousState) => !previousState);
-
-  const [switchEnabledGym, setSwitchEnabledGym] = useState(false);
-  const toggleSwitchGym = () =>
-    setSwitchEnabledGym((previousState) => !previousState);
-
-  const [switchEnabledPoo, setSwitchEnabledPoo] = useState(false);
-  const toggleSwitchPoo = () =>
-    setSwitchEnabledPoo((previousState) => !previousState);
-
-  const [switchEnabledApp, setSwitchEnabledApp] = useState(false);
-  const toggleSwitchApp = () =>
-    setSwitchEnabledApp((previousState) => !previousState);
-
-  const [switchEnabledFur, setSwitchEnabledFur] = useState(false);
-  const toggleSwitchFur = () =>
-    setSwitchEnabledFur((previousState) => !previousState);
-
-  const [switchEnabledAC, setSwitchEnabledAC] = useState(false);
-  const toggleSwitchAC = () =>
-    setSwitchEnabledAC((previousState) => !previousState);
-  let [fontsLoaded] = useFonts({
-    Pacifico_400Regular,
-  });
-  // ----- LOGIC FOR VIEW USER BUTTONS -----
-
+    return token;
+  }
+  /**
+   * Call the matching algorithm and display
+   * the list of users that match each criteria
+   */
   const viewUsers = async () => {
-    setUserList([]);
-    Axios.post(`${await Constants.BASE_URL()}/api/matching/`, {
+    let userList = [];
+    let apiEndpoint;
+    if (user.role === "Flamingo" || user.role === "Owl") {
+      apiEndpoint = "/api/matching/lookingfornohousing";
+    } else {
+      apiEndpoint = "/api/matching/lookingforhousing";
+    }
+    Axios.post(`${await Constants.BASE_URL()}${apiEndpoint}`, {
       user_id: user.id,
     })
       .then((response) => {
         let userData = response.data;
+        console.log(userData);
+        //console.log(userData);
         // manually push all but last, then setUserList on last user to trigger FlatList rerender
         // reason is that FlatList will not re-render unless setUserList is properly called
         // but setUserList (setState) will only set state once
         for (let i = 0; i < userData.length - 1; i++) {
           userList.push({
-            name: userData[i].fullname,
-            city: userData[i].city,
+            info: userData[i].info,
+            count: userData[i].count,
             src: barackObama,
           });
         }
         setUserList((prevList) => [
           ...userList,
           {
-            name: userData[userData.length - 1].fullname,
-            city: userData[userData.length - 1].city,
+            info: userData[userData.length - 1].info,
+            count: userData[userData.length - 1].count,
             src: barackObama,
           },
         ]);
@@ -150,94 +261,66 @@ const BirdFeed = ({ navigation }) => {
       });
 
     setListState(true);
+    //console.log("BIRDFEED USERLIST");
+    //console.log(userList);
   };
 
+  /**
+   * Use effect Hook
+   */
   useEffect(() => {
     viewUsers();
   }, []);
-
-  // ---------------------------------------
-
+  /**
+   * Render Logic
+   */
   if (!fontsLoaded) {
     return <View></View>;
   } else {
     return (
       // Header - Beginning
       <SafeAreaView style={styles.container}>
-        <MainHeader screen="Bird Feed" navigation={navigation} />
+        <MainHeader
+          screen="Bird Feed"
+          navigation={navigation}
+          overlayFilterButton={overlayFilterButton}
+        />
         <View
           style={[
             styles.svg,
             { transform: [{ translateY: 20 }, { translateX: 100 }] },
           ]}
-        >
-          <Bird_Drawing />
-        </View>
-        <TouchableOpacity
-          style={[styles.input, { marginVertical: 7 }]}
-          onPress={overlayFilterButton}
-        >
-          <Icon3
-            style={styles.input}
-            name="options-sharp"
-            size={30}
-            color="black"
-          />
-        </TouchableOpacity>
+        ></View>
+
         {overlayFilterClicked && (
           <FilterOverlay
-            setOverlayFilterClicked={setOverlayFilterClicked}
-            overlaFilterClicked={overlayFilterClicked}
+            setUserList={setUserList}
+            setListState={setListState}
             overlayFilterButton={overlayFilterButton}
-            open={open}
-            setOpen={setOpen}
-            value={value}
-            setValue={setValue}
-            items={items}
-            setItems={setItems}
-            itemcount={itemcount}
-            setAgeState={setAgeState}
-            ageState={ageState}
-            setNeighborhood={setNeighborhood}
-            neighborhood={neighborhood}
-            setRentState={setRentState}
-            rentState={rentState}
-            setLeaseState={setLeaseState}
-            leaseState={leaseState}
-            setSqFtState={setSqFtState}
-            sqFtState={sqFtState}
-            switchEnabledPar={switchEnabledPar}
-            setSwitchEnabledPar={setSwitchEnabledPar}
-            toggleSwitchPar={toggleSwitchPar}
-            switchEnabledGym={switchEnabledGym}
-            setSwitchEnabledGym={setSwitchEnabledGym}
-            toggleSwitchGym={toggleSwitchGym}
-            switchEnabledPoo={switchEnabledPoo}
-            setSwitchEnabledPoo={setSwitchEnabledPoo}
-            toggleSwitchPoo={toggleSwitchPoo}
-            switchEnabledApp={switchEnabledApp}
-            setSwitchEnabledApp={setSwitchEnabledApp}
-            toggleSwitchApp={toggleSwitchApp}
-            switchEnabledFur={switchEnabledFur}
-            setSwitchEnabledFur={setSwitchEnabledFur}
-            toggleSwitchFur={toggleSwitchFur}
-            switchEnabledAC={switchEnabledAC}
-            setSwitchEnabledAC={setSwitchEnabledAC}
-            toggleSwitchAC={toggleSwitchAC}
+            viewUsers={viewUsers}
           />
         )}
 
-        {listState && (
-          <View styles={styles.flatlist}>
+        <View style={{ flex: 1 }}>
+          {listState && (
             <FlatList
               data={userList}
-              // data={UserData}
-              renderItem={(item) => <ProfileCard item={item} />}
               extraData={userList}
-              // extraData={UserData}
+              style={{ height: "100%" }}
+              renderItem={(item) => (
+                <TouchableOpacity
+                  onPress={() => navigation.navigate("UserProfile", { item })}
+                >
+                  <ProfileCard
+                    item={item}
+                    userID={user.id}
+                    userName={user.fullname}
+                  />
+                </TouchableOpacity>
+              )}
             />
-          </View>
-        )}
+          )}
+        </View>
       </SafeAreaView>
     );
   }
@@ -332,6 +415,32 @@ const styles = StyleSheet.create({
     zIndex: 5,
     // top: 100,
     // left: 200,
+  },
+  filterButton: {
+    flexDirection: "row",
+    position: "absolute",
+    // top: 110,
+    bottom: 10,
+    left: 10,
+    alignSelf: "center",
+    backgroundColor: "rgba(194, 192, 192, 0.6)",
+    zIndex: 10,
+    // width: 280,
+    // padding: 10,
+    borderRadius: 10,
+  },
+  clearFilterButton: {
+    flexDirection: "row",
+    position: "absolute",
+    // top: 110,
+    bottom: 10,
+    right: 10,
+    alignSelf: "center",
+    backgroundColor: "rgba(194, 192, 192, 0.6)",
+    zIndex: 10,
+    // width: 280,
+    paddingLeft: 10,
+    borderRadius: 10,
   },
 });
 export default BirdFeed;
