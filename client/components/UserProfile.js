@@ -43,8 +43,6 @@ const UserProfile = React.memo(({ navigation, route }) => {
       ? setInterestButtonClicked(false)
       : setInterestButtonClicked(true);
   };
-  
-  console.log("render");
   return (
     <SafeAreaView style={styles.container}>
       <MainHeader screen={`${user.firstname}'s Profile`} navigation={navigation} />

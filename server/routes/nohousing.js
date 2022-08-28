@@ -52,10 +52,10 @@ router.post('/create', (req, res) => {
   let housing = req.body.housing;
   let user_id = req.body.user_id;
   const updateOrInsertIfNotExistQuery = `REPLACE INTO 
-      Housing(neighborhood, squarefeet, lease, 
+      NoHousing(neighborhood, squarefeet, lease, 
             rent, garage, parking, gym, pool, 
             appliances, furniture, AC, User_id)
-      VALUES ("${housing.neighborhood}",
+      VALUES (${JSON.stringify(JSON.stringify(housing.neighborhoodList))},
       "${housing.squarefeet}", "${housing.lease}", "${housing.rent}", 
       ${housing.garage}, ${housing.parking}, 
       ${housing.gym}, ${housing.pool}, 
