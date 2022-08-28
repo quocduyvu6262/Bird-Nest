@@ -250,7 +250,7 @@ const MainHeader = ({ screen, navigation, overlayFilterButton }) => {
                 }}
               >
                 <Icon name="notifications" size={30} />
-                {user.notiunRead && (
+                {(user && user.notiunRead) && (
                   <Text
                     style={{
                       color: "red",

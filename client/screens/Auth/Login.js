@@ -10,10 +10,11 @@ import * as WebBrowser from "expo-web-browser";
 import * as SecureStore from "expo-secure-store";
 import Constants from "../../constants/constants";
 import * as dataActions from '../../redux/slices/data';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Axios from "axios";
 import {storage, ref, getDownloadURL} from '../../firebaseConfig';
 import * as FileSystem from 'expo-file-system';
+import {retrieveImage} from '../../utils/helper';
 
 
 
@@ -24,6 +25,7 @@ const LoginScreen = ({ navigation }) => {
    * @returns the dispatch instance
    */
   const dispatch = useDispatch();
+  const data = useSelector(state => state.data);
 
   /**
    * States declaration
@@ -111,7 +113,7 @@ const LoginScreen = ({ navigation }) => {
       }
       // Get and store housing
       if(user.isHousing){
-        Axios.get(`${await Constants.BASE_URL()}/api/housings/email/${email}`).then(async ({data}) => {
+        Axios.get(`${await Constants.BASE_URL()}/api/housings/${user.id}`).then(async ({data}) => {
           const housing = data[0];
           // push into secure store
           await SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING, JSON.stringify(housing));
@@ -124,7 +126,7 @@ const LoginScreen = ({ navigation }) => {
       }
       // Get and store no housing
       else {
-        Axios.get(`${await Constants.BASE_URL()}/api/nohousing/email/${email}`).then(async ({data}) => {
+        Axios.get(`${await Constants.BASE_URL()}/api/nohousing/${user.id}`).then(async ({data}) => {
           const housing = data[0];
           // push into secure store
           await SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING, JSON.stringify(housing));
@@ -143,18 +145,6 @@ const LoginScreen = ({ navigation }) => {
       throw err;
     })
   }
-  /**
-   * @params path the uri to image in Firebase Cloud Storage
-   * Function to retrieve image from firebase cloud storage
-   */
-  const retrieveImage = async (path) => {
-    if(path){
-      const reference = ref(storage, path);
-      const url = await getDownloadURL(reference);
-      return url;
-    }
-  }
-  
 
   /**
    * Use Effect Hook

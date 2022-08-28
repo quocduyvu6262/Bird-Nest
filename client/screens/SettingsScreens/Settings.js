@@ -13,23 +13,26 @@ import { Icon } from "react-native-vector-icons/MaterialCommunityIcons";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import MainHeader from "../../components/MainHeader";
-// Import constants
 import Constants from "../../constants/constants";
-const chatClient = StreamChat.getInstance(Constants.CHAT_API_KEY);
 import { StreamChat } from "stream-chat";
 import * as Updates from "expo-updates";
 import { DevSettings } from "react-native";
+import { useDispatch } from "react-redux";
+import * as dataActions from '../../redux/slices/data';
+import {useNavigation} from '@react-navigation/native';
+import {StackActions} from '@react-navigation/native';
+
+const chatClient = StreamChat.getInstance(Constants.CHAT_API_KEY);
 
 const Settings = ({ navigation }) => {
+  const dispatch = useDispatch();
   const logout = async () => {
     await SecureStore.deleteItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_TOKEN)
-      .then()
       .catch((err) => {
         console.log("Fail to delete token from secure store");
         throw err;
       });
     await SecureStore.deleteItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER)
-      .then()
       .catch((err) => {
         console.log("Fail to delete user from secure store");
         throw err;
@@ -37,18 +40,16 @@ const Settings = ({ navigation }) => {
     await SecureStore.deleteItemAsync(
       Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING
     )
-      .then()
       .catch((err) => {
         console.log("Fail to delete housing from secure store");
         throw err;
       });
     await SecureStore.deleteItemAsync(Constants.MY_SECURE_AUTH_STATE_IMAGE_URI)
-      .then()
       .catch((err) => {
         console.log("Fail to delete images from secure store");
         throw err;
       });
-    await chatClient.disconnectUser();
+    dispatch(dataActions.reset());
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -93,8 +94,9 @@ const Settings = ({ navigation }) => {
       <Buttons
         style={{ flex: 1 }}
         onPress={() => {
-          logout().then(() => {
+          logout().then(async () => {
             navigation.navigate("LoginScreen");
+            await chatClient.disconnectUser();
           });
         }}
       >

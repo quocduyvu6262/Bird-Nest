@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import {initialUserInfo, initialHousing, initialImageFileSystemUri} from './initialStates';
 
 const userInfo = {
     id: "",
@@ -96,7 +97,6 @@ export const dataSlice = createSlice({
         userInfo: userInfo,
         housing: housing,
         imageFileSystemUri: imageFileSystemUri,
-        channel: null
     },
     reducers: {
         // ALL
@@ -461,6 +461,12 @@ export const dataSlice = createSlice({
                 temp.splice(index, 1); // 2nd parameter means remove one item only
             }
             state.imageFileSystemUri.album = temp;
+        },
+        // RESET
+        reset: (state) => {
+            state.userInfo = initialUserInfo;
+            state.housing = initialHousing;
+            state.imageFileSystemUri = initialImageFileSystemUri;
         }
     }
 });
@@ -545,6 +551,8 @@ export const {
     // IMAGE FILESYSTEM URI
     updateAvatar,
     updateAlbum,
-    deleteAlbumItem
+    deleteAlbumItem,
+    // RESET
+    reset
 } = dataSlice.actions;
 export default dataSlice.reducer;

@@ -13,11 +13,10 @@ import DropDownPicker from "react-native-dropdown-picker";
 import Axios from "axios";
 import Constants from "../constants/constants";
 import * as SecureStore from "expo-secure-store";
-
-// import Redux functionality
 import { useDispatch, useSelector } from "react-redux";
 import * as dataActions from "../redux/slices/data";
 import { TextInput } from "react-native-paper";
+import {storeData} from '../utils/helper';
 
 const EditProfile = ({ navigation }) => {
   /**
@@ -55,56 +54,6 @@ const EditProfile = ({ navigation }) => {
   // might need this as a fix later for the dropdown; ignore for now
   //   DropDownPicker.setListMode("SCROLLVIEW");
 
-  /**
-   * Pull data from Redux Store and store into
-   * Database and Secure Storage
-   */
-  const storeData = async () => {
-    // Store into Secure Store
-    await SecureStore.setItemAsync(
-      Constants.MY_SECURE_AUTH_STATE_KEY_USER,
-      JSON.stringify(userInfo)
-    );
-    await SecureStore.setItemAsync(
-      Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING,
-      JSON.stringify(housing)
-    );
-
-    // Store user into database
-    // TODO: Implement the method to store user data into database
-    Axios.post(`${await Constants.BASE_URL()}/api/users/questionnaire`, {
-      userInfo: userInfo,
-    }).catch((err) => {
-      console.log("Fail to store user into database from questionnaire");
-    });
-    // Store housing into database
-    // TODO: Implement the method to store housing data into database
-    if (userInfo.role === "Flamingo" || userInfo.role === "Owl") {
-      // Post to housing
-      Axios.post(`${await Constants.BASE_URL()}/api/housings/create`, {
-        user_id: userInfo.id,
-        housing: housing,
-      })
-        .then()
-        .catch((err) => {
-          console.log("Fail to update/insert housing from questionnaire");
-        });
-    } else if (
-      userInfo.role === "Parrot" ||
-      userInfo.role === "Penguin" ||
-      userInfo.role === "Duck"
-    ) {
-      // Post to nohousing
-      Axios.post(`${await Constants.BASE_URL()}/api/nohousing/create`, {
-        user_id: userInfo.id,
-        housing: housing,
-      })
-        .then()
-        .catch((err) => {
-          console.log("Fail to update/insert nohousing from questionnaire");
-        });
-    }
-  };
 
   // set slider variable and update redux store
   const handleSliderChange = (value) => {
@@ -131,11 +80,12 @@ const EditProfile = ({ navigation }) => {
     dispatch(dataActions.updateBio(bioText));
     if(userInfo.isHousing){
       dispatch(dataActions.updateNeighborhood(neighborhoodValue));
+      storeData({...userInfo, bio: bioText}, {...housing, rent: sliderValue, lease: leaseTerm, neighborhood: neighborhoodValue});
     }else{
       dispatch(dataActions.updateAllNeighborhoodList(neighborhoodValue));
+      storeData({...userInfo, bio: bioText}, {...housing, rent: sliderValue, lease: leaseTerm, neighborhoodList: neighborhoodValue});
     }
     // update database
-    await storeData();
     navigation.goBack();
   };
   

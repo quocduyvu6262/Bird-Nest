@@ -18,11 +18,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { StreamChat } from "stream-chat";
 import Constants from "../../constants/constants";
 import {
-  getChatUID,
-  removeItem,
-  updateMatchedUserChatSecureStore,
-  updateMatchedChatUserDatabase,
   viewMatchedUserChat,
+  getUpdatedMatchedUserChat,
+  retrieveImage
 } from "../../utils/helper";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import data, * as dataActions from "../../redux/slices/data";
@@ -39,7 +37,6 @@ const MessengerMatch = ({
   /**
    * Declare states
    */
-  const dispatch = useDispatch();
   const user = useSelector((state) => state.data.userInfo);
 
   /**
@@ -47,6 +44,13 @@ const MessengerMatch = ({
    */
   const MatchLoad = (props) => {
     const clickedUser = props.user;
+    const [avatar, setAvatar] = useState(null); 
+    const getAvatar = async (url) => {
+      setAvatar(await retrieveImage(url));
+    }
+    useEffect(() => {
+      getAvatar(props.src)
+    }, [])
     return (
       <View props>
         <TouchableOpacity
@@ -55,13 +59,12 @@ const MessengerMatch = ({
             handleSnapPress(0, clickedUser);
           }}
         >
-          <Image style={styles.image} source={props.src} />
+          <Image style={styles.image} source={{uri: avatar}} />
           <Text style={{ marginTop: 5 }}>{props.name} </Text>
         </TouchableOpacity>
       </View>
     );
   };
-
   /**
    * Use effect
    */
@@ -71,6 +74,7 @@ const MessengerMatch = ({
       setUserList(data);
     });
   }, []);
+
   /**
    * Render logic
    */
@@ -89,7 +93,15 @@ const MessengerMatch = ({
         }}
       >
         <View style={styles.container}>
-          <Text style={styles.matchText}>New    Matches </Text>
+          <TouchableOpacity
+            onPress={() => {
+              getUpdatedMatchedUserChat(user.id).then(({data}) => {
+                setUserList(data);
+              })
+            }}
+          >
+            <Text style={styles.matchText}>New    Matches</Text>
+          </TouchableOpacity>
           {userList.length != 0 ? (
             <View>
               <ScrollView style={styles.users} horizontal={true}>
@@ -98,7 +110,7 @@ const MessengerMatch = ({
                     <MatchLoad
                       key={i}
                       name={user.fullname}
-                      src={Elie}
+                      src={user.profilepic}
                       user={user}
                     />
                   );

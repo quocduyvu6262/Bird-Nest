@@ -117,10 +117,10 @@ const History = ({ navigation }) => {
         {listState && (
           <View styles={styles.flatlist}>
             <FlatList
-              data={userList}
+              data={props.data}
               // data={UserData}
               renderItem={(item) => <ProfileCard item={item} />}
-              extraData={userList}
+              extraData={props.extraData}
               // extraData={UserData}
             />
           </View>

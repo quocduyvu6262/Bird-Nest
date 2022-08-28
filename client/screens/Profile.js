@@ -27,10 +27,9 @@ import Tags from "react-native-tags";
 
 const Profile = ({ navigation }) => {
   const user = useSelector((state) => state.data.userInfo);
-  console.log(user.isHousing);
   const imageFileSystem = useSelector((state) => state.data.imageFileSystemUri);
   const dispatch = useDispatch();
-  let pics = imageFileSystem.album;
+  let pics = imageFileSystem ? imageFileSystem.album : null;
   let pics1 = [];
   let pics2 = [];
   let pics3 = [];
@@ -490,9 +489,9 @@ const Profile = ({ navigation }) => {
             </View>
           </Modal>
           <UserCard
-            name={data.userInfo.firstname + " " + data.userInfo.lastname}
-            genderage={data.userInfo.gender + ", " + data.userInfo.age}
-            id={data.userInfo.id}
+            name={data.userInfo ? data.userInfo.firstname + " " + data.userInfo.lastname: null}
+            genderage={data.userInfo ? data.userInfo.gender + ", " + data.userInfo.age : null}
+            id={data.userInfo ? data.userInfo.id : null}
           />
           <View style={styles.buttonContainer}>
             <TouchableOpacity>
@@ -539,25 +538,26 @@ const Profile = ({ navigation }) => {
           </View>
 
           <InfoCard>
-            {!buttonClicked && <BioInfo bio={data.userInfo.bio}></BioInfo>}
+            {!buttonClicked && <BioInfo bio={data.userInfo ? data.userInfo.bio : ""}></BioInfo>}
 
             {buttonClicked && (
               <RentInfo
-                rent={data.housing.rent}
-                lease={data.housing.lease}
-                neighborhood={
-                  data.userInfo.isHousing
+                rent={data.housing ? data.housing.rent : null}
+                lease={data.housing ? data.housing.lease : null}
+                neighborhood={data.userInfo && data.housing
+                  ? (data.userInfo.isHousing
                     ? data.housing.neighborhood
-                    : data.housing.neighborhoodList.join(", ")
+                    : data.housing.neighborhoodList ? data.housing.neighborhoodList.join(", ") : null)
+                  : null
                 }
                 // neighborhood={data.housing.neighborhood}
-                garage={data.housing.garage}
-                parking={data.housing.parking}
-                gym={data.housing.gym}
-                pool={data.housing.pool}
-                appliances={data.housing.appliances}
-                furnished={data.housing.furnished}
-                ac={data.housing.ac}
+                garage={data.housing ? data.housing.garage : null}
+                parking={data.housing ? data.housing.parking : null}
+                gym={data.housing ? data.housing.gym : null}
+                pool={data.housing ? data.housing.pool : null}
+                appliances={data.housing ? data.housing.appliances : null}
+                furnished={data.housing ? data.housing.furnished : null}
+                ac={data.housing ? data.housing.ac : null}
               />
             )}
           </InfoCard>
@@ -581,19 +581,19 @@ const Profile = ({ navigation }) => {
           {interestButtonClicked && (
             <InfoCard>
               <InterestInfo
-                pronouns={data.userInfo.pronouns}
-                pets={data.userInfo.pets}
-                alc={data.userInfo.alcohol}
-                guests={data.userInfo.guests}
-                roommatesStayingUp={data.userInfo.roommateWorkWhileYouSleep}
-                sharing={data.userInfo.shareAppliances}
-                drivingRoommates={data.userInfo.carWithRoommate}
-                cooking={data.userInfo.cook}
-                outside={data.userInfo.outside}
-                study={data.userInfo.silent}
-                sleep={data.userInfo.sleep}
-                keepOrInteract={data.userInfo.roommateInteraction}
-                communication={data.userInfo.tellRoommateIfBothered}
+                pronouns={data.userInfo ? data.userInfo.pronouns : null}
+                pets={data.userInfo ? data.userInfo.pets : null}
+                alc={data.userInfo ? data.userInfo.alcohol : null}
+                guests={data.userInfo ? data.userInfo.guests : null}
+                roommatesStayingUp={data.userInfo ? data.userInfo.roommateWorkWhileYouSleep: null}
+                sharing={data.userInfo ? data.userInfo.shareAppliances : null}
+                drivingRoommates={data.userInfo ? data.userInfo.carWithRoommate : null}
+                cooking={data.userInfo ? data.userInfo.cook : null}
+                outside={data.userInfo ? data.userInfo.outside : null}
+                study={data.userInfo ? data.userInfo.silent : null}
+                sleep={data.userInfo ? data.userInfo.sleep : null}
+                keepOrInteract={data.userInfo ? data.userInfo.roommateInteraction : null}
+                communication={data.userInfo ? data.userInfo.tellRoommateIfBothered : null}
               />
             </InfoCard>
           )}
