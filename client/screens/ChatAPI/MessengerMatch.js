@@ -89,7 +89,7 @@ const MessengerMatch = ({
         }}
       >
         <View style={styles.container}>
-          <Text style={styles.matchText}>New Matches </Text>
+          <Text style={styles.matchText}>New    Matches </Text>
           {userList.length != 0 ? (
             <View>
               <ScrollView style={styles.users} horizontal={true}>
