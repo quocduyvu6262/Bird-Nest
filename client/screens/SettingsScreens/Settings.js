@@ -19,17 +19,18 @@ const chatClient = StreamChat.getInstance(Constants.CHAT_API_KEY);
 import { StreamChat } from "stream-chat";
 import * as Updates from "expo-updates";
 import { DevSettings } from "react-native";
+import { useDispatch } from "react-redux";
+import * as dataActions from '../../redux/slices/data';
 
 const Settings = ({ navigation }) => {
+  const dispatch = useDispatch();
   const logout = async () => {
     await SecureStore.deleteItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_TOKEN)
-      .then()
       .catch((err) => {
         console.log("Fail to delete token from secure store");
         throw err;
       });
     await SecureStore.deleteItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER)
-      .then()
       .catch((err) => {
         console.log("Fail to delete user from secure store");
         throw err;
@@ -37,17 +38,16 @@ const Settings = ({ navigation }) => {
     await SecureStore.deleteItemAsync(
       Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING
     )
-      .then()
       .catch((err) => {
         console.log("Fail to delete housing from secure store");
         throw err;
       });
     await SecureStore.deleteItemAsync(Constants.MY_SECURE_AUTH_STATE_IMAGE_URI)
-      .then()
       .catch((err) => {
         console.log("Fail to delete images from secure store");
         throw err;
       });
+    dispatch(dataActions.reset());
     await chatClient.disconnectUser();
   };
   return (

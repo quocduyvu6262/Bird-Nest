@@ -18,14 +18,14 @@ const CarouselCards = ({avatar, picList}) => {
   useEffect(() => {
     let picsListCarouselData = []
     // avatar
-    if(imageFileSystemUri.avatar){
+    if(imageFileSystemUri && imageFileSystemUri.avatar){
       picsListCarouselData.push({
         title: "Coral Reef",
         body: "Location: Red Sea",
         imgUrl: imageFileSystemUri.avatar
       })
     }
-    if(imageFileSystemUri.album.length){
+    if(imageFileSystemUri && imageFileSystemUri.album.length){
       imageFileSystemUri.album.map(picUrl => {
         picsListCarouselData.push({
           title: "Coral Reef",

@@ -10,7 +10,7 @@ const UserCard = (props) => {
   const user = useSelector(state => state.data.userInfo);
   return (
     <View style={styles.card}>
-      {user.id === props.id 
+      {user && user.id === props.id 
         ? <CarouselCards />
         : <UserCarouselCards avatar={props.avatar} picsList={props.picsList}/>
       }
