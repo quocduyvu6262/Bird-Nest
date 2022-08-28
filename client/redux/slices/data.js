@@ -252,7 +252,7 @@ export const dataSlice = createSlice({
         updateSleep: (state, action) => {
             state.userInfo.sleep = action.payload;
         },
-        updateGuess: (state, action) => {
+        updateGuest: (state, action) => {
             state.userInfo.guests = action.payload;
         },
         updateOutside: (state, action) => {
@@ -503,7 +503,7 @@ export const {
     updateAlcohol,
     updateNotiLength, 
     updateSleep, 
-    updateGuess, 
+    updateGuest, 
     updateOutside,
     updateIsMatch,
     updateIsNotMatch, 

@@ -83,13 +83,13 @@ class BasicInfo extends Component {
   };
   state1 = {
     name: true,
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.alcohol,
+    backgroundColor: this.props.userInfo.alcohol ? "#3B9CF1" : "#D9D9D9",
   };
   state2 = {
     name: false,
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: !this.props.userInfo.alcohol,
+    backgroundColor: this.props.userInfo.alcohol ? "#D9D9D9" : "#3B9CF1",
   };
   state3 = {
     name: "Morning",
@@ -103,13 +103,13 @@ class BasicInfo extends Component {
   };
   state5 = {
     name: true,
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.guests,
+    backgroundColor: this.props.userInfo.guests ? "#3B9CF1" : "#D9D9D9",
   };
   state6 = {
     name: false,
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: !this.props.userInfo.guests,
+    backgroundColor: !this.props.userInfo.guests ? "#3B9CF1" : "#D9D9D9",
   };
   state7 = {
     name: true,
@@ -123,23 +123,23 @@ class BasicInfo extends Component {
   };
   state9 = {
     name: true,
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.silent,
+    backgroundColor: this.props.userInfo.guests ? "#3B9CF1" : "#D9D9D9",
   };
   state10 = {
     name: false,
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: !this.props.userInfo.silent,
+    backgroundColor: !this.props.userInfo.guests ? "#3B9CF1" : "#D9D9D9",
   };
   state11 = {
     name: true,
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.roommateWorkWhileYouSleep,
+    backgroundColor: this.props.userInfo.roommateWorkWhileYouSleep ? "#3B9CF1" : "#D9D9D9",
   };
   state12 = {
     name: false,
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: !this.props.userInfo.roommateWorkWhileYouSleep,
+    backgroundColor: !this.props.userInfo.roommateWorkWhileYouSleep ? "#3B9CF1" : "#D9D9D9",
   };
   state13 = {
     pressed: false,
@@ -665,7 +665,7 @@ class BasicInfo extends Component {
             style={[this.state5, HousingQ_styles.buttonContainerYes3]}
             onPress={() => {
               this.changeColor(this.state5, this.state6);
-              this.props.dispatch(dataActions.updateGuess(this.state5.name));
+              this.props.dispatch(dataActions.updateGuest(this.state5.name));
             }}
           >
             <Text style={HousingQ_styles.buttonText}>Yes</Text>
@@ -674,7 +674,7 @@ class BasicInfo extends Component {
             style={[this.state6, HousingQ_styles.buttonContainerNo3]}
             onPress={() => {
               this.changeColor(this.state6, this.state5);
-              this.props.dispatch(dataActions.updateGuess(this.state6.name));
+              this.props.dispatch(dataActions.updateGuest(this.state6.name));
             }}
           >
             <Text style={HousingQ_styles.buttonText}>No</Text>
