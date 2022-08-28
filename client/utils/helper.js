@@ -9,12 +9,15 @@ import {storage, ref, getDownloadURL} from '../firebaseConfig'
  * user fullname and uid 
  * @param fullname the user full name
  * @param uid the user uid
- * @returns the chat uid
+ * @returns the chat uid. Otherwise, return an empty string
  */
 export const getChatUID = (fullname, uid) => {
-    const trimName = fullname.replace(/\s/g, '');
-    const chatId = `${trimName}_${uid}`;
-    return chatId
+    if(fullname){
+        const trimName = fullname.replace(/\s/g, '');
+        const chatId = `${trimName}_${uid}`;
+        return chatId
+    }
+    return "";
 }
 
 /**

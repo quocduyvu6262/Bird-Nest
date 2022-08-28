@@ -86,10 +86,6 @@ const BirdFeed = ({ navigation }) => {
   const [expoPushToken, setExpoPushToken] = useState("");
   const [notification, setNotification] = useState(false);
   const responseListener = useRef();
-  let names = user.notiNames;
-  let pics = user.notiPics;
-  let dates = user.notiDate;
-  let notiLength = user.notiNames.length - 1;
   const dispatch = useDispatch();
 
   /**

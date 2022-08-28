@@ -46,23 +46,25 @@ router.post("/yes", (req, res) => {
       list_of_users = JSON.parse(list_of_users); //converts result from string to an array
       var history_list = []; //inital empty array that will contain all matches that were swiped
       var count = 0;
-      list_of_users.forEach((ID) => {
-        //iterates through each ID that the user swiped on
-        console.log(ID);
-        var retrieveInfo = `(SELECT User.fullname, User.gender, User.age, Housing.neighborhood, Housing.rent, Housing.lease, Housing.squarefeet, Matching.number FROM BirdNest.User JOIN BirdNest.Housing ON User.id = Housing.User_id JOIN BirdNest.Matching ON User.id = Matching.User_id WHERE (User.id = ${ID})) UNION (SELECT User.fullname, User.gender, User.age, NoHousing.neighborhood, NoHousing.rent, NoHousing.lease, NoHousing.squarefeet, Matching.number FROM BirdNest.User JOIN BirdNest.NoHousing ON User.id = NoHousing.User_id JOIN BirdNest.Matching ON User.id = Matching.User_id WHERE (User.id = ${ID}))`;
-        client.query(retrieveInfo, (err, individualInfo) => {
-          if (err) throw err;
-          var temp_list = individualInfo[0]; //grabs current user's information
-          console.log(individualInfo);
-          count++;
-          history_list.push(temp_list); //adds current user's information to the final array to be sent
-          if (count == list_of_users.length) {
-            //if all the users that were swiped through have been iterated
-            res.send(history_list); //send final array containing the provided_user's swipe history
-            return;
-          }
+      if(list_of_users){
+        list_of_users.forEach((ID) => {
+          //iterates through each ID that the user swiped on
+          console.log(ID);
+          var retrieveInfo = `(SELECT User.fullname, User.gender, User.age, Housing.neighborhood, Housing.rent, Housing.lease, Housing.squarefeet, Matching.number FROM BirdNest.User JOIN BirdNest.Housing ON User.id = Housing.User_id JOIN BirdNest.Matching ON User.id = Matching.User_id WHERE (User.id = ${ID})) UNION (SELECT User.fullname, User.gender, User.age, NoHousing.neighborhood, NoHousing.rent, NoHousing.lease, NoHousing.squarefeet, Matching.number FROM BirdNest.User JOIN BirdNest.NoHousing ON User.id = NoHousing.User_id JOIN BirdNest.Matching ON User.id = Matching.User_id WHERE (User.id = ${ID}))`;
+          client.query(retrieveInfo, (err, individualInfo) => {
+            if (err) throw err;
+            var temp_list = individualInfo[0]; //grabs current user's information
+            console.log(individualInfo);
+            count++;
+            history_list.push(temp_list); //adds current user's information to the final array to be sent
+            if (count == list_of_users.length) {
+              //if all the users that were swiped through have been iterated
+              res.send(history_list); //send final array containing the provided_user's swipe history
+              return;
+            }
+          });
         });
-      });
+      }
     });
   });
 });
@@ -78,21 +80,23 @@ router.post("/no", (req, res) => {
       list_of_users = JSON.parse(list_of_users); //converts result from string to an array
       var history_list = []; //inital empty array that will contain all matches that were swiped
       var count = 0;
-      list_of_users.forEach((ID) => {
-        //iterates through each ID that the user swiped on
-        var retrieveInfo = `(SELECT User.fullname, User.gender, User.age, Housing.neighborhood, Housing.rent, Housing.lease, Housing.squarefeet, Matching.number FROM BirdNest.User JOIN BirdNest.Housing ON User.id = Housing.User_id JOIN BirdNest.Matching ON User.id = Matching.User_id WHERE (User.id = ${ID})) UNION (SELECT User.fullname, User.gender, User.age, NoHousing.neighborhood, NoHousing.rent, NoHousing.lease, NoHousing.squarefeet, Matching.number FROM BirdNest.User JOIN BirdNest.NoHousing ON User.id = NoHousing.User_id JOIN BirdNest.Matching ON User.id = Matching.User_id WHERE (User.id = ${ID}))`;
-        client.query(retrieveInfo, (err, individualInfo) => {
-          if (err) throw err;
-          var temp_list = individualInfo[0]; //grabs current user's information
-          count++;
-          history_list.push(temp_list); //adds current user's information to the final array to be sent
-          if (count == list_of_users.length) {
-            //if all the users that were swiped through have been iterated
-            res.send(history_list); //send final array containing the provided_user's swipe history
-            return;
-          }
+      if(list_of_users){
+        list_of_users.forEach((ID) => {
+          //iterates through each ID that the user swiped on
+          var retrieveInfo = `(SELECT User.fullname, User.gender, User.age, Housing.neighborhood, Housing.rent, Housing.lease, Housing.squarefeet, Matching.number FROM BirdNest.User JOIN BirdNest.Housing ON User.id = Housing.User_id JOIN BirdNest.Matching ON User.id = Matching.User_id WHERE (User.id = ${ID})) UNION (SELECT User.fullname, User.gender, User.age, NoHousing.neighborhood, NoHousing.rent, NoHousing.lease, NoHousing.squarefeet, Matching.number FROM BirdNest.User JOIN BirdNest.NoHousing ON User.id = NoHousing.User_id JOIN BirdNest.Matching ON User.id = Matching.User_id WHERE (User.id = ${ID}))`;
+          client.query(retrieveInfo, (err, individualInfo) => {
+            if (err) throw err;
+            var temp_list = individualInfo[0]; //grabs current user's information
+            count++;
+            history_list.push(temp_list); //adds current user's information to the final array to be sent
+            if (count == list_of_users.length) {
+              //if all the users that were swiped through have been iterated
+              res.send(history_list); //send final array containing the provided_user's swipe history
+              return;
+            }
+          });
         });
-      });
+      }
     });
   });
 });

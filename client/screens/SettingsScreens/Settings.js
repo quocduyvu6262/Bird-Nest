@@ -13,14 +13,16 @@ import { Icon } from "react-native-vector-icons/MaterialCommunityIcons";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import MainHeader from "../../components/MainHeader";
-// Import constants
 import Constants from "../../constants/constants";
-const chatClient = StreamChat.getInstance(Constants.CHAT_API_KEY);
 import { StreamChat } from "stream-chat";
 import * as Updates from "expo-updates";
 import { DevSettings } from "react-native";
 import { useDispatch } from "react-redux";
 import * as dataActions from '../../redux/slices/data';
+import {useNavigation} from '@react-navigation/native';
+import {StackActions} from '@react-navigation/native';
+
+const chatClient = StreamChat.getInstance(Constants.CHAT_API_KEY);
 
 const Settings = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -48,7 +50,6 @@ const Settings = ({ navigation }) => {
         throw err;
       });
     dispatch(dataActions.reset());
-    await chatClient.disconnectUser();
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -93,8 +94,9 @@ const Settings = ({ navigation }) => {
       <Buttons
         style={{ flex: 1 }}
         onPress={() => {
-          logout().then(() => {
+          logout().then(async () => {
             navigation.navigate("LoginScreen");
+            await chatClient.disconnectUser();
           });
         }}
       >

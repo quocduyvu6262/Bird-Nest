@@ -547,7 +547,7 @@ const Profile = ({ navigation }) => {
                 neighborhood={data.userInfo && data.housing
                   ? (data.userInfo.isHousing
                     ? data.housing.neighborhood
-                    : data.housing.neighborhoodList.join(", "))
+                    : data.housing.neighborhoodList ? data.housing.neighborhoodList.join(", ") : null)
                   : null
                 }
                 // neighborhood={data.housing.neighborhood}

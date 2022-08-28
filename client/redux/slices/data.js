@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import {initialUserInfo, initialHousing, initialImageFileSystemUri} from './initialStates';
 
 const userInfo = {
     id: "",
@@ -463,8 +464,9 @@ export const dataSlice = createSlice({
         },
         // RESET
         reset: (state) => {
-            state.userInfo = null;
-            state.housing = null;
+            state.userInfo = initialUserInfo;
+            state.housing = initialHousing;
+            state.imageFileSystemUri = initialImageFileSystemUri;
         }
     }
 });

@@ -25,7 +25,7 @@ const CarouselCards = ({avatar, picList}) => {
         imgUrl: imageFileSystemUri.avatar
       })
     }
-    if(imageFileSystemUri && imageFileSystemUri.album.length){
+    if(imageFileSystemUri.album && imageFileSystemUri.album.length){
       imageFileSystemUri.album.map(picUrl => {
         picsListCarouselData.push({
           title: "Coral Reef",
