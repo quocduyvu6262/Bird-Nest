@@ -19,14 +19,30 @@ import Axios from "axios";
 import Constants from "../constants/constants";
 import MainHeader from "../components/MainHeader";
 import barackObama from "../assets/barackObama.jpeg";
+<<<<<<< HEAD
 import {useSelector} from "react-redux"
 
 const History = ({ navigation }) => {
   const user = useSelector(state => state.data.userInfo);
+=======
+import { useSelector } from "react-redux";
+
+const History = ({ navigation }) => {
+  const user = useSelector((state) => state.data.userInfo);
+>>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
   const [userListYes, setUserListYes] = useState([]);
   const [userListNo, setUserListNo] = useState([]);
   const [listState, setListState] = useState(false);
  
+  const [peckedClicked, setPeckedClicked] = useState(false);
+
+  const PeckedNo = () => {
+    setPeckedClicked(false);
+  };
+  const PeckedYes = () => {
+    setPeckedClicked(true);
+  };
+
   const [peckedClicked, setPeckedClicked] = useState(false);
 
   const PeckedNo = () => {
@@ -47,23 +63,35 @@ const History = ({ navigation }) => {
       user_id: user.id,
     })
       .then((response) => {
+<<<<<<< HEAD
         console.log(response.data)
+=======
+        console.log(response.data);
+>>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
         let userData = response.data;
         // manually push all but last, then setUserList on last user to trigger FlatList rerender
         // reason is that FlatList will not re-render unless setUserList is properly called
         // but setUserList (setState) will only set state once
         for (let i = 0; i < userData.length - 1; i++) {
           userListYes.push({
+<<<<<<< HEAD
             name: userData[i].fullname,
             city: userData[i].city,
+=======
+            info: userData[i].info,
+>>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
             src: barackObama,
           });
         }
         setUserListYes((prevList) => [
           ...userListYes,
           {
+<<<<<<< HEAD
             name: userData[userData.length - 1].fullname,
             city: userData[userData.length - 1].city,
+=======
+            info: userData[userData.length - 1].info,
+>>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
             src: barackObama,
           },
         ]);
@@ -81,6 +109,10 @@ const History = ({ navigation }) => {
     })
       .then((response) => {
         let userData = response.data;
+<<<<<<< HEAD
+=======
+        console.log(userData);
+>>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
         // manually push all but last, then setUserList on last user to trigger FlatList rerender
         // reason is that FlatList will not re-render unless setUserList is properly called
         // but setUserList (setState) will only set state once
@@ -121,7 +153,11 @@ const History = ({ navigation }) => {
               data={props.data}
               // data={UserData}
               renderItem={(item) => <ProfileCard item={item} />}
+<<<<<<< HEAD
               extraData={props.extraData}
+=======
+              extraData={userList}
+>>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
               // extraData={UserData}
             />
           </View>
@@ -145,13 +181,18 @@ const History = ({ navigation }) => {
           </View>
         )}
       </View>
+<<<<<<< HEAD
     )
+=======
+    );
+>>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
   };
   return (
     <SafeAreaView style={styles.container}>
       <MainHeader screen="History" navigation={navigation} />
       <View style={styles.buttonContainer}>
         <TouchableOpacity>
+<<<<<<< HEAD
         <Button
           color={!peckedClicked ? "#560CCE" : "black"}
           onPress={PeckedNo}
@@ -164,12 +205,31 @@ const History = ({ navigation }) => {
         </TouchableOpacity>
         <TouchableOpacity>
           <Button 
+=======
+          <Button
+            color={!peckedClicked ? "#560CCE" : "black"}
+            onPress={PeckedNo}
+            style={
+              !peckedClicked && {
+                borderBottomColor: "#560CCE",
+                borderBottomWidth: 1,
+              }
+            }
+          >
+            {" "}
+            Pecked No{" "}
+          </Button>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Button
+>>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
             color={peckedClicked ? "#560CCE" : "black"}
             onPress={PeckedYes}
             style={
               peckedClicked && {
                 borderBottomColor: "#560CCE",
                 borderBottomWidth: 1,
+<<<<<<< HEAD
               }}
             > Pecked Yes </Button>
         </TouchableOpacity>
@@ -183,6 +243,19 @@ const History = ({ navigation }) => {
       data={userListYes}
       extraData={userListYes}
       />}
+=======
+              }
+            }
+          >
+            {" "}
+            Pecked Yes{" "}
+          </Button>
+        </TouchableOpacity>
+      </View>
+
+      {!peckedClicked && <PeckNo data={userListNo} extraData={userListNo} />}
+      {peckedClicked && <PeckYes data={userListYes} extraData={userListYes} />}
+>>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
     </SafeAreaView>
   );
 };
@@ -203,7 +276,11 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: "row",
+<<<<<<< HEAD
     justifyContent: 'space-evenly',
+=======
+    justifyContent: "space-evenly",
+>>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
   },
   subContainer: {
     padding: 10,
@@ -212,7 +289,9 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: 20,
   },
+<<<<<<< HEAD
 
+=======
+>>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
 });
 export default History;
-

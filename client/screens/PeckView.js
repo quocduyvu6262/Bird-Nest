@@ -19,6 +19,10 @@ import MainHeader from "../components/MainHeader";
 import PeckViewCard from "../components/PeckViewCard";
 import StrokeAnimation from "../components/StrokeAnimation.js";
 import { useSelector } from "react-redux";
+<<<<<<< HEAD
+=======
+import { storage, ref, getDownloadURL } from "../firebaseConfig";
+>>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
 
 const PeckView = ({ navigation }) => {
   const user = useSelector((state) => state.data.userInfo);
@@ -47,7 +51,11 @@ const PeckView = ({ navigation }) => {
         let id_counter = 0;
         for (let i = 0; i < userData.length - 1; i++) {
           userList.push({
+<<<<<<< HEAD
             name: userData[i].info.fullname,
+=======
+            info: userData[i].info,
+>>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
             src: barackObama,
             id: id_counter,
           });
@@ -56,8 +64,12 @@ const PeckView = ({ navigation }) => {
         setUserList((prevList) => [
           ...userList,
           {
+<<<<<<< HEAD
             name: userData[userData.length - 1].info.fullname,
             city: userData[userData.length - 1].city,
+=======
+            info: userData[userData.length - 1].info,
+>>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
             src: barackObama,
             id: id_counter,
           },
@@ -82,16 +94,30 @@ const PeckView = ({ navigation }) => {
     <SafeAreaView style={[PeckView_Styles.container, StyleSheet.absoluteFill]}>
       <MainHeader screen="Peck View" navigation={navigation} />
       <View style={PeckView_Styles.wrapper}>
+<<<<<<< HEAD
         {userList.map((user) => (
           <PeckViewCard
             user={user}
+=======
+        {userList.map((profile) => (
+          <PeckViewCard
+            user={profile}
+>>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
             SNAP_POINTS={SNAP_POINTS}
             width={width}
             userList={userList}
             setUserList={setUserList}
             // CHANGE ID TO DATABASE ID WHEN I GET MORE INFORMATION ABOUT USER
+<<<<<<< HEAD
             key={user.id}
             id={user.id}
+=======
+            key={profile.info.User_id}
+            id={profile.info.User_id}
+            userID={user.id}
+            userName={user.fullname}
+            navigation={navigation}
+>>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
           />
         ))}
       </View>

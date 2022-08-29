@@ -22,10 +22,39 @@ import { DevSettings } from "react-native";
 
 const Settings = ({ navigation }) => {
   const logout = async () => {
+<<<<<<< HEAD
     await SecureStore.deleteItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_TOKEN).then().catch(err => {console.log("Fail to delete token from secure store"); throw err;})
     await SecureStore.deleteItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER).then().catch(err => {console.log("Fail to delete user from secure store"); throw err;})
     await SecureStore.deleteItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING).then().catch(err => {console.log("Fail to delete housing from secure store"); throw err;})
     await SecureStore.deleteItemAsync(Constants.MY_SECURE_AUTH_STATE_IMAGE_URI).then().catch(err => {console.log("Fail to delete images from secure store"); throw err;})
+=======
+    await SecureStore.deleteItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_TOKEN)
+      .then()
+      .catch((err) => {
+        console.log("Fail to delete token from secure store");
+        throw err;
+      });
+    await SecureStore.deleteItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER)
+      .then()
+      .catch((err) => {
+        console.log("Fail to delete user from secure store");
+        throw err;
+      });
+    await SecureStore.deleteItemAsync(
+      Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING
+    )
+      .then()
+      .catch((err) => {
+        console.log("Fail to delete housing from secure store");
+        throw err;
+      });
+    await SecureStore.deleteItemAsync(Constants.MY_SECURE_AUTH_STATE_IMAGE_URI)
+      .then()
+      .catch((err) => {
+        console.log("Fail to delete images from secure store");
+        throw err;
+      });
+>>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
     await chatClient.disconnectUser();
   };
   return (
@@ -59,6 +88,16 @@ const Settings = ({ navigation }) => {
         onPress={() => navigation.navigate("TermsOfService")}
       >
         <Text style={styles.textButton}>Terms of Service</Text>
+<<<<<<< HEAD
+=======
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.regularButton}
+        onPress={() => navigation.navigate("AboutUs")}
+      >
+        <Text style={styles.textButton}>About Us</Text>
+>>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
       </TouchableOpacity>
       
       <TouchableOpacity
@@ -69,11 +108,15 @@ const Settings = ({ navigation }) => {
       </TouchableOpacity>
       
       <Buttons
-        style={{flex: 1}}
+        style={{ flex: 1 }}
         onPress={() => {
           logout().then(() => {
+<<<<<<< HEAD
             DevSettings.reload();
             navigation.navigate('LoginScreen');
+=======
+            navigation.navigate("LoginScreen");
+>>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
           });
         }}
       >

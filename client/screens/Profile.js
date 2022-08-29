@@ -27,7 +27,11 @@ import Tags from "react-native-tags";
 
 const Profile = ({ navigation }) => {
   const user = useSelector((state) => state.data.userInfo);
+<<<<<<< HEAD
   console.log(user.isHousing)
+=======
+  console.log(user.isHousing);
+>>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
   const imageFileSystem = useSelector((state) => state.data.imageFileSystemUri);
   const dispatch = useDispatch();
   let pics = imageFileSystem.album;
@@ -670,6 +674,7 @@ const InterestInfo = (props) => {
 
   return (
     <View style={styles.interestContainer}>
+<<<<<<< HEAD
       <Text style = {styles.text}>
         What I go by:
       </Text>
@@ -688,6 +693,19 @@ const InterestInfo = (props) => {
         initialTags={iHave.filter(n=>n)}
       readonly={true}/>
       <Text style = {styles.text}>What I am okay with: </Text>
+=======
+      <Text style={styles.text}>What I go by:</Text>
+
+      <Tags initialTags={[props.pronouns]} readonly={true} />
+
+      {props.pets.length != 0 && (
+        <View>
+          <Text style={styles.text}>What I have:</Text>
+          <Tags initialTags={iHave.filter((n) => n)} readonly={true} />
+        </View>
+      )}
+      <Text style={styles.text}>What I am okay with: </Text>
+>>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
       <Tags
         initialTags={[
           props.alc ? "Alchol/420" : null,
