@@ -556,8 +556,8 @@ const Profile = ({ navigation }) => {
                 gym={data.housing ? data.housing.gym : null}
                 pool={data.housing ? data.housing.pool : null}
                 appliances={data.housing ? data.housing.appliances : null}
-                furnished={data.housing ? data.housing.furnished : null}
-                ac={data.housing ? data.housing.ac : null}
+                furnished={data.housing ? data.housing.furniture : null}
+                ac={data.housing ? data.housing.AC : null}
               />
             )}
           </InfoCard>

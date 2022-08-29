@@ -467,6 +467,9 @@ export const dataSlice = createSlice({
             state.userInfo = initialUserInfo;
             state.housing = initialHousing;
             state.imageFileSystemUri = initialImageFileSystemUri;
+        },
+        resetHousing: (state) => {
+            state.housing = initialHousing;
         }
     }
 });
@@ -553,6 +556,7 @@ export const {
     updateAlbum,
     deleteAlbumItem,
     // RESET
-    reset
+    reset,
+    resetHousing
 } = dataSlice.actions;
 export default dataSlice.reducer;
