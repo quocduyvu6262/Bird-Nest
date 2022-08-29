@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -19,8 +19,7 @@ import * as Updates from "expo-updates";
 import { DevSettings } from "react-native";
 import { useDispatch } from "react-redux";
 import * as dataActions from '../../redux/slices/data';
-import {useNavigation} from '@react-navigation/native';
-import {StackActions} from '@react-navigation/native';
+
 
 const chatClient = StreamChat.getInstance(Constants.CHAT_API_KEY);
 

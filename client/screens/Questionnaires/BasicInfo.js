@@ -14,17 +14,14 @@ import {
   StatusBar,
   ScrollView,
 } from "react-native";
-
 import React, { Component, useState } from "react";
 import { Icon } from "@rneui/themed";
 import AppLoading from "expo";
-//import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
 import { Slider } from "@rneui/themed";
 import Axios from "axios";
-
-// IMPORT REDUX
 import { useDispatch, useSelector, connect } from "react-redux";
 import * as dataActions from "../../redux/slices/data";
+import { initialHousing } from "../../redux/slices/initialStates";
 
 class BasicInfo extends Component {
   //userInfo = useSelector((state) => state.data.userInfo); //added in
@@ -76,6 +73,7 @@ class BasicInfo extends Component {
     this.fieldState = { blankError: "" };
     this.setState({ blankError: "" });
   };
+  previousRole = this.props.route.params;
 
   slider_state = {
     language: "English",
@@ -83,63 +81,63 @@ class BasicInfo extends Component {
   };
   state1 = {
     name: true,
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.alcohol,
+    backgroundColor: this.props.userInfo.alcohol ? "#3B9CF1" : "#D9D9D9",
   };
   state2 = {
     name: false,
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: !this.props.userInfo.alcohol,
+    backgroundColor: this.props.userInfo.alcohol ? "#D9D9D9" : "#3B9CF1",
   };
   state3 = {
     name: "Morning",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.sleep === "Morning",
+    backgroundColor: this.props.userInfo.sleep === "Morning" ? "#3B9CF1" : "#D9D9D9",
   };
   state4 = {
     name: "Night Owl",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.sleep === "Night Owl",
+    backgroundColor: this.props.userInfo.sleep === "Night Owl" ? "#3B9CF1" : "#D9D9D9",
   };
   state5 = {
     name: true,
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.guests,
+    backgroundColor: this.props.userInfo.guests ? "#3B9CF1" : "#D9D9D9",
   };
   state6 = {
     name: false,
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: !this.props.userInfo.guests,
+    backgroundColor: !this.props.userInfo.guests ? "#3B9CF1" : "#D9D9D9",
   };
   state7 = {
-    name: true,
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    name: "yes",
+    pressed: this.props.userInfo.outside === "yes",
+    backgroundColor: this.props.userInfo.outside === "yes" ? "#3B9CF1" : "#D9D9D9",
   };
   state8 = {
-    name: false,
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    name: "no",
+    pressed: this.props.userInfo.outside === "no",
+    backgroundColor: this.props.userInfo.outside === "no" ? "#3B9CF1" : "#D9D9D9",
   };
   state9 = {
     name: true,
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.silent,
+    backgroundColor: this.props.userInfo.guests ? "#3B9CF1" : "#D9D9D9",
   };
   state10 = {
     name: false,
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: !this.props.userInfo.silent,
+    backgroundColor: !this.props.userInfo.guests ? "#3B9CF1" : "#D9D9D9",
   };
   state11 = {
     name: true,
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.roommateWorkWhileYouSleep,
+    backgroundColor: this.props.userInfo.roommateWorkWhileYouSleep ? "#3B9CF1" : "#D9D9D9",
   };
   state12 = {
     name: false,
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: !this.props.userInfo.roommateWorkWhileYouSleep,
+    backgroundColor: !this.props.userInfo.roommateWorkWhileYouSleep ? "#3B9CF1" : "#D9D9D9",
   };
   state13 = {
     pressed: false,
@@ -231,28 +229,28 @@ class BasicInfo extends Component {
   };
   state29 = {
     name: "Often",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.cook === "Often",
+    backgroundColor: this.props.userInfo.cook === "Often" ? "#3B9CF1" :"#D9D9D9",
   };
   state30 = {
     name: "Sometimes",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.cook === "Sometimes",
+    backgroundColor: this.props.userInfo.cook === "Sometimes" ? "#3B9CF1" :"#D9D9D9",
   };
   state31 = {
     name: "Rarely",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.cook === "Rarely",
+    backgroundColor: this.props.userInfo.cook === "Rarely" ? "#3B9CF1" :"#D9D9D9",
   };
   state32 = {
     name: "Never",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.cook === "Never",
+    backgroundColor: this.props.userInfo.cook === "Never" ? "#3B9CF1" :"#D9D9D9",
   };
   state41 = {
     name: "Indifferent",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.sleep === "Indifferent",
+    backgroundColor: this.props.userInfo.sleep === "Indifferent" ? "#3B9CF1" : "#D9D9D9",
   };
   state42 = {
     pressed: false,
@@ -288,18 +286,18 @@ class BasicInfo extends Component {
   };
   state50 = {
     name: "Sometimes",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.outside === "Sometimes",
+    backgroundColor: this.props.userInfo.outside === "Sometimes" ? "#3B9CF1" : "#D9D9D9",
   };
   state51 = {
     name: true,
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.appliances,
+    backgroundColor: this.props.userInfo.appliances ? "#3B9CF1" : "#D9D9D9",
   };
   state52 = {
     name: false,
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: !this.props.userInfo.appliances,
+    backgroundColor: !this.props.userInfo.appliances ? "#3B9CF1" : "#D9D9D9",
   };
   state53 = {
     pressed: false,
@@ -307,38 +305,38 @@ class BasicInfo extends Component {
   };
   state54 = {
     name: true,
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.tellRoommateIfBothered,
+    backgroundColor: this.props.userInfo.tellRoommateIfBothered ? "#3B9CF1" : "#D9D9D9",
   };
   state55 = {
     name: false,
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: !this.props.userInfo.tellRoommateIfBothered,
+    backgroundColor: !this.props.userInfo.tellRoommateIfBothered ? "#3B9CF1" : "#D9D9D9",
   };
   state56 = {
-    name: true,
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    name: "yes",
+    pressed: this.props.userInfo.carWithRoommate === "yes",
+    backgroundColor: this.props.userInfo.carWithRoommate === "yes" ? "#3B9CF1" : "#D9D9D9",
   };
   state57 = {
-    name: false,
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    name: "no",
+    pressed: this.props.userInfo.carWithRoommate === "no",
+    backgroundColor: this.props.userInfo.carWithRoommate === "no" ? "#3B9CF1" : "#D9D9D9",
   };
   state58 = {
     name: "Don't have car",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.carWithRoommate === "Don't have car",
+    backgroundColor: this.props.userInfo.carWithRoommate === "Don't have car" ? "#3B9CF1" : "#D9D9D9",
   };
   state59 = {
     name: "Keep to myself",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.roommateInteraction === "Keep to myself",
+    backgroundColor: this.props.userInfo.roommateInteraction === "Keep to myself" ? "#3B9CF1" : "#D9D9D9",
   };
   state60 = {
     name: "Interact",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.roommateInteraction === "Interact",
+    backgroundColor: this.props.userInfo.roommateInteraction === "Interact" ? "#3B9CF1" : "#D9D9D9",
   };
   changeColor(state_a, state_b) {
     if (
@@ -665,7 +663,7 @@ class BasicInfo extends Component {
             style={[this.state5, HousingQ_styles.buttonContainerYes3]}
             onPress={() => {
               this.changeColor(this.state5, this.state6);
-              this.props.dispatch(dataActions.updateGuess(this.state5.name));
+              this.props.dispatch(dataActions.updateGuest(this.state5.name));
             }}
           >
             <Text style={HousingQ_styles.buttonText}>Yes</Text>
@@ -674,7 +672,7 @@ class BasicInfo extends Component {
             style={[this.state6, HousingQ_styles.buttonContainerNo3]}
             onPress={() => {
               this.changeColor(this.state6, this.state5);
-              this.props.dispatch(dataActions.updateGuess(this.state6.name));
+              this.props.dispatch(dataActions.updateGuest(this.state6.name));
             }}
           >
             <Text style={HousingQ_styles.buttonText}>No</Text>
@@ -921,6 +919,7 @@ class BasicInfo extends Component {
             style={HousingQ_styles.nextButton}
             onPress={() => {
               //this.createHousingInfo()
+              console.log(this.userInfo.role);
               if (!this.validate(this.props.userInfo)) {
                 console.log("YOU SHALL NOT PASS");
               } else {
@@ -930,12 +929,18 @@ class BasicInfo extends Component {
                   this.userInfo.role === "Flamingo" ||
                   this.userInfo.role === "Owl"
                 ) {
+                  if(this.previousRole === "Penguin" || this.previousRole === "Duck" || this.previousRole === "Parrot"){
+                    this.props.dispatch(dataActions.resetHousing())
+                  }
                   this.props.navigation.navigate("HasHousingQ"); //
                 } else if (
                   this.userInfo.role === "Penguin" ||
                   this.userInfo.role === "Duck" ||
                   this.userInfo.role === "Parrot"
                 ) {
+                  if(this.previousRole === "Flamingo" || this.previousRole === "Owl"){
+                    this.props.dispatch(dataActions.resetHousing())
+                  }
                   this.props.navigation.navigate("NoHousingQ");
                 }
               }

@@ -252,7 +252,7 @@ export const dataSlice = createSlice({
         updateSleep: (state, action) => {
             state.userInfo.sleep = action.payload;
         },
-        updateGuess: (state, action) => {
+        updateGuest: (state, action) => {
             state.userInfo.guests = action.payload;
         },
         updateOutside: (state, action) => {
@@ -467,6 +467,9 @@ export const dataSlice = createSlice({
             state.userInfo = initialUserInfo;
             state.housing = initialHousing;
             state.imageFileSystemUri = initialImageFileSystemUri;
+        },
+        resetHousing: (state) => {
+            state.housing = initialHousing;
         }
     }
 });
@@ -503,7 +506,7 @@ export const {
     updateAlcohol,
     updateNotiLength, 
     updateSleep, 
-    updateGuess, 
+    updateGuest, 
     updateOutside,
     updateIsMatch,
     updateIsNotMatch, 
@@ -553,6 +556,7 @@ export const {
     updateAlbum,
     deleteAlbumItem,
     // RESET
-    reset
+    reset,
+    resetHousing
 } = dataSlice.actions;
 export default dataSlice.reducer;

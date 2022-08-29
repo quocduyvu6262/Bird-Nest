@@ -66,7 +66,6 @@ const PeckView = ({ navigation }) => {
 
   useEffect(() => {
     viewUsers();
-    setTimeout(() => console.log(userList), 3000);
   }, []);
 
   const { width } = Dimensions.get("window");

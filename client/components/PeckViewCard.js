@@ -214,7 +214,7 @@ const PeckViewCard = ({
           <Image source={barackObama} style={styles.image} />
           <View style={styles.headerText}>
             <Text style={styles.name}>
-              {user.info.firstname} {user.info.lastname[0]}.
+              {user.info.firstname} {user.info.lastname ? user.info.lastname[0] : ""}.
             </Text>
             <Text>
               {user.info.gender}, {user.info.pronouns}, {user.info.age},
