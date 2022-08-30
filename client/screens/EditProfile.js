@@ -16,6 +16,8 @@ import { useDispatch, useSelector } from "react-redux";
 import * as dataActions from "../redux/slices/data";
 import { TextInput } from "react-native-paper";
 import {storeData} from '../utils/helper';
+import { StatusBar } from 'expo-status-bar';
+
 
 const EditProfile = ({ navigation }) => {
   /**
