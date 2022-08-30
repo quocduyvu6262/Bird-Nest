@@ -14,7 +14,6 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    
     "assetBundlePatterns": [
       "**/*"
     ],
@@ -33,7 +32,10 @@
         "backgroundColor": "#FFFFFF"
       },
       "package": "host.exp.exponent",
-      "useNextNotificationsApi": true
+      "useNextNotificationsApi": true,
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -47,6 +49,11 @@
           "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "99b9025d-e02a-4d8d-b118-2aff9abb890a"
+      }
+    }
   }
 }

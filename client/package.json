@@ -7,11 +7,17 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "prepare": "patch-package"
+    "prepare": "patch-package",
+    "constants": "echo 'Update Expo CONSTANTS secret with value: \n\n' && cat constants.js |base64",
+    "eas-build-pre-install": "echo $CONSTANTS | base64 -d > ./constants.js"
+  },
+  "exports": {
+    "./*": "./*"
   },
   "dependencies": {
     "@expo-google-fonts/inter": "^0.2.2",
     "@expo-google-fonts/pacifico": "^0.2.2",
+    "@expo/config-plugins": "^5.0.0",
     "@gorhom/bottom-sheet": "^4.4.3",
     "@material-ui/core": "^4.12.4",
     "@react-native-async-storage/async-storage": "~1.17.3",
@@ -55,7 +61,7 @@
     "expo-sharing": "~10.3.0",
     "expo-splash-screen": "^0.16.1",
     "expo-status-bar": "~1.4.0",
-    "expo-updates": "^0.14.4",
+    "expo-updates": "~0.14.5",
     "expo-web-browser": "~11.0.0",
     "firebase": "^9.6.11",
     "formik": "^2.2.9",
@@ -69,10 +75,10 @@
     "moment": "^2.29.4",
     "patch-package": "^6.4.7",
     "pkg": "^5.4.1",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
+    "react": "18.0.0",
+    "react-dom": "^17.0.0",
     "react-google-login": "^5.2.2",
-    "react-native": "^0.69.4",
+    "react-native": "0.69.5",
     "react-native-category": "^1.0.4",
     "react-native-document-picker": "^8.1.1",
     "react-native-dotenv": "^3.3.1",
