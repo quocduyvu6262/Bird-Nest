@@ -14,7 +14,6 @@ import {
   StatusBar,
   ScrollView,
 } from "react-native";
-
 import React, { Component, useState } from "react";
 import { Icon } from "@rneui/themed";
 import AppLoading from "expo";
@@ -23,111 +22,11 @@ import { Slider } from "@rneui/themed";
 import Axios from "axios";
 import Constants from "../../constants/constants";
 import * as SecureStore from "expo-secure-store";
-// REDUX
 import { useDispatch, useSelector, connect } from "react-redux";
 import * as dataActions from "../../redux/slices/data";
+import {storeData} from '../../utils/helper'; 
 
 class Personality extends Component {
-  /**
-   * Pull data from Redux Store and store into
-   * Database and Secure Storage
-   * @returns true if storing data successfully.
-   * False otherwise
-   */
-  storeData = async () => {
-    const user = this.props.data.userInfo;
-    const housing = this.props.data.housing;
-    const imageFileSystemUri = this.props.data.imageFileSystemUri;
-
-    // Store into Secure Store
-    await SecureStore.setItemAsync(
-      Constants.MY_SECURE_AUTH_STATE_KEY_USER,
-      JSON.stringify(user)
-    )
-      .then()
-      .catch((err) => {
-        console.log("Fail to store user in Secure Store");
-        throw err;
-      });
-    await SecureStore.setItemAsync(
-      Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING,
-      JSON.stringify(housing)
-    )
-      .then()
-      .catch((err) => {
-        console.log("Fail to store housing in Secure Store");
-        throw err;
-      });
-    await SecureStore.setItemAsync(
-      Constants.MY_SECURE_AUTH_STATE_IMAGE_URI,
-      JSON.stringify({
-        avatar: imageFileSystemUri.avatar,
-        album: imageFileSystemUri.album,
-      })
-    )
-      .then()
-      .catch((err) => {
-        console.log("Fail to store images in Secure Store");
-        throw err;
-      });
-
-    // Store user into database
-    Axios.post(`${await Constants.BASE_URL()}/api/users/questionnaire`, {
-      userInfo: user,
-    }).catch((err) => {
-      console.log(err);
-      //console.log(user);
-      console.log("Fail to store user into database from questionnaire");
-      throw err;
-    });
-
-    // Store user into history table
-    Axios.post(`${await Constants.BASE_URL()}/api/history/create`, {
-      user_id: user.id,
-    }).catch((err) => {
-      console.log(err);
-      //console.log(user);
-      console.log("Fail to store user into history");
-      throw err;
-    });
-
-    // Store housing into database
-    if (user.role === "Flamingo" || user.role === "Owl") {
-      // delete no housing
-      Axios.post(`${await Constants.BASE_URL()}/api/nohousing/delete`, {
-        user_id: user.id,
-      });
-      // Post to housing
-      Axios.post(`${await Constants.BASE_URL()}/api/housings/create`, {
-        user_id: user.id,
-        housing: housing,
-      })
-        .then(() => true)
-        .catch((err) => {
-          console.log("Fail to update/insert housing from questionnaire");
-          throw err;
-        });
-    } else if (
-      user.role === "Parrot" ||
-      user.role === "Penguin" ||
-      user.role === "Duck"
-    ) {
-      // delete housing
-      Axios.post(`${await Constants.BASE_URL()}/api/housings/delete`, {
-        user_id: user.id,
-      });
-      // Post to nohousing
-      Axios.post(`${await Constants.BASE_URL()}/api/Nohousing/create`, {
-        user_id: user.id,
-        housing: housing,
-      })
-        .then(() => true)
-        .catch((err) => {
-          console.log("Fail to update/insert nohousing from questionnaire");
-          throw err;
-        });
-    }
-  };
 
   slider_state = {
     language: "English",
@@ -1062,7 +961,9 @@ class Personality extends Component {
             style={HousingQ_styles.nextButton}
             onPress={() => {
               //this.createHousingInfo()
-              this.storeData().then(() => {
+              storeData(this.props.data.userInfo,
+                            this.props.data.housing,
+                            this.props.data.imageFileSystemUri).then(() => {
                 this.props.navigation.navigate("BirdFeed");
               });
             }}

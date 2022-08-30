@@ -4,7 +4,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as SecureStore from "expo-secure-store";
 import Logo from "../../assets/BirdFeedLogo.png";
 // Import constants
-import Constants from "../../constants/constants";
+import Constants from "../../constants/constants.js";
 // Redux
 import * as dataActions from "../../redux/slices/data";
 import { useDispatch } from "react-redux";

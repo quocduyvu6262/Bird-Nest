@@ -10,8 +10,5 @@ npm-debug.*
 *.orig.*
 web-build/
 
-# added
-constants/
-
 # macOS
 .DS_Store

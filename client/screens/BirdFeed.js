@@ -54,12 +54,28 @@ const BirdFeed = ({ navigation }) => {
     }),
   });
   const retrieveImage = async (path) => {
-    if (path) {
-      const reference = ref(storage, path);
-      const url = await getDownloadURL(reference);
-      return url;
+    if(path){
+        const reference = ref(storage, path);
+        const url = await getDownloadURL(reference).catch((error) => {
+            // A full list of error codes is available at
+            // https://firebase.google.com/docs/storage/web/handle-errors
+            switch (error.code) {
+                case 'storage/object-not-found':
+                    // File doesn’t exist
+                    break;
+                case 'storage/unauthorized':
+                    // User doesn’t have permission to access the object
+                    break;
+                case 'storage/canceled':
+                    // User canceled the upload
+                    break;
+                case 'storage/unknown':
+                    // Unknown error occurred, inspect the server response
+                    break;
+            }})
+        return url;
     }
-  };
+}
 
   /**
    * Redux Hook
@@ -70,10 +86,6 @@ const BirdFeed = ({ navigation }) => {
   const [expoPushToken, setExpoPushToken] = useState("");
   const [notification, setNotification] = useState(false);
   const responseListener = useRef();
-  let names = user.notiNames;
-  let pics = user.notiPics;
-  let dates = user.notiDate;
-  let notiLength = user.notiNames.length - 1;
   const dispatch = useDispatch();
 
   /**
@@ -235,11 +247,6 @@ const BirdFeed = ({ navigation }) => {
     })
       .then((response) => {
         let userData = response.data;
-        console.log(userData);
-        //console.log(userData);
-        // manually push all but last, then setUserList on last user to trigger FlatList rerender
-        // reason is that FlatList will not re-render unless setUserList is properly called
-        // but setUserList (setState) will only set state once
         for (let i = 0; i < userData.length - 1; i++) {
           userList.push({
             info: userData[i].info,

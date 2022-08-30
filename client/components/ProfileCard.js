@@ -23,8 +23,13 @@ import Constants1 from "../constants/constants.js";
 import { roleImagesIndex } from "../assets/roleImagesIndex";
 import { storage, ref, deleteObject, getDownloadURL } from "../firebaseConfig";
 import DefaultProfilePic from "../assets/DefaultProfilePic.jpeg";
+import * as dataActions from "../redux/slices/data";
+import { updateMatchedUserChatSecureStore } from "../utils/helper";
+import { useDispatch, useSelector } from "react-redux";
 
 const ProfileCard = ({ item, index, userID, userName }) => {
+  const myuser = useSelector((state) => state.data.userInfo);
+  const dispatch = useDispatch();
   const opacityTransition = useRef(new Animated.Value(0)).current;
   const translation = useRef(
     new Animated.ValueXY({
@@ -33,6 +38,7 @@ const ProfileCard = ({ item, index, userID, userName }) => {
     })
   ).current;
   const [avatar, setAvatar] = useState(null);
+  const [isAlreadySwiped, setIsAlreadySwiped] = useState(false);
 
   const retrieveImage = async (path) => {
     if (path) {
@@ -64,18 +70,23 @@ const ProfileCard = ({ item, index, userID, userName }) => {
   };
 
   const swipeUserYes = async () => {
+    if (isAlreadySwiped) return;
     Axios.post(`${await Constants1.BASE_URL()}/api/history/insertYes`, {
-      // user_id: userID,
-      // swiped_id: item.item.info.User_id,
-      user_id: 345,
-      swiped_id: 98,
-      // swiped_id: 7,
+      user_id: userID,
+      swiped_id: item.item.info.User_id,
     })
       .then(async (response) => {
         let responseInfo = response.data;
         console.log("token 0: " + responseInfo[0].token);
         console.log("userName: " + userName);
         if (responseInfo.length === 2) {
+          let newMatchedChat = [item.item.info.User_id];
+          if (myuser.matchedChat) {
+            newMatchedChat = [...myuser.matchedChat, item.item.info.User_id];
+          }
+          dispatch(dataActions.updateMatchedChat(newMatchedChat));
+          updateMatchedUserChatSecureStore(myuser, newMatchedChat);
+
           Axios.post(`${await Constants1.BASE_URL()}/api/notifications/match`, {
             pushTokens: [responseInfo[0].token, responseInfo[1].token],
             phone_user: userName,
@@ -97,9 +108,11 @@ const ProfileCard = ({ item, index, userID, userName }) => {
       .catch((error) => {
         console.log(error);
       });
+    setIsAlreadySwiped(true);
   };
 
   const swipeUserNo = async () => {
+    if (isAlreadySwiped) return;
     Axios.post(`${await Constants1.BASE_URL()}/api/history/insertNo`, {
       user_id: userID,
       swiped_id: item.item.info.User_id,
@@ -110,6 +123,8 @@ const ProfileCard = ({ item, index, userID, userName }) => {
       .catch((err) => {
         console.log(err);
       });
+
+    setIsAlreadySwiped(true);
   };
 
   const renderRightActions = (progress, dragX) => {
@@ -221,7 +236,9 @@ const ProfileCard = ({ item, index, userID, userName }) => {
             </Text>
           </View>
           <Text>
-            {item.item.info.neighborhood.length <= 2
+            {item.item.info.isHousing
+              ? item.item.info.neighborhood
+              : item.item.info.neighborhood.length <= 2
               ? item.item.info.neighborhood.map((neighborhood, index) => {
                   if (index === 0 && item.item.info.neighborhood.length == 2) {
                     return `${neighborhood}, `;

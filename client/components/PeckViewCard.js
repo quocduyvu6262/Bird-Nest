@@ -25,6 +25,9 @@ import Animated, {
 } from "react-native-reanimated";
 import Axios from "axios";
 import Constants1 from "../constants/constants.js";
+import { useDispatch, useSelector } from "react-redux";
+import * as dataActions from "../redux/slices/data";
+import { updateMatchedUserChatSecureStore } from "../utils/helper";
 
 const snapPoint = (value, velocity, points) => {
   "worklet";
@@ -49,6 +52,8 @@ const PeckViewCard = ({
   const positionY = useSharedValue(0);
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(0);
+  const myuser = useSelector((state) => state.data.userInfo);
+  const dispatch = useDispatch();
 
   const onGestureEvent = useAnimatedGestureHandler({
     onStart: () => {
@@ -118,6 +123,14 @@ const PeckViewCard = ({
         // console.log("user.info.fullname: " + user.info.fullname);
         console.log("userName: " + userName);
         if (responseInfo.length === 2) {
+          // update matched chat
+          let newMatchedChat = [item.item.info.User_id];
+          if(myuser.matchedChat){
+            newMatchedChat = [...myuser.matchedChat, item.item.info.User_id];
+          }
+          dispatch(dataActions.updateMatchedChat(newMatchedChat));
+          updateMatchedUserChatSecureStore(myuser, newMatchedChat);
+
           Axios.post(`${await Constants1.BASE_URL()}/api/notifications/match`, {
             pushTokens: [responseInfo[0].token, responseInfo[1].token],
             phone_user: userName,
@@ -201,7 +214,7 @@ const PeckViewCard = ({
           <Image source={barackObama} style={styles.image} />
           <View style={styles.headerText}>
             <Text style={styles.name}>
-              {user.info.firstname} {user.info.lastname[0]}.
+              {user.info.firstname} {user.info.lastname ? user.info.lastname[0] : ""}.
             </Text>
             <Text>
               {user.info.gender}, {user.info.pronouns}, {user.info.age},

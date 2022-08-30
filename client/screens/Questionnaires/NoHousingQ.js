@@ -53,166 +53,166 @@ class NoHousingQ extends Component {
 
     slider_state = {
       language: "English",
-      value: 500
+      value: this.props.housing.rent
     };
     state1 = {
-      pressed: false,
-      backgroundColor: '#D9D9D9',
+      pressed: this.props.housing.garage,
+      backgroundColor: this.props.housing.garage ? '#3B9CF1' : '#D9D9D9',
       answer: true
     };
     state2 = {
-      pressed: false,
-      backgroundColor: '#D9D9D9',
+      pressed: !this.props.housing.garage,
+      backgroundColor: !this.props.housing.garage ? '#3B9CF1' : '#D9D9D9',
       answer: false
     };
     state3 = {
-      pressed: false,
-      backgroundColor: '#D9D9D9',
+      pressed: this.props.housing.parking,
+      backgroundColor: this.props.housing.parking ? '#3B9CF1' : '#D9D9D9',
       answer: true
     };
     state4 = {
-      pressed: false,
-      backgroundColor: '#D9D9D9',
+      pressed: !this.props.housing.parking,
+      backgroundColor: !this.props.housing.parking ? '#3B9CF1' : '#D9D9D9',
       answer: false
     };
     state5 = {
-      pressed: false,
-      backgroundColor: '#D9D9D9',
+      pressed: this.props.housing.gym,
+      backgroundColor: this.props.housing.gym ? '#3B9CF1' : '#D9D9D9',
       answer: true
     };
     state6 = {
-      pressed: false,
-      backgroundColor: '#D9D9D9',
+      pressed: !this.props.housing.gym,
+      backgroundColor: !this.props.housing.gym ? '#3B9CF1' : '#D9D9D9',
       answer: false
     };
     state7 = {
-      pressed: false,
-      backgroundColor: '#D9D9D9',
+      pressed: this.props.housing.pool,
+      backgroundColor: this.props.housing.pool ? '#3B9CF1' : '#D9D9D9',
       answer: true
     };
     state8 = {
-      pressed: false,
-      backgroundColor: '#D9D9D9',
+      pressed: !this.props.housing.pool,
+      backgroundColor: !this.props.housing.pool ? '#3B9CF1' : '#D9D9D9',
       answer: false
     };
     state9 = {
-      pressed: false,
-      backgroundColor: '#D9D9D9',
+      pressed: this.props.housing.appliances,
+      backgroundColor: this.props.housing.appliances ? '#3B9CF1' : '#D9D9D9',
       answer: true
     };
     state10 = {
-      pressed: false,
-      backgroundColor: '#D9D9D9',
+      pressed: !this.props.housing.appliances,
+      backgroundColor: !this.props.housing.appliances ? '#3B9CF1' : '#D9D9D9',
       answer: false
     };
     state11 = {
-      pressed: false,
-      backgroundColor: '#D9D9D9',
+      pressed: this.props.housing.furniture,
+      backgroundColor: this.props.housing.furniture ? '#3B9CF1' : '#D9D9D9',
       answer: true
     };
     state12 = {
-      pressed: false,
-      backgroundColor: '#D9D9D9',
+      pressed: !this.props.housing.furniture,
+      backgroundColor: !this.props.housing.furniture ? '#3B9CF1' : '#D9D9D9',
       answer: false
     };
     state13 = {
-      pressed: false,
-      backgroundColor: '#D9D9D9',
+      pressed: this.props.housing.AC,
+      backgroundColor: this.props.housing.AC ? '#3B9CF1' : '#D9D9D9',
       answer: true
     };
     state14 = {
-      pressed: false,
-      backgroundColor: '#D9D9D9',
+      pressed: !this.props.housing.AC,
+      backgroundColor: !this.props.housing.AC ? '#3B9CF1' : '#D9D9D9',
       answer: false
     };
     state15 = {
-      pressed: false,
-      backgroundColor: '#D9D9D9',
+      pressed: this.props.housing.neighborhoodList.includes("Downtown SD"),
+      backgroundColor: this.props.housing.neighborhoodList.includes("Downtown SD") ? '#3B9CF1' : '#D9D9D9',
       answer: "Downtown SD"
     };
     state16 = {
-      pressed: false,
-      backgroundColor: '#D9D9D9',
+      pressed: this.props.housing.neighborhoodList.includes("La Jolla"),
+      backgroundColor: this.props.housing.neighborhoodList.includes("La Jolla") ? '#3B9CF1' : '#D9D9D9',
       answer: "La Jolla"
     };
     state17 = {
-      pressed: false,
-      backgroundColor: '#D9D9D9',
+      pressed: this.props.housing.neighborhoodList.includes("Del Mar"),
+      backgroundColor: this.props.housing.neighborhoodList.includes("Del Mar") ? '#3B9CF1' : '#D9D9D9',
       answer: "Del Mar"
     };
     state18 = {
-      pressed: false,
-      backgroundColor: '#D9D9D9',
+      pressed: this.props.housing.neighborhoodList.includes("Mira Mesa"),
+      backgroundColor: this.props.housing.neighborhoodList.includes("Mira Mesa") ? '#3B9CF1' : '#D9D9D9',
       answer: "Mira Mesa"
     };
     state19 = {
-      pressed: false,
-      backgroundColor: '#D9D9D9',
+      pressed: this.props.housing.neighborhoodList.includes("Pacific Beach"),
+      backgroundColor: this.props.housing.neighborhoodList.includes("Pacific Beach") ? '#3B9CF1' : '#D9D9D9',
       answer: "Pacific Beach"
     };
     state20 = {
-      pressed: false,
-      backgroundColor: '#D9D9D9',
+      pressed: this.props.housing.neighborhoodList.includes("Clairemont"),
+      backgroundColor: this.props.housing.neighborhoodList.includes("Clairemont") ? '#3B9CF1' : '#D9D9D9',
       answer: "Clairemont"
     };
     state21 = {
-      pressed: false,
-      backgroundColor: '#D9D9D9',
+      pressed: this.props.housing.neighborhoodList.includes("University City"),
+      backgroundColor: this.props.housing.neighborhoodList.includes("University City") ? '#3B9CF1' : '#D9D9D9',
       answer: "University City"
     };
     state22 = {
-      pressed: false,
-      backgroundColor: '#D9D9D9',
+      pressed: this.props.housing.neighborhoodList.includes("UTC"),
+      backgroundColor: this.props.housing.neighborhoodList.includes("UTC") ? '#3B9CF1' : '#D9D9D9',
       answer: "UTC"
     };
     state23 = {
-      pressed: false,
-      backgroundColor: '#D9D9D9',
+      pressed: this.props.housing.neighborhoodList.includes("Kearny Mesa"),
+      backgroundColor: this.props.housing.neighborhoodList.includes("Kearny Mesa") ? '#3B9CF1' : '#D9D9D9',
       answer: "Kearny Mesa"
     };
     state24 = {
-      pressed: false,
-      backgroundColor: '#D9D9D9',
+      pressed: this.props.housing.neighborhoodList.includes("Solana Beach"),
+      backgroundColor: this.props.housing.neighborhoodList.includes("Solana Beach") ? '#3B9CF1' : '#D9D9D9',
       answer: "Solana Beach"
     };
     state25 = {
-      pressed: false,
-      backgroundColor: '#D9D9D9',
+      pressed: this.props.housing.neighborhoodList.includes("Mission Valley"),
+      backgroundColor: this.props.housing.neighborhoodList.includes("Mission Valley") ? '#3B9CF1' : '#D9D9D9',
       answer: "Mission Valley"
     };
     state26 = {
-      pressed: false,
-      backgroundColor: '#D9D9D9',
+      pressed: this.props.housing.neighborhoodList.includes("Carmel Valley"),
+      backgroundColor: this.props.housing.neighborhoodList.includes("Carmel Valley") ? '#3B9CF1' : '#D9D9D9',
       answer: "Carmel Valley"
     };
     state27 = {
-      pressed: false,
-      backgroundColor: '#D9D9D9',
+      pressed: this.props.housing.neighborhoodList.includes("Sorrento Valley"),
+      backgroundColor: this.props.housing.neighborhoodList.includes("Sorrento Valley") ? '#3B9CF1' : '#D9D9D9',
       answer: "Sorrento Valley"
     };
     state28 = {
-      pressed: false,
-      backgroundColor: '#D9D9D9',
+      pressed: this.props.housing.neighborhoodList.includes("Other"),
+      backgroundColor: this.props.housing.neighborhoodList.includes("Other") ? '#3B9CF1' : '#D9D9D9',
       answer: "Other"
     };
     state29 = {
-      pressed: false,
-      backgroundColor: '#D9D9D9',
-      answer: "1 to 3"
+      pressed: this.props.housing.lease === '1 - 3',
+      backgroundColor: this.props.housing.lease === '1 - 3' ? '#3B9CF1' : '#D9D9D9',
+      answer: "1 - 3"
     };
     state30 = {
-      pressed: false,
-      backgroundColor: '#D9D9D9',
-      answer: "4 to 7"
+      pressed: this.props.housing.lease === '4 - 7',
+      backgroundColor: this.props.housing.lease === '4 - 7' ? '#3B9CF1' : '#D9D9D9',
+      answer: "4 - 7"
     };
     state31 = {
-      pressed: false,
-      backgroundColor: '#D9D9D9',
-      answer: "8 to 11"
+      pressed: this.props.housing.lease === '8 - 11',
+      backgroundColor: this.props.housing.lease === '8 - 11' ? '#3B9CF1' : '#D9D9D9',
+      answer: "8 - 11"
     };
     state32 = {
-      pressed: false,
-      backgroundColor: '#D9D9D9',
+      pressed: this.props.housing.lease === '12+',
+      backgroundColor: this.props.housing.lease === '12+' ? '#3B9CF1' : '#D9D9D9',
       answer: "12+"
     };
   changeColor(state_a, state_b){

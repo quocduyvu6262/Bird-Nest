@@ -45,21 +45,17 @@ const PeckView = ({ navigation }) => {
         // manually push all but last, then setUserList on last user to trigger FlatList rerender
         // reason is that FlatList will not re-render unless setUserList is properly called
         // but setUserList (setState) will only set state once
-        let id_counter = 0;
         for (let i = 0; i < userData.length - 1; i++) {
           userList.push({
             info: userData[i].info,
             src: barackObama,
-            id: id_counter,
           });
-          id_counter++;
         }
         setUserList((prevList) => [
           ...userList,
           {
             info: userData[userData.length - 1].info,
             src: barackObama,
-            id: id_counter,
           },
         ]);
       })
@@ -70,7 +66,6 @@ const PeckView = ({ navigation }) => {
 
   useEffect(() => {
     viewUsers();
-    setTimeout(() => console.log(userList), 3000);
   }, []);
 
   const { width } = Dimensions.get("window");

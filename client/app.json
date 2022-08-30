@@ -3,6 +3,7 @@
     "owner": "quocduyvu6262",
     "name": "BirdNest",
     "slug": "BirdNest",
+    "description": "Home that Matches",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -11,10 +12,13 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    
     "assetBundlePatterns": [
       "**/*"
     ],
@@ -33,7 +37,10 @@
         "backgroundColor": "#FFFFFF"
       },
       "package": "host.exp.exponent",
-      "useNextNotificationsApi": true
+      "useNextNotificationsApi": true,
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -47,6 +54,11 @@
           "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "99b9025d-e02a-4d8d-b118-2aff9abb890a"
+      }
+    }
   }
 }

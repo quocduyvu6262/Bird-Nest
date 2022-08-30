@@ -50,10 +50,9 @@ const ChirpNotification = ({ navigation }) => {
   const responseListener = useRef();
   const user = useSelector((state) => state.data.userInfo);
   const dispatch = useDispatch();
-  let names = user.notiNames;
-  let pics = user.notiPics;
+  let names = user.notiNames ? user.notiNames : [];
+  let pics = user.notiPics ? user.notiPics : [];
   let dates = user.notiDate;
-  let notiLength = user.notiNames.length - 1;
   const updateMatchUI = async () => {
     Axios.post(`${await Constants1.BASE_URL()}/api/history/picName1`, {
       user_id: user.id,

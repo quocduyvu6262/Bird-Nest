@@ -1,17 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   StyleSheet,
-  View,
   Image,
-  InteractionManager,
-  ActivityIndicator,
-  Pressable,
-  StatusBar,
 } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import Logo from "./assets/bird.png";
-import Axios from "axios";
-import * as SecureStore from "expo-secure-store";
 import SplashScreen from "./screens/Auth/SplashScreen";
 import BirdFeed from "./screens/BirdFeed.js";
 import PeckView from "./screens/PeckView.js";
@@ -32,34 +24,21 @@ import Personality from "./screens/Questionnaires/Personality.js";
 import BasicInfo from "./screens/Questionnaires/BasicInfo.js";
 import EditProfile from "./screens/EditProfile";
 import UserProfile from "./components/UserProfile";
-// IMPORT CHAT NAVIGATOR
 import ChatNavigator from "./screens/ChatAPI/ChatNavigator";
-
-// LOGO ICONS
 import BirdFeedLogo from "./assets/BirdFeedLogo.png";
 import MessengerLogo from "./assets/MessengerLogo.png";
 import ProfileLogo2 from "./assets/ProfileLogo2.png";
-
-// STACK/TAB NAVIGATION
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import {
   createBottomTabNavigator,
-  tabBarVisible,
 } from "@react-navigation/bottom-tabs";
-import { CardStyleInterpolators } from "@react-navigation/stack";
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-
-// REDUX
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
-import { useDispatch, useSelector } from "react-redux";
 
 const TabNavigator = () => {
-  const DisabledTabBarButton = ({ style, ...props }) => (
-    <Pressable disabled style={[{ opacity: 0.2 }, style]} {...props} />
-  );
   return (
     <Tab.Navigator
       screenOptions={{
@@ -99,7 +78,7 @@ const TabNavigator = () => {
   );
 };
 <ion-icon name="eye-outline"></ion-icon>;
-export default function App() {
+function App() {
   return (
     <Provider store={store}>
       <GestureHandlerRootView style={{ flex: 1 }}>
@@ -158,3 +137,5 @@ const styles = StyleSheet.create({
     width: 100,
   },
 });
+
+export default App;

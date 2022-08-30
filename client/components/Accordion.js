@@ -9,7 +9,7 @@ const MyComponent = () => {
         title="How do I upload images to my profile?" 
         theme={{ colors: { primary: '#560CCE' }}}>
         <List.Item 
-        title="Click on the 'Photos' icon in the top right of the profile page.
+        title="Click on the Photos icon in the top right of the profile page.
           Allow Bird Nest to access your photo library if you haven't already.
           Then select up to 9 images to add to your profile." 
           titleNumberOfLines={5} />
@@ -31,7 +31,7 @@ const MyComponent = () => {
         titleNumberOfLines={5}>
         <List.Item title="Simple! Bird Nest alerts users through push notifications
         when their profile has been swiped right on. These notification can also be
-        viewed on the Chirp Notifications screen (accessed through the
+        viewed on the Chirp Notifications screen (by tapping the bell icon on the
         Bird Feed screen)." 
         titleNumberOfLines={5}/>
       </List.Accordion>
@@ -40,7 +40,7 @@ const MyComponent = () => {
         title="How do I filter by variables on the Bird Feed?"
         theme={{ colors: { primary: '#560CCE' }}} 
         titleNumberOfLines={5}>
-        <List.Item title="Tap on the filters button below the header on
+        <List.Item title="Tap on the filters button in the header on
         the Bird Feed screen. Then, adjust as many of the variables as you would
         like, to refine your search." 
         titleNumberOfLines={5}/>
@@ -61,9 +61,9 @@ const MyComponent = () => {
         theme={{ colors: { primary: '#560CCE' }}} 
         titleNumberOfLines={5}>
         <List.Item title="By default, Bird Nest launches in List View.
-        Click on the 'View Change' button in the top right of
-        the Bird Feed page.
-        Next, tap on 'view users' in the center of the Peck View page to view users in Peck View." 
+        Click on the View Change button in the top right of
+        the Bird Feed page (third button from the right)
+        to view users in Peck View." 
         titleNumberOfLines={5}/>
       </List.Accordion>
       <Divider/>
@@ -71,7 +71,9 @@ const MyComponent = () => {
         title="How do I edit variables and questionnaire answers?"
         theme={{ colors: { primary: '#560CCE' }}} 
         titleNumberOfLines={5}>
-        <List.Item title="Temporary Answer" 
+        <List.Item title="To edit the questionnaire variables, go to the settings (by tapping
+        the gear icon in the top right of the Bird Feed). Then, choose Edit Questionnaire to
+        go through the questionnaire again." 
         titleNumberOfLines={5}/>
       </List.Accordion>
       <Divider/>
@@ -96,7 +98,7 @@ const MyComponent = () => {
         (3) You receive a new message in the Messenger Pigeon.
         These notifications will appear organized under the
         Chirp Notifications screen, which can be accessed by tapping the
-        bird icon on the top right of the Bird Feed screen." 
+        bell icon on the top right of the Bird Feed screen." 
         titleNumberOfLines={10}/>
       </List.Accordion>
       <Divider/>

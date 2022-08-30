@@ -1,6 +1,7 @@
 import { View, Text, SafeAreaView, StyleSheet, ScrollView } from 'react-native'
 import React from 'react'
 import MainHeader from '../../components/MainHeader'
+import { StatusBar } from 'expo-status-bar';
 
 const AboutUs = ({navigation}) => {
   return (

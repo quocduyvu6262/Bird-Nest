@@ -19,7 +19,7 @@ import {
   ScrollView,
 } from "react-native";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import { Icon } from "@rneui/themed";
 import QuestHeader from "../../components/QuestHeader.js";
@@ -30,8 +30,12 @@ import * as dataActions from "../../redux/slices/data";
 
 const Roles = ({ navigation }) => {
   const userInfo = useSelector((state) => state.data.userInfo); //added in
+  const [previousRole, setPreviousRole] = useState(null);
   const dispatch = useDispatch();
   const [formState, setFormState] = useState("");
+  useEffect(() => {
+    setPreviousRole(userInfo.role);
+  },[])
   const validate = () => {
     let blankError = "";
     if (userInfo.role === "") {
@@ -176,7 +180,7 @@ const Roles = ({ navigation }) => {
                 console.log("YOU SHALL NOT PASS");
               } else {
                 console.log("YOU SHALL PASS");
-                navigation.navigate("BasicInfo");
+                navigation.navigate("BasicInfo", previousRole);
               }
             }}
           >
