@@ -109,7 +109,7 @@ router.post("/insertYes", (req, res) => {
     client.query(userQuery, (err, result) => {
       //query to find list of users of whom the provided_id user left AND right on
       if (err) throw err;
-      var list_of_users = result[0].list_of_users_yes; //grabs result
+      var list_of_users = result[0]?.list_of_users_yes; //grabs result
       if (list_of_users == null) {
         list_of_users = [];
       } else {
@@ -126,7 +126,7 @@ router.post("/insertYes", (req, res) => {
     client.query(matchQuery, (err, result) => {
       let matched = false;
       if (err) throw err;
-      var list_of_users = result[0].list_of_users_yes; //grabs result
+      var list_of_users = result[0]?.list_of_users_yes; //grabs result
       if (list_of_users == null) {
         list_of_users = [];
       } else {
