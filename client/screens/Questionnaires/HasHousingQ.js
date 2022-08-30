@@ -427,8 +427,8 @@ class HasHousingQ extends Component {
           </TouchableOpacity>
           <TouchableOpacity style={[this.state21, HousingQ_styles.buttonContainerYes5]}
           onPress={()=>{
-            this.changeMany(this.state21, this.state21, this.state17, this.state18, this.state15, this.state20, this.state19, this.state22, this.state23, this.state24, this.state25, this.state26, this.state27, this.state28)
-            this.props.dispatch(dataActions.updateNeighborhood(this.state15.name));
+            this.changeMany(this.state21, this.state16, this.state17, this.state18, this.state15, this.state20, this.state19, this.state22, this.state23, this.state24, this.state25, this.state26, this.state27, this.state28)
+            this.props.dispatch(dataActions.updateNeighborhood(this.state21.name));
           }}>
             <Text style = {HousingQ_styles.buttonText}>University City</Text>
           </TouchableOpacity>
