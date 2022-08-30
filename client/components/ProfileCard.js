@@ -21,11 +21,8 @@ import Axios from "axios";
 import Constants1 from "../constants/constants.js";
 // import { useSelector, useDispatch } from "react-redux";
 import { roleImagesIndex } from "../assets/roleImagesIndex";
-<<<<<<< HEAD
-=======
 import { storage, ref, deleteObject, getDownloadURL } from "../firebaseConfig";
 import DefaultProfilePic from "../assets/DefaultProfilePic.jpeg";
->>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
 
 const ProfileCard = ({ item, index, userID, userName }) => {
   const opacityTransition = useRef(new Animated.Value(0)).current;
@@ -37,18 +34,6 @@ const ProfileCard = ({ item, index, userID, userName }) => {
   ).current;
   const [avatar, setAvatar] = useState(null);
 
-<<<<<<< HEAD
-  console.log(item.item.info.role);
-  console.log(roleImagesIndex["Flamingo"]);
-
-  const swipeUserYes = async () => {
-    Axios.post(`${await Constants1.BASE_URL()}/api/history/insertYes`, {
-      // user_id: item.item.info.User_id,
-      user_id: 98,
-      // swiped_id: userID,
-      swiped_id: 345,
-      // user_id: 98,
-=======
   const retrieveImage = async (path) => {
     if (path) {
       const reference = ref(storage, path);
@@ -84,18 +69,11 @@ const ProfileCard = ({ item, index, userID, userName }) => {
       // swiped_id: item.item.info.User_id,
       user_id: 345,
       swiped_id: 98,
->>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
       // swiped_id: 7,
     })
       .then(async (response) => {
         let responseInfo = response.data;
         console.log("token 0: " + responseInfo[0].token);
-<<<<<<< HEAD
-        // console.log("token 1: " + responseInfo[1].token);
-        // console.log("item.item.info.fullname: " + item.item.info.fullname);
-=======
-
->>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
         console.log("userName: " + userName);
         if (responseInfo.length === 2) {
           Axios.post(`${await Constants1.BASE_URL()}/api/notifications/match`, {
@@ -120,8 +98,6 @@ const ProfileCard = ({ item, index, userID, userName }) => {
         console.log(error);
       });
   };
-<<<<<<< HEAD
-=======
 
   const swipeUserNo = async () => {
     Axios.post(`${await Constants1.BASE_URL()}/api/history/insertNo`, {
@@ -135,7 +111,6 @@ const ProfileCard = ({ item, index, userID, userName }) => {
         console.log(err);
       });
   };
->>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
 
   const renderRightActions = (progress, dragX) => {
     const trans = dragX.interpolate({
@@ -152,13 +127,9 @@ const ProfileCard = ({ item, index, userID, userName }) => {
         ]}
       >
         <TouchableOpacity onPress={swipeUserYes} style={styles.swipeButton}>
-<<<<<<< HEAD
-          <Text>Yes</Text>
-=======
           <Text style={{ fontSize: 18, color: "white", fontWeight: "700" }}>
             Yes
           </Text>
->>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
         </TouchableOpacity>
       </Animated.View>
     );
@@ -179,18 +150,12 @@ const ProfileCard = ({ item, index, userID, userName }) => {
         ]}
       >
         <TouchableOpacity
-<<<<<<< HEAD
-          style={[styles.swipeButton, { backgroundColor: "#FE002E" }]}
-        >
-          <Text>No</Text>
-=======
           onPress={swipeUserNo}
           style={[styles.swipeButton, { backgroundColor: "#FE002E" }]}
         >
           <Text style={{ fontSize: 18, color: "white", fontWeight: "700" }}>
             No
           </Text>
->>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
         </TouchableOpacity>
       </Animated.View>
     );

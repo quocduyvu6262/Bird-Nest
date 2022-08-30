@@ -12,11 +12,7 @@ const UserCard = (props) => {
     <View style={styles.card}>
       {user.id === props.id 
         ? <CarouselCards />
-<<<<<<< HEAD
-        : <UserCarouselCards avatar={props.avatar} picList={props.picsList}/>
-=======
         : <UserCarouselCards avatar={props.avatar} picsList={props.picsList}/>
->>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
       }
         <Header>
           {props.name} 

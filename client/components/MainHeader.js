@@ -26,18 +26,11 @@ import * as FileSystem from "expo-file-system";
 import Axios from "axios";
 import Constants from "../constants/constants";
 import * as SecureStore from "expo-secure-store";
-<<<<<<< HEAD
-
-// import buttons
-
-const MainHeader = ({ screen, navigation }) => {
-=======
 import Icon3 from "react-native-vector-icons/Ionicons";
 
 // import buttons
 
 const MainHeader = ({ screen, navigation, overlayFilterButton }) => {
->>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
   const user = useSelector((state) => state.data.userInfo);
   const imageFileSystemUri = useSelector(
     (state) => state.data.imageFileSystemUri
@@ -123,11 +116,7 @@ const MainHeader = ({ screen, navigation, overlayFilterButton }) => {
               }
               Axios.post(`${await Constants.BASE_URL()}/api/images/multiple`, {
                 id: user.id,
-<<<<<<< HEAD
-                pics: newListUrl
-=======
                 pics: newListUrl,
->>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
               }).then(async () => {
                 // file system
                 let newFileSystemList;
@@ -140,11 +129,6 @@ const MainHeader = ({ screen, navigation, overlayFilterButton }) => {
                   newFileSystemList = fileSystemList;
                 }
                 // upload to secure store
-<<<<<<< HEAD
-                await SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify({...user, picsList: newListUrl}));
-                await SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_IMAGE_URI, JSON.stringify({avatar: imageFileSystemUri.avatar, album: newFileSystemList}));
-              })
-=======
                 await SecureStore.setItemAsync(
                   Constants.MY_SECURE_AUTH_STATE_KEY_USER,
                   JSON.stringify({ ...user, picsList: newListUrl })
@@ -157,7 +141,6 @@ const MainHeader = ({ screen, navigation, overlayFilterButton }) => {
                   })
                 );
               });
->>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
             }
           }
         );
@@ -266,11 +249,7 @@ const MainHeader = ({ screen, navigation, overlayFilterButton }) => {
                   navigation.navigate("ChirpNotification");
                 }}
               >
-<<<<<<< HEAD
-                <Image source={require(`../assets/bird.png`)} />
-=======
                 <Icon name="notifications" size={30} />
->>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
                 {user.notiunRead && (
                   <Text
                     style={{

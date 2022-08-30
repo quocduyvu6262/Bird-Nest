@@ -25,17 +25,8 @@ import { useDispatch, useSelector } from "react-redux";
 import * as FileSystem from 'expo-file-system'
 import Tags from "react-native-tags";
 
-<<<<<<< HEAD
-const UserProfile = ({ navigation, route }) => {
- 
-  const imageFileSystem = useSelector(state => state.data.imageFileSystemUri)
-  const dispatch = useDispatch();
-  const data = useSelector(state => state.data);
- 
-=======
 const UserProfile = React.memo(({ navigation, route }) => {
 
->>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
   const [buttonClicked, setButtonClicked] = useState(false);
   const [interestButtonClicked, setInterestButtonClicked] = useState(false);
   const item = route.params.item;
@@ -53,17 +44,7 @@ const UserProfile = React.memo(({ navigation, route }) => {
       : setInterestButtonClicked(true);
   };
   
-<<<<<<< HEAD
-  const retrieveImage = async (path) => {
-    if(path){
-      const reference = ref(storage, path);
-      const url = await getDownloadURL(reference);
-      return url;
-    }
-  }
-=======
   console.log("render");
->>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
   return (
     <SafeAreaView style={styles.container}>
       <MainHeader screen={`${user.firstname}'s Profile`} navigation={navigation} />
@@ -74,11 +55,7 @@ const UserProfile = React.memo(({ navigation, route }) => {
             genderage={user.gender + ", " + user.age}
             id={user.id}
             avatar={user.profilepic}
-<<<<<<< HEAD
-            picList={user.picsList}
-=======
             picsList={user.picsList}
->>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
           />
           <View style={styles.buttonContainer}>
 
@@ -162,11 +139,7 @@ const UserProfile = React.memo(({ navigation, route }) => {
       </ScrollView>
     </SafeAreaView>
   );
-<<<<<<< HEAD
-};
-=======
 });
->>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
 
 // Bio
 const BioInfo = (props) => {

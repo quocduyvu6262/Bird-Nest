@@ -34,11 +34,6 @@ router.post("/all", (req, res) => {
       });
     });
   });
-<<<<<<< HEAD
-});
-router.post("/yes", (req, res) => {
-  var provided_id = req.body.user_id; //temporary ID until backend connected to frontend
-=======
 });
 router.post("/yes", (req, res) => {
   var provided_id = req.body.user_id; //temporary ID until backend connected to frontend
@@ -331,8 +326,8 @@ router.post("/create", (req, res) => {
     res.status(400).send(err);
   }
 });
->>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
-
+router.post("/yes", (req, res) => {
+  var provided_id = req.body.user_id; //temporary ID until backend connected to frontend
   const userQuery = `SELECT list_of_users_yes FROM BirdNest.History WHERE User_id = ${provided_id}`;
   db((client) => {
     client.query(userQuery, (err, result) => {

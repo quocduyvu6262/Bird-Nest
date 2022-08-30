@@ -235,10 +235,7 @@ const BirdFeed = ({ navigation }) => {
     })
       .then((response) => {
         let userData = response.data;
-<<<<<<< HEAD
-=======
         console.log(userData);
->>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
         //console.log(userData);
         // manually push all but last, then setUserList on last user to trigger FlatList rerender
         // reason is that FlatList will not re-render unless setUserList is properly called
@@ -295,34 +292,12 @@ const BirdFeed = ({ navigation }) => {
           ]}
         ></View>
 
-<<<<<<< HEAD
-        <View style={{ flexDirection: "row" }}>
-          <TouchableOpacity
-            style={[styles.input, { marginVertical: 7 }]}
-            onPress={overlayFilterButton}
-          >
-            <Icon3
-              style={styles.input}
-              name="options-sharp"
-              size={30}
-              color="black"
-            />
-          </TouchableOpacity>
-          <Buttons style={{ flex: 0.5 }} onPress={viewUsers}>
-            Clear Filters
-          </Buttons>
-        </View>
-=======
->>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
         {overlayFilterClicked && (
           <FilterOverlay
             setUserList={setUserList}
             setListState={setListState}
             overlayFilterButton={overlayFilterButton}
-<<<<<<< HEAD
-=======
             viewUsers={viewUsers}
->>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
           />
         )}
 
@@ -333,13 +308,6 @@ const BirdFeed = ({ navigation }) => {
               extraData={userList}
               style={{ height: "100%" }}
               renderItem={(item) => (
-<<<<<<< HEAD
-                <TouchableOpacity>
-                  <ProfileCard
-                    item={item}
-                    userID={user.id}
-                    userName={user.firstname}
-=======
                 <TouchableOpacity
                   onPress={() => navigation.navigate("UserProfile", { item })}
                 >
@@ -347,7 +315,6 @@ const BirdFeed = ({ navigation }) => {
                     item={item}
                     userID={user.id}
                     userName={user.fullname}
->>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
                   />
                 </TouchableOpacity>
               )}
@@ -449,9 +416,6 @@ const styles = StyleSheet.create({
     // top: 100,
     // left: 200,
   },
-<<<<<<< HEAD
-  clearFilterButton: {},
-=======
   filterButton: {
     flexDirection: "row",
     position: "absolute",
@@ -478,6 +442,5 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     borderRadius: 10,
   },
->>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
 });
 export default BirdFeed;

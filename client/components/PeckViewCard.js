@@ -23,11 +23,8 @@ import Animated, {
   withTiming,
   Easing,
 } from "react-native-reanimated";
-<<<<<<< HEAD
-=======
 import Axios from "axios";
 import Constants1 from "../constants/constants.js";
->>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
 
 const snapPoint = (value, velocity, points) => {
   "worklet";
@@ -43,24 +40,15 @@ const PeckViewCard = ({
   width,
   userList,
   setUserList,
-<<<<<<< HEAD
-  id,
-=======
   userID,
   id,
   userName,
   navigation,
->>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
 }) => {
   const positionX = useSharedValue(0);
   const positionY = useSharedValue(0);
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(0);
-<<<<<<< HEAD
-
-  //   console.log(id);
-=======
->>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
 
   const onGestureEvent = useAnimatedGestureHandler({
     onStart: () => {
@@ -109,12 +97,6 @@ const PeckViewCard = ({
   const removeCard = () => {
     setUserList(
       userList.filter((user) => {
-<<<<<<< HEAD
-        return user.id !== id;
-      })
-    );
-  };
-=======
         // return user.id !== id;
         return user.info.User_id !== id;
       })
@@ -173,7 +155,6 @@ const PeckViewCard = ({
         console.log(err);
       });
   };
->>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
 
   const handleStateChange = ({ nativeEvent }) => {
     const dest = snapPoint(
@@ -187,20 +168,14 @@ const PeckViewCard = ({
       //   if (profileList.length == 1) {
       //     return;
       //   }
-<<<<<<< HEAD
-=======
       swipeUserYes();
->>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
       setTimeout(removeCard, 100);
     } else if (nativeEvent.state === State.END && dest === SNAP_POINTS[0]) {
       console.log("Swiped Left");
       //   if (userList.length == 1) {
       //     return;
       //   }
-<<<<<<< HEAD
-=======
       swipeUserNo();
->>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
       setTimeout(removeCard, 100);
     }
   };
@@ -225,44 +200,27 @@ const PeckViewCard = ({
         <View style={styles.cardInfoWrapper}>
           <Image source={barackObama} style={styles.image} />
           <View style={styles.headerText}>
-<<<<<<< HEAD
-            <Text style={styles.name}>{user.name}</Text>
-            <Text>(Age), (Gender)</Text>
-=======
             <Text style={styles.name}>
               {user.info.firstname} {user.info.lastname[0]}.
             </Text>
             <Text>
               {user.info.gender}, {user.info.pronouns}, {user.info.age},
             </Text>
->>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
           </View>
           <View style={styles.mainTextWrapper}>
             <View>
               <View style={styles.mainTextInfo}>
-<<<<<<< HEAD
-                <Text>(Neighborhood)</Text>
-=======
                 <Text>{user.info.neighborhood}</Text>
->>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
               </View>
               <Text style={styles.mainTextHeader}>Neighborhood</Text>
             </View>
             <View>
               <View style={styles.mainTextInfo}>
-<<<<<<< HEAD
-                <Text>(Rent)</Text>
-=======
                 <Text>${user.info.rent}</Text>
->>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
               </View>
               <Text style={styles.mainTextHeader}>Rent</Text>
             </View>
           </View>
-<<<<<<< HEAD
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>View {user.name}'s Profile </Text>
-=======
           <TouchableOpacity
             // onPress={() => navigation.navigate("UserProfile", { item: user })}
             onPress={handleView}
@@ -271,7 +229,6 @@ const PeckViewCard = ({
             <Text style={styles.buttonText}>
               View {user.info.fullname}'s Profile{" "}
             </Text>
->>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
           </TouchableOpacity>
         </View>
       </Animated.View>
@@ -305,25 +262,15 @@ const styles = StyleSheet.create({
   headerText: {
     flexDirection: "row",
     alignItems: "center",
-<<<<<<< HEAD
-    justifyContent: "center",
-=======
     justifyContent: "flex-start",
->>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
     borderBottomColor: "#560CCE",
     borderBottomWidth: 2,
   },
   name: {
     fontFamily: "Pacifico_400Regular",
-<<<<<<< HEAD
-    fontSize: 30,
-    color: "#560CCE",
-    marginRight: 20,
-=======
     fontSize: 25,
     color: "#560CCE",
     marginRight: 10,
->>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
     paddingHorizontal: 10,
     paddingBottom: 5,
   },

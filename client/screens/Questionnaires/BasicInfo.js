@@ -470,12 +470,8 @@ class BasicInfo extends Component {
         <View style={HousingHeader_styles.header}>
           <TouchableOpacity
             onPress={() => this.props.navigation.goBack()}
-<<<<<<< HEAD
-            style={HousingHeader_styles.returnToProfileArrow}>
-=======
             style={HousingHeader_styles.returnToProfileArrow}
           >
->>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
             <Image
               source={require("../../assets/backArrow.png")}
               style={HousingHeader_styles.backIcon}
@@ -957,13 +953,8 @@ class BasicInfo extends Component {
 const HousingHeader_styles = StyleSheet.create({
   header: {
     backgroundColor: "#6736B6",
-<<<<<<< HEAD
-    flexDirection: 'row',
-    alignItems: 'center',
-=======
     flexDirection: "row",
     alignItems: "center",
->>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
     width: "100%",
     height: 90,
     bottom: 50,
@@ -980,10 +971,6 @@ const HousingHeader_styles = StyleSheet.create({
     left: 5,
     top: 20,
     flex: 1.1,
-<<<<<<< HEAD
-    alignItems: 'center',
-    flexDirection: "row",
-=======
     alignItems: "center",
     flexDirection: "row",
   },
@@ -997,7 +984,6 @@ const HousingHeader_styles = StyleSheet.create({
     color: "#FFF",
     fontSize: 15,
     fontWeight: "bold",
->>>>>>> fbe17b64a68c092dc9e1609b2af1a385192ca0b5
   },
   backIcon: {
     height: 20,
