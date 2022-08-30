@@ -100,6 +100,7 @@ router.post("/no", (req, res) => {
     });
   });
 });
+
 router.post("/insertYes", (req, res) => {
   var provided_id = req.body.user_id;
   var swiped_id = req.body.swiped_id;
@@ -112,12 +113,10 @@ router.post("/insertYes", (req, res) => {
       var list_of_users = result[0]?.list_of_users_yes; //grabs result
       if (list_of_users == null) {
         list_of_users = [];
-      } else {
-        list_of_users = JSON.parse(list_of_users); //converts result from string to an array
       }
       list_of_users.push(swiped_id);
-      let new_users = JSON.stringify(list_of_users);
-      const newQuery = `UPDATE BirdNest.History SET list_of_users_yes = '${new_users}' WHERE User_id = ${provided_id};`;
+      let new_users = list_of_users;
+      const newQuery = `UPDATE BirdNest.History SET list_of_users_yes = ${JSON.stringify(JSON.stringify(new_users))} WHERE User_id = ${provided_id};`;
       client.query(newQuery, (err, result) => {
         if (err) throw err;
       });
@@ -129,8 +128,6 @@ router.post("/insertYes", (req, res) => {
       var list_of_users = result[0]?.list_of_users_yes; //grabs result
       if (list_of_users == null) {
         list_of_users = [];
-      } else {
-        list_of_users = JSON.parse(list_of_users); //converts result from string to an array
       }
       list_of_users.forEach((ID) => {
         if (ID == provided_id) {
@@ -145,22 +142,16 @@ router.post("/insertYes", (req, res) => {
               console.log(resultMatch2);
               if (resultMatch1 == null) {
                 resultMatch1 = [];
-              } else {
-                resultMatch1 = JSON.parse(resultMatch1); //converts result from string to an array
               }
               if (resultMatch2 == null) {
                 resultMatch2 = [];
-              } else {
-                resultMatch2 = JSON.parse(resultMatch2); //converts result from string to an array
               }
               resultMatch1.push(swiped_id);
               resultMatch2.push(provided_id);
-              resultMatch1 = JSON.stringify(resultMatch1);
-              resultMatch2 = JSON.stringify(resultMatch2);
-              const addQuery1 = `UPDATE BirdNest.User SET matches = '${resultMatch1}' WHERE id = ${provided_id};`;
-              const addQuery2 = `UPDATE BirdNest.User SET matches = '${resultMatch2}' WHERE id = ${swiped_id};`;
-              const addQuery3 = `UPDATE BirdNest.User SET matchedChat = '${resultMatch1}' WHERE id = ${provided_id};`;
-              const addQuery4 = `UPDATE BirdNest.User SET matchedChat = '${resultMatch2}' WHERE id = ${swiped_id};`;
+              const addQuery1 = `UPDATE BirdNest.User SET matches = ${JSON.stringify(JSON.stringify(resultMatch1))} WHERE id = ${provided_id};`;
+              const addQuery2 = `UPDATE BirdNest.User SET matches = ${JSON.stringify(JSON.stringify(resultMatch2))} WHERE id = ${swiped_id};`;
+              const addQuery3 = `UPDATE BirdNest.User SET matchedChat = ${JSON.stringify(JSON.stringify(resultMatch1))} WHERE id = ${provided_id};`;
+              const addQuery4 = `UPDATE BirdNest.User SET matchedChat = ${JSON.stringify(JSON.stringify(resultMatch2))} WHERE id = ${swiped_id};`;
               client.query(addQuery1, (err, result) => {
                 if (err) throw err;
               });
@@ -190,12 +181,9 @@ router.post("/insertYes", (req, res) => {
           let resultRight = result12[0].right;
           if (resultRight == null) {
             resultRight = [];
-          } else {
-            resultRight = JSON.parse(resultRight);
           }
           resultRight.push(provided_id);
-          resultRight = JSON.stringify(resultRight);
-          const pushQuery = `UPDATE BirdNest.User SET right1 = '${resultRight}' WHERE id = ${swiped_id};`;
+          const pushQuery = `UPDATE BirdNest.User SET right1 = ${JSON.stringify(JSON.stringify(resultRight))} WHERE id = ${swiped_id};`;
           client.query(pushQuery, (err, result10) => {
             if (err) throw err;
             const tokenQuery2 = `SELECT token FROM BirdNest.User WHERE id = ${swiped_id}`;
@@ -221,12 +209,9 @@ router.post("/insertNo", (req, res) => {
       var list_of_users = result[0].list_of_users_no; //grabs result
       if (list_of_users == null) {
         list_of_users = [];
-      } else {
-        list_of_users = JSON.parse(list_of_users); //converts result from string to an array
       }
       list_of_users.push(swiped_id);
-      let new_users = JSON.stringify(list_of_users);
-      const newQuery = `UPDATE BirdNest.History SET list_of_users_no = '${new_users}' WHERE User_id = ${provided_id};`;
+      const newQuery = `UPDATE BirdNest.History SET list_of_users_no = ${JSON.stringify(JSON.stringify(list_of_users))} WHERE User_id = ${provided_id};`;
       client.query(newQuery, (err, result) => {
         if (err) throw err;
         res.send("Inserted successfully into History table!");
@@ -285,6 +270,7 @@ router.post("/getToken", (req, res) => {
     });
   });
 });
+
 router.post("/matches", (req, res) => {
   var user_id = req.body.user_id;
   const query = `SELECT matches FROM BirdNest.User WHERE id = ${user_id}`;
@@ -292,17 +278,12 @@ router.post("/matches", (req, res) => {
     let final = [];
     client.query(query, (err, result) => {
       if (err) throw err;
-      let matches = JSON.parse(result[0].matches);
-      for (let i = 0; i < matches.length; i++) {
-        const namePic = `SELECT fullname, profilepic, uid FROM BirdNest.User WHERE id = ${matches[i]}`;
-        client.query(namePic, (err, result3) => {
-          if (err) throw err;
-          final.push(result3);
-          if (i == matches.length - 1) {
-            res.send(final);
-          }
-        });
-      }
+      let matches = result[0]?.matches
+      const namePicCollection =  `SELECT fullname, profilepic, uid FROM BirdNest.User WHERE id IN ${matches}`
+      client.query(namePicCollection, (err ,result) => {
+        if(err) throw err;
+        res.send(result)
+      })
     });
   });
 });
