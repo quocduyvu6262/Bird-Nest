@@ -238,21 +238,28 @@ const ProfileCard = ({ item, index, userID, userName }) => {
           <Text>
             {item.item.info.isHousing
               ? item.item.info.neighborhood
-              : item.item.info.neighborhood.length <= 2
-              ? item.item.info.neighborhood.map((neighborhood, index) => {
-                  if (index === 0 && item.item.info.neighborhood.length == 2) {
-                    return `${neighborhood}, `;
-                  } else {
-                    return `${neighborhood} `;
-                  }
-                })
-              : item.item.info.neighborhood.map((neighborhood, index) => {
-                  if (index <= 1) {
-                    return `${neighborhood}, `;
-                  } else if (index === 2) {
-                    return `etc.`;
-                  }
-                })}
+              : (
+                (typeof item.item.info.neighborhood === 'object' && item.item.info.neighborhood.length <= 2)
+                  ? (
+                    item.item.info.neighborhood.map((neighborhood, index) => {
+                      if (index === 0 && item.item.info.neighborhood.length == 2) {
+                        return `${neighborhood}, `;
+                      } else {
+                        return `${neighborhood} `;
+                      }
+                    })
+                  )
+                  : (
+                    item.item.info.neighborhood.map((neighborhood, index) => {
+                      if (index <= 1) {
+                        return `${neighborhood}, `;
+                      } else if (index === 2) {
+                        return `etc.`;
+                      }
+                    })
+                  )
+              )
+            }
           </Text>
           <View style={styles.barGroup}>
             <Text>Rent is ${item.item.info.rent}</Text>
