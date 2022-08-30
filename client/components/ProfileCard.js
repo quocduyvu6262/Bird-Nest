@@ -38,7 +38,7 @@ const ProfileCard = ({ item, index, userID, userName }) => {
     })
   ).current;
   const [avatar, setAvatar] = useState(null);
-
+  const [isAlreadySwiped, setIsAlreadySwiped] = useState(false);
 
   const retrieveImage = async (path) => {
     if (path) {
@@ -70,6 +70,7 @@ const ProfileCard = ({ item, index, userID, userName }) => {
   };
 
   const swipeUserYes = async () => {
+    if (isAlreadySwiped) return;
     Axios.post(`${await Constants1.BASE_URL()}/api/history/insertYes`, {
       user_id: userID,
       swiped_id: item.item.info.User_id,
@@ -80,7 +81,7 @@ const ProfileCard = ({ item, index, userID, userName }) => {
         console.log("userName: " + userName);
         if (responseInfo.length === 2) {
           let newMatchedChat = [item.item.info.User_id];
-          if(myuser.matchedChat){
+          if (myuser.matchedChat) {
             newMatchedChat = [...myuser.matchedChat, item.item.info.User_id];
           }
           dispatch(dataActions.updateMatchedChat(newMatchedChat));
@@ -107,9 +108,11 @@ const ProfileCard = ({ item, index, userID, userName }) => {
       .catch((error) => {
         console.log(error);
       });
+    setIsAlreadySwiped(true);
   };
 
   const swipeUserNo = async () => {
+    if (isAlreadySwiped) return;
     Axios.post(`${await Constants1.BASE_URL()}/api/history/insertNo`, {
       user_id: userID,
       swiped_id: item.item.info.User_id,
@@ -120,6 +123,8 @@ const ProfileCard = ({ item, index, userID, userName }) => {
       .catch((err) => {
         console.log(err);
       });
+
+    setIsAlreadySwiped(true);
   };
 
   const renderRightActions = (progress, dragX) => {
