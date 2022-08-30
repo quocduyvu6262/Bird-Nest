@@ -161,12 +161,14 @@ const FilterOverlay = ({
           //skip seeing yourself
           userList.push({
             info: filterUserData[i].info,
+            count: filterUserData[i].count,
           });
         }
         setUserList((prevList) => [
           ...userList,
           {
             info: filterUserData[filterUserData.length - 1].info,
+            count: filterUserData[filterUserData.length - 1].count,
           },
         ]);
         userList.reverse();
