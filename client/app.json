@@ -3,8 +3,7 @@
     "owner": "quocduyvu6262",
     "name": "BirdNest",
     "slug": "BirdNest",
-    "privacy": "public",
-    "description":"Home that Matches",
+    "description": "Home that Matches",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -13,6 +12,10 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -50,7 +53,8 @@
         {
           "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
-      ]
+      ],
+      "sentry-expo"
     ],
     "extra": {
       "eas": {

@@ -78,7 +78,7 @@ const TabNavigator = () => {
   );
 };
 <ion-icon name="eye-outline"></ion-icon>;
-export default function App() {
+function App() {
   return (
     <Provider store={store}>
       <GestureHandlerRootView style={{ flex: 1 }}>
@@ -137,3 +137,5 @@ const styles = StyleSheet.create({
     width: 100,
   },
 });
+
+export default App;
