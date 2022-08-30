@@ -73,8 +73,6 @@ class BasicInfo extends Component {
     this.fieldState = { blankError: "" };
     this.setState({ blankError: "" });
   };
-  previousRole = this.props.route.params;
-
   slider_state = {
     language: "English",
     value: 500,
@@ -929,18 +927,12 @@ class BasicInfo extends Component {
                   this.userInfo.role === "Flamingo" ||
                   this.userInfo.role === "Owl"
                 ) {
-                  if(this.previousRole === "Penguin" || this.previousRole === "Duck" || this.previousRole === "Parrot"){
-                    this.props.dispatch(dataActions.resetHousing())
-                  }
                   this.props.navigation.navigate("HasHousingQ"); //
                 } else if (
                   this.userInfo.role === "Penguin" ||
                   this.userInfo.role === "Duck" ||
                   this.userInfo.role === "Parrot"
                 ) {
-                  if(this.previousRole === "Flamingo" || this.previousRole === "Owl"){
-                    this.props.dispatch(dataActions.resetHousing())
-                  }
                   this.props.navigation.navigate("NoHousingQ");
                 }
               }
