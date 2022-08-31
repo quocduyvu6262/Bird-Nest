@@ -130,6 +130,8 @@ export const retrieveImage = async (path) => {
  * @param imageFileSystemUri the image file object (can be viewed in redux)
  */
 export const storeData = async (user, housing, imageFileSystemUri = null) => {
+    console.log(user);
+    console.log(housing);
     // Store into Secure Store
     await SecureStore.setItemAsync(
         Constants.MY_SECURE_AUTH_STATE_KEY_USER,
@@ -167,6 +169,7 @@ export const storeData = async (user, housing, imageFileSystemUri = null) => {
     else {
         apiEndpoint = "/api/questionnaire/nohousingrole";
     }
+
 
     Axios.post(`${await Constants.BASE_URL()}${apiEndpoint}`, {
         userInfo: user,

@@ -24,6 +24,7 @@ import Constants from "../constants/constants";
 import { useDispatch, useSelector } from "react-redux";
 import * as FileSystem from "expo-file-system";
 import Tags from "react-native-tags";
+import { useChatClient } from "./ChatAPI/useChatClient";
 
 const Profile = ({ navigation }) => {
   const user = useSelector((state) => state.data.userInfo);
@@ -64,6 +65,7 @@ const Profile = ({ navigation }) => {
   const [opacity8, setOpacity8] = useState(1);
   const [opacity9, setOpacity9] = useState(1);
   const [counter, setCounter] = useState(0);
+
 
   const roomInfoButton = () => {
     setButtonClicked(true);
@@ -255,6 +257,7 @@ const Profile = ({ navigation }) => {
       setOpacity9(1);
     }
   };
+
   // return screen
   var images1 = pics1.map(function (image) {
     if (count1 == 0) {

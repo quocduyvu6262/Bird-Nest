@@ -28,6 +28,9 @@ import { updateMatchedUserChatSecureStore } from "../utils/helper";
 import { useDispatch, useSelector } from "react-redux";
 
 const ProfileCard = ({ item, index, userID, userName }) => {
+  if(item.item.info.neighborhood[0] === "[" && typeof item.item.info.neighborhood === "string"){
+    item.item.info.neighborhood = JSON.parse(item.item.info.neighborhood);
+  }
   const myuser = useSelector((state) => state.data.userInfo);
   const dispatch = useDispatch();
   const opacityTransition = useRef(new Animated.Value(0)).current;
@@ -238,26 +241,28 @@ const ProfileCard = ({ item, index, userID, userName }) => {
           <Text>
             {item.item.info.isHousing
               ? item.item.info.neighborhood
-              : (
-                (typeof item.item.info.neighborhood === 'object' && item.item.info.neighborhood.length <= 2)
-                  ? (
-                    item.item.info.neighborhood.map((neighborhood, index) => {
-                      if (index === 0 && item.item.info.neighborhood.length == 2) {
-                        return `${neighborhood}, `;
-                      } else {
-                        return `${neighborhood} `;
-                      }
-                    })
+              : (typeof item.item.info.neighborhood === 'object'
+                ? (item.item.info.neighborhood.length <= 2
+                    ? (
+                      item.item.info.neighborhood.map((neighborhood, index) => {
+                        if (index === 0 && item.item.info.neighborhood.length == 2) {
+                          return `${neighborhood}, `;
+                        } else {
+                          return `${neighborhood} `;
+                        }
+                      })
+                    )
+                    : (
+                      item.item.info.neighborhood.map((neighborhood, index) => {
+                        if (index <= 1) {
+                          return `${neighborhood}, `;
+                        } else if (index === 2) {
+                          return `etc.`;
+                        }
+                      })
+                    )
                   )
-                  : (
-                    item.item.info.neighborhood.map((neighborhood, index) => {
-                      if (index <= 1) {
-                        return `${neighborhood}, `;
-                      } else if (index === 2) {
-                        return `etc.`;
-                      }
-                    })
-                  )
+                : null
               )
             }
           </Text>

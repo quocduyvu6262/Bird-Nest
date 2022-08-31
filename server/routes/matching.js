@@ -126,7 +126,7 @@ router.post("/filternohousingtable", (req, res) => {
   const filterMap = new Map(JSON.parse(req.body.filterMap));
   //Query to get all other users in NoHousing
   let nohousingQuery =
-    "SELECT * FROM NoHousing JOIN User ON NoHousing.User_id = User.id WHERE ";
+    "SELECT * FROM BirdNest.NoHousing JOIN BirdNest.User ON NoHousing.User_id = User.id WHERE ";
   //BUILD FILTER QUERY
   for (var [key, value] of filterMap.entries()) {
     //skip unselected switches
@@ -158,24 +158,23 @@ router.post("/filternohousingtable", (req, res) => {
   //if everything deselected
   if (
     filterQuery ===
-    "SELECT * FROM NoHousing JOIN User ON NoHousing.User_id = User.id WHERE ;"
+    "SELECT * FROM BirdNest.NoHousing JOIN BirdNest.User ON NoHousing.User_id = User.id WHERE ;"
   ) {
     filterQuery =
-      "SELECT * FROM NoHousing JOIN User ON NoHousing.User_id = User.id";
+      "SELECT * FROM BirdNest.NoHousing JOIN BirdNest.User ON NoHousing.User_id = User.id";
   }
-
-  console.log(filterQuery);
-
   //GET PRIORITY COUNT
   db((client) => {
     client.query(filterQuery, (err, filterResult) => {
       //If result, use priorityCount on that
-      if (!err && filterResult.length) {
+      if(err) throw err
+      if (filterResult.length) {
         var must_have_map = new Map();
         //Gets current user's housing data
         client.query(
           `SELECT * FROM BirdNest.Housing WHERE User_id = ${provided_id}`,
           (err, result) => {
+            console.log("Here inside client query")
             if (err) throw err;
             const user_values = result;
             //add the following matching variables to the map
@@ -215,8 +214,7 @@ router.post("/filternohousingtable", (req, res) => {
           }
         );
       } else {
-        res.status(401).send("No users matching those filters found");
-        console.log(err);
+        console.log("No users matching those filters found");
       }
     });
   });
@@ -231,7 +229,7 @@ router.post("/filterhousingtable", (req, res) => {
   const filterMap = new Map(JSON.parse(req.body.filterMap));
   //Query to get all other users in NoHousing
   let housingQuery =
-    "SELECT * FROM Housing JOIN User ON Housing.User_id = User.id WHERE ";
+    "SELECT * FROM BirdNest.Housing JOIN BirdNest.User ON Housing.User_id = User.id WHERE ";
   //BUILD FILTER QUERY
   for (var [key, value] of filterMap.entries()) {
     //skip unselected switches
@@ -259,9 +257,9 @@ router.post("/filterhousingtable", (req, res) => {
   //remove extra AND
   let filterQuery = housingQuery.slice(0, housingQuery.length - 4) + ";";
   //if everything deselected
-  if (filterQuery === "SELECT * FROM NoHousing JOIN User ON NoHousing.User_id = User.id WHERE ;") {
+  if (filterQuery === "SELECT * FROM BirdNest.NoHousing JOIN BirdNest.User ON NoHousing.User_id = User.id WHERE ;") {
     filterQuery =
-      "SELECT * FROM NoHousing JOIN User ON NoHousing.User_id = User.id";
+      "SELECT * FROM BirdNest.NoHousing JOIN BirdNest.User ON NoHousing.User_id = User.id";
   }
   console.log(filterQuery);
 
@@ -269,7 +267,8 @@ router.post("/filterhousingtable", (req, res) => {
   db((client) => {
     client.query(filterQuery, (err, filterResult) => {
       //If result, use priorityCount on that
-      if (!err && filterResult.length) {
+      if(err) throw err;
+      if (filterResult.length) {
         var must_have_map = new Map();
         //Gets current user's housing data
         client.query(
@@ -314,8 +313,7 @@ router.post("/filterhousingtable", (req, res) => {
           }
         );
       } else {
-        res.status(401).send("No users matching those filters found");
-        console.log(err);
+        console.log("No users matching those filters found");
       }
     });
   });

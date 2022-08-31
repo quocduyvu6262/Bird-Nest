@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import {
   View,
   Text,
@@ -24,9 +24,15 @@ import Constants from "../constants/constants";
 import { useDispatch, useSelector } from "react-redux";
 import * as FileSystem from 'expo-file-system'
 import Tags from "react-native-tags";
+import { useChatClient } from "../screens/ChatAPI/useChatClient";
+import ChatOverlay from "./Overlay/ChatOverlay";
+import { getChatUID } from "../utils/helper";
+import { StreamChat } from 'stream-chat';
 
-const UserProfile = React.memo(({ navigation, route }) => {
 
+const chatClient = StreamChat.getInstance(Constants.CHAT_API_KEY);
+const UserProfile = ({ navigation, route }) => {
+  const {clientIsReady} = useChatClient();
   const [buttonClicked, setButtonClicked] = useState(false);
   const [interestButtonClicked, setInterestButtonClicked] = useState(false);
   const item = route.params.item;
@@ -43,6 +49,58 @@ const UserProfile = React.memo(({ navigation, route }) => {
       ? setInterestButtonClicked(false)
       : setInterestButtonClicked(true);
   };
+
+  /**
+   * Chat OVerlay
+   */
+  const sheetRef = useRef(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const snapPoints = ["15%"];
+  const [clickedUser, setClickedUser] = useState(null);
+  /**
+   * Handle chat overlay
+   */
+  const handleSnapPress = useCallback((index) => {
+    sheetRef.current?.snapToIndex(index);
+    setIsOpen(true);
+  }, []);
+  /**
+   * Handle send message for chat overlay
+   */
+   const handleSendMessageChatOverlay = async (
+    currentUser,
+    selectedUser,
+    message
+  ) => {
+    if (message && message.length) {
+      // create channel
+      const selectedUserChatUID = getChatUID(
+        selectedUser.fullname,
+        selectedUser.uid
+      );
+      const currentUserChatUID = getChatUID(
+        currentUser.fullname,
+        currentUser.uid
+      );
+      // if selected user registered to Chat
+      const response = await chatClient.queryUsers({ id: { $in: [selectedUserChatUID] } });
+      if(response.users.length){
+        const channel = chatClient.channel("messaging", {
+          members: [currentUserChatUID, selectedUserChatUID],
+        });
+        await channel.create();
+        // send message and navigate to channel
+        const messageToSend = await channel.sendMessage({
+          text: message,
+          mentioned_users: [currentUserChatUID],
+        });
+        navigation.navigate("BirdFeed", {screen: "Messenger Pigeon", initial: true});
+        // update UI
+        setIsOpen(false);
+      }
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <MainHeader screen={`${user.firstname}'s Profile`} navigation={navigation} />
@@ -133,11 +191,29 @@ const UserProfile = React.memo(({ navigation, route }) => {
               />
             </InfoCard>
           )}
+            <Button
+              color={"black"}
+              style={{width: "auto"}}
+              onPress={() => {
+                handleSnapPress(0)
+              }}
+            >
+              Send Messages
+            </Button>
+            {isOpen && (
+              <ChatOverlay
+                sheetRef={sheetRef}
+                snapPoints={snapPoints}
+                setIsOpen={setIsOpen}
+                handleSendMessageChatOverlay={handleSendMessageChatOverlay}
+                clickedUser={user}
+              />
+            )}
         </Background>
       </ScrollView>
     </SafeAreaView>
   );
-});
+};
 
 // Bio
 const BioInfo = (props) => {

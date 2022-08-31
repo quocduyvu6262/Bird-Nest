@@ -33,7 +33,11 @@ export default ChatNavigator = ({ navigation, route }) => {
     }
   });
   const { clientIsReady } = useChatClient();
-  if (!clientIsReady) {
+  let tempClientIsReady = clientIsReady;
+  if(chatClient.userID){
+    tempClientIsReady = true;
+  }
+  if (!tempClientIsReady) {
     return (
       <SafeAreaView
         style={{
