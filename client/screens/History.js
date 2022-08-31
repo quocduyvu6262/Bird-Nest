@@ -87,10 +87,9 @@ const History = ({ navigation }) => {
         console.log(error);
       });
   };
-
   useEffect(() => {
     viewUsersYes();
-    // viewUsersNo();
+    viewUsersNo();
   }, []);
 
   const PeckYes = (props) => {

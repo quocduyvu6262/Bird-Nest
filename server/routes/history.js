@@ -57,12 +57,11 @@ router.post('/yes', (req, res) => {
 });
 router.post('/no', (req, res) => {
   var provided_id = req.body.user_id; //temporary ID until backend connected to frontend
-
   const userQuery = `SELECT list_of_users_no FROM BirdNest.History WHERE User_id = ${provided_id}`;
   db(client => {
       client.query(userQuery, (err, result) => { //query to find list of users of whom the provided_id user left AND right on
         if(err) throw err;
-          var list_of_users = result[0]?.list_of_users_yes; //grabs result
+          var list_of_users = result[0]?.list_of_users_no; //grabs result
           if(list_of_users){
             const inClauseArray = list_of_users?.join(', ')
             const retrieveInfo = `(SELECT User.*, Housing.neighborhood, Housing.rent, Housing.lease, Housing.squarefeet FROM BirdNest.User JOIN BirdNest.Housing ON User.id = Housing.User_id WHERE User.id IN (${inClauseArray})) UNION (SELECT User.*, NoHousing.neighborhood, NoHousing.rent, NoHousing.lease, NoHousing.squarefeet FROM BirdNest.User JOIN BirdNest.NoHousing ON User.id = NoHousing.User_id WHERE User.id IN (${inClauseArray}))`;
