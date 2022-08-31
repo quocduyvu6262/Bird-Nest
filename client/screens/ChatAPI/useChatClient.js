@@ -18,6 +18,7 @@ export const useChatClient = () => {
                 axios.post(`${await Constants.BASE_URL()}/api/chat`,{
                     uid: userID
                 }).then(async result => {
+                    console.log("here");
                     await chatClient.connectUser({
                         id: userID,
                         name: user.fullname

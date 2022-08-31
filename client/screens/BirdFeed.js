@@ -41,6 +41,7 @@ import Icon3 from "react-native-vector-icons/Ionicons";
 import { useSelector, useDispatch } from "react-redux";
 import { storage, ref, getDownloadURL } from "../firebaseConfig";
 import Constants from "../constants/constants.js";
+import { useChatClient } from "./ChatAPI/useChatClient.js";
 
 const BirdFeed = ({ navigation }) => {
   /**
@@ -316,7 +317,9 @@ const BirdFeed = ({ navigation }) => {
               style={{ height: "100%" }}
               renderItem={(item) => (
                 <TouchableOpacity
-                  onPress={() => navigation.navigate("UserProfile", { item })}
+                  onPress={() => {
+                    navigation.navigate("UserProfile", { item })
+                  }}
                 >
                   <ProfileCard
                     item={item}

@@ -24,9 +24,10 @@ import Constants from "../constants/constants";
 import { useDispatch, useSelector } from "react-redux";
 import * as FileSystem from 'expo-file-system'
 import Tags from "react-native-tags";
+import { useChatClient } from "../screens/ChatAPI/useChatClient";
 
 const UserProfile = React.memo(({ navigation, route }) => {
-
+  const {clientIsReady} = useChatClient();
   const [buttonClicked, setButtonClicked] = useState(false);
   const [interestButtonClicked, setInterestButtonClicked] = useState(false);
   const item = route.params.item;
