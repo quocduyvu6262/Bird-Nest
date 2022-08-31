@@ -11,7 +11,7 @@ const Constants = {
   CHAT_API_KEY: "uuzp677szard",
   BASE_URL: async () => {
     let id = await Network.getIpAddressAsync();
-    return `http:192.168.1.213:3000`
+    return `http:192.168.50.183:3000`
     //return `http:${id}:3000`;
   },
 };
