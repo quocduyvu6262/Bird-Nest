@@ -82,18 +82,22 @@ const UserProfile = ({ navigation, route }) => {
         currentUser.fullname,
         currentUser.uid
       );
-      const channel = chatClient.channel("messaging", {
-        members: [currentUserChatUID, selectedUserChatUID],
-      });
-      await channel.create();
-      // send message and navigate to channel
-      const messageToSend = await channel.sendMessage({
-        text: message,
-        mentioned_users: [currentUserChatUID],
-      });
-      navigation.navigate("BirdFeed");
-      // update UI
-      setIsOpen(false);
+      // if selected user registered to Chat
+      const response = await chatClient.queryUsers({ id: { $in: [selectedUserChatUID] } });
+      if(response.users.length){
+        const channel = chatClient.channel("messaging", {
+          members: [currentUserChatUID, selectedUserChatUID],
+        });
+        await channel.create();
+        // send message and navigate to channel
+        const messageToSend = await channel.sendMessage({
+          text: message,
+          mentioned_users: [currentUserChatUID],
+        });
+        navigation.navigate("BirdFeed", {screen: "Messenger Pigeon", initial: true});
+        // update UI
+        setIsOpen(false);
+      }
     }
   };
 
