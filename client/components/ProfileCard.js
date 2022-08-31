@@ -17,8 +17,10 @@ import {
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import { RectButton } from "react-native-gesture-handler";
 import { BounceIn } from "react-native-reanimated";
+import useChatClient from '../screens/ChatAPI/useChatClient'
 
 const ProfileCard = ({ item, index }) => {
+  useChatClient();
   const opacityTransition = useRef(new Animated.Value(0)).current;
   const translation = useRef(
     new Animated.ValueXY({
