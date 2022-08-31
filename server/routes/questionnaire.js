@@ -8,6 +8,9 @@ router.post('/housingrole', (req, res) => {
     let userInfo = req.body.userInfo;
     let housing = req.body.housing;
     let user_id = req.body.user_id;
+    console.log(userInfo);
+    console.log(housing);
+    console.log(user_id);
     // Store user into database
     let userQuery = "UPDATE User SET ";
     for (let key in userInfo) {
@@ -36,8 +39,7 @@ router.post('/housingrole', (req, res) => {
     userQuery += ` WHERE email = '${userInfo.email}';`
 
     // Store user into history table
-    const historyQuery = `INSERT IGNORE INTO BirdNest.History (list_of_users_all, list_of_users_yes, list_of_users_no, User_id) 
-                      VALUES (null, null, null, ${user_id});`;
+    const historyQuery = `INSERT IGNORE INTO BirdNest.History (list_of_users_all, list_of_users_yes, list_of_users_no, User_id) VALUES (null, null, null, ${user_id});`;
 
     // Delete user from nohousing
     const deleteQuery = `DELETE FROM NoHousing WHERE User_id=${user_id};`;
