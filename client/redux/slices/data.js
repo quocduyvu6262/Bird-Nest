@@ -1,7 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-
-
+import {initialUserInfo, initialHousing, initialImageFileSystemUri} from './initialStates';
 
 const userInfo = {
     id: "",
@@ -20,6 +18,7 @@ const userInfo = {
     major: null,
     profilepic: null,
     picsList: [], // array
+
     token: null,
     notiNames: [], //array
     notiPics: [], //array
@@ -28,6 +27,10 @@ const userInfo = {
     notiunRead: null,
     notiDate: [], //array
     isMatch: [], //array
+
+    // Match
+    matches: [],
+    matchedChat: [],
 
     // BASIC INFO
     pets: [], // array
@@ -63,10 +66,9 @@ const userInfo = {
 }
 
 const housing = {
-    cityList: [],
     neighborhoodList: [], // for no housing only
+
     neighborhood: null,
-    city: null,
     squarefeet: 1000,
     lease: null,
     rent: 500, //500?
@@ -95,7 +97,6 @@ export const dataSlice = createSlice({
         userInfo: userInfo,
         housing: housing,
         imageFileSystemUri: imageFileSystemUri,
-        channel: null
     },
     reducers: {
         // ALL
@@ -110,6 +111,9 @@ export const dataSlice = createSlice({
         updateAllAlbum: (state, action) => {
             let toAddImagesObj = action.payload;
             state.imageFileSystemUri.album = action.payload;
+        },
+        updateAllNeighborhoodList: (state, action) => {
+            state.housing.neighborhoodList = action.payload;
         },
         // USER
         updateID: (state, action) => {
@@ -248,7 +252,7 @@ export const dataSlice = createSlice({
         updateSleep: (state, action) => {
             state.userInfo.sleep = action.payload;
         },
-        updateGuess: (state, action) => {
+        updateGuest: (state, action) => {
             state.userInfo.guests = action.payload;
         },
         updateOutside: (state, action) => {
@@ -274,6 +278,13 @@ export const dataSlice = createSlice({
         },
         updateIsHousing: (state, action) => {
             state.userInfo.isHousing = action.payload;
+        },
+        // MATCH
+        updateMatches: (state, action) => {
+            state.userInfo.matches = action.payload;
+        },
+        updateMatchedChat: (state, action) => {
+            state.userInfo.matchedChat = action.payload;
         },
         // PERSONALITY
         updatePersonality: (state, action) => {
@@ -384,25 +395,6 @@ export const dataSlice = createSlice({
             // assign temp to pets
             state.housing.neighborhoodList = temp;
         },
-        updateCitylist: (state, action) => {
-            let {activity, add} = action.payload;
-            if (state.housing.neighborhoodList === null) {
-                state.housing.neighborhoodList = [];
-            }
-            let temp = state.housing.neighborhoodList;
-            if(add){
-                if(temp.indexOf(activity) === -1) {
-                    temp.push(activity);
-                }
-            } else {
-                let toRemoveIndex = temp.indexOf(activity)
-                if(toRemoveIndex > -1){
-                    temp.splice(toRemoveIndex,1);
-                }
-            }
-            // assign temp to pets
-            state.housing.neighborhoodList = temp;
-        },
         updateNeighborhood: (state, action) => {
             state.housing.neighborhood = action.payload;
         },
@@ -411,6 +403,9 @@ export const dataSlice = createSlice({
         },
         updateLease: (state, action) => {
             state.housing.lease = action.payload
+        },
+        updateSquarefeet: (state, action) => {
+            state.housing.squarefeet = action.payload
         },
         updateGarage: (state, action) => {
             state.housing.garage = action.payload;
@@ -466,6 +461,15 @@ export const dataSlice = createSlice({
                 temp.splice(index, 1); // 2nd parameter means remove one item only
             }
             state.imageFileSystemUri.album = temp;
+        },
+        // RESET
+        reset: (state) => {
+            state.userInfo = initialUserInfo;
+            state.housing = initialHousing;
+            state.imageFileSystemUri = initialImageFileSystemUri;
+        },
+        resetHousing: (state) => {
+            state.housing = initialHousing;
         }
     }
 });
@@ -475,6 +479,7 @@ export const {
     updateUser, 
     updateHousing, 
     updateAllAlbum,
+    updateAllNeighborhoodList,
     // UPDATE USER
     updateID,
     updateUID,
@@ -501,7 +506,7 @@ export const {
     updateAlcohol,
     updateNotiLength, 
     updateSleep, 
-    updateGuess, 
+    updateGuest, 
     updateOutside,
     updateIsMatch,
     updateIsNotMatch, 
@@ -513,6 +518,9 @@ export const {
     updateRoommateInteraction, 
     updateTellRoommateIfBothered,
     updateIsHousing,
+    // MATCH
+    updateMatches,
+    updateMatchedChat,
     // UPDATE PERSONALITY
     updatePersonality,
     updateHogwartHouse,
@@ -530,10 +538,10 @@ export const {
     updateBobaBubble,
     // UPDATE HOUSING 
     updateNeighborhoodList,
-    updateNeighborhood, 
-    updateCitylist,
+    updateNeighborhood,     
     updateRent, 
     updateLease,
+    updateSquarefeet,
     updateNotiSeen,
     updateSingleSeen, 
     updateGarage,
@@ -546,6 +554,9 @@ export const {
     // IMAGE FILESYSTEM URI
     updateAvatar,
     updateAlbum,
-    deleteAlbumItem
+    deleteAlbumItem,
+    // RESET
+    reset,
+    resetHousing
 } = dataSlice.actions;
 export default dataSlice.reducer;

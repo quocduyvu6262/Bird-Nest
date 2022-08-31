@@ -1,3 +1,9 @@
+//TODO: Make text in roles white
+//TODO: Make header choose your role match the first screens text
+//Fix the red text
+//Make owl smaller
+//Change colors of buttons
+//Find new icons (possibly only for flamingo)
 import {
   Image,
   View,
@@ -13,7 +19,7 @@ import {
   ScrollView,
 } from "react-native";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import { Icon } from "@rneui/themed";
 import QuestHeader from "../../components/QuestHeader.js";
@@ -36,11 +42,13 @@ const Roles = ({ navigation }) => {
 
     setFormState("");
     return true;
-  }
+  };
   return (
-    <SafeAreaView style={Roles_styles.container}>
+    <SafeAreaView
+      style={Roles_styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
       <View style={Roles_styles.header}>
-        <Text style={Roles_styles.headTitle}>Roles (2/5)</Text>
         <TouchableOpacity
           onPress={() => navigation.goBack()}
           style={Roles_styles.backButton}
@@ -51,23 +59,24 @@ const Roles = ({ navigation }) => {
           />
           <Text style={Roles_styles.backText}>Profile</Text>
         </TouchableOpacity>
+        <Text style={Roles_styles.headTitle}>Roles (2/5)</Text>
       </View>
       <ScrollView style={{ flex: 1 }}>
         <View style={{ top: 15 }}>
           <View>
-            <Text style={Roles_styles.roleText}>Choose your role!</Text>
+            <Text style={Roles_styles.headerText}>Choose your role!</Text>
           </View>
           <TouchableOpacity
             style={Roles_styles.flamingoButton}
             onPress={() => {
               //selectRoles("Flamingo")
-              dispatch(dataActions.updateRole("Flamingo"))
+              dispatch(dataActions.updateRole("Flamingo"));
               dispatch(dataActions.updateIsHousing(true));
             }}
           >
             <Image
               style={Roles_styles.icons}
-              source={require("../../assets/Flamingo-512.png")}
+              source={require("../../assets/icons8-flamingo-96.png")}
             />
             <View style={Roles_styles.viewFlex}>
               <Text style={Roles_styles.roleTitle}>Flamingo</Text>
@@ -81,17 +90,17 @@ const Roles = ({ navigation }) => {
             style={Roles_styles.owlButton}
             onPress={() => {
               //selectRoles("Owl")
-              dispatch(dataActions.updateRole("Owl"))
+              dispatch(dataActions.updateRole("Owl"));
               dispatch(dataActions.updateIsHousing(true));
             }}
           >
             <Image
-              style={Roles_styles.icons}
+              style={Roles_styles.owlIcon}
               source={require("../../assets/owl-icon.png")}
             />
             <View style={Roles_styles.viewFlex}>
-              <Text style={Roles_styles.roleTitle}>Owl</Text>
-              <Text style={Roles_styles.roleDescription}>
+              <Text style={Roles_styles.owlRoleTitle}>Owl</Text>
+              <Text style={Roles_styles.owlRoleDescription}>
                 I have housing, am not living there, and need people to live in
                 the space. (sublease)
               </Text>
@@ -101,7 +110,7 @@ const Roles = ({ navigation }) => {
             style={Roles_styles.parrotButton}
             onPress={() => {
               //selectRoles("Parrot")
-              dispatch(dataActions.updateRole("Parrot"))
+              dispatch(dataActions.updateRole("Parrot"));
               dispatch(dataActions.updateIsHousing(false));
             }}
           >
@@ -121,7 +130,7 @@ const Roles = ({ navigation }) => {
             style={Roles_styles.penguinButton}
             onPress={() => {
               //selectRoles("Penguin")
-              dispatch(dataActions.updateRole("Penguin"))
+              dispatch(dataActions.updateRole("Penguin"));
               dispatch(dataActions.updateIsHousing(false));
             }}
           >
@@ -141,7 +150,7 @@ const Roles = ({ navigation }) => {
             style={Roles_styles.duckButton}
             onPress={() => {
               //selectRoles("Duck")
-              dispatch(dataActions.updateRole("Duck"))
+              dispatch(dataActions.updateRole("Duck"));
               dispatch(dataActions.updateIsHousing(false));
             }}
           >
@@ -158,25 +167,21 @@ const Roles = ({ navigation }) => {
             </View>
           </TouchableOpacity>
           <View>
-            <Text style ={Roles_styles.invalidText}>
-              {formState}
-            </Text>
+            <Text style={Roles_styles.invalidText}>{formState}</Text>
           </View>
-        <TouchableOpacity
-          style={Roles_styles.nextButton}
-          onPress={() => {
-            if (!validate()) {
-              console.log("YOU SHALL NOT PASS");
-            }
-            else {
-              console.log("YOU SHALL PASS");
-              navigation.navigate("BasicInfo");
-            }
-          }}>
-          <Text style={Roles_styles.nextText}>
-            Next
-          </Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={Roles_styles.nextButton}
+            onPress={() => {
+              if (!validate()) {
+                console.log("YOU SHALL NOT PASS");
+              } else {
+                console.log("YOU SHALL PASS");
+                navigation.navigate("BasicInfo");
+              }
+            }}
+          >
+            <Text style={Roles_styles.nextText}>Next</Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -205,16 +210,18 @@ const Roles_styles = StyleSheet.create({
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
   header: {
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     backgroundColor: "#6736B6",
+    flexDirection: "row",
+    alignItems: "center",
+    width: "100%",
     height: 90,
     bottom: 50,
     marginBottom: -50,
   },
   headTitle: {
+    flex: 2,
+    top: 20,
     color: "#FFF",
-    //top: 55,
-    alignSelf: "center",
     fontSize: 20,
     fontWeight: "bold",
   },
@@ -223,23 +230,27 @@ const Roles_styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     textAlign: "center",
-    marginBottom: 0,
   },
   headerText: {
-    fontWeight: "bold",
-    color: "#FFF",
-    fontSize: 20,
-    top: 45,
-    textAlign: "center",
+    fontSize: 25,
+    top: 0,
+    color: "#6736B6",
+    alignSelf: "center",
   },
   icons: {
     width: 96,
     height: 96,
   },
+  owlIcon: {
+    paddingLeft: 6,
+    left: 6,
+    width: 90,
+    height: 90,
+  },
   flamingoButton: {
     height: 120,
     width: "90%",
-    backgroundColor: "#FE002E",
+    backgroundColor: "#FF006E",
     alignSelf: "center",
     flexDirection: "row",
     justifyContent: "flex-start",
@@ -250,7 +261,7 @@ const Roles_styles = StyleSheet.create({
   owlButton: {
     height: 120,
     width: "90%",
-    backgroundColor: "#BC00FE",
+    backgroundColor: "#563AFF",
     alignSelf: "center",
     flexDirection: "row",
     justifyContent: "flex-start",
@@ -261,7 +272,7 @@ const Roles_styles = StyleSheet.create({
   penguinButton: {
     height: 120,
     width: "90%",
-    backgroundColor: "#FB5607",
+    backgroundColor: "#FF9D0B",
     alignSelf: "center",
     flexDirection: "row",
     justifyContent: "flex-start",
@@ -272,7 +283,7 @@ const Roles_styles = StyleSheet.create({
   parrotButton: {
     height: 120,
     width: "90%",
-    backgroundColor: "#3B9CF1",
+    backgroundColor: "#54BF22",
     alignSelf: "center",
     flexDirection: "row",
     justifyContent: "flex-start",
@@ -283,7 +294,7 @@ const Roles_styles = StyleSheet.create({
   duckButton: {
     height: 120,
     width: "90%",
-    backgroundColor: "#FF5775",
+    backgroundColor: "#FF5732",
     alignSelf: "center",
     flexDirection: "row",
     justifyContent: "flex-start",
@@ -297,9 +308,29 @@ const Roles_styles = StyleSheet.create({
     fontSize: 18,
     textAlign: "left",
     alignContent: "flex-start",
+    paddingLeft: 5,
+  },
+  owlRoleTitle: {
+    fontWeight: "bold",
+    color: "#FFF",
+    fontSize: 18,
+    textAlign: "left",
+    alignContent: "flex-start",
+    paddingLeft: 11,
   },
   roleDescription: {
     fontSize: 17,
+    color: "#FFF",
+    paddingLeft: 5,
+    //textAlign: "left",
+    alignContent: "flex-start",
+    flexWrap: "wrap",
+    //fontFamily: "Inter400_Regular",
+  },
+  owlRoleDescription: {
+    fontSize: 17,
+    color: "#FFF",
+    paddingLeft: 11,
     //textAlign: "left",
     alignContent: "flex-start",
     flexWrap: "wrap",
@@ -343,22 +374,23 @@ const Roles_styles = StyleSheet.create({
     textAlign: "center",
   },
   backButton: {
-    flexDirection: "row",
-    //top: 60,
-    bottom: 23,
-    marginLeft: 12,
+    left: 5,
+    top: 20,
+    flex: 1.2,
     alignItems: "center",
-   },
-   backText: {
+    flexDirection: "row",
+  },
+  backText: {
     color: "#FFF",
     fontSize: 15,
-   },
-   backIcon: {
+    fontWeight: "bold",
+  },
+  backIcon: {
     height: 20,
     width: 20,
     tintColor: "#FFF",
     marginRight: -5,
-   },
+  },
 });
 
 export default Roles;

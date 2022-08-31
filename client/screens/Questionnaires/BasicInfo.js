@@ -14,17 +14,14 @@ import {
   StatusBar,
   ScrollView,
 } from "react-native";
-
 import React, { Component, useState } from "react";
 import { Icon } from "@rneui/themed";
 import AppLoading from "expo";
-//import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
 import { Slider } from "@rneui/themed";
 import Axios from "axios";
-
-// IMPORT REDUX
 import { useDispatch, useSelector, connect } from "react-redux";
 import * as dataActions from "../../redux/slices/data";
+import { initialHousing } from "../../redux/slices/initialStates";
 
 class BasicInfo extends Component {
   //userInfo = useSelector((state) => state.data.userInfo); //added in
@@ -52,15 +49,20 @@ class BasicInfo extends Component {
       return false;
     }
     */
-   if ((this.props.userInfo.pets.length > 0) && (this.props.userInfo.alcohol !== "") && (this.props.userInfo.sleep !== "")
-    && (this.props.userInfo.guests !== "") && (this.props.userInfo.silent !== "") && (this.props.userInfo.shareAppliances !== "")
-    && (this.props.userInfo.roommateInteraction !== "") && (this.props.userInfo.tellRoommateIfBothered !== "")) {
+    if (
+      this.props.userInfo.alcohol !== "" &&
+      this.props.userInfo.sleep !== "" &&
+      this.props.userInfo.guests !== "" &&
+      this.props.userInfo.silent !== "" &&
+      this.props.userInfo.shareAppliances !== "" &&
+      this.props.userInfo.roommateInteraction !== "" &&
+      this.props.userInfo.tellRoommateIfBothered !== ""
+    ) {
       return true;
-   }
-   else {
-    return false;
-   }
-  }  
+    } else {
+      return false;
+    }
+  };
 
   setField = () => {
     this.fieldState = { blankError: "Please fill in all required fields*" };
@@ -71,70 +73,69 @@ class BasicInfo extends Component {
     this.fieldState = { blankError: "" };
     this.setState({ blankError: "" });
   };
-
   slider_state = {
     language: "English",
     value: 500,
   };
   state1 = {
     name: true,
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.alcohol,
+    backgroundColor: this.props.userInfo.alcohol ? "#3B9CF1" : "#D9D9D9",
   };
   state2 = {
     name: false,
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: !this.props.userInfo.alcohol,
+    backgroundColor: this.props.userInfo.alcohol ? "#D9D9D9" : "#3B9CF1",
   };
   state3 = {
     name: "Morning",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.sleep === "Morning",
+    backgroundColor: this.props.userInfo.sleep === "Morning" ? "#3B9CF1" : "#D9D9D9",
   };
   state4 = {
     name: "Night Owl",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.sleep === "Night Owl",
+    backgroundColor: this.props.userInfo.sleep === "Night Owl" ? "#3B9CF1" : "#D9D9D9",
   };
   state5 = {
     name: true,
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.guests,
+    backgroundColor: this.props.userInfo.guests ? "#3B9CF1" : "#D9D9D9",
   };
   state6 = {
     name: false,
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: !this.props.userInfo.guests,
+    backgroundColor: !this.props.userInfo.guests ? "#3B9CF1" : "#D9D9D9",
   };
   state7 = {
-    name: true,
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    name: "yes",
+    pressed: this.props.userInfo.outside === "yes",
+    backgroundColor: this.props.userInfo.outside === "yes" ? "#3B9CF1" : "#D9D9D9",
   };
   state8 = {
-    name: false,
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    name: "no",
+    pressed: this.props.userInfo.outside === "no",
+    backgroundColor: this.props.userInfo.outside === "no" ? "#3B9CF1" : "#D9D9D9",
   };
   state9 = {
     name: true,
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.silent,
+    backgroundColor: this.props.userInfo.guests ? "#3B9CF1" : "#D9D9D9",
   };
   state10 = {
     name: false,
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: !this.props.userInfo.silent,
+    backgroundColor: !this.props.userInfo.guests ? "#3B9CF1" : "#D9D9D9",
   };
   state11 = {
     name: true,
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.roommateWorkWhileYouSleep,
+    backgroundColor: this.props.userInfo.roommateWorkWhileYouSleep ? "#3B9CF1" : "#D9D9D9",
   };
   state12 = {
     name: false,
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: !this.props.userInfo.roommateWorkWhileYouSleep,
+    backgroundColor: !this.props.userInfo.roommateWorkWhileYouSleep ? "#3B9CF1" : "#D9D9D9",
   };
   state13 = {
     pressed: false,
@@ -146,43 +147,59 @@ class BasicInfo extends Component {
   };
   state15 = {
     name: "Dog",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.pets.includes("Dog"),
+    backgroundColor: this.props.userInfo.pets.includes("Dog")
+      ? "#3B9CF1"
+      : "#D9D9D9",
   };
   state16 = {
     name: "Cat",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.pets.includes("Cat"),
+    backgroundColor: this.props.userInfo.pets.includes("Cat")
+      ? "#3B9CF1"
+      : "#D9D9D9",
   };
   state17 = {
     name: "Fish",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.pets.includes("Fish"),
+    backgroundColor: this.props.userInfo.pets.includes("Fish")
+      ? "#3B9CF1"
+      : "#D9D9D9",
   };
   state18 = {
     name: "Snake",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.pets.includes("Snake"),
+    backgroundColor: this.props.userInfo.pets.includes("Snake")
+      ? "#3B9CF1"
+      : "#D9D9D9",
   };
   state19 = {
     name: "Turtle",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.pets.includes("Turtle"),
+    backgroundColor: this.props.userInfo.pets.includes("Turtle")
+      ? "#3B9CF1"
+      : "#D9D9D9",
   };
   state20 = {
     name: "Hamster",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.pets.includes("Hamster"),
+    backgroundColor: this.props.userInfo.pets.includes("Hamster")
+      ? "#3B9CF1"
+      : "#D9D9D9",
   };
   state21 = {
     name: "Guinea Pig",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.pets.includes("Guinea Pig"),
+    backgroundColor: this.props.userInfo.pets.includes("Guinea Pig")
+      ? "#3B9CF1"
+      : "#D9D9D9",
   };
   state22 = {
     name: "Other",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.pets.includes("Other"),
+    backgroundColor: this.props.userInfo.pets.includes("Other")
+      ? "#3B9CF1"
+      : "#D9D9D9",
   };
   state23 = {
     pressed: false,
@@ -210,28 +227,28 @@ class BasicInfo extends Component {
   };
   state29 = {
     name: "Often",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.cook === "Often",
+    backgroundColor: this.props.userInfo.cook === "Often" ? "#3B9CF1" :"#D9D9D9",
   };
   state30 = {
     name: "Sometimes",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.cook === "Sometimes",
+    backgroundColor: this.props.userInfo.cook === "Sometimes" ? "#3B9CF1" :"#D9D9D9",
   };
   state31 = {
     name: "Rarely",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.cook === "Rarely",
+    backgroundColor: this.props.userInfo.cook === "Rarely" ? "#3B9CF1" :"#D9D9D9",
   };
   state32 = {
     name: "Never",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.cook === "Never",
+    backgroundColor: this.props.userInfo.cook === "Never" ? "#3B9CF1" :"#D9D9D9",
   };
   state41 = {
     name: "Indifferent",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.sleep === "Indifferent",
+    backgroundColor: this.props.userInfo.sleep === "Indifferent" ? "#3B9CF1" : "#D9D9D9",
   };
   state42 = {
     pressed: false,
@@ -267,18 +284,18 @@ class BasicInfo extends Component {
   };
   state50 = {
     name: "Sometimes",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.outside === "Sometimes",
+    backgroundColor: this.props.userInfo.outside === "Sometimes" ? "#3B9CF1" : "#D9D9D9",
   };
   state51 = {
     name: true,
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.appliances,
+    backgroundColor: this.props.userInfo.appliances ? "#3B9CF1" : "#D9D9D9",
   };
   state52 = {
     name: false,
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: !this.props.userInfo.appliances,
+    backgroundColor: !this.props.userInfo.appliances ? "#3B9CF1" : "#D9D9D9",
   };
   state53 = {
     pressed: false,
@@ -286,38 +303,38 @@ class BasicInfo extends Component {
   };
   state54 = {
     name: true,
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.tellRoommateIfBothered,
+    backgroundColor: this.props.userInfo.tellRoommateIfBothered ? "#3B9CF1" : "#D9D9D9",
   };
   state55 = {
     name: false,
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: !this.props.userInfo.tellRoommateIfBothered,
+    backgroundColor: !this.props.userInfo.tellRoommateIfBothered ? "#3B9CF1" : "#D9D9D9",
   };
   state56 = {
-    name: true,
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    name: "yes",
+    pressed: this.props.userInfo.carWithRoommate === "yes",
+    backgroundColor: this.props.userInfo.carWithRoommate === "yes" ? "#3B9CF1" : "#D9D9D9",
   };
   state57 = {
-    name: false,
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    name: "no",
+    pressed: this.props.userInfo.carWithRoommate === "no",
+    backgroundColor: this.props.userInfo.carWithRoommate === "no" ? "#3B9CF1" : "#D9D9D9",
   };
   state58 = {
     name: "Don't have car",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.carWithRoommate === "Don't have car",
+    backgroundColor: this.props.userInfo.carWithRoommate === "Don't have car" ? "#3B9CF1" : "#D9D9D9",
   };
   state59 = {
     name: "Keep to myself",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.roommateInteraction === "Keep to myself",
+    backgroundColor: this.props.userInfo.roommateInteraction === "Keep to myself" ? "#3B9CF1" : "#D9D9D9",
   };
   state60 = {
     name: "Interact",
-    pressed: false,
-    backgroundColor: "#D9D9D9",
+    pressed: this.props.userInfo.roommateInteraction === "Interact",
+    backgroundColor: this.props.userInfo.roommateInteraction === "Interact" ? "#3B9CF1" : "#D9D9D9",
   };
   changeColor(state_a, state_b) {
     if (
@@ -447,23 +464,24 @@ class BasicInfo extends Component {
     return (
       <SafeAreaView style={HousingQ_styles.container}>
         <View style={HousingHeader_styles.header}>
-          <Text style={HousingHeader_styles.headerText}>Habits (3/5)</Text>
           <TouchableOpacity
             onPress={() => this.props.navigation.goBack()}
-            style={{ alignSelf: "flex-start" }}
+            style={HousingHeader_styles.returnToProfileArrow}
           >
-            <Text style={HousingHeader_styles.returnToProfileArrow}>
-              {"< "}
-            </Text>
-            <Text style={HousingHeader_styles.returnToProfile}>Roles</Text>
+            <Image
+              source={require("../../assets/backArrow.png")}
+              style={HousingHeader_styles.backIcon}
+            />
+            <Text style={HousingHeader_styles.backText}>Roles</Text>
           </TouchableOpacity>
+          <Text style={HousingHeader_styles.headerText}>Habits (3/5)</Text>
         </View>
         <ScrollView>
           <Text style={[HousingQ_styles.question1, { marginTop: 120 }]}>
             Select the type of pet(s) that
           </Text>
           <Text style={HousingQ_styles.question1}>
-            you own: <Text style={HousingQ_styles.highlight}>*</Text>
+            you own: <Text style={HousingQ_styles.highlight}></Text>
           </Text>
           <TouchableOpacity
             style={[this.state15, HousingQ_styles.buttonContainerYes4]}
@@ -643,7 +661,7 @@ class BasicInfo extends Component {
             style={[this.state5, HousingQ_styles.buttonContainerYes3]}
             onPress={() => {
               this.changeColor(this.state5, this.state6);
-              this.props.dispatch(dataActions.updateGuess(this.state5.name));
+              this.props.dispatch(dataActions.updateGuest(this.state5.name));
             }}
           >
             <Text style={HousingQ_styles.buttonText}>Yes</Text>
@@ -652,7 +670,7 @@ class BasicInfo extends Component {
             style={[this.state6, HousingQ_styles.buttonContainerNo3]}
             onPress={() => {
               this.changeColor(this.state6, this.state5);
-              this.props.dispatch(dataActions.updateGuess(this.state6.name));
+              this.props.dispatch(dataActions.updateGuest(this.state6.name));
             }}
           >
             <Text style={HousingQ_styles.buttonText}>No</Text>
@@ -899,6 +917,7 @@ class BasicInfo extends Component {
             style={HousingQ_styles.nextButton}
             onPress={() => {
               //this.createHousingInfo()
+              console.log(this.userInfo.role);
               if (!this.validate(this.props.userInfo)) {
                 console.log("YOU SHALL NOT PASS");
               } else {
@@ -931,29 +950,48 @@ class BasicInfo extends Component {
 const HousingHeader_styles = StyleSheet.create({
   header: {
     backgroundColor: "#6736B6",
+    flexDirection: "row",
+    alignItems: "center",
+    width: "100%",
     height: 90,
     bottom: 50,
     marginBottom: -45,
   },
   headerText: {
-    fontWeight: "bold",
+    flex: 2,
+    top: 20,
     color: "#FFF",
     fontSize: 20,
-    top: 53,
-    textAlign: "center",
-  },
-  returnToProfile: {
-    color: "#FFF",
-    fontSize: 17,
-    bottom: 4,
-    left: 27,
+    fontWeight: "bold",
   },
   returnToProfileArrow: {
-    fontWeight: "600",
-    color: "#FFF",
-    fontSize: 30,
-    top: 22,
     left: 5,
+    top: 20,
+    flex: 1.1,
+    alignItems: "center",
+    flexDirection: "row",
+  },
+  backIcon: {
+    height: 20,
+    width: 20,
+    tintColor: "#FFF",
+    marginRight: -5,
+  },
+  backText: {
+    color: "#FFF",
+    fontSize: 15,
+    fontWeight: "bold",
+  },
+  backIcon: {
+    height: 20,
+    width: 20,
+    tintColor: "#FFF",
+    marginRight: -5,
+  },
+  backText: {
+    color: "#FFF",
+    fontSize: 15,
+    fontWeight: "bold",
   },
 });
 
@@ -1246,6 +1284,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => ({
   userInfo: state.data.userInfo,
+  housing: state.data.housing,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BasicInfo);

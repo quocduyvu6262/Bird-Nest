@@ -60,7 +60,6 @@ const IDQs = ({ navigation }) => {
       return;
     }
     
-
     // Pick image from device library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -113,17 +112,19 @@ const IDQs = ({ navigation }) => {
     <SafeAreaView style={styles.container} behavior={Platform.OS === "ios" ? "padding": "height"}>
       {/* header */}
       <View style={styles.header}>
-        <Text style={styles.headTitle}>Profile (1/4)</Text>
+        <Text style={styles.headTitle}>Profile (1/5)</Text>
       </View>
       {/* Text input fields */}
       <Text style={styles.headerText}>Let's get started!</Text>
       <TextInput
+        value={userInfo.firstname}
         style={styles.textInput}
         placeholder="First Name*"
         placeholderTextColor="#949494"
         onChangeText={(value) => dispatch(dataActions.updateFirstname(value))}
       />
       <TextInput
+        value={userInfo.lastname}
         style={styles.textInput}
         placeholder="Last Name*"
         placeholderTextColor="#949494"
@@ -131,12 +132,14 @@ const IDQs = ({ navigation }) => {
       />
       <View style={{ flexDirection: "row" }}>
         <TextInput
+          value={userInfo.gender}
           style={styles.textInput}
           placeholder="Gender*"
           placeholderTextColor="#949494"
           onChangeText={(value) => dispatch(dataActions.updateGender(value))}
         />
         <TextInput
+          value={userInfo.age}
           style={styles.textInput}
           placeholder="Age*"
           placeholderTextColor="#949494"
@@ -144,25 +147,32 @@ const IDQs = ({ navigation }) => {
         />
       </View>
       <TextInput
+        value={userInfo.pronouns}
         style={styles.textInput}
         placeholder="Pronouns*"
         placeholderTextColor="#949494"
         onChangeText={(value) => dispatch(dataActions.updatePronouns(value))}
       />
       <TextInput
+        value={userInfo.major}
         style={styles.textInput}
         placeholder="Major*"
         placeholderTextColor="#949494"
         onChangeText={(value) => dispatch(dataActions.updateMajor(value))}
       />
       <TextInput
+        value={userInfo.graduationyear}
         style={styles.textInput}
         placeholder="Graduation Year*"
         placeholderTextColor="#949494"
         onChangeText={(value) => dispatch(dataActions.updateGraduationyear(value))}
       />
       {/* Bio only for demo */}
-      <TextInput style={styles.textInput } placeholder='Bio' onChangeText={value => dispatch(dataActions.updateBio(value))}/>
+      <TextInput 
+        value={userInfo.bio}
+        style={styles.textInput } 
+        placeholder='Bio' 
+        onChangeText={value => dispatch(dataActions.updateBio(value))}/>
       <Text style={styles.photoWords}>Show potential roommates what you look like!</Text>
       {/* photo upload button */}
       <TouchableOpacity onPress={pickImage} style={styles.photoButton}>

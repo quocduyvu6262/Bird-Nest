@@ -11,149 +11,36 @@ import {
   ScrollView,
   Modal,
 } from "react-native";
-import * as Device from 'expo-device';
-import * as Notifications from 'expo-notifications';
-import * as Permissions from 'expo-permissions';
-import Constants1 from "../constants/constants.js";
 import Background from "../components/Background";
-import Logo from "../components/Logo";
-import Header from "../components/Header";
 import Button from "../components/Button";
-import Paragraph from "../components/Paragraph";
 import UserCard from "../components/UserCard";
 import InfoCard from "../components/InfoCard";
-import Footer from "../components/Footer.js";
 import * as SecureStore from "expo-secure-store";
 import Axios from "axios";
 import MainHeader from "../components/MainHeader";
-import Deondre from "../assets/deondre.jpg";
-import * as dataActions from '../redux/slices/data';
+import * as dataActions from "../redux/slices/data";
 import { storage, ref, deleteObject } from "../firebaseConfig";
 import Constants from "../constants/constants";
 import { useDispatch, useSelector } from "react-redux";
-import { removePics } from "../redux/slices/data";
-import * as FileSystem from 'expo-file-system'
-import { CONSTANTS } from "@firebase/util";
-import NotificationTracker from "./NotifiationTracker";
+import * as FileSystem from "expo-file-system";
+import Tags from "react-native-tags";
+import { useChatClient } from "./ChatAPI/useChatClient";
 
 const Profile = ({ navigation }) => {
-  const user = useSelector(state => state.data.userInfo);
-  const imageFileSystem = useSelector(state => state.data.imageFileSystemUri)
+  const user = useSelector((state) => state.data.userInfo);
+  const imageFileSystem = useSelector((state) => state.data.imageFileSystemUri);
   const dispatch = useDispatch();
-  let pics = imageFileSystem.album;
+  let pics = imageFileSystem ? imageFileSystem.album : null;
   let pics1 = [];
   let pics2 = [];
   let pics3 = [];
-  /*
-  Notifications.setNotificationHandler({
-    handleNotification: async () => ({
-      shouldShowAlert: true,
-      shouldPlaySound: false,
-      shouldSetBadge: false,
-    }),
-  });
-  const [expoPushToken, setExpoPushToken] = useState('');
-  const [notification, setNotification] = useState(false);
-  const notificationListener = useRef();
-  const responseListener = useRef();
-
-  const updateUI = async () => {
-    if(user.id == "") {
-      return;
-    }
-    Axios.post(`${await Constants1.BASE_URL()}/api/history/picName`, {
-      user_id: user.id
-    })
-      .then((response) => {
-        console.log('rannn');
-        let userData = response.data;
-        let name = userData[0].fullname;
-        let pic = userData[0].profilepic;
-        if(pic == null) {
-          pic = "https://icon-library.com/images/default-profile-icon/default-profile-icon-24.jpg"; //update to not require link
-        }
-        dispatch(dataActions.updateNotiNames(name));
-        dispatch(dataActions.updateNotiPics(pic)); //need to load pic from firebase
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-  const insertToken = async (token) => {
-    if(user.id == "") {
-      return;
-    }
-    Axios.post(`${await Constants1.BASE_URL()}/api/history/token`, {
-      user_id: user.id,
-      token: token
-    })
-  }
-
-  useEffect(() => {
-    registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
-
-    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-      console.log("RAN");
-      updateUI();
-      setNotification(notification);
-    });
-
-    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-      console.log(response);
-    });
-
-    return () => {
-      Notifications.removeNotificationSubscription(notificationListener.current);
-      Notifications.removeNotificationSubscription(responseListener.current);
-    };
-  }, []);
-  
-  async function registerForPushNotificationsAsync() {
-    let token;
-    if (Device.isDevice) {
-      const { status: existingStatus } = await Notifications.getPermissionsAsync();
-      let finalStatus = existingStatus;
-      if (existingStatus !== 'granted') {
-        const { status } = await Notifications.requestPermissionsAsync();
-        finalStatus = status;
-      }
-      if (finalStatus !== 'granted') {
-        alert('Failed to get push token for push notification!');
-        return;
-      }
-      token = (await Notifications.getExpoPushTokenAsync()).data;
-      if(user.token == null) {
-        console.log("shouldn't run");
-        dispatch(dataActions.updateToken(token));
-        insertToken(token);
-      }
-      console.log(token);
-      
-    } else {
-      alert('Must use physical device for Push Notifications');
-    }
-  
-    if (Platform.OS === 'android') {
-      Notifications.setNotificationChannelAsync('default', {
-        name: 'default',
-        importance: Notifications.AndroidImportance.MAX,
-        vibrationPattern: [0, 250, 250, 250],
-        lightColor: '#FF231F7C',
-      });
-    }
-  
-    return token;
-  }
-  */
-  if(pics){
-    for(let i = 0; i < pics.length; i++) {
-      if(i < 3) {
+  if (pics) {
+    for (let i = 0; i < pics.length; i++) {
+      if (i < 3) {
         pics1.push(pics[i]);
-      }
-      else if(i >= 3 && i < 6) {
+      } else if (i >= 3 && i < 6) {
         pics2.push(pics[i]);
-      }
-      else if(i >= 6) {
+      } else if (i >= 6) {
         pics3.push(pics[i]);
       }
     }
@@ -163,12 +50,8 @@ const Profile = ({ navigation }) => {
   let count3 = 0;
   let selectedPics = [];
   let keptPics = [];
-  const data = useSelector(state => state.data);
+  const data = useSelector((state) => state.data);
   const [index, setIndex] = useState(0);
-  const [name, setName] = useState();
-  const [rent, setRent] = useState();
-  const [lease, setLease] = useState();
-  const [city, setCity] = useState();
   const [buttonClicked, setButtonClicked] = useState(false);
   const [interestButtonClicked, setInterestButtonClicked] = useState(false);
   const [deleteImage, setDeleteImage] = useState(false);
@@ -183,6 +66,7 @@ const Profile = ({ navigation }) => {
   const [opacity9, setOpacity9] = useState(1);
   const [counter, setCounter] = useState(0);
 
+
   const roomInfoButton = () => {
     setButtonClicked(true);
   };
@@ -196,7 +80,7 @@ const Profile = ({ navigation }) => {
   };
   const openDelete = () => {
     setDeleteImage(true);
-  }
+  };
   const closeDelete = () => {
     setOpacity1(1);
     setOpacity2(1);
@@ -209,311 +93,421 @@ const Profile = ({ navigation }) => {
     setOpacity9(1);
     setCounter(0);
     setDeleteImage(false);
-  }
+  };
   const changeIndex = () => {
-    setIndex(index+1);
-  }
+    setIndex(index + 1);
+  };
   const findSelected = async () => {
-    if(opacity1 == 0.5) {
+    if (opacity1 == 0.5) {
       selectedPics.push(pics[0]);
     }
-    if(opacity2 == 0.5) {
+    if (opacity2 == 0.5) {
       selectedPics.push(pics[1]);
     }
-    if(opacity3 == 0.5) {
+    if (opacity3 == 0.5) {
       selectedPics.push(pics[2]);
     }
-    if(opacity4 == 0.5) {
+    if (opacity4 == 0.5) {
       selectedPics.push(pics[3]);
     }
-    if(opacity5 == 0.5) {
+    if (opacity5 == 0.5) {
       selectedPics.push(pics[4]);
     }
-    if(opacity6 == 0.5) {
+    if (opacity6 == 0.5) {
       selectedPics.push(pics[5]);
     }
-    if(opacity7 == 0.5) {
+    if (opacity7 == 0.5) {
       selectedPics.push(pics[6]);
     }
-    if(opacity8 == 0.5) {
+    if (opacity8 == 0.5) {
       selectedPics.push(pics[7]);
     }
-    if(opacity9 == 0.5) {
+    if (opacity9 == 0.5) {
       selectedPics.push(pics[8]);
     }
-    let tempAlbum = Array.from(imageFileSystem.album);
-    let tempPicsList = Array.from(user.picsList);
-    for(let i = 0; i < selectedPics.length; i++) {
-      const fileName = selectedPics[i].split('\\').pop().split('/').pop();
+    let tempAlbum = Array.from(
+      imageFileSystem.album ? imageFileSystem.album : []
+    );
+    let tempPicsList = Array.from(user.picsList ? user.picsList : []);
+    for (let i = 0; i < selectedPics.length; i++) {
+      const fileName = selectedPics[i].split("\\").pop().split("/").pop();
       const filePath = `images/${user.uid}/album/${fileName}`;
       const filePathFileSystem = selectedPics[i];
       // delete in firebase
-      const reference = ref(storage, filePath); 
+      const reference = ref(storage, filePath);
       deleteObject(reference).then().catch();
       //deletes from Redux
       dispatch(dataActions.removePics(filePath));
       dispatch(dataActions.deleteAlbumItem(filePathFileSystem));
-      // File System 
+      // File System
       FileSystem.deleteAsync(FileSystem.documentDirectory + fileName);
       // Update Secure Store
       const index = tempAlbum.indexOf(filePathFileSystem);
-      if (index > -1) { // only splice array when item is found
+      if (index > -1) {
+        // only splice array when item is found
         tempAlbum.splice(index, 1); // 2nd parameter means remove one item only
       }
       const index2 = tempPicsList.indexOf(filePath);
-      if (index2 > -1) { // only splice array when item is found
+      if (index2 > -1) {
+        // only splice array when item is found
         tempPicsList.splice(index2, 1); // 2nd parameter means remove one item only
       }
     }
-    if(selectedPics.length > 0) {
-      SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify({...user, picsList: tempPicsList}));
-      SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_IMAGE_URI, JSON.stringify({avatar: imageFileSystem.avatar, album: tempAlbum}));
+    if (selectedPics.length > 0) {
+      SecureStore.setItemAsync(
+        Constants.MY_SECURE_AUTH_STATE_KEY_USER,
+        JSON.stringify({ ...user, picsList: tempPicsList })
+      );
+      SecureStore.setItemAsync(
+        Constants.MY_SECURE_AUTH_STATE_IMAGE_URI,
+        JSON.stringify({ avatar: imageFileSystem.avatar, album: tempAlbum })
+      );
       // delete in database
-      Axios.post(`${await Constants.BASE_URL()}/api/images/multiple`,{
+      Axios.post(`${await Constants.BASE_URL()}/api/images/multiple`, {
         id: user.id,
-        pics: tempPicsList
-      })
+        pics: tempPicsList,
+      });
     }
     closeDelete();
-  }
+  };
   const changeOpacity1 = () => {
-    if(opacity1 == 1) {
-      setCounter(counter+1);
+    if (opacity1 == 1) {
+      setCounter(counter + 1);
       setOpacity1(0.5);
-    }
-    else if(opacity1 == 0.5) {
-      setCounter(counter-1);
+    } else if (opacity1 == 0.5) {
+      setCounter(counter - 1);
       setOpacity1(1);
     }
-  }
+  };
 
   const changeOpacity2 = () => {
-    if(opacity2 == 1) {
-      setCounter(counter+1);
+    if (opacity2 == 1) {
+      setCounter(counter + 1);
       setOpacity2(0.5);
-    }
-    else if(opacity2 == 0.5) {
-      setCounter(counter-1);
+    } else if (opacity2 == 0.5) {
+      setCounter(counter - 1);
       setOpacity2(1);
     }
-  }
+  };
 
   const changeOpacity3 = () => {
-    if(opacity3 == 1) {
-      setCounter(counter+1);
+    if (opacity3 == 1) {
+      setCounter(counter + 1);
       setOpacity3(0.5);
-    }
-    else if(opacity3 == 0.5) {
-      setCounter(counter-1);
+    } else if (opacity3 == 0.5) {
+      setCounter(counter - 1);
       setOpacity3(1);
     }
-  }
+  };
   const changeOpacity4 = () => {
-    if(opacity4 == 1) {
-      setCounter(counter+1);
+    if (opacity4 == 1) {
+      setCounter(counter + 1);
       setOpacity4(0.5);
-    }
-    else if(opacity4 == 0.5) {
-      setCounter(counter-1);
+    } else if (opacity4 == 0.5) {
+      setCounter(counter - 1);
       setOpacity4(1);
     }
-  }
+  };
 
   const changeOpacity5 = () => {
-    if(opacity5 == 1) {
-      setCounter(counter+1);
+    if (opacity5 == 1) {
+      setCounter(counter + 1);
       setOpacity5(0.5);
-    }
-    else if(opacity5 == 0.5) {
-      setCounter(counter-1);
+    } else if (opacity5 == 0.5) {
+      setCounter(counter - 1);
       setOpacity5(1);
     }
-  }
+  };
 
   const changeOpacity6 = () => {
-    if(opacity6 == 1) {
-      setCounter(counter+1);
+    if (opacity6 == 1) {
+      setCounter(counter + 1);
       setOpacity6(0.5);
-    }
-    else if(opacity6 == 0.5) {
-      setCounter(counter-1);
+    } else if (opacity6 == 0.5) {
+      setCounter(counter - 1);
       setOpacity6(1);
     }
-  }
+  };
   const changeOpacity7 = () => {
-    if(opacity7 == 1) {
-      setCounter(counter+1);
+    if (opacity7 == 1) {
+      setCounter(counter + 1);
       setOpacity7(0.5);
-    }
-    else if(opacity7 == 0.5) {
-      setCounter(counter-1);
+    } else if (opacity7 == 0.5) {
+      setCounter(counter - 1);
       setOpacity7(1);
     }
-  }
+  };
 
   const changeOpacity8 = () => {
-    if(opacity8 == 1) {
-      setCounter(counter+1);
+    if (opacity8 == 1) {
+      setCounter(counter + 1);
       setOpacity8(0.5);
-    }
-    else if(opacity8 == 0.5) {
-      setCounter(counter-1);
+    } else if (opacity8 == 0.5) {
+      setCounter(counter - 1);
       setOpacity8(1);
     }
-  }
+  };
 
   const changeOpacity9 = () => {
-    if(opacity9 == 1) {
-      setCounter(counter+1);
+    if (opacity9 == 1) {
+      setCounter(counter + 1);
       setOpacity9(0.5);
-    }
-    else if(opacity9 == 0.5) {
-      setCounter(counter-1);
+    } else if (opacity9 == 0.5) {
+      setCounter(counter - 1);
       setOpacity9(1);
     }
-  }
+  };
+
   // return screen
-  var images1 = pics1.map(function(image) {
-    if(count1 == 0) {
+  var images1 = pics1.map(function (image) {
+    if (count1 == 0) {
       count1 = 1;
       return (
-        <TouchableOpacity key={image} onPress ={() => changeOpacity1()}>
-          <Image style={{opacity: opacity1, height: 125, width: 125, borderColor: 'black', borderWidth: 1}} source={{ uri: image}} ></Image>
+        <TouchableOpacity key={image} onPress={() => changeOpacity1()}>
+          <Image
+            style={{
+              opacity: opacity1,
+              height: 125,
+              width: 125,
+              borderColor: "black",
+              borderWidth: 1,
+            }}
+            source={{ uri: image }}
+          ></Image>
         </TouchableOpacity>
-      )
-    }
-    
-    else if(count1 == 1) {
+      );
+    } else if (count1 == 1) {
       count1 = 2;
       return (
-        <TouchableOpacity key={image} onPress ={() => changeOpacity2()}>
-          <Image style={{opacity: opacity2, height: 125, width: 125, borderColor: 'black', borderWidth: 1}} source={{ uri: image}} ></Image>
+        <TouchableOpacity key={image} onPress={() => changeOpacity2()}>
+          <Image
+            style={{
+              opacity: opacity2,
+              height: 125,
+              width: 125,
+              borderColor: "black",
+              borderWidth: 1,
+            }}
+            source={{ uri: image }}
+          ></Image>
         </TouchableOpacity>
-      )
-    }
-    else if (count1 == 2) {
+      );
+    } else if (count1 == 2) {
       return (
-        <TouchableOpacity key={image} onPress ={() => changeOpacity3()}>
-          <Image style={{opacity: opacity3, height: 125, width: 125, borderColor: 'black', borderWidth: 1}} source={{ uri: image}} ></Image>
+        <TouchableOpacity key={image} onPress={() => changeOpacity3()}>
+          <Image
+            style={{
+              opacity: opacity3,
+              height: 125,
+              width: 125,
+              borderColor: "black",
+              borderWidth: 1,
+            }}
+            source={{ uri: image }}
+          ></Image>
         </TouchableOpacity>
-      )
+      );
     }
-   });
-   var images2 = pics2.map(function(image) {
-    if(count2 == 0) {
+  });
+  var images2 = pics2.map(function (image) {
+    if (count2 == 0) {
       count2 = 1;
       return (
-        <TouchableOpacity key={image} onPress ={() => changeOpacity4()}>
-          <Image style={{opacity: opacity4, height: 125, width: 125, borderColor: 'black', borderWidth: 1}} source={{ uri: image}} ></Image>
+        <TouchableOpacity key={image} onPress={() => changeOpacity4()}>
+          <Image
+            style={{
+              opacity: opacity4,
+              height: 125,
+              width: 125,
+              borderColor: "black",
+              borderWidth: 1,
+            }}
+            source={{ uri: image }}
+          ></Image>
         </TouchableOpacity>
-      )
-    }
-    
-    else if(count2 == 1) {
+      );
+    } else if (count2 == 1) {
       count2 = 2;
       return (
-        <TouchableOpacity key={image} onPress ={() => changeOpacity5()}>
-          <Image style={{opacity: opacity5, height: 125, width: 125, borderColor: 'black', borderWidth: 1}} source={{ uri: image}} ></Image>
+        <TouchableOpacity key={image} onPress={() => changeOpacity5()}>
+          <Image
+            style={{
+              opacity: opacity5,
+              height: 125,
+              width: 125,
+              borderColor: "black",
+              borderWidth: 1,
+            }}
+            source={{ uri: image }}
+          ></Image>
         </TouchableOpacity>
-      )
-    }
-    else if (count2 == 2) {
+      );
+    } else if (count2 == 2) {
       return (
-        <TouchableOpacity key={image} onPress ={() => changeOpacity6()}>
-          <Image style={{opacity: opacity6, height: 125, width: 125, borderColor: 'black', borderWidth: 1}} source={{ uri: image}} ></Image>
+        <TouchableOpacity key={image} onPress={() => changeOpacity6()}>
+          <Image
+            style={{
+              opacity: opacity6,
+              height: 125,
+              width: 125,
+              borderColor: "black",
+              borderWidth: 1,
+            }}
+            source={{ uri: image }}
+          ></Image>
         </TouchableOpacity>
-      )
+      );
     }
-   });
-   var images3 = pics3.map(function(image) {
-    if(count3 == 0) {
+  });
+  var images3 = pics3.map(function (image) {
+    if (count3 == 0) {
       count3 = 1;
       return (
-        <TouchableOpacity key={image} onPress ={() => changeOpacity7()}>
-          <Image style={{opacity: opacity7, height: 125, width: 125, borderColor: 'black', borderWidth: 1}} source={{ uri: image}} ></Image>
+        <TouchableOpacity key={image} onPress={() => changeOpacity7()}>
+          <Image
+            style={{
+              opacity: opacity7,
+              height: 125,
+              width: 125,
+              borderColor: "black",
+              borderWidth: 1,
+            }}
+            source={{ uri: image }}
+          ></Image>
         </TouchableOpacity>
-      )
-    }
-    
-    else if(count3 == 1) {
+      );
+    } else if (count3 == 1) {
       count3 = 2;
       return (
-        <TouchableOpacity key={image} onPress ={() => changeOpacity8()}>
-          <Image style={{opacity: opacity8, height: 125, width: 125, borderColor: 'black', borderWidth: 1}} source={{ uri: image}} ></Image>
+        <TouchableOpacity key={image} onPress={() => changeOpacity8()}>
+          <Image
+            style={{
+              opacity: opacity8,
+              height: 125,
+              width: 125,
+              borderColor: "black",
+              borderWidth: 1,
+            }}
+            source={{ uri: image }}
+          ></Image>
         </TouchableOpacity>
-      )
-    }
-    else if (count3 == 2) {
+      );
+    } else if (count3 == 2) {
       return (
-        <TouchableOpacity key={image} onPress ={() => changeOpacity9()}>
-          <Image style={{opacity: opacity9, height: 125, width: 125, borderColor: 'black', borderWidth: 1}} source={{ uri: image}} ></Image>
+        <TouchableOpacity key={image} onPress={() => changeOpacity9()}>
+          <Image
+            style={{
+              opacity: opacity9,
+              height: 125,
+              width: 125,
+              borderColor: "black",
+              borderWidth: 1,
+            }}
+            source={{ uri: image }}
+          ></Image>
         </TouchableOpacity>
-      )
+      );
     }
-    });
+  });
 
   return (
     <SafeAreaView style={styles.container}>
       <MainHeader screen="Profile" navigation={navigation} />
       <ScrollView>
         <Background>
-          <Modal
-          transparent = {true}
-          visible = {deleteImage}
-          >
-          <View style ={{backgroundColor:'#000000aa', flex: 1}}>
-            <View style = {{backgroundColor:'#ffffff', flex: 1, padding: 14, borderRadius: 15, marginTop: 110, marginBottom: 110}}>
-
-              <View style = {{flexDirection: 'row', justifyContent: 'space-between'}}>
-                <TouchableOpacity 
-                  onPress={closeDelete}
+          <Modal transparent={true} visible={deleteImage}>
+            <View style={{ backgroundColor: "#000000aa", flex: 1 }}>
+              <View
+                style={{
+                  backgroundColor: "#ffffff",
+                  flex: 1,
+                  padding: 14,
+                  borderRadius: 15,
+                  marginTop: 110,
+                  marginBottom: 110,
+                }}
+              >
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
                 >
-                  <Text style={{fontSize: 16, color: '#560CCE'}}>Cancel</Text>
-                </TouchableOpacity>
-                <Text style={{fontSize: 16, color: '#560CCE', fontWeight: 'bold'}}>Delete photos</Text>
-                <TouchableOpacity 
-                 onPress={findSelected}
+                  <TouchableOpacity onPress={closeDelete}>
+                    <Text style={{ fontSize: 16, color: "#560CCE" }}>
+                      Cancel
+                    </Text>
+                  </TouchableOpacity>
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      color: "#560CCE",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Delete photos
+                  </Text>
+                  <TouchableOpacity onPress={findSelected}>
+                    <Text style={{ fontSize: 16, color: "#560CCE" }}>Done</Text>
+                  </TouchableOpacity>
+                </View>
+
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginTop: 20,
+                  }}
                 >
-                  <Text style={{fontSize: 16, color: '#560CCE'}}>Done</Text>
-                </TouchableOpacity>
-              </View>
+                  {images1}
+                </View>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "flex-start",
+                    justifyContent: "center",
+                  }}
+                >
+                  {images2}
+                </View>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "flex-start",
+                    justifyContent: "center",
+                  }}
+                >
+                  {images3}
+                </View>
 
-              <View style={{flexDirection:'row', alignItems: 'center', justifyContent: 'center', marginTop: 20 }}>
-                {images1}
+                <View
+                  style={{ alignItems: "center", justifyContent: "center" }}
+                >
+                  <Text style={{ fontSize: 16, color: "#560CCE", margin: 27 }}>
+                    {counter} Photos Selected
+                  </Text>
+                </View>
               </View>
-              <View style={{flexDirection:'row', alignItems: 'flex-start', justifyContent: 'center',}}>
-                {images2}
-              </View>
-              <View style={{flexDirection:'row', alignItems: 'flex-start', justifyContent: 'center',}}>
-                {images3}
-              </View>
-
-              <View style ={{alignItems: 'center', justifyContent: 'center'}}>
-              <Text style={{fontSize: 16, color: '#560CCE', margin: 27}}>{counter} Photos Selected</Text>
-              </View>
-
             </View>
-          </View>
           </Modal>
           <UserCard
-            name={data.userInfo.firstname + " " + data.userInfo.lastname}
+            name={data.userInfo ? data.userInfo.firstname + " " + data.userInfo.lastname: null}
+            genderage={data.userInfo ? data.userInfo.gender + ", " + data.userInfo.age : null}
+            id={data.userInfo ? data.userInfo.id : null}
           />
-          
           <View style={styles.buttonContainer}>
-          <TouchableOpacity>
+            <TouchableOpacity>
               <Button
                 color={"black"}
                 onPress={openDelete}
-                style={
-                  {
-                    borderBottomWidth: 1,
-                  }
-                }
+                style={{
+                  borderBottomWidth: 1,
+                }}
               >
                 Edit
               </Button>
             </TouchableOpacity>
-
 
             <TouchableOpacity>
               <Button
@@ -547,10 +541,27 @@ const Profile = ({ navigation }) => {
           </View>
 
           <InfoCard>
-            {!buttonClicked && <BioInfo bio={data.userInfo.bio}></BioInfo>}
+            {!buttonClicked && <BioInfo bio={data.userInfo ? data.userInfo.bio : ""}></BioInfo>}
 
             {buttonClicked && (
-              <RentInfo rent={data.housing.rent} lease={data.housing.lease} neighborhood={data.housing.neighborhood} />
+              <RentInfo
+                rent={data.housing ? data.housing.rent : null}
+                lease={data.housing ? data.housing.lease : null}
+                neighborhood={data.userInfo && data.housing
+                  ? (data.userInfo.isHousing
+                    ? data.housing.neighborhood
+                    : data.housing.neighborhoodList ? data.housing.neighborhoodList.join(", ") : null)
+                  : null
+                }
+                // neighborhood={data.housing.neighborhood}
+                garage={data.housing ? data.housing.garage : null}
+                parking={data.housing ? data.housing.parking : null}
+                gym={data.housing ? data.housing.gym : null}
+                pool={data.housing ? data.housing.pool : null}
+                appliances={data.housing ? data.housing.appliances : null}
+                furnished={data.housing ? data.housing.furniture : null}
+                ac={data.housing ? data.housing.AC : null}
+              />
             )}
           </InfoCard>
 
@@ -558,18 +569,35 @@ const Profile = ({ navigation }) => {
             color={interestButtonClicked ? "#560CCE" : "black"}
             onPress={interestButton}
             style={
-              interestButtonClicked && {
-                borderBottomColor: "#560CCE",
-                borderBottomWidth: 1,
-              }
+              interestButtonClicked
+                ? {
+                    borderBottomColor: "#560CCE",
+                    borderBottomWidth: 1,
+                    width: "auto",
+                  }
+                : { width: "auto" }
             }
           >
-            See Interests/Personality
+            About me as a roommate!
           </Button>
 
           {interestButtonClicked && (
             <InfoCard>
-              <InterestInfo></InterestInfo>
+              <InterestInfo
+                pronouns={data.userInfo ? data.userInfo.pronouns : null}
+                pets={data.userInfo ? data.userInfo.pets : null}
+                alc={data.userInfo ? data.userInfo.alcohol : null}
+                guests={data.userInfo ? data.userInfo.guests : null}
+                roommatesStayingUp={data.userInfo ? data.userInfo.roommateWorkWhileYouSleep: null}
+                sharing={data.userInfo ? data.userInfo.shareAppliances : null}
+                drivingRoommates={data.userInfo ? data.userInfo.carWithRoommate : null}
+                cooking={data.userInfo ? data.userInfo.cook : null}
+                outside={data.userInfo ? data.userInfo.outside : null}
+                study={data.userInfo ? data.userInfo.silent : null}
+                sleep={data.userInfo ? data.userInfo.sleep : null}
+                keepOrInteract={data.userInfo ? data.userInfo.roommateInteraction : null}
+                communication={data.userInfo ? data.userInfo.tellRoommateIfBothered : null}
+              />
             </InfoCard>
           )}
         </Background>
@@ -582,9 +610,7 @@ const Profile = ({ navigation }) => {
 const BioInfo = (props) => {
   return (
     <View style={styles.subContainer}>
-      <Text style={styles.text}>
-        {props.bio}
-      </Text>
+      <Text style={styles.text}>{props.bio}</Text>
     </View>
   );
 };
@@ -592,28 +618,112 @@ const BioInfo = (props) => {
 // Rent Info
 const RentInfo = (props) => {
   return (
-    <View style={styles.subContainer}>
+    <View style={styles.rentContainer}>
       <Text style={styles.text}>
-        <Text style={{ fontWeight: "bold" }}> Rent:</Text> ${props.rent}
+        <Text style={styles.rentHeaders}>Rent:</Text> ${props.rent}
       </Text>
       <Text style={styles.text}>
-        <Text style={{ fontWeight: "bold" }}> Lease Term:</Text> {props.lease}{" "}
-        months
+        <Text style={styles.rentHeaders}>Lease Term:</Text> {props.lease} months
       </Text>
       <Text style={styles.text}>
-        <Text style={{ fontWeight: "bold" }}> Neighborhood:</Text> {props.neighborhood}
+        <Text style={styles.rentHeaders}>Neighborhood:</Text>{" "}
+        <Text style={styles.neighborhoodText}> {props.neighborhood} </Text>
       </Text>
+      <Text style={styles.text}>
+        <Text style={styles.rentHeaders}>Housing Preferences:</Text>
+      </Text>
+      <Tags
+        initialTags={[
+          props.garage ? `Garage` : null,
+          props.parking ? `Parking` : null,
+          props.gym ? `Gym` : null,
+          props.pool ? `Pool` : null,
+          props.appliances ? `Appliances` : null,
+          props.furnished ? `Furnished` : null,
+          props.ac ? `AC` : null,
+        ].filter((n) => n)}
+        readonly={true}
+      />
     </View>
   );
 };
 // Interest Info
 const InterestInfo = (props) => {
+  const iHave = [];
+  for (let i = 0; i < props.pets.length; i++) {
+    iHave.push(props.pets[i]);
+  }
+
+  let strSleep = "";
+  if (props.sleep === "Morning") {
+    strSleep = "Early Bird";
+  } else if (props.sleep === "Night Owl") {
+    strSleep = "Night Owl";
+  } else if (props.sleep === "Indifferent") {
+    strSleep = "What's sleep?";
+  }
+
+  let strInteractive = "";
+  if (props.keepOrInteract === "Interact") {
+    strInteractive = "Interactive";
+  } else if (props.keepOrInteract === "Keep to myself") {
+    strInteractive = props.keepOrInteract;
+  }
+
   return (
-    <View style={styles.subContainer}>
-      <Text style={styles.text}>Ice cream</Text>
-      <Text style={styles.text}>Drink</Text>
-      <Text style={styles.text}>Boba</Text>
-      <Text style={styles.text}>Movie</Text>
+    <View style={styles.interestContainer}>
+      <Text style={styles.text}>What I go by:</Text>
+
+      <Tags initialTags={[props.pronouns]} readonly={true} />
+
+      {props.pets.length != 0 && (
+        <View>
+          <Text style={styles.text}>What I have:</Text>
+          <Tags initialTags={iHave.filter((n) => n)} readonly={true} />
+        </View>
+      )}
+      <Text style={styles.text}>What I am okay with: </Text>
+      <Tags
+        initialTags={[
+          props.alc ? "Alchol/420" : null,
+          props.guests ? "Guests Over" : null,
+          props.roommatesStayingUp ? "Okay with roommates up late" : null,
+          props.sharing ? "Sharing appliances" : null,
+          props.drivingRoommates ? "Driving roommates" : null,
+        ].filter((n) => n)}
+        readonly={true}
+      />
+
+      <Text style={styles.text}>What I like:</Text>
+
+      <Tags
+        initialTags={[
+          "Cooking " + props.cooking,
+          props.outside ? "Being outside" : "Stay inside",
+          props.study ? "Studying in silence" : null,
+        ].filter((n) => n)}
+        readonly={true}
+      />
+      <Text style={styles.text}> Who I am: </Text>
+
+      <Tags
+        initialTags={[
+          strSleep,
+          strInteractive,
+          props.communcation ? "Communicative" : null,
+        ].filter((n) => n)}
+        readonly={true}
+      />
+      {/* <Text style={styles.text}>
+        I don't like:
+      </Text>
+
+      <Tags
+        initialTags={[
+          props.outside ? "Staying inside" : "Being outside",
+        ].filter(n=>n)}
+        readonly={true}
+      /> */}
     </View>
   );
 };
@@ -635,9 +745,22 @@ const styles = StyleSheet.create({
   subContainer: {
     padding: 10,
   },
+  rentContainer: {
+    padding: 10,
+  },
+  interestContainer: {
+    padding: 10,
+    justifyContent: "center",
+  },
+  rentHeaders: {
+    padding: 10,
+    fontWeight: "bold",
+    fontSize: 20,
+  },
   text: {
     padding: 10,
     fontSize: 20,
+    textAlign: "left",
   },
 });
 export default Profile;

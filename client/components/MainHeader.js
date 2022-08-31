@@ -12,128 +12,158 @@ import {
 import React from "react";
 import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
 import { Icon } from "@rneui/themed";
-import * as ImagePicker from 'expo-image-picker';
+import * as ImagePicker from "expo-image-picker";
 import { useDispatch, useSelector } from "react-redux";
-import * as dataActions from '../redux/slices/data';
-import {storage, ref, uploadBytes, uploadBytesResumable, getDownloadURL} from '../firebaseConfig';
-import * as FileSystem from 'expo-file-system';
+import * as dataActions from "../redux/slices/data";
+import {
+  storage,
+  ref,
+  uploadBytes,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "../firebaseConfig";
+import * as FileSystem from "expo-file-system";
 import Axios from "axios";
 import Constants from "../constants/constants";
 import * as SecureStore from "expo-secure-store";
-
-
-
+import Icon3 from "react-native-vector-icons/Ionicons";
 
 // import buttons
 
-const MainHeader = ({ screen, navigation }) => {
-  const user = useSelector(state => state.data.userInfo);
-  const imageFileSystemUri = useSelector(state => state.data.imageFileSystemUri);
+const MainHeader = ({ screen, navigation, overlayFilterButton }) => {
+  const user = useSelector((state) => state.data.userInfo);
+  const imageFileSystemUri = useSelector(
+    (state) => state.data.imageFileSystemUri
+  );
   const dispatch = useDispatch();
   /**
    * Pick multiple images
    */
   const pickImages = async () => {
     // Permission required
-    let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync(); //ask user for permission into gallery
-    if (permissionResult.granted === false) { //if user denies permission
+    let permissionResult =
+      await ImagePicker.requestMediaLibraryPermissionsAsync(); //ask user for permission into gallery
+    if (permissionResult.granted === false) {
+      //if user denies permission
       alert("Permission to access camera roll is required!");
       return;
     }
     let limit = 9;
-    if(user.picsList) {
+    if (user.picsList) {
       let length = user.picsList.length;
-      if(length == 9) { //if user already has 9 pics in their carousel
+      if (length == 9) {
+        //if user already has 9 pics in their carousel
         return;
       }
       limit = 9 - length;
     }
-    let result = await ImagePicker.launchImageLibraryAsync({ //wait for user to choose image
+    let result = await ImagePicker.launchImageLibraryAsync({
+      //wait for user to choose image
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsMultipleSelection: true,
       aspect: [4, 3],
       quality: 1,
-      selectionLimit: limit
+      selectionLimit: limit,
     });
     // upload to firebase
-    if(!result.cancelled){
+    if (!result.cancelled) {
       let promises = [];
       let listUrl = [];
       let fileSystemList = [];
       let count = 0;
       result.selected.map(async (image, index, imageArray) => {
-        const imageName = image.fileName.replace(/\s/g, '');
+        const imageName = image.fileName.replace(/\s/g, "");
         const img = await fetch(image.uri);
         const bytes = await img.blob();
-        const storageRef = ref(storage, `images/${user.uid}/album/${imageName}`);
+        const storageRef = ref(
+          storage,
+          `images/${user.uid}/album/${imageName}`
+        );
         const uploadTask = uploadBytesResumable(storageRef, bytes);
-        promises.push(uploadTask)
+        promises.push(uploadTask);
         // retrieve image url
         let imageDownloadedUrl;
-        uploadTask.on('state_changed',
-          (snapshot) => {
-            
-          },
-          (err) => {
-            
-          },
-          async () => { // handle successfull case
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {},
+          (err) => {},
+          async () => {
+            // handle successfull case
             count += 1;
             imageDownloadedUrl = await getDownloadURL(uploadTask.snapshot.ref);
             // download image to file system
-            const result = await FileSystem.downloadAsync(imageDownloadedUrl, FileSystem.documentDirectory + imageName);
+            const result = await FileSystem.downloadAsync(
+              imageDownloadedUrl,
+              FileSystem.documentDirectory + imageName
+            );
             dispatch(dataActions.updateAlbum(result.uri));
             fileSystemList.push(result.uri);
             // put file path
             listUrl.push(uploadTask.snapshot.ref._location.path_);
-            dispatch(dataActions.updatePicsList(uploadTask.snapshot.ref._location.path_));
+            dispatch(
+              dataActions.updatePicsList(
+                uploadTask.snapshot.ref._location.path_
+              )
+            );
             // upload path to redux  tore
-            if(count === imageArray.length){
+            if (count === imageArray.length) {
               // upload to database
               let newListUrl = [];
-              if(user.picsList){
+              if (user.picsList) {
                 newListUrl = [...user.picsList, ...listUrl].filter(unique);
               } else {
-                newListUrl = listUrl
+                newListUrl = listUrl;
               }
-              Axios.post(`${await Constants.BASE_URL()}/api/images/multiple`,{
+              Axios.post(`${await Constants.BASE_URL()}/api/images/multiple`, {
                 id: user.id,
-                pics: newListUrl
-              })
-              // file system
-              let newFileSystemList;
-              if(imageFileSystemUri.album.length){
-                newFileSystemList = [...imageFileSystemUri.album, ...fileSystemList];
-              }else {
-                newFileSystemList = fileSystemList;
-              }
-              // upload to secure store
-              SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER, JSON.stringify({...user, picsList: newListUrl}));
-              SecureStore.setItemAsync(Constants.MY_SECURE_AUTH_STATE_IMAGE_URI, JSON.stringify({avatar: imageFileSystemUri.avatar, album: newFileSystemList}));
+                pics: newListUrl,
+              }).then(async () => {
+                // file system
+                let newFileSystemList;
+                if (imageFileSystemUri.album.length) {
+                  newFileSystemList = [
+                    ...imageFileSystemUri.album,
+                    ...fileSystemList,
+                  ];
+                } else {
+                  newFileSystemList = fileSystemList;
+                }
+                // upload to secure store
+                await SecureStore.setItemAsync(
+                  Constants.MY_SECURE_AUTH_STATE_KEY_USER,
+                  JSON.stringify({ ...user, picsList: newListUrl })
+                );
+                await SecureStore.setItemAsync(
+                  Constants.MY_SECURE_AUTH_STATE_IMAGE_URI,
+                  JSON.stringify({
+                    avatar: imageFileSystemUri.avatar,
+                    album: newFileSystemList,
+                  })
+                );
+              });
             }
           }
-        )
-      })
-
+        );
+      });
 
       Promise.all(promises)
-        .then(() =>{
-          console.log("All images uploaded")
+        .then(() => {
+          console.log("All images uploaded");
         })
-        .catch(err => console.log("Fail to upload images"))
+        .catch((err) => console.log("Fail to upload images"));
     }
-  }
+  };
 
   /**
    * Helper function: unique filter
-   * @param value 
-   * @param index 
-   * @param self 
-   * @returns 
+   * @param value
+   * @param index
+   * @param self
+   * @returns
    */
   const unique = (value, index, self) => {
-    return self.indexOf(value) === index
-  }
+    return self.indexOf(value) === index;
+  };
 
   /**
    * Rendering Logic
@@ -155,20 +185,26 @@ const MainHeader = ({ screen, navigation }) => {
           screen === "Chirp Notifications"
         ) && (
           <TouchableOpacity
-            onPress={() => {navigation.goBack()}}
+            onPress={() => {
+              navigation.goBack();
+            }}
             style={styles.backButton}
           >
             <Icon name="west" size={30} />
           </TouchableOpacity>
         )}
         {screen === "Chirp Notifications" && (
-            <TouchableOpacity
-            onPress={() => {navigation.goBack(); dispatch(dataActions.updateNotiSeen()); dispatch(dataActions.updateNotiRead())}}
+          <TouchableOpacity
+            onPress={() => {
+              navigation.goBack();
+              dispatch(dataActions.updateNotiSeen());
+              dispatch(dataActions.updateNotiRead());
+            }}
             style={styles.backButton}
           >
             <Icon name="west" size={30} />
           </TouchableOpacity>
-          )}
+        )}
         <View style={styles.contentContainer}>
           {/*  Main Title - conditional render applied */}
           <Text
@@ -187,6 +223,13 @@ const MainHeader = ({ screen, navigation }) => {
           {screen === "Bird Feed" && (
             <View style={styles.headerButtonView}>
               <TouchableOpacity
+                onPress={overlayFilterButton}
+                style={styles.headerButtons}
+              >
+                <Icon3 name="options-sharp" size={30} color="black" />
+              </TouchableOpacity>
+
+              <TouchableOpacity
                 style={styles.headerButtons}
                 onPress={() => navigation.navigate("PeckView")}
               >
@@ -202,10 +245,25 @@ const MainHeader = ({ screen, navigation }) => {
 
               <TouchableOpacity
                 style={styles.headerButtons}
-                onPress={() => {navigation.navigate("ChirpNotification")}}
+                onPress={() => {
+                  navigation.navigate("ChirpNotification");
+                }}
               >
-                <Image source={require(`../assets/bird.png`)} />
-                {user.notiunRead && <Text style = {{color: 'red', fontWeight: 'bold', position: "absolute", fontSize: 50, left: 15, bottom: -6}}>.</Text>}
+                <Icon name="notifications" size={30} />
+                {(user && user.notiunRead) && (
+                  <Text
+                    style={{
+                      color: "red",
+                      fontWeight: "bold",
+                      position: "absolute",
+                      fontSize: 50,
+                      left: 15,
+                      bottom: -6,
+                    }}
+                  >
+                    .
+                  </Text>
+                )}
               </TouchableOpacity>
             </View>
           )}
@@ -246,7 +304,8 @@ const MainHeader = ({ screen, navigation }) => {
               </TouchableOpacity>
 
               <TouchableOpacity
-                onPress={() => navigation.navigate("IDQs")}
+                onPress={() => navigation.navigate("EditProfile")}
+                // onPress={() => navigation.navigate("IDQs")}
                 style={styles.headerButtons}
               >
                 <Icon name="edit" size={30} />
@@ -263,11 +322,7 @@ const MainHeader = ({ screen, navigation }) => {
 
           {/* if screen === Messenger Pigeon */}
           {screen === "Messenger Pigeon" && (
-            <View style={styles.headerButtonView}>
-              <TouchableOpacity style={styles.headerButtons}>
-                <Icon name="notifications" size={30} />
-              </TouchableOpacity>
-
+            <View style={[styles.headerButtonView, { marginLeft: 65 }]}>
               <TouchableOpacity
                 style={styles.headerButtons}
                 onPress={() => navigation.navigate("History")}
@@ -324,7 +379,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   headerButtons: {
-    marginRight: 10,
+    marginRight: 5,
     alignSelf: "center",
     padding: 5,
     // borderWidth: 3,

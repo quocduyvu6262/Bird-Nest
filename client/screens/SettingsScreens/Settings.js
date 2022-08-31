@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -13,44 +13,42 @@ import { Icon } from "react-native-vector-icons/MaterialCommunityIcons";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import MainHeader from "../../components/MainHeader";
-// Import constants
 import Constants from "../../constants/constants";
-const chatClient = StreamChat.getInstance(Constants.CHAT_API_KEY);
 import { StreamChat } from "stream-chat";
 import * as Updates from "expo-updates";
 import { DevSettings } from "react-native";
+import { useDispatch } from "react-redux";
+import * as dataActions from '../../redux/slices/data';
+
+
+const chatClient = StreamChat.getInstance(Constants.CHAT_API_KEY);
 
 const Settings = ({ navigation }) => {
+  const dispatch = useDispatch();
   const logout = async () => {
     await SecureStore.deleteItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_TOKEN)
-      .then(async () => {
-        await SecureStore.deleteItemAsync(
-          Constants.MY_SECURE_AUTH_STATE_KEY_USER
-        )
-          .then(async () => {
-            await SecureStore.deleteItemAsync(
-              Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING
-            )
-              .then(async () => {
-                SecureStore.deleteItemAsync(
-                  Constants.MY_SECURE_AUTH_STATE_KEY_REDUX
-                );
-                SecureStore.deleteItemAsync(
-                  Constants.MY_SECURE_AUTH_STATE_IMAGE_URI
-                );
-                navigation.navigate("LoginScreen");
-                await chatClient.disconnectUser();
-                DevSettings.reload();
-              })
-              .catch((err) => {
-                console.log(err);
-              });
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log("Fail to delete token from secure store");
+        throw err;
+      });
+    await SecureStore.deleteItemAsync(Constants.MY_SECURE_AUTH_STATE_KEY_USER)
+      .catch((err) => {
+        console.log("Fail to delete user from secure store");
+        throw err;
+      });
+    await SecureStore.deleteItemAsync(
+      Constants.MY_SECURE_AUTH_STATE_KEY_HOUSING
+    )
+      .catch((err) => {
+        console.log("Fail to delete housing from secure store");
+        throw err;
+      });
+    await SecureStore.deleteItemAsync(Constants.MY_SECURE_AUTH_STATE_IMAGE_URI)
+      .catch((err) => {
+        console.log("Fail to delete images from secure store");
+        throw err;
+      });
+    dispatch(dataActions.reset());
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -66,6 +64,13 @@ const Settings = ({ navigation }) => {
 
       <TouchableOpacity
         style={styles.regularButton}
+        onPress={() => navigation.navigate("IDQs")}
+      >
+        <Text style={styles.textButton}>Edit Questionnaire</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.regularButton}
         onPress={() => navigation.navigate("HelpSupport")}
       >
         <Text style={styles.textButton}>Help & Support</Text>
@@ -75,13 +80,23 @@ const Settings = ({ navigation }) => {
         style={styles.regularButton}
         onPress={() => navigation.navigate("TermsOfService")}
       >
-        <Text style={styles.textButton}>Terms of service</Text>
+        <Text style={styles.textButton}>Terms of Service</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.regularButton}
+        onPress={() => navigation.navigate("AboutUs")}
+      >
+        <Text style={styles.textButton}>About Us</Text>
       </TouchableOpacity>
 
       <Buttons
-        style={styles.logoutButton}
+        style={{ flex: 1 }}
         onPress={() => {
-          logout();
+          logout().then(async () => {
+            navigation.navigate("LoginScreen");
+            await chatClient.disconnectUser();
+          });
         }}
       >
         Logout
@@ -114,9 +129,8 @@ const styles = StyleSheet.create({
   },
   textButton: {
     color: "white",
-  },
-  logoutButton: {
-    flex: 1,
+    fontWeight: "bold",
+    fontSize: 15,
   },
   deleteButton: {
     marginBottom: 40,

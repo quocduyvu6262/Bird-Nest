@@ -8,6 +8,7 @@ import {
   Switch,
   StatusBar,
   ScrollView,
+  Dimensions,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
@@ -17,15 +18,27 @@ import barackObama from "../assets/barackObama.jpeg";
 import MainHeader from "../components/MainHeader";
 import PeckViewCard from "../components/PeckViewCard";
 import StrokeAnimation from "../components/StrokeAnimation.js";
+import { useSelector } from "react-redux";
+import { storage, ref, getDownloadURL } from "../firebaseConfig";
 
 const PeckView = ({ navigation }) => {
+  const user = useSelector((state) => state.data.userInfo);
   const [userList, setUserList] = useState([]);
-  const [listState, setListState] = useState(false);
 
+  /**
+   * Call the matching algorithm and display
+   * the list of users that match each criteria
+   */
   const viewUsers = async () => {
-    setUserList([]);
-    Axios.post(`${await Constants.BASE_URL()}/api/matching/`, {
-      user_id: 78,
+    let userList = [];
+    let apiEndpoint;
+    if (user.role === "Flamingo" || user.role === "Owl") {
+      apiEndpoint = "/api/matching/lookingfornohousing";
+    } else {
+      apiEndpoint = "/api/matching/lookingforhousing";
+    }
+    Axios.post(`${await Constants.BASE_URL()}${apiEndpoint}`, {
+      user_id: user.id,
     })
       .then((response) => {
         let userData = response.data;
@@ -34,16 +47,14 @@ const PeckView = ({ navigation }) => {
         // but setUserList (setState) will only set state once
         for (let i = 0; i < userData.length - 1; i++) {
           userList.push({
-            name: userData[i].fullname,
-            city: userData[i].city,
+            info: userData[i].info,
             src: barackObama,
           });
         }
         setUserList((prevList) => [
           ...userList,
           {
-            name: userData[userData.length - 1].fullname,
-            city: userData[userData.length - 1].city,
+            info: userData[userData.length - 1].info,
             src: barackObama,
           },
         ]);
@@ -57,27 +68,31 @@ const PeckView = ({ navigation }) => {
     viewUsers();
   }, []);
 
-  return (
-    <SafeAreaView style={PeckView_Styles.container}>
-      <MainHeader screen="Peck View" navigation={navigation} />
-      {!listState && (
-        <TouchableOpacity
-          onPress={() => setListState(true)}
-          style={PeckView_Styles.button}
-        >
-          <StrokeAnimation style={PeckView_Styles.lower} />
-        </TouchableOpacity>
-      )}
+  const { width } = Dimensions.get("window");
+  const CARD_WIDTH = width - 128;
+  const side = (width + CARD_WIDTH + 100) / 2;
+  const SNAP_POINTS = [-side, 0, side];
 
-      {listState &&
-        userList.map((user, index) => (
+  return (
+    <SafeAreaView style={[PeckView_Styles.container, StyleSheet.absoluteFill]}>
+      <MainHeader screen="Peck View" navigation={navigation} />
+      <View style={PeckView_Styles.wrapper}>
+        {userList.map((profile) => (
           <PeckViewCard
-            user={user}
-            key={index}
-            index={index}
-            listState={listState}
+            user={profile}
+            SNAP_POINTS={SNAP_POINTS}
+            width={width}
+            userList={userList}
+            setUserList={setUserList}
+            // CHANGE ID TO DATABASE ID WHEN I GET MORE INFORMATION ABOUT USER
+            key={profile.info.User_id}
+            id={profile.info.User_id}
+            userID={user.id}
+            userName={user.fullname}
+            navigation={navigation}
           />
         ))}
+      </View>
     </SafeAreaView>
   );
 };
@@ -88,10 +103,9 @@ const PeckView_Styles = StyleSheet.create({
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     backgroundColor: "white",
   },
-  button: {
-    justifyContent: "center",
-    alignSelf: "center",
-    top: 200,
+  wrapper: {
+    height: "100%",
+    backgroundColor: "#CBC3E3",
   },
   // lower: {},
 });

@@ -22,7 +22,7 @@ import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
 import { Slider} from '@rneui/themed';
 // Redux
 import {useDispatch, useSelector, connect} from 'react-redux';
-import data, * as dataActions from '../../redux/slices/data';
+import * as dataActions from '../../redux/slices/data';
 
 class HasHousingQ extends Component {
   
@@ -34,29 +34,6 @@ class HasHousingQ extends Component {
 
   fieldState = {blankError: ""};
   validate = (housing) => {
-    /*
-    if ((this.state29.backgroundColor === "#3B9CF1" || this.state30.backgroundColor === "#3B9CF1" //lease
-          || this.state31.backgroundColor === "#3B9CF1" || this.state32.backgroundColor === "#3B9CF1") //
-        && (this.state1.backgroundColor === "#3B9CF1" || this.state2.backgroundColor === "#3B9CF1") //garage
-        && (this.state3.backgroundColor === "#3B9CF1" || this.state4.backgroundColor === "#3B9CF1")//parking
-        && (this.state15.backgroundColor === "#3B9CF1" || this.state16.backgroundColor === "#3B9CF1" //neighborhood
-          || this.state17.backgroundColor === "#3B9CF1" || this.state18.backgroundColor === "#3B9CF1" //
-          || this.state19.backgroundColor === "#3B9CF1" || this.state20.backgroundColor === "#3B9CF1" //
-          || this.state21.backgroundColor === "#3B9CF1" || this.state22.backgroundColor === "#3B9CF1" //
-          || this.state23.backgroundColor === "#3B9CF1" || this.state24.backgroundColor === "#3B9CF1"//
-          || this.state25.backgroundColor === "#3B9CF1" || this.state26.backgroundColor === "#3B9CF1" //
-          || this.state27.backgroundColor === "#3B9CF1" || this.state28.backgroundColor === "#3B9CF1") //
-        && (this.state7.backgroundColor === "#3B9CF1" || this.state8.backgroundColor === "#3B9CF1" )//pool
-        && (this.state5.backgroundColor === "#3B9CF1" || this.state6.backgroundColor === "#3B9CF1") //gym
-        && (this.state9.backgroundColor === "#3B9CF1" || this.state10.backgroundColor === "#3B9CF1") //appliances
-        && (this.state11.backgroundColor === "#3B9CF1" || this.state12.backgroundColor === "#3B9CF1") //furnished
-        && (this.state13.backgroundColor === "#3B9CF1" || this.state14.backgroundColor === "#3B9CF1") //AC
-        ) {
-      return true;
-    }
-    else {
-      return false;
-    }*/
     if ((this.props.housing.neighborhood !== null) && (this.props.housing.rent !== null) && (this.props.housing.lease !== null)
       && (this.props.housing.garage !== null) && (this.props.housing.parking !== null) && (this.props.housing.gym !== null)
       && (this.props.housing.pool !== null) && (this.props.housing.appliances !== null) && (this.props.housing.furniture !== null)
@@ -80,163 +57,163 @@ class HasHousingQ extends Component {
   
     slider_state = {
       language: "English",
-      value: 500
+      value: this.props.housing.rent
     };
     state1 = {
       name: true,
-      pressed: false,
-      backgroundColor: '#D9D9D9'
+      pressed: this.props.housing.garage,
+      backgroundColor: this.props.housing.garage ? '#3B9CF1' : '#D9D9D9'
     };
     state2 = {
       name: false,
-      pressed: false,
-      backgroundColor: '#D9D9D9'
+      pressed: !this.props.housing.garage,
+      backgroundColor: !this.props.housing.garage ? '#3B9CF1' : '#D9D9D9'
     };
     state3 = {
       name: true,
-      pressed: false,
-      backgroundColor: '#D9D9D9'
+      pressed: this.props.housing.parking,
+      backgroundColor: this.props.housing.parking ? '#3B9CF1' : '#D9D9D9'
     };
     state4 = {
       name: false,
-      pressed: false,
-      backgroundColor: '#D9D9D9'
+      pressed: !this.props.housing.parking,
+      backgroundColor: !this.props.housing.parking ? '#3B9CF1' : '#D9D9D9'
     };
     state5 = {
       name: true,
-      pressed: false,
-      backgroundColor: '#D9D9D9'
+      pressed: this.props.housing.gym,
+      backgroundColor: this.props.housing.gym ? '#3B9CF1' : '#D9D9D9'
     };
     state6 = {
       name: false,
-      pressed: false,
-      backgroundColor: '#D9D9D9'
+      pressed: !this.props.housing.gym,
+      backgroundColor: !this.props.housing.gym ? '#3B9CF1' : '#D9D9D9'
     };
     state7 = {
       name: true,
-      pressed: false,
-      backgroundColor: '#D9D9D9'
+      pressed: this.props.housing.pool,
+      backgroundColor: this.props.housing.pool ? '#3B9CF1' : '#D9D9D9'
     };
     state8 = {
       name: false,
-      pressed: false,
-      backgroundColor: '#D9D9D9'
+      pressed: !this.props.housing.pool,
+      backgroundColor: !this.props.housing.pool ? '#3B9CF1' : '#D9D9D9'
     };
     state9 = {
       name: true,
-      pressed: false,
-      backgroundColor: '#D9D9D9'
+      pressed: this.props.housing.appliances,
+      backgroundColor: this.props.housing.appliances ? '#3B9CF1' : '#D9D9D9'
     };
     state10 = {
       name: false,
-      pressed: false,
-      backgroundColor: '#D9D9D9'
+      pressed: !this.props.housing.appliances,
+      backgroundColor: !this.props.housing.appliances ? '#3B9CF1' : '#D9D9D9'
     };
     state11 = {
       name: true,
-      pressed: false,
-      backgroundColor: '#D9D9D9'
+      pressed: this.props.housing.furniture,
+      backgroundColor: this.props.housing.furniture ? '#3B9CF1' : '#D9D9D9'
     };
     state12 = {
       name: false,
-      pressed: false,
-      backgroundColor: '#D9D9D9'
+      pressed: !this.props.housing.furniture,
+      backgroundColor: !this.props.housing.furniture ? '#3B9CF1' : '#D9D9D9'
     };
     state13 = {
       name: true,
-      pressed: false,
-      backgroundColor: '#D9D9D9'
+      pressed: this.props.housing.AC,
+      backgroundColor: this.props.housing.AC ? '#3B9CF1' : '#D9D9D9'
     };
     state14 = {
       name: false,
-      pressed: false,
-      backgroundColor: '#D9D9D9'
+      pressed: !this.props.housing.AC,
+      backgroundColor: !this.props.housing.AC ? '#3B9CF1' : '#D9D9D9'
     };
     state15 = {
       name: 'Downtown SD',
-      pressed: false,
-      backgroundColor: '#D9D9D9'
+      pressed: this.props.housing.neighborhood === 'Downtown SD',
+      backgroundColor: this.props.housing.neighborhood === 'Downtown SD' ? '#3B9CF1' : '#D9D9D9'
     };
     state16 = {
       name: 'La Jolla',
-      pressed: false,
-      backgroundColor: '#D9D9D9'
+      pressed: this.props.housing.neighborhood === 'La Jolla',
+      backgroundColor: this.props.housing.neighborhood === 'La Jolla' ? '#3B9CF1' : '#D9D9D9'
     };
     state17 = {
       name: 'Del Mar',
-      pressed: false,
-      backgroundColor: '#D9D9D9'
+      pressed: this.props.housing.neighborhood === 'Del Mar',
+      backgroundColor: this.props.housing.neighborhood === 'Del Mar' ? '#3B9CF1' : '#D9D9D9'
     };
     state18 = {
       name: 'Mira Mesa',
-      pressed: false,
-      backgroundColor: '#D9D9D9'
+      pressed: this.props.housing.neighborhood === 'Mira Mesa',
+      backgroundColor: this.props.housing.neighborhood === 'Mira Mesa' ? '#3B9CF1' : '#D9D9D9'
     };
     state19 = {
       name: 'Pacific Beach',
-      pressed: false,
-      backgroundColor: '#D9D9D9'
+      pressed: this.props.housing.neighborhood === 'Pacific Beach',
+      backgroundColor: this.props.housing.neighborhood === 'Pacific Beach' ? '#3B9CF1' : '#D9D9D9'
     };
     state20 = {
       name: 'Clairemont',
-      pressed: false,
-      backgroundColor: '#D9D9D9'
+      pressed: this.props.housing.neighborhood === 'Clairemont',
+      backgroundColor: this.props.housing.neighborhood === 'Clairemont' ? '#3B9CF1' : '#D9D9D9'
     };
     state21 = {
       name: 'University City',
-      pressed: false,
-      backgroundColor: '#D9D9D9'
+      pressed: this.props.housing.neighborhood === 'University City',
+      backgroundColor: this.props.housing.neighborhood === 'University City' ? '#3B9CF1' : '#D9D9D9'
     };
     state22 = {
       name: 'UTC',
-      pressed: false,
-      backgroundColor: '#D9D9D9'
+      pressed: this.props.housing.neighborhood === 'UTC',
+      backgroundColor: this.props.housing.neighborhood === 'UTC' ? '#3B9CF1' : '#D9D9D9'
     };
     state23 = {
       name: 'Kerny Mesa',
-      pressed: false,
-      backgroundColor: '#D9D9D9'
+      pressed: this.props.housing.neighborhood === 'Kerny Mesa',
+      backgroundColor: this.props.housing.neighborhood === 'Kerny Mesa' ? '#3B9CF1' : '#D9D9D9'
     };
     state24 = {
       name: 'Solana Beach',
-      pressed: false,
-      backgroundColor: '#D9D9D9'
+      pressed: this.props.housing.neighborhood === 'Solana Beach',
+      backgroundColor: this.props.housing.neighborhood === 'Solana Beach' ? '#3B9CF1' : '#D9D9D9'
     };
     state25 = {
       name: 'Mission Valley',
-      pressed: false,
-      backgroundColor: '#D9D9D9'
+      pressed: this.props.housing.neighborhood === 'Mission Valley',
+      backgroundColor: this.props.housing.neighborhood === 'Mission Valley' ? '#3B9CF1' : '#D9D9D9'
     };
     state26 = {
       name: 'Carmel Valley',
-      pressed: false,
-      backgroundColor: '#D9D9D9'
+      pressed: this.props.housing.neighborhood === 'Carmel Valley',
+      backgroundColor: this.props.housing.neighborhood === 'Carmel Valley' ? '#3B9CF1' : '#D9D9D9'
     };
     state27 = {
       name: 'Sorrento Valley',
-      pressed: false,
-      backgroundColor: '#D9D9D9'
+      pressed: this.props.housing.neighborhood === 'Sorrento Valley',
+      backgroundColor: this.props.housing.neighborhood === 'Sorrento Valley' ? '#3B9CF1' : '#D9D9D9'
     };
     state28 = {
       name: 'Other',
-      pressed: false,
-      backgroundColor: '#D9D9D9'
+      pressed: this.props.housing.neighborhood === 'Other',
+      backgroundColor: this.props.housing.neighborhood === 'Other' ? '#3B9CF1' : '#D9D9D9'
     };
     state29 = {
-      pressed: false,
-      backgroundColor: '#D9D9D9'
+      pressed: this.props.housing.lease === '1 - 3',
+      backgroundColor: this.props.housing.lease === '1 - 3' ? '#3B9CF1' : '#D9D9D9'
     };
     state30 = {
-      pressed: false,
-      backgroundColor: '#D9D9D9'
+      pressed: this.props.housing.lease === '4 - 7',
+      backgroundColor: this.props.housing.lease === '4 - 7' ? '#3B9CF1' : '#D9D9D9'
     };
     state31 = {
-      pressed: false,
-      backgroundColor: '#D9D9D9'
+      pressed: this.props.housing.lease === '8 - 11',
+      backgroundColor: this.props.housing.lease === '8 - 11' ? '#3B9CF1' : '#D9D9D9'
     };
     state32 = {
-      pressed: false,
-      backgroundColor: '#D9D9D9'
+      pressed: this.props.housing.lease === '12+',
+      backgroundColor: this.props.housing.lease === '12+' ? '#3B9CF1' : '#D9D9D9'
     };
   changeColor(state_a, state_b){
     if(state_a.pressed == false && state_b.pressed == true && state_b.backgroundColor == '#3B9CF1') {
@@ -389,18 +366,22 @@ class HasHousingQ extends Component {
   return (
     <SafeAreaView style={HousingQ_styles.container}>
         <View style={HousingHeader_styles.header}>
+            <TouchableOpacity 
+              onPress={() => this.props.navigation.goBack()}
+              style={HousingHeader_styles.returnToProfileArrow}>
+                <Image
+                  source={require("../../assets/backArrow.png")}
+                  style={HousingHeader_styles.backIcon}
+                  />
+                <Text style={HousingHeader_styles.backText}>Habits</Text>
+            </TouchableOpacity>
           <Text style={HousingHeader_styles.headerText}>Housing (4/5)</Text>
-          <TouchableOpacity style={{alignSelf: 'flex-start'}}>
-          <Text style={HousingHeader_styles.returnToProfileArrow}
-            onPress={() => {
-              this.props.navigation.goBack();
-            }}
-          >{"< "}</Text>
-          <Text style={HousingHeader_styles.returnToProfile}>Profile</Text>
-          </TouchableOpacity>
         </View>
         <ScrollView>
-          <Text style={[HousingQ_styles.question1, {marginTop: 120}]}>What city or neighborhood is</Text>
+          
+          <Text 
+          style={[HousingQ_styles.question1, {marginTop: 120}]}
+          >What city or neighborhood is</Text>
           <Text style={HousingQ_styles.question1}>the property located in?{" "}<Text style={HousingQ_styles.highlight}>*</Text></Text>
           <TouchableOpacity style={[this.state15, HousingQ_styles.buttonContainerYes4]}
           onPress={()=>{
@@ -446,8 +427,8 @@ class HasHousingQ extends Component {
           </TouchableOpacity>
           <TouchableOpacity style={[this.state21, HousingQ_styles.buttonContainerYes5]}
           onPress={()=>{
-            this.changeMany(this.state21, this.state21, this.state17, this.state18, this.state15, this.state20, this.state19, this.state22, this.state23, this.state24, this.state25, this.state26, this.state27, this.state28)
-            this.props.dispatch(dataActions.updateNeighborhood(this.state15.name));
+            this.changeMany(this.state21, this.state16, this.state17, this.state18, this.state15, this.state20, this.state19, this.state22, this.state23, this.state24, this.state25, this.state26, this.state27, this.state28)
+            this.props.dispatch(dataActions.updateNeighborhood(this.state21.name));
           }}>
             <Text style = {HousingQ_styles.buttonText}>University City</Text>
           </TouchableOpacity>
@@ -696,30 +677,38 @@ class HasHousingQ extends Component {
 const HousingHeader_styles = StyleSheet.create({
   header: {
     backgroundColor: "#6736B6",
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: "100%",
     height: 90,
-    bottom: 45,
+    bottom: 50,
     marginBottom: -45
   },
   headerText: {
-    fontWeight: "bold",
+    flex: 2,
+    top: 20,
     color: "#FFF",
     fontSize: 20,
-    top: 53,
-    textAlign: "center",
-  },
-  returnToProfile: {
-    color: "#FFF",
-    fontSize: 17,
-    bottom: 4,
-    left: 27,
+    fontWeight: "bold",
   },
   returnToProfileArrow: {
-    fontWeight: "600",
-    color: "#FFF",
-    fontSize: 30,
-    top: 22,
     left: 5,
-  }
+    top: 20,
+    flex: 1,
+    alignItems: 'center',
+    flexDirection: "row",
+  },
+  backIcon: {
+    height: 20,
+    width: 20,
+    tintColor: "#FFF",
+    marginRight: -5,
+   },
+   backText: {
+    color: "#FFF",
+    fontSize: 15,
+    fontWeight: 'bold',
+   },
 });
 
 const HousingQ_styles = StyleSheet.create({
