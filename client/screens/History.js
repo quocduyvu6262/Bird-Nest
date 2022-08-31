@@ -27,12 +27,12 @@ const History = ({ navigation }) => {
   const [userListNo, setUserListNo] = useState([]);
   const [listState, setListState] = useState(false);
 
-  const [peckedClicked, setPeckedClicked] = useState(false);
+  const [peckedClicked, setPeckedClicked] = useState(true);
 
-  const PeckedNo = () => {
+  const PeckedNoButton = () => {
     setPeckedClicked(false);
   };
-  const PeckedYes = () => {
+  const PeckedYesButton = () => {
     setPeckedClicked(true);
   };
 
@@ -42,73 +42,55 @@ const History = ({ navigation }) => {
   };
   // view history
   const viewUsersYes = async () => {
-    setUserListYes([]);
+    let userListYes = [];
     Axios.post(`${await Constants.BASE_URL()}/api/history/yes`, {
       user_id: user.id,
     })
       .then((response) => {
-        console.log(response.data);
         let userData = response.data;
         // manually push all but last, then setUserList on last user to trigger FlatList rerender
         // reason is that FlatList will not re-render unless setUserList is properly called
         // but setUserList (setState) will only set state once
-        for (let i = 0; i < userData.length - 1; i++) {
+        for (let i = 0; i < userData.length; i++) {
           userListYes.push({
-            info: userData[i].info,
+            info: userData[i],
             src: barackObama,
           });
         }
-        setUserListYes((prevList) => [
-          ...userListYes,
-          {
-            info: userData[userData.length - 1].info,
-            src: barackObama,
-          },
-        ]);
+        setUserListYes(userListYes);
+        setListState(true);
       })
       .catch((error) => {
         console.log(error);
       });
-
-    setListState(true);
   };
   const viewUsersNo = async () => {
-    setUserListNo([]);
+    let userListNo = [];
     Axios.post(`${await Constants.BASE_URL()}/api/history/no`, {
       user_id: user.id,
     })
       .then((response) => {
         let userData = response.data;
-        console.log(userData);
         // manually push all but last, then setUserList on last user to trigger FlatList rerender
         // reason is that FlatList will not re-render unless setUserList is properly called
         // but setUserList (setState) will only set state once
-        for (let i = 0; i < userData.length - 1; i++) {
+        for (let i = 0; i < userData.length; i++) {
           userListNo.push({
-            name: userData[i].fullname,
-            city: userData[i].city,
+            info: userData[i],
             src: barackObama,
           });
         }
-        setUserListNo((prevList) => [
-          ...userListNo,
-          {
-            name: userData[userData.length - 1].fullname,
-            city: userData[userData.length - 1].city,
-            src: barackObama,
-          },
-        ]);
+        setUserListNo(userListNo);
+        setListState(true);
       })
       .catch((error) => {
         console.log(error);
       });
-
-    setListState(true);
   };
 
   useEffect(() => {
     viewUsersYes();
-    viewUsersNo();
+    // viewUsersNo();
   }, []);
 
   const PeckYes = (props) => {
@@ -118,8 +100,11 @@ const History = ({ navigation }) => {
           <View styles={styles.flatlist}>
             <FlatList
               data={props.data}
-              // data={UserData}
-              renderItem={(item) => <ProfileCard item={item} />}
+              renderItem={(item) => {
+                return(
+                  <ProfileCard item={item} />
+                )
+              }}
               extraData={props.extraData}
               // extraData={UserData}
             />
@@ -153,7 +138,7 @@ const History = ({ navigation }) => {
         <TouchableOpacity>
           <Button
             color={!peckedClicked ? "#560CCE" : "black"}
-            onPress={PeckedNo}
+            onPress={PeckedNoButton}
             style={
               !peckedClicked && {
                 borderBottomColor: "#560CCE",
@@ -168,7 +153,7 @@ const History = ({ navigation }) => {
         <TouchableOpacity>
           <Button
             color={peckedClicked ? "#560CCE" : "black"}
-            onPress={PeckedYes}
+            onPress={PeckedYesButton}
             style={
               peckedClicked && {
                 borderBottomColor: "#560CCE",
@@ -182,8 +167,8 @@ const History = ({ navigation }) => {
         </TouchableOpacity>
       </View>
 
-      {!peckedClicked && <PeckNo data={userListNo} extraData={userListNo} />}
-      {peckedClicked && <PeckYes data={userListYes} extraData={userListYes} />}
+      {!peckedClicked && <PeckNo data={userListNo}/>}
+      {peckedClicked && <PeckYes data={userListYes}/>}
     </SafeAreaView>
   );
 };
