@@ -93,15 +93,15 @@ const MessengerMatch = ({
         }}
       >
         <View style={styles.container}>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() => {
               getUpdatedMatchedUserChat(user.id).then(({data}) => {
                 setUserList(data);
               })
             }}
-          >
+          > */}
             <Text style={styles.matchText}>New    Matches</Text>
-          </TouchableOpacity>
+          {/* </TouchableOpacity> */}
           {userList.length != 0 ? (
             <View>
               <ScrollView style={styles.users} horizontal={true}>

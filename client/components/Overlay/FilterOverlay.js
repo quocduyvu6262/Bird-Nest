@@ -40,13 +40,13 @@ const FilterOverlay = ({
    * @returns lease base on string range value
    */
   const getLeaseFromString = () => {
-    if (housing.lease === "1 to 3") {
+    if (housing.lease === "1 - 3") {
       return 1;
     }
-    if (housing.lease === "4 to 7") {
+    if (housing.lease === "4 - 7") {
       return 4;
     }
-    if (housing.lease === "8 to 11") {
+    if (housing.lease === "8 - 11") {
       return 8;
     }
     return 12;
@@ -58,13 +58,13 @@ const FilterOverlay = ({
    */
   const getLeaseFromInteger = (lease) => {
     if (lease >= 1 && lease <= 3) {
-      return "1 to 3";
+      return "1 - 3";
     }
     if (lease >= 4 && lease <= 7) {
-      return "4 to 7";
+      return "4 - 7";
     }
     if (lease >= 8 && lease <= 11) {
-      return "8 to 11";
+      return "8 - 11";
     }
     return "12+";
   };
@@ -133,8 +133,6 @@ const FilterOverlay = ({
   const Filter = async (filterMap) => {
     let userList = [];
     let apiEndpoint;
-    console.log(filterMap);
-
     if (user.role === "Flamingo" || user.role === "Owl") {
       apiEndpoint = `/api/matching/filternohousingtable`;
     } else if (
@@ -155,8 +153,8 @@ const FilterOverlay = ({
       user_id: user.id,
     })
       .then((filteredUsers) => {
+        console.log("here");
         filterUserData = filteredUsers.data;
-        console.log(filterUserData);
         for (let i = 0; i < filterUserData.length - 1; i++) {
           //skip seeing yourself
           userList.push({
@@ -179,9 +177,6 @@ const FilterOverlay = ({
         console.log("Failed to filter users");
         setListState(false);
       });
-
-    console.log("USERLIST");
-    console.log(userList);
   };
 
   /**
