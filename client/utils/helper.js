@@ -159,6 +159,27 @@ export const storeData = async (user, housing, imageFileSystemUri = null) => {
             throw err;
         });
 
+//QUESTIONNAIRE
+    let apiEndpoint;
+    if (user.role === "Flamingo" || user.role === "Owl") {
+        apiEndpoint = "/api/questionnaire/housingrole";
+    } 
+    else {
+        apiEndpoint = "/api/questionnaire/nohousingrole";
+    }
+
+    Axios.post(`${await Constants.BASE_URL()}${apiEndpoint}`, {
+        userInfo: user,
+        user_id: user.id,
+        housing: housing,
+    }).catch((err) => {
+        console.log(err);
+        //console.log(user);
+        console.log("Fail to store user into database from questionnaire");
+        throw err;
+    });
+
+    /*
     // Store user into database
     Axios.post(`${await Constants.BASE_URL()}/api/users/questionnaire`, {
         userInfo: user,
@@ -211,4 +232,6 @@ export const storeData = async (user, housing, imageFileSystemUri = null) => {
             throw err;
         });
     }
+    */
+//
 }
