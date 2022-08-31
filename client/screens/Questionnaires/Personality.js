@@ -27,7 +27,15 @@ import * as dataActions from "../../redux/slices/data";
 import {storeData} from '../../utils/helper'; 
 
 class Personality extends Component {
-
+  dayoutArray = ["Shop", "Read", "Go to theater", "Go to beach", "Eat out", "Get coffee/boba"];
+  interiorDesignArray = ["Pastels",
+  "White & Black",
+  "Anime/kpop",
+  "Eclectic/messy",
+  "Glam",
+  "Bohemian",
+  "Scandinavian",
+  "Minimalist"];
   slider_state = {
     language: "English",
     value: 500,
@@ -354,23 +362,55 @@ class Personality extends Component {
       state.pressed = true;
       this.setState({ backgroundColor: state.backgroundColor });
       this.setState({ pressed: state.pressed });
-      this.props.dispatch(
-        dataActions.updateDayout({
-          activity: state.name,
-          add: true,
-        })
-      );
+      if (this.dayoutArray.includes(state.name)){
+        this.props.dispatch(
+          dataActions.updateDayout({
+            activity: state.name,
+            add: true,
+          })
+        );
+      } else if (this.interiorDesignArray.includes(state.name)){
+        this.props.dispatch(
+          dataActions.updateInteriorDesign({
+            activity: state.name,
+            add: true,
+          })
+        );
+      } else {
+        this.props.dispatch(
+          dataActions.updateFavoriteSport({
+            activity: state.name,
+            add: true,
+          })
+        );
+      }
     } else {
       state.backgroundColor = "#D9D9D9";
       state.pressed = false;
       this.setState({ backgroundColor: state.backgroundColor });
       this.setState({ pressed: state.pressed });
-      this.props.dispatch(
-        dataActions.updateDayout({
-          activity: state.name,
-          add: false,
-        })
-      );
+      if (this.dayoutArray.includes(state.name)){
+        this.props.dispatch(
+          dataActions.updateDayout({
+            activity: state.name,
+            add: false,
+          })
+        );
+      } else if (this.interiorDesignArray.includes(state.name)){
+        this.props.dispatch(
+          dataActions.updateInteriorDesign({
+            activity: state.name,
+            add: false,
+          })
+        );
+      } else {
+        this.props.dispatch(
+          dataActions.updateFavoriteSport({
+            activity: state.name,
+            add: false,
+          })
+        );
+      }
     }
   }
   changeFourColor(state_a, state_b, state_c, state_d) {
