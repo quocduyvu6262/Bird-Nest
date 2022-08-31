@@ -53,7 +53,71 @@ router.post('/housingrole', (req, res) => {
     ${housing.gym}, ${housing.pool}, 
     ${housing.appliances}, ${housing.furniture}, ${housing.AC}, "${user_id}");`;
 
-    const query = userQuery + deleteQuery + historyQuery + updateOrInsertIfNotExistQuery;
+    const query = userQuery + historyQuery + deleteQuery + updateOrInsertIfNotExistQuery;
+    console.log(query);
+    db((client) => {
+        client.query(query, (err, result) => {
+          if (err) {
+            console.log("Fail to push questionnaire info");
+            console.log(err);
+            return;
+          }
+          console.log("Successfully pushed to questionnaire");
+        });
+      });
+
+});
+
+router.post('/nohousingrole', (req, res) => {
+    let userInfo = req.body.userInfo;
+    let housing = req.body.housing;
+    let user_id = req.body.user_id;
+    // Store user into database
+    let userQuery = "UPDATE User SET ";
+    for (let key in userInfo) {
+        //Possible edge case this creates: What if you want to deselect something optional and make it null? (BANDAID FIX)
+        //TODO: Handle boolean/yes/no?
+        if (userInfo[key] === null || userInfo[key] === "undefined" || userInfo[key] === '' || key.includes('noti') || key === 'isMatch') {
+            continue;
+        } 
+        else if (key === "email" || key === "userInfo") {
+            continue;
+        }
+        else if (key === "pets" || key === "dayout" || key === "interiorDesign" || key === "favoriteSport" || key === "picsList" || key === 'matchedChat') {
+            userQuery += key + "=" + JSON.stringify(JSON.stringify(userInfo[key])) + ","; 
+        }
+        else if (userInfo[key] === false || userInfo[key] === true) {
+            userQuery += key + "=" + `${userInfo[key].toString()}` + ",";
+        }
+        //Arrays not sending properly 
+        else {
+            userQuery += key + "=" + `"${userInfo[key].toString()}"` + ",";
+        }
+    }
+    //UPDATE User Set role=... tellRoommateIfBothered=tellRoommateIfBothered, 
+    userQuery = userQuery.slice(0, -1);
+    //UPDATE User Set role=... tellRoommateIfBothered=tellRoommateIfBothered
+    userQuery += ` WHERE email = '${userInfo.email}';`
+
+    // Store user into history table
+    const historyQuery = `INSERT IGNORE INTO BirdNest.History (list_of_users_all, list_of_users_yes, list_of_users_no, User_id) 
+                      VALUES (null, null, null, ${user_id});`;
+
+    // Delete user from housing
+    const deleteQuery = `DELETE FROM Housing WHERE User_id=${user_id};`;
+
+    // Store nohousing into database
+    const updateOrInsertIfNotExistQuery = `REPLACE INTO 
+    NoHousing(neighborhood, squarefeet, lease, 
+          rent, garage, parking, gym, pool, 
+          appliances, furniture, AC, User_id)
+    VALUES (${JSON.stringify(JSON.stringify(housing.neighborhoodList))},
+    "${housing.squarefeet}", "${housing.lease}", "${housing.rent}", 
+    ${housing.garage}, ${housing.parking}, 
+    ${housing.gym}, ${housing.pool}, 
+    ${housing.appliances}, ${housing.furniture}, ${housing.AC}, "${user_id}") `;
+
+    const query = userQuery + historyQuery + deleteQuery + updateOrInsertIfNotExistQuery;
     console.log(query);
     db((client) => {
         client.query(query, (err, result) => {
@@ -65,13 +129,5 @@ router.post('/housingrole', (req, res) => {
         });
       });
 
-});
-
-router.post('/nohousingrole', (req, res) => {
-    // Store user into database
-
-    // Store user into history table
-
-    // Store nohousing into database
 });
 module.exports = router;
