@@ -27,7 +27,6 @@ import * as dataActions from "../../redux/slices/data";
 import {storeData} from '../../utils/helper'; 
 
 class Personality extends Component {
-
   dayoutArray = ["Shop", "Read", "Go to theater", "Go to beach", "Eat out", "Get coffee/boba"];
   interiorDesignArray = ["Pastels",
   "White & Black",
@@ -363,23 +362,21 @@ class Personality extends Component {
       state.pressed = true;
       this.setState({ backgroundColor: state.backgroundColor });
       this.setState({ pressed: state.pressed });
-      if (this.dayoutArray.includes(state.name)) {
+      if (this.dayoutArray.includes(state.name)){
         this.props.dispatch(
           dataActions.updateDayout({
             activity: state.name,
             add: true,
           })
         );
-      }
-      else if (this.interiorDesignArray.includes(state.name)) {
+      } else if (this.interiorDesignArray.includes(state.name)){
         this.props.dispatch(
           dataActions.updateInteriorDesign({
             activity: state.name,
             add: true,
           })
         );
-      }
-      else {
+      } else {
         this.props.dispatch(
           dataActions.updateFavoriteSport({
             activity: state.name,
@@ -387,29 +384,26 @@ class Personality extends Component {
           })
         );
       }
-
     } else {
       state.backgroundColor = "#D9D9D9";
       state.pressed = false;
       this.setState({ backgroundColor: state.backgroundColor });
       this.setState({ pressed: state.pressed });
-      if (this.dayoutArray.includes(state.name)) {
+      if (this.dayoutArray.includes(state.name)){
         this.props.dispatch(
           dataActions.updateDayout({
             activity: state.name,
             add: false,
           })
         );
-      }
-      else if (this.interiorDesignArray.includes(state.name)) {
+      } else if (this.interiorDesignArray.includes(state.name)){
         this.props.dispatch(
           dataActions.updateInteriorDesign({
             activity: state.name,
             add: false,
           })
         );
-      }
-      else {
+      } else {
         this.props.dispatch(
           dataActions.updateFavoriteSport({
             activity: state.name,
