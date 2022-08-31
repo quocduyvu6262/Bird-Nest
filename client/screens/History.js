@@ -30,7 +30,6 @@ const History = ({ navigation }) => {
     navigation.goBack();
   };
   // view history
-<<<<<<< HEAD
   const viewUsers = () => {
     setUserList([]);
     Axios.post(`${Constants.BASE_URL}/api/history/`, {
@@ -38,15 +37,6 @@ const History = ({ navigation }) => {
     })
       .then((response) => {
         let userData = response.data;
-=======
-  const viewUsers = async () => {
-    setUserList([]);
-    Axios.post(`${await Constants.BASE_URL()}/api/history/`, {
-      user_id: 5,
-    })
-      .then((response) => {
-        let userData = response.data; 
->>>>>>> dev
         // manually push all but last, then setUserList on last user to trigger FlatList rerender
         // reason is that FlatList will not re-render unless setUserList is properly called
         // but setUserList (setState) will only set state once
