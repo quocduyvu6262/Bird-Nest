@@ -61,73 +61,73 @@ class HasHousingQ extends Component {
     };
     state1 = {
       name: true,
-      pressed: this.props.housing.garage,
-      backgroundColor: this.props.housing.garage ? '#3B9CF1' : '#D9D9D9'
+      pressed: false,
+      backgroundColor: '#D9D9D9'
     };
     state2 = {
       name: false,
-      pressed: !this.props.housing.garage,
-      backgroundColor: !this.props.housing.garage ? '#3B9CF1' : '#D9D9D9'
+      pressed: false,
+      backgroundColor:  '#D9D9D9'
     };
     state3 = {
       name: true,
-      pressed: this.props.housing.parking,
-      backgroundColor: this.props.housing.parking ? '#3B9CF1' : '#D9D9D9'
+      pressed: false,
+      backgroundColor: '#D9D9D9'
     };
     state4 = {
       name: false,
-      pressed: !this.props.housing.parking,
-      backgroundColor: !this.props.housing.parking ? '#3B9CF1' : '#D9D9D9'
+      pressed: false,
+      backgroundColor: '#D9D9D9'
     };
     state5 = {
       name: true,
-      pressed: this.props.housing.gym,
-      backgroundColor: this.props.housing.gym ? '#3B9CF1' : '#D9D9D9'
+      pressed: false,
+      backgroundColor: '#D9D9D9'
     };
     state6 = {
       name: false,
-      pressed: !this.props.housing.gym,
-      backgroundColor: !this.props.housing.gym ? '#3B9CF1' : '#D9D9D9'
+      pressed: false,
+      backgroundColor: '#D9D9D9'
     };
     state7 = {
       name: true,
-      pressed: this.props.housing.pool,
-      backgroundColor: this.props.housing.pool ? '#3B9CF1' : '#D9D9D9'
+      pressed: false,
+      backgroundColor: '#D9D9D9'
     };
     state8 = {
       name: false,
-      pressed: !this.props.housing.pool,
-      backgroundColor: !this.props.housing.pool ? '#3B9CF1' : '#D9D9D9'
+      pressed: false,
+      backgroundColor: '#D9D9D9'
     };
     state9 = {
       name: true,
-      pressed: this.props.housing.appliances,
-      backgroundColor: this.props.housing.appliances ? '#3B9CF1' : '#D9D9D9'
+      pressed: false,
+      backgroundColor: '#D9D9D9'
     };
     state10 = {
       name: false,
-      pressed: !this.props.housing.appliances,
-      backgroundColor: !this.props.housing.appliances ? '#3B9CF1' : '#D9D9D9'
+      pressed: false,
+      backgroundColor: '#D9D9D9'
     };
     state11 = {
       name: true,
-      pressed: this.props.housing.furniture,
-      backgroundColor: this.props.housing.furniture ? '#3B9CF1' : '#D9D9D9'
+      pressed: false,
+      backgroundColor: '#D9D9D9'
     };
     state12 = {
       name: false,
-      pressed: !this.props.housing.furniture,
-      backgroundColor: !this.props.housing.furniture ? '#3B9CF1' : '#D9D9D9'
+      pressed: false,
+      backgroundColor: '#D9D9D9'
     };
     state13 = {
       name: true,
-      pressed: this.props.housing.AC,
-      backgroundColor: this.props.housing.AC ? '#3B9CF1' : '#D9D9D9'
+      pressed: false,
+      backgroundColor: '#D9D9D9'
     };
     state14 = {
       name: false,
-      pressed: !this.props.housing.AC,
-      backgroundColor: !this.props.housing.AC ? '#3B9CF1' : '#D9D9D9'
+      pressed: false,
+      backgroundColor: '#D9D9D9'
     };
     state15 = {
       name: 'Downtown SD',

@@ -79,13 +79,13 @@ class BasicInfo extends Component {
   };
   state1 = {
     name: true,
-    pressed: this.props.userInfo.alcohol,
-    backgroundColor: this.props.userInfo.alcohol ? "#3B9CF1" : "#D9D9D9",
+    pressed: false,
+    backgroundColor: "#D9D9D9",
   };
   state2 = {
     name: false,
-    pressed: !this.props.userInfo.alcohol,
-    backgroundColor: this.props.userInfo.alcohol ? "#D9D9D9" : "#3B9CF1",
+    pressed: false,
+    backgroundColor: "#D9D9D9" 
   };
   state3 = {
     name: "Morning",
@@ -99,13 +99,13 @@ class BasicInfo extends Component {
   };
   state5 = {
     name: true,
-    pressed: this.props.userInfo.guests,
-    backgroundColor: this.props.userInfo.guests ? "#3B9CF1" : "#D9D9D9",
+    pressed: false,
+    backgroundColor: "#D9D9D9",
   };
   state6 = {
     name: false,
-    pressed: !this.props.userInfo.guests,
-    backgroundColor: !this.props.userInfo.guests ? "#3B9CF1" : "#D9D9D9",
+    pressed: false,
+    backgroundColor: "#D9D9D9",
   };
   state7 = {
     name: "yes",
@@ -119,23 +119,23 @@ class BasicInfo extends Component {
   };
   state9 = {
     name: true,
-    pressed: this.props.userInfo.silent,
-    backgroundColor: this.props.userInfo.guests ? "#3B9CF1" : "#D9D9D9",
+    pressed: false,
+    backgroundColor: "#D9D9D9",
   };
   state10 = {
     name: false,
-    pressed: !this.props.userInfo.silent,
-    backgroundColor: !this.props.userInfo.guests ? "#3B9CF1" : "#D9D9D9",
+    pressed: false,
+    backgroundColor: "#D9D9D9",
   };
   state11 = {
     name: true,
-    pressed: this.props.userInfo.roommateWorkWhileYouSleep,
-    backgroundColor: this.props.userInfo.roommateWorkWhileYouSleep ? "#3B9CF1" : "#D9D9D9",
+    pressed: false,
+    backgroundColor: "#D9D9D9",
   };
   state12 = {
     name: false,
-    pressed: !this.props.userInfo.roommateWorkWhileYouSleep,
-    backgroundColor: !this.props.userInfo.roommateWorkWhileYouSleep ? "#3B9CF1" : "#D9D9D9",
+    pressed: false,
+    backgroundColor: "#D9D9D9",
   };
   state13 = {
     pressed: false,
@@ -289,13 +289,13 @@ class BasicInfo extends Component {
   };
   state51 = {
     name: true,
-    pressed: this.props.userInfo.appliances,
-    backgroundColor: this.props.userInfo.appliances ? "#3B9CF1" : "#D9D9D9",
+    pressed: false,
+    backgroundColor: "#D9D9D9",
   };
   state52 = {
     name: false,
-    pressed: !this.props.userInfo.appliances,
-    backgroundColor: !this.props.userInfo.appliances ? "#3B9CF1" : "#D9D9D9",
+    pressed: false,
+    backgroundColor: "#D9D9D9",
   };
   state53 = {
     pressed: false,
@@ -303,13 +303,13 @@ class BasicInfo extends Component {
   };
   state54 = {
     name: true,
-    pressed: this.props.userInfo.tellRoommateIfBothered,
-    backgroundColor: this.props.userInfo.tellRoommateIfBothered ? "#3B9CF1" : "#D9D9D9",
+    pressed:false,
+    backgroundColor: "#D9D9D9",
   };
   state55 = {
     name: false,
-    pressed: !this.props.userInfo.tellRoommateIfBothered,
-    backgroundColor: !this.props.userInfo.tellRoommateIfBothered ? "#3B9CF1" : "#D9D9D9",
+    pressed: false,
+    backgroundColor: "#D9D9D9",
   };
   state56 = {
     name: "yes",

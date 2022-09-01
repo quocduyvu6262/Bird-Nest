@@ -128,7 +128,7 @@ router.post('/questionnaire', (req, res) => {
         else if (key === "email" || key === "userInfo") {
             continue;
         }
-        else if (key === "pets" || key === "dayout" || key === "interiorDesign" || key === "favoriteSport" || key === "picsList" || key === 'matchedChat') {
+        else if (key === "pets" || key === "dayout" || key === "interiorDesign" || key === "favoriteSport" || key === "picsList" || key === 'matchedChat' || key === 'matches') {
             incompleteQuery += key + "=" + JSON.stringify(JSON.stringify(userInfo[key])) + ","; 
         }
         else if (userInfo[key] === false || userInfo[key] === true) {

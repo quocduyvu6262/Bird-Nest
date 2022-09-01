@@ -56,73 +56,73 @@ class NoHousingQ extends Component {
       value: this.props.housing.rent
     };
     state1 = {
-      pressed: this.props.housing.garage,
-      backgroundColor: this.props.housing.garage ? '#3B9CF1' : '#D9D9D9',
+      pressed: false,
+      backgroundColor: '#D9D9D9',
       answer: true
     };
     state2 = {
-      pressed: !this.props.housing.garage,
-      backgroundColor: !this.props.housing.garage ? '#3B9CF1' : '#D9D9D9',
+      pressed: false,
+      backgroundColor: '#D9D9D9',
       answer: false
     };
     state3 = {
-      pressed: this.props.housing.parking,
-      backgroundColor: this.props.housing.parking ? '#3B9CF1' : '#D9D9D9',
+      pressed: false,
+      backgroundColor: '#D9D9D9',
       answer: true
     };
     state4 = {
-      pressed: !this.props.housing.parking,
-      backgroundColor: !this.props.housing.parking ? '#3B9CF1' : '#D9D9D9',
+      pressed: false,
+      backgroundColor: '#D9D9D9',
       answer: false
     };
     state5 = {
-      pressed: this.props.housing.gym,
-      backgroundColor: this.props.housing.gym ? '#3B9CF1' : '#D9D9D9',
+      pressed: false,
+      backgroundColor: '#D9D9D9',
       answer: true
     };
     state6 = {
-      pressed: !this.props.housing.gym,
-      backgroundColor: !this.props.housing.gym ? '#3B9CF1' : '#D9D9D9',
+      pressed: false,
+      backgroundColor: '#D9D9D9',
       answer: false
     };
     state7 = {
-      pressed: this.props.housing.pool,
-      backgroundColor: this.props.housing.pool ? '#3B9CF1' : '#D9D9D9',
+      pressed: false,
+      backgroundColor: '#D9D9D9',
       answer: true
     };
     state8 = {
-      pressed: !this.props.housing.pool,
-      backgroundColor: !this.props.housing.pool ? '#3B9CF1' : '#D9D9D9',
+      pressed: false,
+      backgroundColor: '#D9D9D9',
       answer: false
     };
     state9 = {
-      pressed: this.props.housing.appliances,
-      backgroundColor: this.props.housing.appliances ? '#3B9CF1' : '#D9D9D9',
+      pressed: false,
+      backgroundColor: '#D9D9D9',
       answer: true
     };
     state10 = {
-      pressed: !this.props.housing.appliances,
-      backgroundColor: !this.props.housing.appliances ? '#3B9CF1' : '#D9D9D9',
+      pressed: false,
+      backgroundColor: '#D9D9D9',
       answer: false
     };
     state11 = {
-      pressed: this.props.housing.furniture,
-      backgroundColor: this.props.housing.furniture ? '#3B9CF1' : '#D9D9D9',
+      pressed: false,
+      backgroundColor: '#D9D9D9',
       answer: true
     };
     state12 = {
-      pressed: !this.props.housing.furniture,
-      backgroundColor: !this.props.housing.furniture ? '#3B9CF1' : '#D9D9D9',
+      pressed: false,
+      backgroundColor: '#D9D9D9',
       answer: false
     };
     state13 = {
-      pressed: this.props.housing.AC,
-      backgroundColor: this.props.housing.AC ? '#3B9CF1' : '#D9D9D9',
+      pressed: false,
+      backgroundColor: '#D9D9D9',
       answer: true
     };
     state14 = {
-      pressed: !this.props.housing.AC,
-      backgroundColor: !this.props.housing.AC ? '#3B9CF1' : '#D9D9D9',
+      pressed: false,
+      backgroundColor: '#D9D9D9',
       answer: false
     };
     state15 = {
